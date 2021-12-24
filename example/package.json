@@ -1,0 +1,35 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "测试专用",
+  "main": "webpack.config.js",
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.js",
+    "build-example": "rimraf dist && webpack --config webpack.config.js -p",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.19.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3",
+    "html-webpack-plugin": "^4.5.1",
+    "terser-webpack-plugin": "^5.1.1",
+    "vue": "^2.6.12",
+    "vue-loader": "^15.9.6",
+    "vue-template-compiler": "^2.6.12",
+    "vue-router": "^3.5.1",
+    "axios": "^0.21.1",
+    "properties": "^1.2.1",
+    "fs-extra": "^9.1.0",
+    "copy-webpack-plugin": "^7.0.0",
+    "less": "^4.1.1",
+    "less-loader": "^8.0.0",
+    "style-loader": "^2.0.0",
+    "css-loader": "^5.0.1",
+    "url-loader": "^4.1.1",
+    "rimraf": "^3.0.2"
+  }
+}

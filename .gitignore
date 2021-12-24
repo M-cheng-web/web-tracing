@@ -1,0 +1,18 @@
+# ide
+.vscode
+.idea
+.settings
+.project
+.iml
+
+# node
+node_modules
+npm-debug.log
+
+# temp
+*.bak
+*~
+
+# dist
+lib
+dist
