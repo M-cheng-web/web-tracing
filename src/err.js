@@ -78,7 +78,6 @@ function parseErrorEvent(event) {
 
   // html元素上发生的异常错误
   if (target.nodeType === 1) {
-    // 使用元素的名称取代"resource"这个固定的值
     const result = { eventId: target.nodeName };
     switch (target.nodeName.toLowerCase()) {
       case 'link':

@@ -13,7 +13,6 @@ const sessionKey = '_warden_session_id'; // key值固定,一个站点只允许�
 function refreshSession() {
   const id = getCookieByName(sessionKey) || `s_${uuid()}`;
   const expires = new Date(Date.now() + surviveMilliseconds);
-  // 这样不会替换全部的cookie,只会新增这一项,当有同名存在时会替换同名属性的值
   document.cookie = `${sessionKey}=${id};path=/;max-age=1800;expires=${expires.toUTCString()}`;
   return id;
 }

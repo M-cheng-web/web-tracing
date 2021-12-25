@@ -116,23 +116,20 @@ function observeSourceInsert() {
       });
       emit(records);
     }
-
-    observer.observe(window.document, {
-      subtree: true, // 目标以及目标的后代改变都会观察
-      childList: true, // 表示观察目标子节点的变化，比如添加或者删除目标子节点，不包括修改子节点以及子节点后代的变化
-      // attributes: true, // 观察属性变动
-      // attributeFilter: ['src', 'href'], // 要观察的属性
-    });
-    // observer.disconnect();
   });
+  observer.observe(window.document, {
+    subtree: true, // 目标以及目标的后代改变都会观察
+    childList: true, // 表示观察目标子节点的变化，比如添加或者删除目标子节点，不包括修改子节点以及子节点后代的变化
+    // attributes: true, // 观察属性变动
+    // attributeFilter: ['src', 'href'], // 要观察的属性
+  });
+  // observer.disconnect();
 }
 
 /**
  * 兼容-异步资源
  */
 function observeAsyncResource() {
-  // observeSourceInsert(); // 监听资源、DOM更新操作记录 chrome≥26 ie11
-
   if (supported.PerformanceObserver) {
     observeAsyncInfo(); // 监听异步资源加载性能数据 chrome≥52
   } else if (supported.MutationObserver) {

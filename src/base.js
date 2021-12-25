@@ -116,12 +116,9 @@ export function init(options = {}) {
 export function getSetting() {
   return settings;
 }
-
-// 固定的两个业务用户唯一标记字段：customerId、userUuid
 export function setCustomerId(id) {
   base.customerId = id;
 }
-
 export function setUserUuid(id) {
   base.userUuid = id;
 }
