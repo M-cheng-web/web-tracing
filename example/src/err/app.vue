@@ -39,7 +39,6 @@ export default {
           // 一段耗时的异步操作
           // eee.eew();
           resolve('成功'); // 数据处理完成
-          // eslint-disable-next-line prefer-promise-reject-errors
           // throw new Error('custom');
         }).then(
           (res) => { console.log(res); }, // 成功

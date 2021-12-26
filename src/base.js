@@ -1,6 +1,4 @@
-import {
-  uuid, sendBeacon, map, nextTime,
-} from './util';
+import { uuid, sendBeacon, map, nextTime } from './util';
 import { getSessionId, refreshSession } from './session';
 import device from './device';
 

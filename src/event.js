@@ -1,5 +1,4 @@
 // 事件采集模块
-// eslint-disable-next-line max-classes-per-file
 import { emit, debug } from './base';
 import { uuid } from './util';
 
@@ -42,7 +41,6 @@ function getNodePath(node, options = {}) {
   }
   return result;
 }
-
 /**
  * 获取元素的关系字符串
  * 例如两层div的关系会得到字符串: div>div
@@ -64,7 +62,6 @@ function getNodeXPath(node, curPath = '') {
 
   return getNodeXPath(parent, `${tagName}${indexBrackets}${path}`);
 }
-
 /**
  * 主动触发事件
  */
@@ -83,7 +80,6 @@ export default {
    * 加载 & 卸载事件
    */
   dwellCollector() {
-    // eslint-disable-next-line no-underscore-dangle
     const _config = new RequestTemplate({ eventType: 'dwell' });
     window.addEventListener('load', () => { // 加载完成事件
       _config.entryTime = Date.now();
@@ -111,7 +107,6 @@ export default {
    * 点击事件
    */
   clickCollection() {
-    // eslint-disable-next-line no-underscore-dangle
     const _config = new RequestTemplateClick({ eventType: 'click' });
     document.addEventListener('click', (e) => { // 点击事件
       debug('caught click event: ', e);
@@ -119,7 +114,6 @@ export default {
       if (path === undefined) path = e.target ? getNodePath(e.target) : []; // 获取被点击的元素到最外层元素组成的数组
 
       const target = path.find((el) => // 检查被点击的元素以及其父级元素是否有这些属性(从内到外,只会取第一个检查到的)
-        // eslint-disable-next-line implicit-arrow-linebreak
         el.hasAttribute && (el.hasAttribute('data-warden-container')
           || el.hasAttribute('data-warden-event-id')
           || el.hasAttribute('data-warden-title')
@@ -176,7 +170,6 @@ export default {
     try {
       // 遍历从子节点到body下最大的节点,遍历他们的属性,直到某个节点的属性能通过校验的节点
       list.forEach((el, index) => {
-        // eslint-disable-next-line no-mixed-operators
         const attributes = el && el.attributes && Array.from(el.attributes) || [];
         target = attributes.find((item) => (item.nodeName.match(regex)
           ? item.nodeName.match(regex)
@@ -249,9 +242,6 @@ export default {
    */
   handleLeafNode(target) {
     const { tagName, textContent } = target;
-
-    // 为什么会有 button 一般来说都会给button文本 ???????????????????
-    if (tagName === 'BUTTON') return target.getAttribute('value') || textContent;
 
     if (tagName === 'IMG') return target.getAttribute('alt') || null;
 
