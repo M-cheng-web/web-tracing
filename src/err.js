@@ -51,9 +51,7 @@ function parseStack(err) {
 
 function parseError(e) {
   if (e instanceof Error) {
-    const {
-      message, stack, lineNumber, fileName, columnNumber,
-    } = e;
+    const { message, stack, lineNumber, fileName, columnNumber } = e;
     if (fileName) {
       return {
         errMessage: message,
@@ -108,47 +106,47 @@ function parseErrorEvent(event) {
     src: window.event.errorUrl,
   };
 }
-/**
- * 初始化
- */
-function init(options = {}) {
-  if (options.error === false) return;
-  // 捕获阶段可以获取资源加载错误,script.onError link.onError img.onError,无法知道具体状态
-  window.addEventListener('error', (e) => {
-    console.log('error捕获类型');
-    setFullErrInfo(parseErrorEvent(e));
-  }, true);
 
-  // promise调用链未捕获异常
-  window.addEventListener('unhandledrejection', (e) => {
-    console.log('unhandledrejection捕获类型');
-    setFullErrInfo(parseErrorEvent(e));
-  });
+export default {
+  init({ errorCore }) {
+    if (!errorCore) return;
 
-  // 劫持console.error
-  const consoleError = console.error;
-  console.error = function ce(...args) {
-    console.log('console.error捕获类型');
-    // 劫持到错误消息
-    const errorInfos = args.map((e) => ({ eventId: 'code', ...parseError(e) }));
-    errorInfos.forEach((item) => { setFullErrInfo(item); });
-    // 调用原来的console.error
-    consoleError.apply(console, args);
-  };
-}
-/**
- * 主动触发错误上报
- * server异常时：参数 { src: '', params: '', responseStatus: 500 }，自定义异常，参数放入params中 { params: {} }
- */
-function traceError(eventId, message, opts = {}) {
-  const customErrorRecord = { eventId, errMessage: message, ...opts };
+    // 捕获阶段可以获取资源加载错误,script.onError link.onError img.onError,无法知道具体状态
+    window.addEventListener('error', (e) => {
+      console.log('error捕获类型');
+      setFullErrInfo(parseErrorEvent(e));
+    }, true);
 
-  // 针对自定义的异常上报,对params对特殊处理,将其序列化为string
-  const { params } = customErrorRecord;
-  if (params) {
-    customErrorRecord.params = typeof params === 'object' ? JSON.stringify(params) : params;
+    // promise调用链未捕获异常
+    window.addEventListener('unhandledrejection', (e) => {
+      console.log('unhandledrejection捕获类型');
+      setFullErrInfo(parseErrorEvent(e));
+    });
+
+    // 劫持console.error
+    const consoleError = console.error;
+    console.error = function ce(...args) {
+      console.log('console.error捕获类型');
+      args.forEach((e) => { setFullErrInfo({ eventId: 'code', ...parseError(e) }) });
+
+      // const errorInfos = args.map((e) => ({ eventId: 'code', ...parseError(e) }));
+      // errorInfos.forEach((item) => { setFullErrInfo(item); });
+
+      consoleError.apply(console, args);
+    };
+  },
+  /**
+   * 主动触发错误上报
+   * server异常时：参数 { src: '', params: '', responseStatus: 500 }，自定义异常，参数放入params中 { params: {} }
+   */
+  traceError(eventId, message, opts = {}) {
+    const customErrorRecord = { eventId, errMessage: message, ...opts };
+
+    // 针对自定义的异常上报,对params对特殊处理,将其序列化为string
+    const { params } = customErrorRecord;
+    if (params) {
+      customErrorRecord.params = typeof params === 'object' ? JSON.stringify(params) : params;
+    }
+    return setFullErrInfo(customErrorRecord);
   }
-  return setFullErrInfo(customErrorRecord);
-}
-
-export default { init, traceError };
+};

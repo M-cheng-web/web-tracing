@@ -2,12 +2,8 @@ import { uuid, sendBeacon, map, nextTime } from './util';
 import { getSessionId, refreshSession } from './session';
 import device from './device';
 
-const settings = {
-  debug: true,
-  hashtag: false,
-};
+const settings = { debug: true, hashtag: false };
 
-// 内容包大小最好控制在1500之内
 const MAX_CACHE_LEN = 5; // 最大缓存数
 const MAX_WAITING_TIME = 5000; // 最大等待时间
 
@@ -28,11 +24,16 @@ const base = {
 let events = []; // 批次队列
 let timer = null; // 定时发送定时器
 
+/**
+ * 输出信息
+ */
 export function debug(...args) {
   if (settings.debug) console.log(...args);
 }
 
-// 支持批次发送
+/**
+ * 执行发送埋点信息(支持批次发送)
+ */
 function send() {
   if (events.length) {
     // 选取首部的部分数据来发送,performance会一次性采集大量数据追加到events中
@@ -80,7 +81,9 @@ function send() {
 
 export { pageId };
 
-// 如果同时点击n次  然后关闭浏览器  会发送剩下的请求吗??????????????
+/**
+ * 记录需要发送的埋点数据
+ */
 export function emit(e, flush = false) {
   events = events.concat(e); // 追加到事件队列里
   refreshSession();
@@ -111,12 +114,23 @@ export function init(options = {}) {
   Object.assign(settings, opts);
 }
 
+/**
+ * 获取配置信息
+ */
 export function getSetting() {
   return settings;
 }
+/**
+ * 设置额外的 customerId
+ * 在触发埋点时会将这个参数带给后端
+ */
 export function setCustomerId(id) {
   base.customerId = id;
 }
+/**
+ * 设置额外的 userUuid
+ * 在触发埋点时会将这个参数带给后端
+ */
 export function setUserUuid(id) {
   base.userUuid = id;
 }

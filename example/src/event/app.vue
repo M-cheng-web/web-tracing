@@ -10,7 +10,7 @@
       data-warden-title="titletitle"
       data-warden-bing="bing"
       data-warden-event-id="ddd">
-      <img src="../../public/face.jpg" alt="" />
+      <!-- <img src="../../public/face.jpg" alt="" /> -->
       <div class="asd">asdasdasd</div>
     </div>
     <button value="xxxxxx" ref="bun">1111</button>
@@ -24,8 +24,8 @@ export default {
   created() {
   },
   mounted() {
-    console.log('bun', this.$refs.bun);
-    console.log('bun', this.$refs.bun.hasChildNodes());
+    // console.log('bun', this.$refs.bun);
+    // console.log('bun', this.$refs.bun.hasChildNodes());
   },
   methods: {
     test() {

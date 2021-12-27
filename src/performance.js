@@ -42,14 +42,14 @@ function normalizePerformanceRecord(e) {
 }
 
 /**
- * 追踪资源加载性能数据,支持getEntriesByType的情况下才追踪
+ * 发送页面追踪资源加载性能数据
+ * 支持getEntriesByType的情况下才追踪
  */
 function traceResourcePerformance(performance) {
   // 排除xmlhttprequest类型,服务器有响应便会记录,包括404的请求,转由http-request模块负责记录请求数据,区分请求状态
   // 同时也会排除一些其他类型,比如在引入一个script后会触发一次性能监控,它的类型是beacon,这一次的要排除
   const observerTypeList = ['img', 'script', 'link', 'audio', 'video', 'css'];
   const entries = performance.getEntriesByType('resource');
-  console.log('entries', entries); // 为什么会有俩条  ????????????????????????
   const records = [];
 
   entries.forEach((entry) => {
@@ -60,7 +60,7 @@ function traceResourcePerformance(performance) {
 
     const value = {};
     const attrKeys = Object.keys(performanceEntryAttrs);
-    attrKeys.forEach((attr) => { value[attr] = entry[attr]; });
+    attrKeys.forEach((attr) => { value[attr] = entry[attr] });
 
     records.push(normalizePerformanceRecord({
       ...value,
@@ -79,7 +79,6 @@ function traceResourcePerformance(performance) {
  * 监听异步资源加载信息
  */
 function observeAsyncInfo() {
-  console.log('observeAsyncInfo');
   const observer = new PerformanceObserver(traceResourcePerformance);
   observer.observe({ entryTypes: ['resource'] });
 }
@@ -93,7 +92,7 @@ function observeSourceInsert() {
   // 检测异步插入的script、link、img,会有一些延迟,一些连接建立、包体大小的数据会丢失,精度下降
   // MutationObserver DOM3 Events规范,是个异步监听,只有在全部DOM操作完成之后才会调用callback
   const observer = new MutationObserver((mutationsList) => {
-    console.log('mutationsList', mutationsList); // 这里没有触发  ?????????????
+    console.log('mutationsList', mutationsList);
     for (let i = 0; i < mutationsList.length; i += 1) {
       const startTime = Date.now();
       const { addedNodes = [] } = mutationsList[i];
@@ -144,11 +143,9 @@ function observeResource() {
   traceResourcePerformance(window.performance);
   observeAsyncResource();
 }
-// 不支持MutationObserver,但有MutationEvent类型事件
-// 但是MutationEvent类型事件为同步方法,每次修改DOM会同步触发,影响性能表现,不予考虑,不再收集那些异步资源
 
 /**
- * 页面性能数据
+ * 发送首次页面性能数据
  */
 function observeNavigationTiming() {
   const times = {};
@@ -209,28 +206,29 @@ function observeNavigationTiming() {
   }));
 }
 
-function run() {
-  if (supported.performance) observeNavigationTiming();
-  if (supported.getEntriesByType) observeResource();
-}
+export default {
+  init({ performanceFirstResource, performanceCore }) {
+    if (!performanceFirstResource && !performanceCore) return;
 
-function init(options = {}) {
-  const { performance } = options;
-  if (performance && performance.resource) {
     // 初始化方法可能在onload事件之后才执行,此时不会触发load事件了,检查document.readyState属性来判断onload事件是否会被触发
-    document.readyState === 'complete' ? run() : window.addEventListener('load', run);
+    if (document.readyState === 'complete') {
+      if (supported.performance && performanceFirstResource) observeNavigationTiming();
+      if (supported.getEntriesByType && performanceCore) observeResource();
+    } else {
+      window.addEventListener('load', () => {
+        if (supported.performance && performanceFirstResource) observeNavigationTiming();
+        if (supported.getEntriesByType && performanceCore) observeResource();
+      })
+    }
+  },
+  tracePerformance(eventId, options) {
+    const record = {
+      triggerTime: Date.now(),
+      url: window.location.href,
+      ...options,
+      eventId,
+      eventType: 'performance',
+    };
+    emit(normalizePerformanceRecord(record));
   }
-}
-
-function tracePerformance(eventId, options) {
-  const record = {
-    triggerTime: Date.now(),
-    url: window.location.href,
-    ...options,
-    eventId,
-    eventType: 'performance',
-  };
-  emit(normalizePerformanceRecord(record));
-}
-
-export default { init, tracePerformance };
+};

@@ -3,24 +3,20 @@ import { emit, pageId } from './base';
 let oldURL = window.location.href; // 最后一次的url
 let historyLength = window.history.length; // 最后一次history栈的长度
 
-// 为什么从初始页面跳进来的时候 会是那样的url? ???????????????????
-
 /**
  * 发送数据
  * option 请求参数
  */
 function tracePageView(option = {}) {
-  // 参数处理
-  const {
-    url = window.location.href, referer = oldURL, actions = '', params,
-  } = option;
+  const { url = window.location.href, referer = oldURL, actions = '', params } = option;
   let action = actions;
   if (!action && window.history.length < 50) {
     action = historyLength === window.history.length ? 'back_forward' : 'navigation';
     historyLength = window.history.length;
   }
   // 如果option.title为空,则等待框架处理document.title,延迟17ms
-  setTimeout(() => { // 为什么要延迟17 ???????????
+  // 为什么是17ms?  一秒60Hz是基准,平均1Hz是17毫秒,只要出来了页面那就有 document.title
+  setTimeout(() => {
     emit({
       eventType: 'pv',
       eventId: pageId,
@@ -33,7 +29,7 @@ function tracePageView(option = {}) {
     });
   }, option.title ? 0 : 17);
   oldURL = url;
-  historyLength = window.history.length; // 更新historyLength
+  historyLength = window.history.length;
 }
 /**
  * 路由Pv采集
@@ -42,7 +38,7 @@ function tracePageView(option = {}) {
 function init(options = {}) {
   const { pv = true, hashtag = false } = options;
   const referer = document.referrer; // 获取是从哪个页面跳转来的
-  if (!pv) return; // 关闭自动采集pv
+  if (!pv) return;
 
   let lastIsPop = false; // 最后一次触发路由变化是否为popState触发
   tracePageView({ url: oldURL, referer });
@@ -67,17 +63,18 @@ function init(options = {}) {
       return result;
     };
 
-    // hash变化也会触发popstate事件,而且会先触发popstate事件 ??????????? 并不会
+    // hash变化也会触发popstate事件,而且会先触发popstate事件
     // 可以使用popstate来代替hashchange,如果支持History H5 Api
     // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event
-    window.addEventListener('popstate', () => { // 只有history路由会触发这个 hash路由不会触发这个
-      console.log('popstate', window.location.hash);
-      if (window.location.hash !== '') { // 为什么还要加这个  这个肯定是 '' ????????????
+    window.addEventListener('popstate', () => {
+      console.log('popstate', window.location.hash, oldURL, window.location.href);
+      if (window.location.hash !== '') {
         const oldHost = oldURL.indexOf('#') > 0 // 多页面情况下 history模式刷新还是在pv页面
           ? oldURL.slice(0, oldURL.indexOf('#'))
           : oldURL;
         if (window.location.href.slice(0, window.location.href.indexOf('#')) === oldHost && !hashtag) return;
       }
+      console.log('它执行了tracePageView');
       lastIsPop = true;
       tracePageView();
     });
@@ -85,7 +82,6 @@ function init(options = {}) {
   // 监听hashchange
   window.addEventListener('hashchange', () => {
     console.log('hashchange');
-    // 如果上次改变未触发popState(列如锚点)且允许记录hashchange 则用hashchange记录
     if (hashtag && !lastIsPop) tracePageView();
     lastIsPop = false;
   });

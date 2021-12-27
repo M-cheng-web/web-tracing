@@ -49,19 +49,17 @@ export function getCookieByName(name) {
   return result ? result[1] : undefined;
 }
 
-const URL = 'http://172.15.4.98:33199/trackweb/track/save';
-
 /**
  * 向下兼容发送信号的方法
  */
 const sendBeacon = navigator.sendBeacon
   ? (url, data) => {
-    if (data) navigator.sendBeacon(URL, JSON.stringify(data));
+    if (data) navigator.sendBeacon(url, JSON.stringify(data));
   }
   : (url, data) => {
     // 传统方式传递参数
     const beacon = new Image();
-    beacon.src = `${URL}?v=${encodeURIComponent(JSON.stringify(data))}`;
+    beacon.src = `${url}?v=${encodeURIComponent(JSON.stringify(data))}`;
   };
 export { sendBeacon };
 

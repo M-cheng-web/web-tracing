@@ -1,6 +1,9 @@
 import { getCookieByName, uuid } from './util';
 
 const deviceKey = '_warden_device_id';
+const { screen } = window;
+const { clientWidth, clientHeight } = document.documentElement;
+const { width, height, colorDepth, pixelDepth } = screen;
 
 let deviceId = getCookieByName(deviceKey);
 
@@ -8,10 +11,6 @@ if (!deviceId) {
   deviceId = `t_${uuid()}`;
   document.cookie = `${deviceKey}=${deviceId};path=/;`;
 }
-
-const { screen } = window;
-const { clientWidth, clientHeight } = document.documentElement;
-const { width, height, colorDepth, pixelDepth } = screen;
 
 // 设备相关的信息
 export default {
