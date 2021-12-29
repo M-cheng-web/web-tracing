@@ -24,10 +24,12 @@ _trace.init(options)
 ### options
 | 名称                      | 类型           | 是否必填 | 默认值    | 说明                                                                                         |
 | ------------------------- | -------------- | -------- | --------- | -------------------------------------------------------------------------------------------- |
+| requestUrl                | string         | 是       | -         | 是否开启触发事件时控制台输出     **必填**                                                    |
 | appName                   | string         | 是       | -         | 应用的标记,以此来区分各个应用,**必填**                                                       |
 | appCode                   | string         | 否       | -         | 应用的code,附加作用                                                                          |
 | appVersion                | string         | 否       | -         | 应用版本                                                                                     |
 | ext                       | object         | 否       | undefined | 自定义的全局附加参数                                                                         |
+| debug                     | boolean        | 否       | false     | 是否开启触发事件时控制台输出                                                                 |
 | pv                        | boolean/object | 否       | false     | boolean: true代表其所有属性为true/false代表其所有属性为false                                 |
 | pv.core                   | boolean        | 否       | false     | 页面跳转-是否自动发送页面跳转相关数据                                                        |
 | pv.hashtag                | boolean        | 否       | false     | 页面跳转-浏览器的动作发生时(例如浏览器的回退按钮)是否监听hash变化,如果是hash路由请开启此开关 |

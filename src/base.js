@@ -2,7 +2,7 @@ import { uuid, sendBeacon, map, nextTime } from './util';
 import { getSessionId, refreshSession } from './session';
 import device from './device';
 
-const settings = { debug: true, hashtag: false };
+const settings = { debug: false, hashtag: false };
 
 const MAX_CACHE_LEN = 5; // 最大缓存数
 const MAX_WAITING_TIME = 5000; // 最大等待时间
@@ -12,6 +12,8 @@ const pageId = uuid();
 
 // 与一般业务上理解的sessionId做区分,此session与业务无关,单纯就是浏览器端和后端直接的联系
 const sessionId = getSessionId();
+
+let requestUrl = process.env.REPORT_URL; // 服务请求地址
 
 // 基本的全局属性
 const base = {
@@ -42,7 +44,7 @@ function send() {
     debug('send events', sendEvents);
 
     const time = Date.now();
-    sendBeacon(process.env.REPORT_URL, {
+    sendBeacon(requestUrl, {
       baseInfo: { ...base, sendTime: time },
       eventInfo: map(sendEvents, (e) => {
         // 补充type字段,将click、scroll、change、submit事件作为一类存储
@@ -102,12 +104,14 @@ export function emit(e, flush = false) {
  */
 export function init(options = {}) {
   const {
+    requestUrl: _requestUrl,
     appName,
     appCode,
     appVersion,
     ext,
     ...opts
   } = options;
+  requestUrl = _requestUrl;
   base.gatherAppName = appName;
   base.gatherAppCode = appCode;
   base.ext = ext;

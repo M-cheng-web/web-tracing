@@ -10,7 +10,8 @@
     "build": "npm run clean && cross-env BUILD_ENV=prod webpack -p --progress",
     "build-test": "npm run clean && cross-env BUILD_ENV=test webpack -p --progress",
     "clean": "rimraf lib",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-module": "node build/module.js",
+    "prepublishOnly": "node build/publish & npm run clean & npm run build-lib & npm run build-module"
   },
   "repository": {
     "type": "git",

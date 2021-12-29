@@ -14,10 +14,12 @@ if (traceIns) {
   module.exports = {
     init: (options = {}) => {
       const _options = {
+        requestUrl: '', // 请求地址
         appName: '', // 应用名称
         appCode: '', // 应用code
         appVersion: '', // 应用版本
         ext: '', // 自定义全局附加参数
+        debug: false, // 是否开启触发事件时控制台输出
 
         pvCore: false, // 页面跳转-是否自动发送页面跳转相关数据
         pvHashtag: false, // 页面跳转-浏览器的动作发生时(例如浏览器的回退按钮)是否监听hash变化,如果是hash路由请开启此开关
@@ -55,12 +57,28 @@ if (traceIns) {
 }
 
 function transitionOptions(_options, options) {
-  const { appName, appCode, appVersion, ext, pv = {}, performance = {}, error = {}, event = {} } = options;
+  const {
+    requestUrl,
+    appName,
+    appCode,
+    appVersion,
+    ext,
+    debug,
+    pv = {},
+    performance = {},
+    error = {},
+    event = {},
+  } = options;
 
+  if (!requestUrl) throw Error('请传入requestUrl参数');
+  if (!appName) throw Error('请传入appName参数');
+
+  _options.requestUrl = requestUrl;
   _options.appName = appName;
   _options.appCode = appCode;
   _options.appVersion = appVersion;
   _options.ext = ext;
+  _options.debug = debug;
 
   if (typeof pv === 'boolean') {
     _options.pvCore = _options.pvHashtag = pv;
