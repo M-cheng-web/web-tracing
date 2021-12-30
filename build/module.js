@@ -29,8 +29,10 @@ function dest(result) {
     return;
   }
   const relativePath = relative(source, result.options.filename); // 给定路径到另一个路径的相对路径
+
+  // 拿到 src与src目录下各个js文件的相对路径后, 再这个相对路径与lib目录的绝对路径
   const targetPath = resolve(dist, relativePath);
-  fs.outputFileSync(targetPath, result.code);
+  fs.outputFileSync(targetPath, result.code); // 最后再根据这个绝对路径创建这个文件
 }
 
 function build() {
