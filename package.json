@@ -1,15 +1,15 @@
 {
   "name": "web-tracing",
-  "version": "1.0.1-alpha.1",
+  "version": "0.0.1-alpha.0",
   "description": "前端 - 埋点, 性能采集, 异常采集, 请求采集, 路由采集",
   "main": "lib/trace.js",
-  "module": "lib/index.js",
   "directories": {
     "example": "example"
   },
   "keywords": [
+    "web-tracking",
     "web",
-    "track",
+    "tracking",
     "frontend"
   ],
   "scripts": {

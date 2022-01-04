@@ -107,7 +107,7 @@ module.exports = merge(base, {
   ],
   devServer: {
     publicPath: '/',
-    open: false,
+    open: true,
     openPage: 'contents.html',
     contentBase: resolve(__dirname, 'public'),
     historyApiFallback: {
