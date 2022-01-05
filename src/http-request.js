@@ -5,7 +5,7 @@ import performance from './performance';
 class RequestTemplate {
   constructor(config = {}) {
     const list = ['src', 'method', 'duration', 'responseStatus'];
-    list.forEach((key) => { this[key] = config[key] ?? null; });
+    list.forEach((key) => { this[key] = config[key] || null; });
   }
 }
 

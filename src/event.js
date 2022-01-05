@@ -5,13 +5,13 @@ import { uuid } from './util';
 class RequestTemplate {
   constructor(config = {}) {
     const list = ['eventType', 'eventId', 'url', 'referer', 'action', 'params', 'time', 'millisecond'];
-    list.forEach((key) => { this[key] = config[key] ?? null; });
+    list.forEach((key) => { this[key] = config[key] || null; });
   }
 }
 class RequestTemplateClick {
   constructor(config = {}) {
     const list = ['eventType', 'eventId', 'time', 'title', 'params', 'path', 'x', 'y', 'href', 'url'];
-    list.forEach((key) => { this[key] = config[key] ?? null; });
+    list.forEach((key) => { this[key] = config[key] || null; });
   }
 }
 
@@ -119,7 +119,7 @@ function dwellCollector(eventUnload) {
       255: 'reserved', // 任何其他来源的加载
     };
     const { type } = performance.navigation; // 表示加载来源, type为 0,1,2,255
-    _config.operateAction = mapping[type] ?? null;
+    _config.operateAction = mapping[type] || null;
     emit(_config, true);
   }, false);
 }
