@@ -15,14 +15,14 @@ console.log('window._trace', window._trace);
 console.log('trace', trace);
 console.log('trace2', trace2);
 
-// trace.init({
-//   requestUrl: 'http://172.15.224.10:33199/trackweb/tra',
-//   appName: 'chengxh',
-//   event: true,
-//   performance: true,
-//   pv: true,
-//   error: true,
-// })
+_trace.init({
+  requestUrl: 'http://172.15.224.10:33199/trackweb/tra',
+  appName: 'chengxh',
+  event: true,
+  performance: true,
+  pv: true,
+  error: true,
+})
 
 
 new Vue({

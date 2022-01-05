@@ -13,7 +13,7 @@
       <!-- <img src="../../public/face.jpg" alt="" /> -->
       <div class="asd">asdasdasd</div>
     </div>
-    <button value="xxxxxx" ref="bun">1111</button>
+    <button data-warden-container value="xxxxxx" ref="bun">1111</button>
   </div>
 </template>
 

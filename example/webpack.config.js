@@ -67,7 +67,7 @@ module.exports = merge(base, {
     ],
   },
   plugins: [
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(), // 设置要不要打开包大小页面
     new HtmlWebpackPlugin({
       template,
       title: 'trace pv',
