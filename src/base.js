@@ -47,6 +47,8 @@ function send() {
     sendBeacon(requestUrl, {
       baseInfo: { ...base, sendTime: time },
       eventInfo: map(sendEvents, (e) => {
+        e.sendTime = time; // 设置发送时间
+
         // 补充type字段,将click、scroll、change、submit事件作为一类存储
         if (e.eventType === 'click' || e.eventType === 'scroll' || e.eventType === 'submit' || e.eventType === 'change') {
           e.type = 'mix';
@@ -72,7 +74,6 @@ function send() {
         }
 
         e.type = e.eventType; // 其他类型type同eventType
-        e.sendTime = time; // 设置发送时间
         return e;
       }),
     });
@@ -100,7 +101,6 @@ export function emit(e, flush = false) {
 
 /**
  * 初始化方法
- * options - { appName: '', ext: {}, hashtag: false, };
  */
 export function init(options = {}) {
   const {
@@ -112,8 +112,8 @@ export function init(options = {}) {
     ...opts
   } = options;
   requestUrl = _requestUrl;
-  base.gatherAppName = appName;
-  base.gatherAppCode = appCode;
+  base.appName = appName;
+  base.appCode = appCode;
   base.ext = ext;
   Object.assign(settings, opts);
 }

@@ -139,8 +139,8 @@ export default {
    * 主动触发错误上报
    * server异常时：参数 { src: '', params: '', responseStatus: 500 }，自定义异常，参数放入params中 { params: {} }
    */
-  traceError(eventId, message, opts = {}) {
-    const customErrorRecord = { eventId, errMessage: message, ...opts };
+  traceError(eventId, message, options = {}) {
+    const customErrorRecord = { eventId, errMessage: message, ...options };
 
     // 针对自定义的异常上报,对params对特殊处理,将其序列化为string
     const { params } = customErrorRecord;

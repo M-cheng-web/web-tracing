@@ -13,7 +13,9 @@
       <!-- <img src="../../public/face.jpg" alt="" /> -->
       <div class="asd">asdasdasd</div>
     </div>
-    <button data-warden-container value="xxxxxx" ref="bun">1111</button>
+    <div data-warden-id="我是ID">
+      <button value="xxxxxx" ref="bun">1111</button>
+    </div>
   </div>
 </template>
 

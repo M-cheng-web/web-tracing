@@ -104,10 +104,10 @@ _trace.traceError('错误类型名称', '错误消息', {
 });
 ```
 
-#### traceEvent
+#### traceCustomEvent
 自定义上报事件
 ``` js
-_trace.traceEvent('事件ID', '事件标题', {
+_trace.traceCustomEvent('事件ID', '事件标题', {
     // 事件参数
 });
 ```
@@ -183,7 +183,6 @@ DOM事件在目标阶段可能会被阻止冒泡,在捕获阶段处理DOM事件�
 + data-warden-container
 + data-warden-event-id
 + data-warden-title
-+ data-warden-params
 
 ##### 容器
 data-warden-container<br>

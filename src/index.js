@@ -51,7 +51,7 @@ if (traceIns) {
     // 主动上报方法
     traceError: err.traceError,
     tracePerformance: performance.tracePerformance,
-    traceEvent: event.traceCustomEvent,
+    traceCustomEvent: event.traceCustomEvent,
     tracePageView: pv.tracePageView,
   };
 }

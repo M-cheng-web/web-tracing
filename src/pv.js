@@ -24,7 +24,7 @@ function tracePageView(option = {}) {
       referer,
       params,
       title: option.title || document.title,
-      operateAction: action,
+      action,
       triggerTime: `${Date.now()}`,
     });
   }, option.title ? 0 : 17);

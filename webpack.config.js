@@ -43,6 +43,6 @@ module.exports = merge(base, {
     ],
   },
   plugins: [
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
 });

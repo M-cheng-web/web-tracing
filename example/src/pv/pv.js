@@ -5,7 +5,7 @@ import App from './app.vue';
 import Foo from './foo.vue';
 import Bar from './bar.vue';
 
-pv.init({ hashtag: false });
+pv.init({ hashtag: true });
 
 Vue.use(VueRouter);
 

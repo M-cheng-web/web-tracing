@@ -4,7 +4,9 @@ import err from '../../../src/err';
 
 Vue.productionTip = false;
 
-err.init();
+err.init({
+  errorCore: true,
+});
 
 // 创建和挂载根实例。
 new Vue({

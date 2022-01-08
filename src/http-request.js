@@ -27,15 +27,14 @@ function interceptFetch(performanceServer, errorServer) {
               src: url,
               duration: Date.now() - fetchStart,
               responseStatus: status,
+              params: method.toUpperCase() === 'POST' ? options.body : undefined,
             });
           }
         } else if (errorServer) {
           error.traceError('server', statusText, {
             src: url,
             responseStatus: status,
-
-            // 只针对post请求和状态是500的情况收集传递的参数
-            params: status === 500 && method.toUpperCase() === 'POST' ? options.body : undefined,
+            params: method.toUpperCase() === 'POST' ? options.body : undefined,
           });
         }
       }, (e) => {
@@ -80,16 +79,14 @@ function interceptAjax(performanceServer, errorServer) {
               src: responseURL,
               responseStatus: status,
               duration: Date.now() - _config.triggerTime,
+              params: body ? body : undefined,
             });
           }
         } else if (errorServer) {
           error.traceError('server', responseText, {
             src: responseURL,
             responseStatus: status,
-
-            // 当服务器返回500状态码时才记录params,记录当前的接口参数（如果有）
-            // 当body是FormData对象时,会被JSON.stringify方法序列化为"{}"。
-            params: status === 500 && body ? body : undefined,
+            params: body ? body : undefined,
           });
         }
       }

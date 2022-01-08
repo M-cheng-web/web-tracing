@@ -1,4 +1,10 @@
-## 0.0.1-alpha.9 (2022-01-04)
+# 1.0.0 (2022-01-05)
+
+
+### Bug Fixes
+
+* ?? => || ([300433a](https://github.com/M-cheng-web/web-tracing/commit/300433aa351b7c56f4aee112bfc1602b501295f4))
+* data-warden-contain -> data-warden-container ([2d87aa3](https://github.com/M-cheng-web/web-tracing/commit/2d87aa3658e67997f0d3efa590a091fd8f36230d))
 
 
 ### Features

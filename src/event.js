@@ -4,13 +4,13 @@ import { uuid } from './util';
 
 class RequestTemplate {
   constructor(config = {}) {
-    const list = ['eventType', 'eventId', 'url', 'referer', 'action', 'params', 'time', 'millisecond'];
+    const list = ['eventType', 'eventId', 'url', 'referer', 'action', 'params', 'millisecond'];
     list.forEach((key) => { this[key] = config[key] || null; });
   }
 }
 class RequestTemplateClick {
   constructor(config = {}) {
-    const list = ['eventType', 'eventId', 'time', 'title', 'params', 'path', 'x', 'y', 'href', 'url'];
+    const list = ['eventType', 'eventId', 'url', 'params', 'title', 'path', 'x', 'y'];
     list.forEach((key) => { this[key] = config[key] || null; });
   }
 }
@@ -75,8 +75,7 @@ function clickCollection() {
     const target = path.find((el) => // 检查被点击的元素以及其父级元素是否有这些属性(从内到外,只会取第一个检查到的)
       el.hasAttribute && (el.hasAttribute('data-warden-container')
         || el.hasAttribute('data-warden-event-id')
-        || el.hasAttribute('data-warden-title')
-        || el.hasAttribute('data-warden-params')));
+        || el.hasAttribute('data-warden-title')));
     if (!target) return;
 
     _config.title = extractTitleByTarget(target);
@@ -91,7 +90,6 @@ function clickCollection() {
     _config.y = y;
     _config.triggerTime = Date.now(); // 点击时间
     _config.url = window.location.href; // 当前页面的url
-    _config.href = '';
     emit(_config);
   }, true);
 }
@@ -111,7 +109,6 @@ function dwellCollector(eventUnload) {
     _config.referer = document.referrer; // 上级页面 url(从哪个页面跳过来的就是上级页面)
     _config.triggerTime = Date.now(); // 卸载时间
     _config.millisecond = Date.now() - _config.entryTime; // 停留多久
-    delete _config.entryTime;
     const mapping = {
       0: 'navigate', // 网页通过点击链接,地址栏输入,表单提交,脚本操作等方式加载
       1: 'reload', // 网页通过“重新加载”按钮或者location.reload()方法加载

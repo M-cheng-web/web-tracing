@@ -6,9 +6,13 @@ import App from './app.vue';
 
 Vue.use(VueRouter);
 
-http.init();
+http.init({
+  performanceServer: true,
+  errorServer: true
+});
 performance.init({
-  performance: { resource: true },
+  performanceFirstResource: true,
+  performanceCore: true,
 });
 
 // 2. 定义路由
