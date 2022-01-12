@@ -1,7 +1,7 @@
 {
   "name": "web-tracing",
   "version": "1.0.0",
-  "description": "前端 - 埋点, 性能采集, 异常采集, 请求采集, 路由采集",
+  "description": "前端 - 行为埋点, 性能采集, 异常采集, 请求采集, 路由采集",
   "main": "lib/trace.js",
   "jsdelivr": "lib/trace.js",
   "module": "lib/index.js",
