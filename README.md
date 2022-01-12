@@ -1,6 +1,6 @@
 <div align="center">
   <h1>web-tracing 性能监控插件</h1>
-  <p>一个基于 JavaScript 的跨平台 ( 行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集 ) 抽奖插件</p>
+  <p>一个基于 JavaScript 的跨平台 ( 行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集 ) 插件</p>
 </div>
 
 ## 官方文档 & Demo演示
