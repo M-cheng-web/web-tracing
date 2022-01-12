@@ -67,7 +67,7 @@ function traceResourcePerformance(performance) {
       eventType: 'performance',
       eventId: 'resource',
       src: entry.name,
-      triggerTime: `${Date.now()}`, // 非绝对精确,以拿到performance对象的时间来近似计算
+      triggerTime: Date.now(), // 非绝对精确,以拿到performance对象的时间来近似计算
       url: window.location.href,
     }));
   });
@@ -107,7 +107,7 @@ function observeSourceInsert() {
               eventId: 'resource',
               src: node.src || node.href,
               duration: endTime - startTime,
-              triggerTime: `${Date.now()}`,
+              triggerTime: Date.now(),
               url: window.location.href,
             }));
           });
@@ -222,6 +222,7 @@ export default {
     }
   },
   tracePerformance(eventId, options) {
+    console.log(123123);
     const record = {
       triggerTime: Date.now(),
       url: window.location.href,

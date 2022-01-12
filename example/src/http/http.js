@@ -1,11 +1,17 @@
 import Vue from 'vue';
-import http from '../../../src/http-request';
 import App from './app.vue';
 
-http.init({
-  performanceServer: true,
-  errorServer: true
-});
+
+const trace = require('../../../src/index.js');
+
+trace.init({
+  requestUrl: 'http://8.129.19.55:8081/sys-file/test-receive',
+  appName: 'chengxh',
+  // event: true,
+  performance: { server: true },
+  error: true,
+  // pv: true,
+})
 
 new Vue({
   render: (h) => h(App),

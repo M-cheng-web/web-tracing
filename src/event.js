@@ -10,7 +10,7 @@ class RequestTemplate {
 }
 class RequestTemplateClick {
   constructor(config = {}) {
-    const list = ['eventType', 'eventId', 'url', 'params', 'title', 'path', 'x', 'y'];
+    const list = ['eventType', 'eventId', 'url', 'params', 'title', 'x', 'y'];
     list.forEach((key) => { this[key] = config[key] || null; });
   }
 }

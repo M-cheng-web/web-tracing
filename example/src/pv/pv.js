@@ -5,7 +5,15 @@ import App from './app.vue';
 import Foo from './foo.vue';
 import Bar from './bar.vue';
 
-pv.init({ hashtag: true });
+const trace = require('../../../src/index.js');
+
+trace.init({
+  requestUrl: 'http://8.129.19.55:8081/sys-file/test-receive',
+  appName: 'chengxh',
+  // event: true,
+  // performance: { server: true },
+  pv: true,
+})
 
 Vue.use(VueRouter);
 

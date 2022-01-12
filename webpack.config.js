@@ -7,10 +7,10 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const isProduction = process.env.BUILD_ENV === 'prod';
 
-console.log('build_env', process.env.BUILD_ENV);
-console.log('SDK_VERSION', process.env.SDK_VERSION);
-console.log('LIBRARY_NAME', process.env.LIBRARY_NAME);
-console.log('report_url', defineProps["process.env.REPORT_URL"]);
+// console.log('build_env', process.env.BUILD_ENV);
+// console.log('SDK_VERSION', process.env.SDK_VERSION);
+// console.log('LIBRARY_NAME', process.env.LIBRARY_NAME);
+// console.log('report_url', defineProps["process.env.REPORT_URL"]);
 
 module.exports = merge(base, {
   entry: resolve(__dirname, './src/index.js'),

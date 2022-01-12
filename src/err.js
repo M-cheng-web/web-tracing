@@ -9,7 +9,7 @@ function setFullErrInfo(errorInfo) {
     ...errorInfo,
     eventType: 'error',
     url: window.location.href,
-    triggerTime: `${Date.now()}`,
+    triggerTime: Date.now(),
   };
   emit(info);
 }
@@ -145,7 +145,7 @@ export default {
     // 针对自定义的异常上报,对params对特殊处理,将其序列化为string
     const { params } = customErrorRecord;
     if (params) {
-      customErrorRecord.params = typeof params === 'object' ? JSON.stringify(params) : params;
+      customErrorRecord.params = params;
     }
     return setFullErrInfo(customErrorRecord);
   }

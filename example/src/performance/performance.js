@@ -1,19 +1,19 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import http from '../../../src/http-request';
-import performance from '../../../src/performance';
 import App from './app.vue';
 
 Vue.use(VueRouter);
 
-http.init({
-  performanceServer: true,
-  errorServer: true
-});
-performance.init({
-  performanceFirstResource: true,
-  performanceCore: true,
-});
+const trace = require('../../../src/index.js');
+
+trace.init({
+  requestUrl: 'http://8.129.19.55:8081/sys-file/test-receive',
+  appName: 'chengxh',
+  // event: true,
+  performance: true,
+  // pv: true,
+  // error: true,
+})
 
 // 2. 定义路由
 const routes = [

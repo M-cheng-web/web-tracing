@@ -20,9 +20,9 @@ export default {
       //   return axios.post('/api/order', { body: { id: 11 } });
       // }
 
-      return axios.post('/api/order', { body: { id: 11 } });
+      // return axios.post('http://localhost:13132/blackAccountCustScanCaseStatus', { body: { id: 11 } });
 
-      // return axios.get('/index.html', { params: { t: Date.now() } });
+      return axios.get('http://172.15.7.201:10280/mock/269/acceptance/form/riskApperaisal/getRiskAppraisal');
     },
     sendFetch() {
       const random = this.getRandom();

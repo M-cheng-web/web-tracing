@@ -25,7 +25,7 @@ function tracePageView(option = {}) {
       params,
       title: option.title || document.title,
       action,
-      triggerTime: `${Date.now()}`,
+      triggerTime: Date.now(),
     });
   }, option.title ? 0 : 17);
   oldURL = url;
@@ -33,12 +33,12 @@ function tracePageView(option = {}) {
 }
 /**
  * 路由Pv采集
- * option.hashtag true=>监听hash变化; false=>不监听hash变化
+ * pvHashtag 是否监听hash变化
  */
 function init(options = {}) {
-  const { pv = true, hashtag = false } = options;
+  const { pvCore, pvHashtag } = options;
   const referer = document.referrer; // 获取是从哪个页面跳转来的
-  if (!pv) return;
+  if (!pvCore) return;
 
   let lastIsPop = false; // 最后一次触发路由变化是否为popState触发
   tracePageView({ url: oldURL, referer });
@@ -47,7 +47,6 @@ function init(options = {}) {
     // 劫持history.pushState history.replaceState
     const push = window.history.pushState.bind(window.history);
     window.history.pushState = (data, title, url) => {
-      console.log('pushState');
       lastIsPop = false;
       const result = push(data, title, url);
       tracePageView({ actions: 'navigation' });
@@ -56,7 +55,6 @@ function init(options = {}) {
 
     const repalce = window.history.replaceState.bind(window.history);
     window.history.replaceState = (data, title, url) => {
-      console.log('replaceState');
       lastIsPop = false;
       const result = repalce(data, title, url);
       tracePageView({ actions: 'navigation' });
@@ -67,22 +65,19 @@ function init(options = {}) {
     // 可以使用popstate来代替hashchange,如果支持History H5 Api
     // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event
     window.addEventListener('popstate', () => {
-      console.log('popstate', window.location.hash, oldURL, window.location.href);
       if (window.location.hash !== '') {
         const oldHost = oldURL.indexOf('#') > 0 // 多页面情况下 history模式刷新还是在pv页面
           ? oldURL.slice(0, oldURL.indexOf('#'))
           : oldURL;
-        if (window.location.href.slice(0, window.location.href.indexOf('#')) === oldHost && !hashtag) return;
+        if (window.location.href.slice(0, window.location.href.indexOf('#')) === oldHost && !pvHashtag) return;
       }
-      console.log('它执行了tracePageView');
       lastIsPop = true;
       tracePageView();
     });
   }
   // 监听hashchange
   window.addEventListener('hashchange', () => {
-    console.log('hashchange');
-    if (hashtag && !lastIsPop) tracePageView();
+    if (pvHashtag && !lastIsPop) tracePageView();
     lastIsPop = false;
   });
 }

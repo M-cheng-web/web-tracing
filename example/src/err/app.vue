@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import err from '../../../src/err';
+import trace from '../../../src/index.js';
 
 export default {
   created() {
@@ -46,7 +46,7 @@ export default {
       }
     },
     sendBizErr() {
-      err.traceError('biz', '业务异常', {
+      trace.traceError('自定义错误ID', '自定义错误message', {
         src: '/interface/order',
         params: {
           id: '12121',
