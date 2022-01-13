@@ -24,6 +24,7 @@
 export default {
   name: 'app.vue',
   created() {
+    console.log('this._trace', this._trace);
   },
   mounted() {
     // console.log('bun', this.$refs.bun);

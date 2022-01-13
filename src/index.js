@@ -11,40 +11,7 @@ const traceIns = window[process.env.LIBRARY_NAME];
 if (traceIns) {
   module.exports = traceIns;
 } else {
-  module.exports = {
-    init: (options = {}) => {
-      const _options = {
-        requestUrl: '', // 请求地址
-        appName: '', // 应用名称
-        appCode: '', // 应用code
-        appVersion: '', // 应用版本
-        ext: '', // 自定义全局附加参数
-        debug: false, // 是否开启触发事件时控制台输出
-
-        pvCore: false, // 页面跳转-是否自动发送页面跳转相关数据
-        pvHashtag: false, // 页面跳转-浏览器的动作发生时(例如浏览器的回退按钮)是否监听hash变化,如果是hash路由请开启此开关
-
-        performanceCore: false, // 性能数据-是否采集静态资源、接口的相关数据
-        performanceFirstResource: false, // 性能数据-是否采集首次进入页面的数据(ps: tcp连接耗时,HTML加载完成时间,首次可交互时间)
-        performanceServer: false, // 接口请求-是否采集接口请求(成功的才会采集)
-
-        errorCore: false, // 是否采集异常数据(ps: 资源引入错误,promise错误,控制台输出错误)
-        errorServer: false, // 接口请求-是否采集报错接口数据
-
-        eventCore: false, // 页面点击-是否采集点击事件
-        eventUnload: false, // 页面卸载-是否在页面卸载时采集页面状态信息
-      };
-
-      // 将传过来的参数转换
-      transitionOptions(_options, options);
-
-      base.init(_options);
-      event.init(_options);
-      pv.init(_options);
-      http.init(_options);
-      err.init(_options);
-      performance.init(_options);
-    },
+  const methods = {
     setCustomerId: base.setCustomerId,
     setUserUuid: base.setUserUuid,
 
@@ -53,6 +20,47 @@ if (traceIns) {
     tracePerformance: performance.tracePerformance,
     traceCustomEvent: event.traceCustomEvent,
     tracePageView: pv.tracePageView,
+  }
+  const init = (options = {}) => {
+    const _options = {
+      requestUrl: '', // 请求地址
+      appName: '', // 应用名称
+      appCode: '', // 应用code
+      appVersion: '', // 应用版本
+      ext: '', // 自定义全局附加参数
+      debug: false, // 是否开启触发事件时控制台输出
+
+      pvCore: false, // 页面跳转-是否自动发送页面跳转相关数据
+      pvHashtag: false, // 页面跳转-浏览器的动作发生时(例如浏览器的回退按钮)是否监听hash变化,如果是hash路由请开启此开关
+
+      performanceCore: false, // 性能数据-是否采集静态资源、接口的相关数据
+      performanceFirstResource: false, // 性能数据-是否采集首次进入页面的数据(ps: tcp连接耗时,HTML加载完成时间,首次可交互时间)
+      performanceServer: false, // 接口请求-是否采集接口请求(成功的才会采集)
+
+      errorCore: false, // 是否采集异常数据(ps: 资源引入错误,promise错误,控制台输出错误)
+      errorServer: false, // 接口请求-是否采集报错接口数据
+
+      eventCore: false, // 页面点击-是否采集点击事件
+      eventUnload: false, // 页面卸载-是否在页面卸载时采集页面状态信息
+    };
+
+    // 将传过来的参数转换
+    transitionOptions(_options, options);
+
+    base.init(_options);
+    event.init(_options);
+    pv.init(_options);
+    http.init(_options);
+    err.init(_options);
+    performance.init(_options);
+  }
+  module.exports = {
+    install: (Vue, options = {}) => {
+      init(options);
+      Vue.prototype._trace = { ...methods };
+    },
+    init,
+    ...methods
   };
 }
 
