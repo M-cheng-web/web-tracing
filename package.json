@@ -1,6 +1,6 @@
 {
   "name": "web-tracing",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "description": "前端 - 行为埋点, 性能采集, 异常采集, 请求采集, 路由采集",
   "main": "lib/trace.js",
   "jsdelivr": "lib/trace.js",
@@ -39,7 +39,7 @@
     "rimraf": "^3.0.2",
     "semver": "^7.3.4",
     "terser-webpack-plugin": "^5.1.1",
-    "webpack": "^5.19.0",
+    "webpack": "^5.1.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^3.3.12",
     "webpack-merge": "^5.7.3"

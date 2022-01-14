@@ -1089,9 +1089,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.4.17:
-  version "1.4.43"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.43.tgz#665c0cd8d5e7cce0ba78d90a514c8c813ca3bdbe"
-  integrity sha512-PO3kEfcxPrti/4STbXvCkNIF4fgWvCKl2508e6UI7KomCDffpIfeBZLXsh5DK/XGsjUw3kwq6WEsi0MJTlGAdg==
+  version "1.4.45"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.45.tgz#cf1144091d6683cbd45a231954a745f02fb24598"
+  integrity sha512-czF9eYVuOmlY/vxyMQz2rGlNSjZpxNQYBe1gmQv7al171qOIhgyO9k7D5AKlgeTCSPKk+LHhj5ZyIdmEub9oNg==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -3087,9 +3087,9 @@ regex-not@^1.0.0, regex-not@^1.0.2:
     safe-regex "^1.1.0"
 
 regexp.prototype.flags@^1.2.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/regexp.prototype.flags/-/regexp.prototype.flags-1.3.1.tgz#7ef352ae8d159e758c0eadca6f8fcb4eef07be26"
-  integrity sha512-JiBdRBq91WlY7uRJ0ds7R+dU02i6LKi8r3BuQhNXn+kmeLN+EfHhfjqMRis1zJxnlu88hq/4dx0P2OP3APRTOA==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/regexp.prototype.flags/-/regexp.prototype.flags-1.4.0.tgz#320e3ccb61ebb74daebffd1c09e484ea3c67070b"
+  integrity sha512-OE85RadmCYZJzYgIcWd2Qum/wJ20WwY5Z6Bfv5FeBPU46uPD01s3pe2LNoi0etmr83ibsFidC0ZiKXmPY5UpmQ==
   dependencies:
     call-bind "^1.0.2"
     define-properties "^1.1.3"
@@ -3924,10 +3924,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-tracing@^0.0.1-alpha.8:
-  version "0.0.1-alpha.8"
-  resolved "https://registry.yarnpkg.com/web-tracing/-/web-tracing-0.0.1-alpha.8.tgz#183f4e3a2f2f3ea07a14f0151bca2461bcda1d8e"
-  integrity sha512-pXUl/x1LA8hGMcpW3e3XPa1j4dvt6d9yaVkL5Q8J+DH6pGk67rBEV37d+Na1lxCxbiaevWhnVnX5sUevPdRO7w==
+web-tracing@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/web-tracing/-/web-tracing-3.0.0.tgz#a159060ed2b00371be901b191c2469d6e26e699b"
+  integrity sha512-VWHJ786oqIIWQGA3q6PkuE8F8//zrAN8tnCbQ2OGLnvtOLHg3PPrmsxtHxydKzvSn5eAvN3kgnokNQleOK17dw==
 
 webpack-bundle-analyzer@^4.5.0:
   version "4.5.0"
@@ -4032,7 +4032,7 @@ webpack-sources@^3.2.2:
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.3.tgz#2d4daab8451fd4b240cc27055ff6a0c2ccea0cde"
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
 
-webpack@^5.19.0:
+webpack@^5.1.0:
   version "5.66.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.66.0.tgz#789bf36287f407fc92b3e2d6f978ddff1bfc2dbb"
   integrity sha512-NJNtGT7IKpGzdW7Iwpn/09OXz9inIkeIQ/ibY6B+MdV1x6+uReqz/5z1L89ezWnpPDWpXF0TY5PCYKQdWVn8Vg==
