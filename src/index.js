@@ -57,7 +57,11 @@ if (traceIns) {
   module.exports = {
     install: (Vue, options = {}) => {
       init(options);
-      Vue.prototype._trace = { ...methods };
+      if (Vue.prototype) {
+        Vue.prototype.$trace = { ...methods };
+      } else {
+        Vue.config.globalProperties.$trace = { ...methods };
+      }
     },
     init,
     ...methods
