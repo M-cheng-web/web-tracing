@@ -13,7 +13,7 @@ const pageId = uuid();
 // 与一般业务上理解的sessionId做区分,此session与业务无关,单纯就是浏览器端和后端直接的联系
 const sessionId = getSessionId();
 
-let requestUrl = process.env.REPORT_URL; // 服务请求地址
+let requestUrl = ''; // 服务请求地址
 
 // 基本的全局属性
 const base = {

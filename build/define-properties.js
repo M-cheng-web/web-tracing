@@ -10,7 +10,4 @@ const props = properties.parse(propsString);
 module.exports = {
   'process.env.SDK_VERSION': JSON.stringify(version),
   'process.env.LIBRARY_NAME': JSON.stringify(props.LIBRARY_NAME),
-  'process.env.TEST_REPORT_URL': JSON.stringify(props.TEST_REPORT_URL),
-  'process.env.PROD_REPORT_URL': JSON.stringify(props.PROD_REPORT_URL),
-  'process.env.REPORT_URL': process.env.BUILD_ENV === 'test' ? JSON.stringify(props.TEST_REPORT_URL) : JSON.stringify(props.PROD_REPORT_URL),
 };
