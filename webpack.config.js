@@ -11,7 +11,7 @@ module.exports = merge(base, {
   entry: resolve(__dirname, './src/index.js'),
   mode: process.env.NODE_ENV,
   devtool: isProduction ? false : 'cheap-source-map',
-  target: ['web', 'es5'],
+  // target: ['web', 'es5'],
   output: {
     publicPath: '/',
     path: resolve(__dirname, 'lib'),
