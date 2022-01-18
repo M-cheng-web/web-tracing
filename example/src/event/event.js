@@ -7,7 +7,9 @@ import webTracing from '@web-tracing/vue';
 
 import App from './app.vue';
 
-webTracing()
+console.log('webTracing', webTracing);
+
+// webTracing()
 
 // const trace = require('../../../src/index.js');
 // Vue.use(webTracing, {
