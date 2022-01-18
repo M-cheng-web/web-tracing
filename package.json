@@ -1,0 +1,19 @@
+{
+  "name": "web-tracing",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "scripts": {
+    "install": "lerna bootstrap",
+    "dev": "lerna exec --scope=web-tracing -- npm run dev",
+    "dev:vue": "lerna run --scope=web-tracing --scope=@web-tracing/vue dev --parallel",
+    "build": "lerna run build --sort --stream",
+    "update-version": "lerna version --conventional-commits --no-push --no-changelog --no-git-tag-version",
+    "publish-to-npm": "lerna publish from-package",
+    "publish-beta": "lerna publish --no-git-tag-version --dist-tag beta"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}

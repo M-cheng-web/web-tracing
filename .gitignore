@@ -12,7 +12,3 @@ npm-debug.log
 # temp
 *.bak
 *~
-
-# dist
-lib
-dist
