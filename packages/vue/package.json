@@ -1,6 +1,6 @@
 {
   "name": "@web-tracing/vue",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "一个支持 vue2 / vue3 的【行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集】 插件",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -19,7 +19,7 @@
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-uglify": "^6.0.4",
-    "web-tracing": "^10.0.0"
+    "web-tracing": "^10.1.0"
   },
   "publishConfig": {
     "access": "public"

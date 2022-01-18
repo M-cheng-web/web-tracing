@@ -1,6 +1,6 @@
 {
   "name": "web-tracing",
-  "version": "10.0.0",
+  "version": "10.1.0",
   "description": "一个基于原生 js 的 【行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集】 插件",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -15,8 +15,8 @@
     "rollup": "^2.15.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-uglify": "^6.0.4",
-    "rollup-plugin-node-resolve": "^5.2.0"
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify": "^6.0.4"
   },
   "keywords": [
     "埋点",
