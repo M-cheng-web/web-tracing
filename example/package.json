@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "axios": "^0.21.1",
+    "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.1",
     "fs-extra": "^9.1.0",
@@ -27,11 +28,14 @@
     "vue-loader": "^15.9.6",
     "vue-router": "^3.5.1",
     "vue-template-compiler": "^2.6.12",
-    "web-tracing": "^3.0.0",
     "webpack": "^5.1.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
-  }
+  },
+  "dependencies": {
+    "@web-tracing/vue": "^1.1.0"
+  },
+  "private": true
 }

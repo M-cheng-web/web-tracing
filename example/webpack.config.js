@@ -7,21 +7,20 @@ const { VueLoaderPlugin } = require('vue-loader');
 const { merge } = require('webpack-merge');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const base = require('../webpack.base');
-const defineProps = require('../build/define-properties');
+const base = require('./webpack.base');
 const template = resolve(__dirname, './public/index.html');
 
 module.exports = merge(base, {
   entry: {
     // sdk脚本
-    sdk: resolve(__dirname, '../src/index.js'),
+    // sdk: resolve(__dirname, '../src/index.js'),
 
     // 具体的分类采集脚本
-    pv: resolve(__dirname, './src/pv/pv.js'),
-    err: resolve(__dirname, './src/err/err.js'),
-    performance: resolve(__dirname, './src/performance/performance.js'),
     event: resolve(__dirname, './src/event/event.js'),
-    http: resolve(__dirname, './src/http/http.js'),
+    // pv: resolve(__dirname, './src/pv/pv.js'),
+    // err: resolve(__dirname, './src/err/err.js'),
+    // performance: resolve(__dirname, './src/performance/performance.js'),
+    // http: resolve(__dirname, './src/http/http.js'),
   },
   output: {
     path: resolve(__dirname, './dist'),
@@ -68,35 +67,36 @@ module.exports = merge(base, {
   },
   plugins: [
     // new BundleAnalyzerPlugin(), // 设置要不要打开包大小页面
-    new HtmlWebpackPlugin({
-      template,
-      title: 'trace pv',
-      chunks: ['sdk', 'pv'],
-      filename: "pv.html",
-    }),
-    new HtmlWebpackPlugin({
-      template,
-      title: 'trace error',
-      chunks: ['sdk', 'err'],
-      filename: "err.html",
-    }),
+    // new HtmlWebpackPlugin({
+    //   template,
+    //   title: 'trace pv',
+    //   chunks: ['sdk', 'pv'],
+    //   filename: "pv.html",
+    // }),
+    // new HtmlWebpackPlugin({
+    //   template,
+    //   title: 'trace error',
+    //   chunks: ['sdk', 'err'],
+    //   filename: "err.html",
+    // }),
+    // new HtmlWebpackPlugin({
+    //   template,
+    //   title: 'trace performance',
+    //   chunks: ['sdk', 'performance'],
+    //   filename: "performance.html",
+    // }),
+    // new HtmlWebpackPlugin({
+    //   template,
+    //   title: 'http-request',
+    //   chunks: ['sdk', 'http'],
+    //   filename: 'http.html',
+    // }),
     new HtmlWebpackPlugin({
       template,
       title: 'trace performance',
-      chunks: ['sdk', 'performance'],
-      filename: "performance.html",
-    }),
-    new HtmlWebpackPlugin({
-      template,
-      title: 'trace performance',
-      chunks: ['sdk', 'event'],
+      chunks: ['event'],
+      // chunks: ['sdk', 'event'],
       filename: "event.html",
-    }),
-    new HtmlWebpackPlugin({
-      template,
-      title: 'http-request',
-      chunks: ['sdk', 'http'],
-      filename: 'http.html',
     }),
     new VueLoaderPlugin(),
     new CopyWebpackPlugin({
