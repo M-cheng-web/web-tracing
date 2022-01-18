@@ -18,8 +18,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-uglify": "^6.0.4",
-    "web-tracing": "^10.1.0"
+    "rollup-plugin-uglify": "^6.0.4"
   },
   "publishConfig": {
     "access": "public"
@@ -46,5 +45,8 @@
   },
   "bugs": {
     "url": "https://github.com/M-cheng-web/web-tracing/issues"
+  },
+  "dependencies": {
+    "web-tracing": "^10.1.0"
   }
 }
