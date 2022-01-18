@@ -9,6 +9,7 @@
     "dev:vue": "lerna run --scope=web-tracing --scope=@web-tracing/vue dev --parallel",
     "build": "lerna run build --sort --stream",
     "update-version": "lerna version --conventional-commits --no-push --no-changelog --no-git-tag-version",
+    "update-version-p": "lerna version --conventional-prerelease --no-push --no-changelog --no-git-tag-version",
     "publish-to-npm": "lerna publish from-package",
     "publish-beta": "lerna publish --no-git-tag-version --dist-tag beta"
   },
