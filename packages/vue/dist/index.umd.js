@@ -1,2 +1,2 @@
-!function(e,n){"object"==typeof exports&&"undefined"!=typeof module?module.exports=n():"function"==typeof define&&define.amd?define(n):(e="undefined"!=typeof globalThis?globalThis:e||self).WebTracing=n()}(this,function(){"use strict";return function(){console.log("我是vue")}});
+!function(e,n){"object"==typeof exports&&"undefined"!=typeof module?module.exports=n(require("web-tracing")):"function"==typeof define&&define.amd?define(["web-tracing"],n):(e="undefined"!=typeof globalThis?globalThis:e||self).WebTracing=n(e.webtracing)}(this,function(e){"use strict";function n(e){return e&&"object"==typeof e&&"default"in e?e:{default:e}}var t=n(e);return function(){console.log("我是vue"),console.log("webtracing",t.default)}});
 //# sourceMappingURL=index.umd.js.map

@@ -1,1 +1,1 @@
-{"version":3,"file":"index.umd.js","sources":["../src/index.js"],"sourcesContent":["\nfunction vue() {\n  console.log('我是vue');\n}\n\nexport default vue"],"names":["console","log"],"mappings":"iPACA,WACEA,QAAQC,IAAI"}
+{"version":3,"file":"index.umd.js","sources":["../src/index.js"],"sourcesContent":["import webtracing from 'web-tracing';\n\n\nfunction vue() {\n  console.log('我是vue');\n  console.log('webtracing', webtracing);\n}\n\nexport default vue"],"names":["console","log","webtracing"],"mappings":"uXAGA,WACEA,QAAQC,IAAI,SACZD,QAAQC,IAAI,aAAcC"}

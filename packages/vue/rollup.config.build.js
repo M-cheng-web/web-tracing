@@ -30,4 +30,5 @@ export default {
     }),
     uglify(),
   ],
+  external: ['web-tracing'],
 };

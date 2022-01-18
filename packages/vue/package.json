@@ -17,8 +17,9 @@
     "rollup": "^2.15.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-uglify": "^6.0.4",
-    "rollup-plugin-node-resolve": "^5.2.0"
+    "web-tracing": "^10.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -38,6 +39,7 @@
     "前端埋点",
     "前端性能采集"
   ],
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/M-cheng-web/web-tracing.git"
