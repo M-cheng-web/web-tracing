@@ -1,7 +1,7 @@
 import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import { uglify } from 'rollup-plugin-uglify';
-import pkg from './package.json'
+import pkg from '../package.json'
 import resolve from 'rollup-plugin-node-resolve';
 
 export default {
@@ -10,10 +10,12 @@ export default {
     {
       file: pkg.main,
       format: 'cjs',
+      sourcemap: true,
     },
     {
       file: pkg.module,
       format: 'esm',
+      sourcemap: true,
     },
     {
       file: pkg.jsdelivr,
@@ -30,5 +32,4 @@ export default {
     }),
     uglify(),
   ],
-  external: ['web-tracing'],
 };
