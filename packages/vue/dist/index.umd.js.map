@@ -1,0 +1,1 @@
+{"version":3,"file":"index.umd.js","sources":["../src/index.js"],"sourcesContent":["\nfunction vue() {\n  console.log('我是vue');\n}\n\nexport default vue"],"names":["console","log"],"mappings":"iPACA,WACEA,QAAQC,IAAI"}
