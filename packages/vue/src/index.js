@@ -1,5 +1,6 @@
 import webtracing from 'web-tracing';
 
-export default {
-  install: webtracing.install
-}
+const install = webtracing.install;
+
+export default { install }
+export { install }

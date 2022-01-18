@@ -18,8 +18,11 @@ export default {
     {
       file: pkg.jsdelivr,
       format: 'umd',
-      name: 'WebTracing',
+      name: 'webtracing',
       sourcemap: true,
+      globals: {
+        'web-tracing': 'webtracing',
+      },
     },
   ],
   plugins: [

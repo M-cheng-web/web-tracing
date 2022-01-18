@@ -1,1 +1,1 @@
-{"version":3,"file":"index.umd.js","sources":["../src/index.js"],"sourcesContent":["import webtracing from 'web-tracing';\n\nexport default {\n  install: webtracing.install\n}"],"names":["install"],"mappings":"2WAEe,CACbA,qBAAoBA"}
+{"version":3,"file":"index.umd.js","sources":["../src/index.js"],"sourcesContent":["import webtracing from 'web-tracing';\n\nconst install = webtracing.install;\n\nexport default { install }\nexport { install }"],"names":["install"],"mappings":"6WAEMA,eAAqBA,kBAEZ,CAAEA,QAAAA"}

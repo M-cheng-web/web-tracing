@@ -1,1 +1,1 @@
-import webtracing from"web-tracing";var index={install:webtracing.install};export{index as default};
+import webtracing from"web-tracing";var install=webtracing.install,index={install:install};export{index as default,install};
