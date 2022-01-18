@@ -1,0 +1,43 @@
+{
+  "name": "web-tracing",
+  "version": "10.0.0",
+  "description": "一个基于原生 js 的 【行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集】 插件",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "jsdelivr": "dist/index.umd.js",
+  "scripts": {
+    "dev": "rollup --config rollup.config.dev.js -w",
+    "build": "rollup --config rollup.config.build.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "rollup": "^2.15.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  },
+  "keywords": [
+    "埋点",
+    "性能",
+    "异常",
+    "性能采集",
+    "异常采集",
+    "前端埋点",
+    "前端性能采集"
+  ],
+  "author": "M-cheng-web <2604856589@qq.com>",
+  "license": "ISC",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/M-cheng-web/web-tracing#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M-cheng-web/web-tracing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/M-cheng-web/web-tracing/issues"
+  }
+}
