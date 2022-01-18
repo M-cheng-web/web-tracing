@@ -102,15 +102,18 @@ const transitionOptions = (_options, options) => {
   }
 }
 
+const install = (Vue, options = {}) => {
+  init(options);
+  if (Vue.prototype) {
+    Vue.prototype.$trace = { ...methods };
+  } else {
+    Vue.config.globalProperties.$trace = { ...methods };
+  }
+}
+
 export default {
-  install: (Vue, options = {}) => {
-    init(options);
-    if (Vue.prototype) {
-      Vue.prototype.$trace = { ...methods };
-    } else {
-      Vue.config.globalProperties.$trace = { ...methods };
-    }
-  },
+  install,
   init,
   ...methods
 };
+export { install, init, methods };
