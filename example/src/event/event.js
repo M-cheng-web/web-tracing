@@ -12,11 +12,11 @@ console.log('webTracing', webTracing);
 // webTracing()
 
 // const trace = require('../../../src/index.js');
-// Vue.use(webTracing, {
-//   requestUrl: 'http://8.129.19.55:8081/sys-file/test-receive',
-//   appName: 'chengxh',
-//   event: true,
-// })
+Vue.use(webTracing, {
+  requestUrl: 'http://8.129.19.55:8081/sys-file/test-receive',
+  appName: 'chengxh',
+  event: true,
+})
 
 // trace.init({
 //   requestUrl: 'http://8.129.19.55:8081/sys-file/test-receive',
