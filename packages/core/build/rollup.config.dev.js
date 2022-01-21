@@ -9,13 +9,13 @@ coreConfig.output.forEach((item) => {
 coreConfig.plugins = [
   ...coreConfig.plugins,
   
-  // livereload(),
-  // serve({
-  //   open: true, // 自动打开页面
-  //   port: 3001,
-  //   openPage: '/example/index.html', // 打开的页面
-  //   contentBase: ''
-  // })
+  livereload(),
+  serve({
+    open: true, // 自动打开页面
+    port: 3001,
+    openPage: '/example/index.html', // 打开的页面
+    contentBase: ''
+  })
 ]
 
 export default coreConfig;

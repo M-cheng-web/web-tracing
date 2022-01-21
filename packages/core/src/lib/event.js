@@ -68,8 +68,8 @@ function getNodeXPath(node, curPath = '') {
  * 点击事件
  */
 function clickCollection() {
-  const _config = new RequestTemplateClick({ eventType: 'click' });
   document.addEventListener('click', (e) => { // 点击事件
+    const _config = new RequestTemplateClick({ eventType: 'click' });
     debug('caught click event: ', e);
     let { path } = e;
     if (path === undefined) path = e.target ? getNodePath(e.target) : []; // 获取被点击的元素到最外层元素组成的数组
