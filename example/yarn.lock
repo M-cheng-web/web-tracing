@@ -131,12 +131,12 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
-"@web-tracing/vue@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@web-tracing/vue/-/vue-1.4.0.tgz#85add855b1902a0fa6522293005f4a5384dc3fa5"
-  integrity sha512-DAQtx18Qxtvz+c1mBs4ekusPI0+1k/zFn+dFiGQ5pOTWTv9DRRz+dBUxc4UcBdpHRU+z9dQDXuG6IkTvDzRUyg==
+"@web-tracing/vue@1.4.1-beta.2":
+  version "1.4.1-beta.2"
+  resolved "https://registry.yarnpkg.com/@web-tracing/vue/-/vue-1.4.1-beta.2.tgz#3a49be8aae8df3d423ee04b2a645275ef104b4e5"
+  integrity sha512-mYxCCEFqFV+b/lLHjPxyN1NBUsaOqbzXC1Wsx5niINjXaD5KDjG+C0IaoDaEiYEe4JAUXp/7FVX3Tnycka290g==
   dependencies:
-    web-tracing "^10.4.0"
+    web-tracing "^10.4.1-beta.2"
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
@@ -4005,10 +4005,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-tracing@^10.4.0:
-  version "10.4.0"
-  resolved "https://registry.yarnpkg.com/web-tracing/-/web-tracing-10.4.0.tgz#4a4f60db3ae687ef0a6a9324c828214ed6744f58"
-  integrity sha512-FbHMaHEBr0ZNES9TiFWd1ACYCwsrU5wUI8e5XcuSV2A1U6dwUgldSr2aqxHp2zAj9qeiIbPukZ6rnQC1dRvcmQ==
+web-tracing@^10.4.1-beta.2:
+  version "10.4.1-beta.2"
+  resolved "https://registry.yarnpkg.com/web-tracing/-/web-tracing-10.4.1-beta.2.tgz#5002b325d8dc18280586c132c09eecc4396e7b9f"
+  integrity sha512-fLSwhLCrjrBB34BSSmsWumtdws5NJLfYyRjlTuuUbAUFvzI3Uv8z/1UBt9Uyu40ktD8YEjzBsD36cUiycdx2aA==
 
 webpack-bundle-analyzer@^4.5.0:
   version "4.5.0"

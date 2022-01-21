@@ -34,8 +34,8 @@
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
   },
+  "private": true,
   "dependencies": {
-    "@web-tracing/vue": "^1.4.0"
-  },
-  "private": true
+    "@web-tracing/vue": "1.4.1-beta.2"
+  }
 }
