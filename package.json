@@ -5,9 +5,9 @@
   },
   "scripts": {
     "install": "lerna bootstrap",
-    "dev": "lerna exec --scope=web-tracing -- npm run dev",
-    "dev:vue": "lerna run --scope=web-tracing --scope=@web-tracing/vue dev --parallel",
     "rm-dist": "lerna run rm-dist --parallel",
+    "dev": "yarn rm-dist && lerna exec --scope=web-tracing -- npm run dev",
+    "dev:vue": "yarn rm-dist && lerna run --scope=web-tracing --scope=@web-tracing/vue dev --parallel",
     "build": "yarn rm-dist && lerna run build --sort --stream",
     "update-version": "lerna version --conventional-commits --no-push --no-changelog --no-git-tag-version",
     "update-version-p": "lerna version --conventional-prerelease --no-push --no-changelog --no-git-tag-version",
