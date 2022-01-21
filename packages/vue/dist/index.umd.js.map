@@ -1,1 +1,0 @@
-{"version":3,"file":"index.umd.js","sources":["../src/index.js"],"sourcesContent":["import webtracing from 'web-tracing';\n\nconst install = webtracing.install;\n\nexport default { install }\nexport { install }"],"names":["install"],"mappings":"6WAEMA,eAAqBA,kBAEZ,CAAEA,QAAAA"}

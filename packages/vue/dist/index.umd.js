@@ -1,2 +1,0 @@
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(exports,require("web-tracing")):"function"==typeof define&&define.amd?define(["exports","web-tracing"],t):t((e="undefined"!=typeof globalThis?globalThis:e||self).webtracing={},e.webtracing)}(this,function(e,t){"use strict";function n(e){return e&&"object"==typeof e&&"default"in e?e:{default:e}}t=n(t).default.install;e.default={install:t},e.install=t,Object.defineProperty(e,"__esModule",{value:!0})});
-//# sourceMappingURL=index.umd.js.map

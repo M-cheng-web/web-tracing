@@ -1,35 +1,21 @@
-import json from 'rollup-plugin-json';
-import babel from 'rollup-plugin-babel';
-import { uglify } from 'rollup-plugin-uglify';
-import pkg from '../package.json'
-import resolve from 'rollup-plugin-node-resolve';
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
+import coreConfig from './rollup.config'
 
-export default {
-  input: 'src/index.js',
-  output: [
-    {
-      file: pkg.main,
-      format: 'cjs',
-      sourcemap: true,
-    },
-    {
-      file: pkg.module,
-      format: 'esm',
-      sourcemap: true,
-    },
-    {
-      file: pkg.jsdelivr,
-      format: 'umd',
-      name: 'webtracing',
-      sourcemap: true,
-    },
-  ],
-  plugins: [
-    resolve(),
-    json(),
-    babel({
-      exclude: 'node_modules/**'
-    }),
-    uglify(),
-  ],
-};
+coreConfig.output.forEach((item) => {
+  item.sourcemap = true
+})
+
+coreConfig.plugins = [
+  ...coreConfig.plugins,
+  
+  // livereload(),
+  // serve({
+  //   open: true, // 自动打开页面
+  //   port: 3001,
+  //   openPage: '/example/index.html', // 打开的页面
+  //   contentBase: ''
+  // })
+]
+
+export default coreConfig;

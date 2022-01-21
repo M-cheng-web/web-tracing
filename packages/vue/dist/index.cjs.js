@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var webtracing=require("web-tracing");function _interopDefaultLegacy(e){return e&&"object"==typeof e&&"default"in e?e:{default:e}}var webtracing__default=_interopDefaultLegacy(webtracing),install=webtracing__default.default.install,index={install:install};exports.default=index,exports.install=install;
