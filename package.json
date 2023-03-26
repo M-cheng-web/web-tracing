@@ -1,5 +1,5 @@
 {
-  "name": "web-tracing-next",
+  "name": "web-tracing",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@algolia/client-search": "^4.16.0",
     "@types/prettier": "^2.7.2",
