@@ -1,28 +1,32 @@
 lockfileVersion: 5.4
 
-specifiers:
-  '@algolia/client-search': ^4.16.0
-  '@types/prettier': ^2.7.2
-  '@typescript-eslint/eslint-plugin': ^5.56.0
-  '@typescript-eslint/parser': ^5.56.0
-  eslint: ^8.36.0
-  eslint-config-prettier: ^8.8.0
-  eslint-plugin-prettier: ^4.2.1
-  prettier: ^2.8.7
-  typescript: ^5.0.2
-  vitepress: 1.0.0-alpha.61
+importers:
 
-devDependencies:
-  '@algolia/client-search': 4.16.0
-  '@types/prettier': 2.7.2
-  '@typescript-eslint/eslint-plugin': 5.56.0_2hcjazgfnbtq42tcc73br2vup4
-  '@typescript-eslint/parser': 5.56.0_j4766f7ecgqbon3u7zlxn5zszu
-  eslint: 8.36.0
-  eslint-config-prettier: 8.8.0_eslint@8.36.0
-  eslint-plugin-prettier: 4.2.1_ywlv3zveqg2kxfq44lflihh5mm
-  prettier: 2.8.7
-  typescript: 5.0.2
-  vitepress: 1.0.0-alpha.61_6nilccg2rhd3mct5xof6ep35te
+  .:
+    specifiers:
+      '@algolia/client-search': ^4.16.0
+      '@types/prettier': ^2.7.2
+      '@typescript-eslint/eslint-plugin': ^5.56.0
+      '@typescript-eslint/parser': ^5.56.0
+      esbuild-register: ^3.4.2
+      eslint: ^8.36.0
+      eslint-config-prettier: ^8.8.0
+      eslint-plugin-prettier: ^4.2.1
+      prettier: ^2.8.7
+      typescript: ^5.0.2
+      vitepress: 1.0.0-alpha.61
+    devDependencies:
+      '@algolia/client-search': 4.16.0
+      '@types/prettier': 2.7.2
+      '@typescript-eslint/eslint-plugin': 5.56.0_2hcjazgfnbtq42tcc73br2vup4
+      '@typescript-eslint/parser': 5.56.0_j4766f7ecgqbon3u7zlxn5zszu
+      esbuild-register: 3.4.2
+      eslint: 8.36.0
+      eslint-config-prettier: 8.8.0_eslint@8.36.0
+      eslint-plugin-prettier: 4.2.1_ywlv3zveqg2kxfq44lflihh5mm
+      prettier: 2.8.7
+      typescript: 5.0.2
+      vitepress: 1.0.0-alpha.61_6nilccg2rhd3mct5xof6ep35te
 
 packages:
 
@@ -905,6 +909,16 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       esutils: 2.0.3
+    dev: true
+
+  /esbuild-register/3.4.2:
+    resolution: {integrity: sha512-kG/XyTDyz6+YDuyfB9ZoSIOOmgyFCH+xPRtsCa8W85HLRV5Csp+o3jWVbOSHgSLfyLc5DmP+KFDNwty4mEjC+Q==}
+    peerDependencies:
+      esbuild: '>=0.12 <1'
+    dependencies:
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /esbuild/0.17.12:
