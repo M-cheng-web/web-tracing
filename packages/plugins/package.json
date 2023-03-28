@@ -1,0 +1,38 @@
+{
+  "name": "@morehook/utils",
+  "version": "1.10.8",
+  "description": "业务中的工具库，不同于hook，工具库功能更单一，不依赖vue",
+  "main": "./index.cjs",
+  "module": "./index.mjs",
+  "jsdelivr": "./index.iife.min.js",
+  "types": "./index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.cjs",
+      "import": "./index.mjs"
+    },
+    "./*": "./*"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FastUse/morehook.git",
+    "directory": "packages/utils"
+  },
+  "author": "M-cheng-web <https://github.com/M-cheng-web>",
+  "keywords": [
+    "fastuse",
+    "morehook",
+    "utils",
+    "工具"
+  ],
+  "peerDependencies": {},
+  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/FastUse/morehook/issues"
+  },
+  "homepage": "https://github.com/FastUse/morehook#readme",
+  "unpkg": "./index.iife.min.js"
+}

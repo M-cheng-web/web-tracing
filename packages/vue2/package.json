@@ -1,0 +1,41 @@
+{
+  "name": "@morehook/utils",
+  "version": "1.0.0",
+  "description": "@web-tracing/vue2 关于 vue2",
+  "main": "./index.cjs",
+  "module": "./index.mjs",
+  "jsdelivr": "./index.iife.min.js",
+  "types": "./index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.cjs",
+      "import": "./index.mjs"
+    },
+    "./*": "./*"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FastUse/morehook.git",
+    "directory": "packages/vue2"
+  },
+  "author": "M-cheng-web <https://github.com/M-cheng-web>",
+  "keywords": [
+    "埋点",
+    "性能",
+    "异常",
+    "性能采集",
+    "异常采集",
+    "前端埋点",
+    "前端性能采集"
+  ],
+  "peerDependencies": {},
+  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/FastUse/morehook/issues"
+  },
+  "homepage": "https://github.com/FastUse/morehook#readme",
+  "unpkg": "./index.iife.min.js"
+}

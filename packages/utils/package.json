@@ -1,11 +1,12 @@
 {
-  "name": "web-tracing",
+  "name": "@morehook/utils",
   "version": "1.0.0",
-  "description": "一个基于原生 js 的 【 行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集 】 插件",
+  "description": "@web-tracing/utils",
   "main": "./index.cjs",
   "module": "./index.mjs",
   "jsdelivr": "./index.iife.min.js",
   "types": "./index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./index.d.ts",
@@ -14,6 +15,13 @@
     },
     "./*": "./*"
   },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FastUse/morehook.git",
+    "directory": "packages/utils"
+  },
+  "author": "M-cheng-web <https://github.com/M-cheng-web>",
   "keywords": [
     "埋点",
     "性能",
@@ -23,19 +31,11 @@
     "前端埋点",
     "前端性能采集"
   ],
-  "author": "M-cheng-web <https://github.com/M-cheng-web>",
-  "license": "ISC",
-  "files": [
-    "dist"
-  ],
-  "homepage": "https://github.com/FastUse/morehook#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/FastUse/morehook.git",
-    "directory": "packages/core"
-  },
+  "peerDependencies": {},
+  "dependencies": {},
   "bugs": {
     "url": "https://github.com/FastUse/morehook/issues"
   },
+  "homepage": "https://github.com/FastUse/morehook#readme",
   "unpkg": "./index.iife.min.js"
 }
