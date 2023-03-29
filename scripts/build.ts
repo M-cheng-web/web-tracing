@@ -63,6 +63,7 @@ async function buildMetaFiles() {
 
 async function build() {
   consola.info('Clean up')
+
   exec('pnpm run clean', { stdio: 'inherit' })
 
   exec(`pnpm run build:rollup${watch ? '-watch' : ''}`, {
