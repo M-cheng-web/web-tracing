@@ -1,3 +1,6 @@
+import type { EventDemo } from '@web-tracing/types'
+import { pad } from '@web-tracing/utils'
+
 let sum = 0
 
 const add = (num = 1): number => {
@@ -19,9 +22,13 @@ const look = (): number => {
   return sum
 }
 
-const lookFormat = (arg: number[]): string[] => {
-  console.log(111, arg)
-  return arg.map(item => String(item))
+const lookFormat = (): string => {
+  const demoObj: EventDemo = {
+    name: 'ccc'
+  }
+  console.log(111, demoObj)
+  console.log('pad', pad(sum, 6))
+  return pad(sum, 6)
 }
 
 export { add, del, change, look, lookFormat }

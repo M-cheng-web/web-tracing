@@ -1,6 +1,6 @@
 {
-  "name": "@morehook/utils",
-  "version": "1.0.0",
+  "name": "@web-tracing/vue3",
+  "version": "1.0.1-beta.0",
   "description": "@web-tracing/vue3 关于 vue3",
   "main": "./index.cjs",
   "module": "./index.mjs",
@@ -32,7 +32,9 @@
     "前端性能采集"
   ],
   "peerDependencies": {},
-  "dependencies": {},
+  "dependencies": {
+    "@web-tracing/core": "workspace:*"
+  },
   "bugs": {
     "url": "https://github.com/FastUse/morehook/issues"
   },

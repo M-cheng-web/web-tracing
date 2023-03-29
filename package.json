@@ -1,6 +1,6 @@
 {
   "name": "@web-tracing/monorepo",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.0",
   "description": "一个基于原生 js 的 【 行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集 】 插件",
   "private": true,
   "scripts": {
@@ -42,6 +42,7 @@
     "@types/prettier": "^2.7.2",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
+    "bumpp": "^9.0.0",
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
     "esbuild-register": "^3.4.2",

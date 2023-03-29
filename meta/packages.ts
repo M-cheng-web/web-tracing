@@ -35,7 +35,7 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ],
-    external: ['@morehook/utils']
+    external: ['@morehook/utils', '@morehook/types']
   },
   {
     name: 'vue2',
@@ -50,10 +50,7 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ],
-    external: ['vue-router'],
-    globals: {
-      'vue-router': 'VueRouter'
-    }
+    external: ['@morehook/core']
   },
   {
     name: 'vue3',
@@ -68,7 +65,7 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ],
-    external: ['@morehook/utils']
+    external: ['@morehook/core']
   },
   {
     name: 'utils',

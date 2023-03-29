@@ -1,5 +1,6 @@
 import { join, resolve } from 'path'
 import fs from 'fs-extra'
+import fg from 'fast-glob'
 import { $fetch } from 'ohmyfetch'
 import { packages } from '../meta/packages'
 
@@ -77,6 +78,28 @@ export async function updateCountBadge(indexes: any) {
     data,
     'utf-8'
   )
+}
+
+/**
+ * 填充 目标子包下的 index.ts 文件的导入导出
+ */
+export async function updateImport(packages) {
+  for (const { dir } of Object.values(packages) as any) {
+    const files = await fg('*', {
+      // onlyDirectories: true, // 只获取目录
+      cwd: `${dir}/src`,
+      ignore: ['_*', 'dist', 'node_modules']
+    })
+
+    const imports: string[] = files
+      .sort()
+      .map(name => name.split('.')[0])
+      .map(name => `export * from './src/${name}'`)
+
+    await fs.writeFile(join(dir, 'index.ts'), `${imports.join('\n')}\n`)
+
+    // await fs.remove(join(dir, 'index.mjs'))
+  }
 }
 
 /**

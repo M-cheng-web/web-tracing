@@ -1,6 +1,6 @@
 {
-  "name": "@morehook/utils",
-  "version": "1.0.0",
+  "name": "@web-tracing/utils",
+  "version": "1.0.1-beta.0",
   "description": "@web-tracing/utils",
   "main": "./index.cjs",
   "module": "./index.mjs",
