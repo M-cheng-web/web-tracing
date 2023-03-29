@@ -1,31 +1,18 @@
-import fs from 'fs'
 import esbuild from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
 import json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import type { Options as ESBuildOptions } from 'rollup-plugin-esbuild'
-import type { OutputOptions, Plugin, RollupOptions } from 'rollup'
+import type { OutputOptions, RollupOptions } from 'rollup'
 import { packages } from '../meta/packages'
 
-const VUE_DEMI_IIFE = fs.readFileSync(
-  require.resolve('vue-demi/lib/index.iife.js'),
-  'utf-8'
-)
 const configs: RollupOptions[] = []
-
-const injectVueDemi: Plugin = {
-  name: 'inject-vue-demi',
-  renderChunk(code) {
-    return `${VUE_DEMI_IIFE};\n;${code}`
-  }
-}
 
 const esbuildPlugin = esbuild({ target: 'esnext' })
 const dtsPlugin = [dts()]
 
-const externals = ['vue', 'vue-demi', '@morehook/core']
-// const packagesRoot = resolve(__dirname, '..', 'packages')
+const externals = ['@web-tracing/core']
 
 const esbuildMinifer = (options: ESBuildOptions) => {
   const { renderChunk } = esbuild(options)
@@ -46,12 +33,11 @@ for (const {
   if (build === false) continue
 
   const iifeGlobals = {
-    'vue-demi': 'VueDemi',
-    '@morehook/core': 'MoreHook',
-    '@morehook/utils': 'MoreHookUtils',
+    '@web-tracing/core': 'WebTracing',
+    '@web-tracing/utils': 'WebTracingUtils',
     ...(globals || {})
   }
-  const iifeName = 'MoreHook'
+  const iifeName = 'WebTracing'
 
   // 打包 hooks & utils
   const fn = 'index'
@@ -79,8 +65,7 @@ for (const {
         format: 'iife',
         name: iifeName,
         extend: true,
-        globals: iifeGlobals,
-        plugins: [injectVueDemi]
+        globals: iifeGlobals
       },
       {
         file: `packages/${name}/dist/${fn}.iife.min.js`,
@@ -88,7 +73,7 @@ for (const {
         name: iifeName,
         extend: true,
         globals: iifeGlobals,
-        plugins: [injectVueDemi, esbuildMinifer({ minify: true })]
+        plugins: [esbuildMinifer({ minify: true })]
       }
     )
   }

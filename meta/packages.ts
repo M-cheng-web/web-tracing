@@ -35,7 +35,10 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ],
-    external: ['@morehook/utils', '@morehook/types']
+    external: ['@web-tracing/utils', '@web-tracing/types'],
+    globals: {
+      utils: 'Utils'
+    }
   },
   {
     name: 'vue2',
@@ -50,7 +53,7 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ],
-    external: ['@morehook/core']
+    external: ['@web-tracing/core']
   },
   {
     name: 'vue3',
@@ -65,7 +68,7 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ],
-    external: ['@morehook/core']
+    external: ['@web-tracing/core']
   },
   {
     name: 'utils',
