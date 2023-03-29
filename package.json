@@ -11,15 +11,14 @@
     "lint:fix": "nr lint --fix",
     "build": "nr update && esno scripts/build.ts",
     "build:rollup": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c",
-    "types:fix": "esno scripts/fix-types.ts",
+    "build:rollup-watch": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c -w",
+    "build:types": "tsc --emitDeclarationOnly && esno scripts/fix-types.ts",
     "update": "esno scripts/update.ts",
     "update:full": "nr update && nr build:types",
-    "build:types": "tsc --emitDeclarationOnly && nr types:fix",
     "clean": "rimraf dist types packages/*/dist",
     "watch": "esno scripts/build.ts --watch",
-    "publish": "esno scripts/publish.ts",
     "release": "bumpp --execute=\"npm run release:prepare\" --no-push --no-commit --no-tag",
-    "release:prepare": "npm run build:types && npm run update"
+    "publish": "esno scripts/publish.ts"
   },
   "keywords": [
     "埋点",

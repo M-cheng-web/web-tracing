@@ -2,6 +2,10 @@ import fg from 'fast-glob'
 import fs from 'fs-extra'
 
 // tsc --emitDeclarationOnly 会生成 .type 文件，在这里需要对那些声明文件进行修改
+/**
+ * 修正自动生成的 type 文件
+ * 这里主要是为了兼容 vue-demi
+ */
 export async function fixTypes() {
   const files = await fg(['types/**/*.d.ts', 'packages/*/dist/*.d.ts'], {
     onlyFiles: true

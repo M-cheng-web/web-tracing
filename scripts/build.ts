@@ -8,6 +8,7 @@ import { packages } from '../meta/packages'
 import { version } from '../package.json'
 
 const rootDir = path.resolve(__dirname, '..')
+const watch = process.argv.includes('--watch')
 
 const FILES_COPY_ROOT = ['LICENSE']
 const FILES_COPY_LOCAL = ['README.md', 'index.json', '*.cjs', '*.mjs', '*.d.ts']
@@ -64,12 +65,13 @@ async function build() {
   consola.info('Clean up')
   exec('pnpm run clean', { stdio: 'inherit' })
 
-  exec(`pnpm run build:rollup`, { stdio: 'inherit' })
-  // exec(`pnpm run build:rollup${watch ? ' -- --watch' : ''}`, { stdio: 'inherit' })
+  exec(`pnpm run build:rollup${watch ? '-watch' : ''}`, {
+    stdio: 'inherit'
+  })
 
-  consola.info('Fix types')
-  // 在这之前要 build:types
-  exec('pnpm run types:fix', { stdio: 'inherit' })
+  consola.info('build:types')
+
+  exec('pnpm run build:types', { stdio: 'inherit' })
 
   await buildMetaFiles()
 }
