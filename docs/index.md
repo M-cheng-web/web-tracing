@@ -13,7 +13,7 @@ hero:
     alt: VitePress
   actions:
     - theme: brand
-      text: 快速开始
+      text: 快速开始1
       link: /guide/introduce
     - theme: alt
       text: 搜索

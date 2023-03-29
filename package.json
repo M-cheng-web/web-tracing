@@ -7,6 +7,7 @@
     "docs": "vitepress dev docs --open",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
+    "docs:publish": "sh scripts/deploy.sh",
     "lint": "eslint --cache .",
     "lint:fix": "nr lint --fix",
     "build": "nr update && esno scripts/build.ts",
@@ -18,6 +19,7 @@
     "clean": "rimraf dist types packages/*/dist",
     "watch": "esno scripts/build.ts --watch",
     "release": "bumpp --execute=\"npm run release:prepare\" --no-push --no-commit --no-tag",
+    "release:prepare": "npm run build:types && npm run update",
     "publish": "esno scripts/publish.ts"
   },
   "keywords": [
