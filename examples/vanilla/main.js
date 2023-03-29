@@ -2,14 +2,6 @@
 // import javascriptLogo from './assets/javascript.svg'
 // import viteLogo from './assets/vite.svg'
 
-import { add } from '@web-tracing/core/index'
-import { pad } from '@web-tracing/utils'
-
-console.log('add', add)
-console.log('pad', pad)
-
-console.log(11)
-
 // document.querySelector('#app').innerHTML = `
 //   <div>
 //     <a target="_blank">
@@ -27,3 +19,9 @@ console.log(11)
 //     </p>
 //   </div>
 // `
+
+import { add } from '@web-tracing/core/index'
+import { pad } from '@web-tracing/utils'
+
+console.log('add', add)
+console.log('pad', pad)

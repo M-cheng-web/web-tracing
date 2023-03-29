@@ -12,7 +12,6 @@
     "@web-tracing/utils": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.0.2",
     "vite": "^4.2.0"
   }
 }
