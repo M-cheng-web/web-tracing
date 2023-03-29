@@ -16,6 +16,7 @@ importers:
       bumpp: ^9.0.0
       consola: ^2.15.3
       cross-env: ^7.0.3
+      esbuild: 0.17.14
       esbuild-register: ^3.4.2
       eslint: ^8.36.0
       eslint-config-prettier: ^8.8.0
@@ -42,7 +43,8 @@ importers:
       bumpp: 9.0.0
       consola: 2.15.3
       cross-env: 7.0.3
-      esbuild-register: 3.4.2
+      esbuild: 0.17.14
+      esbuild-register: 3.4.2_esbuild@0.17.14
       eslint: 8.36.0
       eslint-config-prettier: 8.8.0_eslint@8.36.0
       eslint-plugin-prettier: 4.2.1_ywlv3zveqg2kxfq44lflihh5mm
@@ -52,12 +54,28 @@ importers:
       rimraf: 4.4.1
       rollup: 3.20.2
       rollup-plugin-dts: 5.3.0_dpenfibtlqpfrulx5rm72ngxhu
-      rollup-plugin-esbuild: 5.0.0_rollup@3.20.2
+      rollup-plugin-esbuild: 5.0.0_tlo7utifgfyp2w3qfidxdwcvfy
       typescript: 5.0.2
       vitepress: 1.0.0-alpha.61_pdyajd76yv77xmlt2bltc3ubnq
 
+  examples/vanilla:
+    specifiers:
+      '@web-tracing/core': workspace:*
+      typescript: ^5.0.2
+      vite: ^4.2.0
+    dependencies:
+      '@web-tracing/core': link:../../packages/core
+    devDependencies:
+      typescript: 5.0.2
+      vite: 4.2.1
+
   packages/core:
-    specifiers: {}
+    specifiers:
+      '@web-tracing/types': workspace:*
+      '@web-tracing/utils': workspace:*
+    dependencies:
+      '@web-tracing/types': link:../types
+      '@web-tracing/utils': link:../utils
 
   packages/plugins:
     specifiers: {}
@@ -69,10 +87,16 @@ importers:
     specifiers: {}
 
   packages/vue2:
-    specifiers: {}
+    specifiers:
+      '@web-tracing/core': workspace:*
+    dependencies:
+      '@web-tracing/core': link:../core
 
   packages/vue3:
-    specifiers: {}
+    specifiers:
+      '@web-tracing/core': workspace:*
+    dependencies:
+      '@web-tracing/core': link:../core
 
 packages:
 
@@ -1177,12 +1201,13 @@ packages:
     resolution: {integrity: sha512-9978wrXM50Y4rTMmW5kXIC09ZdXQZqkE4mxhwkd8VbzsGkXGPgV4zWuqQJgCEzYngdo2dYDa0l8xhX4fkSwJSg==}
     dev: true
 
-  /esbuild-register/3.4.2:
+  /esbuild-register/3.4.2_esbuild@0.17.14:
     resolution: {integrity: sha512-kG/XyTDyz6+YDuyfB9ZoSIOOmgyFCH+xPRtsCa8W85HLRV5Csp+o3jWVbOSHgSLfyLc5DmP+KFDNwty4mEjC+Q==}
     peerDependencies:
       esbuild: '>=0.12 <1'
     dependencies:
       debug: 4.3.4
+      esbuild: 0.17.14
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1969,7 +1994,7 @@ packages:
       '@babel/code-frame': 7.18.6
     dev: true
 
-  /rollup-plugin-esbuild/5.0.0_rollup@3.20.2:
+  /rollup-plugin-esbuild/5.0.0_tlo7utifgfyp2w3qfidxdwcvfy:
     resolution: {integrity: sha512-1cRIOHAPh8WQgdQQyyvFdeOdxuiyk+zB5zJ5+YOwrZP4cJ0MT3Fs48pQxrZeyZHcn+klFherytILVfE4aYrneg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     peerDependencies:
@@ -1979,6 +2004,7 @@ packages:
       '@rollup/pluginutils': 5.0.2_rollup@3.20.2
       debug: 4.3.4
       es-module-lexer: 1.2.1
+      esbuild: 0.17.14
       joycon: 3.1.1
       jsonc-parser: 3.2.0
       rollup: 3.20.2
@@ -2168,6 +2194,39 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.3.0
+    dev: true
+
+  /vite/4.2.1:
+    resolution: {integrity: sha512-7MKhqdy0ISo4wnvwtqZkjke6XN4taqQ2TBaTccLIpOKv7Vp2h4Y+NpmWCnGDeSvvn45KxvWgGyb0MkHvY1vgbg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.17.14
+      postcss: 8.4.21
+      resolve: 1.22.1
+      rollup: 3.20.2
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /vite/4.2.1_@types+node@18.15.10:

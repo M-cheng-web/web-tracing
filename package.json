@@ -46,6 +46,7 @@
     "bumpp": "^9.0.0",
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
+    "esbuild": "0.17.14",
     "esbuild-register": "^3.4.2",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
