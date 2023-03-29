@@ -19,7 +19,7 @@ assert(process.cwd() !== __dirname)
  * 将打包后的 dist 文件进行二次处理 (复制一些公共文件进 dist 包以及文件的移动)
  */
 async function buildMetaFiles() {
-  for (const { name } of packages) {
+  for (const { name, moduleJs, iife } of packages) {
     const packageRoot = path.resolve(__dirname, '..', 'packages', name)
     const packageDist = path.resolve(packageRoot, 'dist')
 
@@ -55,6 +55,25 @@ async function buildMetaFiles() {
         packageJSON.dependencies[key] = version
       }
     }
+    // 因为只有在打包的时候才用这些，开发时需要 ./dist/index.mjs 才能正常引用
+    // 更改 exports、types、main、module、unpkg、jsdelivr（./dist/index.mjs => ./index.mjs）
+    packageJSON.types = './index.d.ts'
+    packageJSON.main = moduleJs ? './index.mjs' : './index.cjs'
+    packageJSON.module = './index.mjs'
+    if (iife !== false) {
+      packageJSON.unpkg = './index.iife.min.js'
+      packageJSON.jsdelivr = './index.iife.min.js'
+    }
+    packageJSON.exports = {
+      ...packageJSON.exports,
+      '.': {
+        import: './index.mjs',
+        require: './index.cjs',
+        types: './index.d.ts'
+      },
+      './*': './*'
+    }
+
     await fs.writeJSON(path.join(packageDist, 'package.json'), packageJSON, {
       spaces: 2
     })

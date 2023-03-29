@@ -133,21 +133,21 @@ export async function updatePackageJSON() {
       url: 'git+https://github.com/FastUse/morehook.git',
       directory: `packages/${name}`
     }
-    packageJSON.types = './index.d.ts'
-    packageJSON.main = moduleJs ? './index.mjs' : './index.cjs'
-    packageJSON.module = './index.mjs'
+    packageJSON.types = './dist/index.d.ts'
+    packageJSON.main = moduleJs ? './dist/index.mjs' : './dist/index.cjs'
+    packageJSON.module = './dist/index.mjs'
     if (iife !== false) {
-      packageJSON.unpkg = './index.iife.min.js'
-      packageJSON.jsdelivr = './index.iife.min.js'
+      packageJSON.unpkg = './dist/index.iife.min.js'
+      packageJSON.jsdelivr = './dist/index.iife.min.js'
     }
     packageJSON.exports = {
+      ...packageJSON.exports,
       '.': {
-        import: './index.mjs',
-        require: './index.cjs',
-        types: './index.d.ts'
+        import: './dist/index.mjs',
+        require: './dist/index.cjs',
+        types: './dist/index.d.ts'
       },
-      './*': './*',
-      ...packageJSON.exports
+      './*': './*'
     }
     if (keywords) {
       packageJSON.keywords = [...keywords]

@@ -17,10 +17,13 @@
     "update": "esno scripts/update.ts",
     "update:full": "nr update && nr build:types",
     "clean": "rimraf dist types packages/*/dist",
-    "watch": "esno scripts/build.ts --watch",
     "release": "bumpp --execute=\"npm run release:prepare\" --no-push --no-commit --no-tag",
     "release:prepare": "npm run build:types && npm run update",
-    "publish": "esno scripts/publish.ts"
+    "publish": "esno scripts/publish.ts",
+    "watch": "esno scripts/build.ts --watch",
+    "test:js": "nr -C examples/vanilla dev",
+    "test:vue2": "nr -C examples/vue2 dev",
+    "test:vue3": "nr -C examples/vue3 dev"
   },
   "keywords": [
     "埋点",

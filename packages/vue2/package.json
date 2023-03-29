@@ -2,16 +2,16 @@
   "name": "@web-tracing/vue2",
   "version": "1.0.1-beta.0",
   "description": "@web-tracing/vue2 关于 vue2",
-  "main": "./index.cjs",
-  "module": "./index.mjs",
-  "jsdelivr": "./index.iife.min.js",
-  "types": "./index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "jsdelivr": "./dist/index.iife.min.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "require": "./index.cjs",
-      "import": "./index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     },
     "./*": "./*"
   },
@@ -39,5 +39,5 @@
     "url": "https://github.com/FastUse/morehook/issues"
   },
   "homepage": "https://github.com/FastUse/morehook#readme",
-  "unpkg": "./index.iife.min.js"
+  "unpkg": "./dist/index.iife.min.js"
 }

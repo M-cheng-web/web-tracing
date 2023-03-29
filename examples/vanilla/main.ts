@@ -2,10 +2,10 @@
 // import javascriptLogo from './assets/javascript.svg'
 // import viteLogo from './assets/vite.svg'
 
-// import { add } from '@web-tracing/core/index'
-// console.log('add', add)
+import { add } from '@web-tracing/core/index'
+import { pad } from '@web-tracing/utils'
 
-import { pad } from '@web-tracing/utils/dist/index.mjs'
+console.log('add', add)
 console.log('pad', pad)
 
 console.log(11)
