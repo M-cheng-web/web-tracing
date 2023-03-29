@@ -61,10 +61,12 @@ importers:
   examples/vanilla:
     specifiers:
       '@web-tracing/core': workspace:*
+      '@web-tracing/utils': workspace:*
       typescript: ^5.0.2
       vite: ^4.2.0
     dependencies:
       '@web-tracing/core': link:../../packages/core
+      '@web-tracing/utils': link:../../packages/utils
     devDependencies:
       typescript: 5.0.2
       vite: 4.2.1

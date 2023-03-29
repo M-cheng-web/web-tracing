@@ -1,9 +1,13 @@
 // import './assets/style.css'
 // import javascriptLogo from './assets/javascript.svg'
 // import viteLogo from './assets/vite.svg'
-import { add } from '@web-tracing/core'
 
-console.log('add', add)
+// import { add } from '@web-tracing/core/index'
+// console.log('add', add)
+
+import { pad } from '@web-tracing/utils/dist/index.mjs'
+console.log('pad', pad)
+
 console.log(11)
 
 // document.querySelector('#app').innerHTML = `
