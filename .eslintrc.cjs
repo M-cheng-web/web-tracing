@@ -10,6 +10,7 @@ module.exports = {
     'plugin:prettier/recommended'
   ],
   overrides: [],
+  parser: 'vue-eslint-parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',

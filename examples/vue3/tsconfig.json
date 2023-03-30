@@ -11,7 +11,14 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "@web-tracing/core": ["../../packages/core/index.ts"],
+      "@web-tracing/core/*": ["../../packages/core/*"],
+      "@web-tracing/utils": ["../../packages/utils/index.ts"],
+      "@web-tracing/types": ["../../packages/types/index.ts"],
+      // "@web-tracing/component": ["./packages/component/index.ts"],
+    },
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
