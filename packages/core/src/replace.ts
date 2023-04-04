@@ -43,6 +43,12 @@ export function initReplace(options: Options): void {
 
   // 这个后面改成键值对的方式会好些把，但要考虑有些或的逻辑
 
+  if (options.error.core) {
+    allReplace.push(EVENTTYPES.ERROR) // 监听捕获错误
+    allReplace.push(EVENTTYPES.UNHANDLEDREJECTION) // 监听handleUnhandleRejection事件
+    allReplace.push(EVENTTYPES.CONSOLEERROR) // 重写console.error
+  }
+
   if (options.pv.core || options.pv.hashtag) {
     allReplace.push(EVENTTYPES.HASHCHANGE) // 监听hashchange
     allReplace.push(EVENTTYPES.HISTORY) // 监听history模式路由的变化
@@ -57,11 +63,6 @@ export function initReplace(options: Options): void {
     allReplace.push(EVENTTYPES.FETCH) // 重写fetch
   }
 
-  if (options.error.core || options.error.server) {
-    allReplace.push(EVENTTYPES.ERROR) // 监听捕获错误
-    allReplace.push(EVENTTYPES.UNHANDLEDREJECTION) // 监听handleUnhandleRejection事件
-  }
-
   if (options.event.core) {
     allReplace.push(EVENTTYPES.CLICK) // 监听click事件
   }
@@ -71,20 +72,24 @@ export function initReplace(options: Options): void {
 
 function replace(type: EVENTTYPES): void {
   switch (type) {
+    case EVENTTYPES.ERROR:
+      listenError(EVENTTYPES.ERROR);
+      break;
+    case EVENTTYPES.UNHANDLEDREJECTION:
+      listenUnhandledrejection(EVENTTYPES.UNHANDLEDREJECTION);
+      break;
+    case EVENTTYPES.CONSOLEERROR:
+      replaceConsoleError(EVENTTYPES.CONSOLEERROR);
+      break;
+
     case EVENTTYPES.XHR:
       xhrReplace();
       break;
     case EVENTTYPES.FETCH:
       fetchReplace();
       break;
-    case EVENTTYPES.ERROR:
-      listenError();
-      break;
     case EVENTTYPES.HISTORY:
       historyReplace();
-      break;
-    case EVENTTYPES.UNHANDLEDREJECTION:
-      unhandledrejectionReplace();
       break;
     case EVENTTYPES.CLICK:
       domReplace();
@@ -102,6 +107,42 @@ function replace(type: EVENTTYPES): void {
       break;
   }
 }
+
+/**
+ * 监听 - error
+ */
+function listenError(type: EVENTTYPES): void {
+  if (!isExistProperty(_global, 'error')) return;
+  on(
+    _global,
+    'error',
+    function (e: ErrorEvent) {
+      eventBus.runEvent(type, e)
+    },
+    true
+  );
+}
+/**
+ * 监听 - unhandledrejection（promise异常）
+ */
+function listenUnhandledrejection(type: EVENTTYPES): void {
+  on(_global, type, function (ev: PromiseRejectionEvent) {
+    // ev.preventDefault() 阻止默认行为后，控制台就不会再报红色错误
+    eventBus.runEvent(type, ev)
+  });
+}
+/**
+ * 重写 - console.error
+ */
+function replaceConsoleError(type: EVENTTYPES): void {
+  replaceAop(console, 'error', (originalError: voidFun) => {
+    return function (this: any, ...args: any[]): void {
+      eventBus.runEvent(type, args)
+      originalError.apply(this, args);
+    };
+  });
+}
+
 
 /**
  * 重写 - XHR
@@ -200,21 +241,6 @@ function listenHashchange(): void {
 }
 
 /**
- * 监听 - error
- */
-function listenError(): void {
-  if (!isExistProperty(_global, 'error')) return;
-  on(
-    _global,
-    'error',
-    function (e: ErrorEvent) {
-      eventBus.runEvent(EVENTTYPES.ERROR, e)
-    },
-    true
-  );
-}
-
-/**
  * 监听 - popstate
  * 重写 - pushState
  * 重写 - replaceState
@@ -253,16 +279,6 @@ function historyReplace(): void {
   // 重写pushState、replaceState事件
   replaceAop(_global.history, 'pushState', historyReplaceFn);
   replaceAop(_global.history, 'replaceState', historyReplaceFn);
-}
-
-/**
- * 监听 - unhandledrejection（promise异常）
- */
-function unhandledrejectionReplace(): void {
-  on(_global, EVENTTYPES.UNHANDLEDREJECTION, function (ev: PromiseRejectionEvent) {
-    // ev.preventDefault() 阻止默认行为后，控制台就不会再报红色错误
-    eventBus.runEvent(EVENTTYPES.UNHANDLEDREJECTION, ev)
-  });
 }
 
 /**

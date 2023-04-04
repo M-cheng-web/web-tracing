@@ -1,12 +1,12 @@
+import type { Options } from '../types/option';
+import { EVENTTYPES } from '../common';
 import { map, filter } from "../utils/index";
-import { getGlobal } from '../utils/global';
+import { _global } from '../utils/global';
 import { getLocationHref } from "../utils/helpers";
 import { sendData } from './sendData';
-import type { Options } from '../types/option';
 import { eventBus } from './eventBus';
-import { EVENTTYPES } from '../common';
 
-function emit(errorInfo) {
+function emit(errorInfo: any) {
   const info = {
     ...errorInfo,
     eventType: 'error',
@@ -16,7 +16,7 @@ function emit(errorInfo) {
   sendData.emit(info);
 }
 
-function parseStack(err) {
+function parseStack(err: any) {
   const { stack = '', message = '' } = err;
   const result = { errMessage: message, errStack: stack };
 
@@ -25,7 +25,7 @@ function parseStack(err) {
     const rMozlliaCallStack = /^\s*([^@]*)@(.+?):(\d+):(\d+)$/;
     // chrome中包含了message信息,将其去除,并去除后面的换行符
     const callStackStr = stack.replace(new RegExp(`^[\\w\\s:]*${message}\n`), '');
-    const callStackFrameList = map(filter(callStackStr.split('\n'), (item) => item), (str) => {
+    const callStackFrameList = map(filter(callStackStr.split('\n'), (item: string) => item), (str: string) => {
       const chromeErrResult = str.match(rChromeCallStack);
       if (chromeErrResult) {
         return {
@@ -51,16 +51,16 @@ function parseStack(err) {
   return result;
 }
 
-function parseError(e) {
+function parseError(e: any) {
   if (e instanceof Error) {
-    const { message, stack, lineNumber, fileName, columnNumber } = e;
+    const { message, stack, lineNumber, fileName, columnNumber } = (e as any);
     if (fileName) {
       return {
         errMessage: message,
         errStack: stack,
-        line: lineNumber,
-        col: columnNumber,
-        src: fileName,
+        line: lineNumber, // 不稳定属性 - 在某些浏览器可能是undefined，被废弃了
+        col: columnNumber,// 不稳定属性 - 非标准，有些浏览器可能不支持
+        src: fileName,// 不稳定属性 - 非标准，有些浏览器可能不支持
       };
     }
     return parseStack(e);
@@ -70,23 +70,33 @@ function parseError(e) {
   return {};
 }
 
-function parseErrorEvent(event) {
-  const { target, type } = event;
-  // promise异常
-  // 依旧使用code,不区分是否从promise中捕获的
-  if (type === 'unhandledrejection') return { eventId: 'code', ...parseError(event.reason) };
+/**
+ * 判断是否为 promise-reject 错误类型
+ */
+function isPromiseRejectedResult(event: ErrorEvent | PromiseRejectedResult): event is PromiseRejectedResult {
+  return (event as PromiseRejectedResult).reason !== undefined;
+}
 
-  // html元素上发生的异常错误
-  if (target.nodeType === 1) {
-    const result = { eventId: target.nodeName };
-    switch (target.nodeName.toLowerCase()) {
-      case 'link':
-        result.src = target.href;
-        break;
-      default:
-        result.src = target.currentSrc || target.src;
+function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
+  // promise reject 错误
+  if(isPromiseRejectedResult(event)) {
+    return { eventId: 'code', ...parseError(event.reason) }
+  }
+
+  const { target } = event
+  if (target instanceof HTMLElement) {
+    // html元素上发生的异常错误 (为1代表节点是元素节点)
+    if (target.nodeType === 1) {
+      const result = { eventId: target.nodeName, src: '' };
+      switch (target.nodeName.toLowerCase()) {
+        case 'link':
+          result.src = (target as HTMLLinkElement).href;
+          break;
+        default:
+          result.src = (target as HTMLImageElement).currentSrc || (target as HTMLScriptElement).src;
+      }
+      return result;
     }
-    return result;
   }
 
   // 代码异常
@@ -102,59 +112,49 @@ function parseErrorEvent(event) {
   // ie9版本,从全局的event对象中获取错误信息
   return {
     eventId: 'code',
-    line: getGlobal().event.errorLine,
-    col: getGlobal().event.errorCharacter,
-    message: getGlobal().event.errorMessage,
-    src: getGlobal().event.errorUrl,
+    line: _global.event.errorLine,
+    col: _global.event.errorCharacter,
+    message: _global.event.errorMessage,
+    src: _global.event.errorUrl,
   };
 }
 
 function initError(options: Options) {
-  eventBus.addEvent({
-    type: EVENTTYPES.ERROR,
-    callback: (e) => emit(parseErrorEvent(e))
-  })
-
-  eventBus.addEvent({
-    type: EVENTTYPES.UNHANDLEDREJECTION,
-    callback: (e) => emit(parseErrorEvent(e))
-  })
 
   // 捕获阶段可以获取资源加载错误,script.onError link.onError img.onError,无法知道具体状态
-  // window.addEventListener('error', (e) => {
-  //   emit(parseErrorEvent(e));
-  // }, true);
+  eventBus.addEvent({
+    type: EVENTTYPES.ERROR,
+    callback: (e: ErrorEvent) => emit(parseErrorEvent(e))
+  })
 
   // promise调用链未捕获异常
-  // window.addEventListener('unhandledrejection', (e) => {
-  //   emit(parseErrorEvent(e));
-  // });
+  eventBus.addEvent({
+    type: EVENTTYPES.UNHANDLEDREJECTION,
+    callback: (e: PromiseRejectedResult) => emit(parseErrorEvent(e))
+  })
 
-  // 这个先不做
   // 劫持console.error
-  const consoleError = console.error;
-  console.error = function ce(...args) {
-    args.forEach((e) => { emit({ eventId: 'code', ...parseError(e) }) });
-    consoleError.apply(console, args);
-  };
+  eventBus.addEvent({
+    type: EVENTTYPES.CONSOLEERROR,
+    callback: (e) => emit({ eventId: 'code', ...parseError(e)})
+  })
+
+  // const consoleError = console.error;
+  // console.error = function ce(...args) {
+  //   args.forEach((e) => { emit({ eventId: 'code', ...parseError(e) }) });
+  //   consoleError.apply(console, args);
+  // };
 }
 
 /**
  * 主动触发错误上报
- * @param {*} eventId 事件ID
- * @param {*} message 错误信息
- * @param {*} options 自定义配置信息
- * @returns
+ * @param eventId 事件ID
+ * @param message 错误信息
+ * @param options 自定义配置信息
  */
-function handleSendError(eventId, message, options = {}) {
+function handleSendError(eventId: string, message: string, options = {}): void {
   const customErrorRecord = { eventId, errMessage: message, ...options };
-
-  // 针对自定义的异常上报,对params对特殊处理,将其序列化为string
-  const { params } = customErrorRecord;
-  if (params) {
-    customErrorRecord.params = params;
-  }
-  return emit(customErrorRecord);
+  emit(customErrorRecord);
 }
 
 export {

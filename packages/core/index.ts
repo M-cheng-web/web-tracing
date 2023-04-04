@@ -12,10 +12,10 @@ import { initOptions } from './src/options'
 import { initBase } from './src/base'
 import { initSendData } from './src/sendData'
 import { initError } from './src/err'
-import { initHttp } from './src/http'
-import { initPerformance } from './src/performance'
-import { initPv } from './src/pv'
-import { initEvent } from './src/event'
+// import { initHttp } from './src/http'
+// import { initPerformance } from './src/performance'
+// import { initPv } from './src/pv'
+// import { initEvent } from './src/event'
 
 // 暴露给外部的方法
 const exportMethods: ExportMethods = {
@@ -54,10 +54,10 @@ function init(options: InitOptions) {
   initBase(_options)
   initSendData(_options)
   initError(_options)
-  initHttp(_options);
-  initPerformance(_options)
-  initPv(_options)
-  initEvent(_options)
+  // initHttp(_options);
+  // initPerformance(_options)
+  // initPv(_options)
+  // initEvent(_options)
 }
 
 

@@ -45,13 +45,15 @@ export enum STATUS_CODE {
  * 事件类型
  */
 export enum EVENTTYPES {
+  ERROR = 'error',
+  CONSOLEERROR = 'consoleError',
+  UNHANDLEDREJECTION = 'unhandledrejection',
+
   XHR = 'xhr',
   FETCH = 'fetch',
   CLICK = 'click',
   HISTORY = 'history',
-  ERROR = 'error',
   HASHCHANGE = 'hashchange',
-  UNHANDLEDREJECTION = 'unhandledrejection',
   RESOURCE = 'resource',
   DOM = 'dom',
   VUE = 'vue',
