@@ -115,11 +115,16 @@ importers:
 
   packages/core:
     specifiers:
+      '@types/ua-parser-js': ^0.7.36
       '@web-tracing/types': workspace:*
       '@web-tracing/utils': workspace:*
+      ua-parser-js: 2.0.0-alpha.1
     dependencies:
       '@web-tracing/types': link:../types
       '@web-tracing/utils': link:../utils
+      ua-parser-js: 2.0.0-alpha.1
+    devDependencies:
+      '@types/ua-parser-js': 0.7.36
 
   packages/plugins:
     specifiers: {}
@@ -1190,6 +1195,10 @@ packages:
 
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
+    dev: true
+
+  /@types/ua-parser-js/0.7.36:
+    resolution: {integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==}
     dev: true
 
   /@types/web-bluetooth/0.0.16:
@@ -3392,6 +3401,10 @@ packages:
     engines: {node: '>=12.20'}
     hasBin: true
     dev: true
+
+  /ua-parser-js/2.0.0-alpha.1:
+    resolution: {integrity: sha512-q6xw3aw8IRx8JfOZ2cPllxgYUE/9t/m/5l4sABXZbUqNA8tQkd7hlE2nUbuYfTv908P7/ylCnde64pVbq/yYSA==}
+    dev: false
 
   /ufo/0.8.6:
     resolution: {integrity: sha512-fk6CmUgwKCfX79EzcDQQpSCMxrHstvbLswFChHS0Vump+kFkw7nJBfTZoC1j0bOGoY9I7R3n2DGek5ajbcYnOw==}

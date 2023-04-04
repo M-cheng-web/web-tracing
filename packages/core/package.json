@@ -15,8 +15,9 @@
     "./*": "./*"
   },
   "dependencies": {
+    "@web-tracing/types": "workspace:*",
     "@web-tracing/utils": "workspace:*",
-    "@web-tracing/types": "workspace:*"
+    "ua-parser-js": "2.0.0-alpha.1"
   },
   "keywords": [
     "埋点",
@@ -41,5 +42,8 @@
   "bugs": {
     "url": "https://github.com/FastUse/morehook/issues"
   },
-  "unpkg": "./dist/index.iife.min.js"
+  "unpkg": "./dist/index.iife.min.js",
+  "devDependencies": {
+    "@types/ua-parser-js": "^0.7.36"
+  }
 }
