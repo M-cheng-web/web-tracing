@@ -1,10 +1,9 @@
-import { EVENTTYPES } from '../common';
-import { _support } from '../utils/global';
+import { EVENTTYPES } from '../common'
+import { _support } from '../utils/global'
 
 /**
  * 事件中转
  */
-
 
 interface Callback {
   (...args: any[]): void
@@ -91,6 +90,6 @@ export class EventBus {
   }
 }
 
-const eventBus = _support.eventBus || (_support.eventBus = new EventBus());
+const eventBus = _support.eventBus || (_support.eventBus = new EventBus())
 
-export { eventBus };
+export { eventBus }

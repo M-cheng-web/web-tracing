@@ -18,7 +18,7 @@ export enum SpanStatus {
   FailedPrecondition = 'failed_precondition',
   Aborted = 'aborted',
   OutOfRange = 'out_of_range',
-  DataLoss = 'data_loss',
+  DataLoss = 'data_loss'
 }
 
 /**
@@ -30,7 +30,7 @@ export enum BREADCRUMBTYPES {
   RESOURCE = 'Resource_Error',
   CODEERROR = 'Code_Error',
   ROUTE = 'Route',
-  CUSTOM = 'Custom',
+  CUSTOM = 'Custom'
 }
 
 /**
@@ -38,7 +38,7 @@ export enum BREADCRUMBTYPES {
  */
 export enum STATUS_CODE {
   ERROR = 'error',
-  OK = 'ok',
+  OK = 'ok'
 }
 
 /**
@@ -61,22 +61,22 @@ export enum EVENTTYPES {
   CUSTOM = 'custom',
   PERFORMANCE = 'performance',
   RECORDSCREEN = 'recordScreen',
-  WHITESCREEN = 'whiteScreen', // 白屏
+  WHITESCREEN = 'whiteScreen' // 白屏
 }
 
 export enum HTTPTYPE {
   XHR = 'xhr',
-  FETCH = 'fetch',
+  FETCH = 'fetch'
 }
 
 export enum HTTP_CODE {
   BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
+  UNAUTHORIZED = 401
 }
 
 export enum EMethods {
   Get = 'GET',
   Post = 'POST',
   Put = 'PUT',
-  Delete = 'DELETE',
+  Delete = 'DELETE'
 }

@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
@@ -10,7 +11,7 @@ module.exports = {
     'plugin:prettier/recommended'
   ],
   overrides: [],
-  parser: 'vue-eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -20,6 +21,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
     'no-debugger': 'warn',
+    '@typescript-eslint/no-this-alias': 'off',
     'prettier/prettier': [
       'error',
       {
@@ -29,9 +31,6 @@ module.exports = {
         singleQuote: true,
         endOfLine: 'auto'
       }
-    ],
-    'vue/return-in-computed-property': 'off',
-    'vue/no-multiple-template-root': 'off',
-    'vue/multi-word-component-names': 'off'
+    ]
   }
 }

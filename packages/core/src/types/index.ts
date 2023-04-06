@@ -1,10 +1,10 @@
-import type { EventBus } from '../lib/eventBus';
+import type { EventBus } from '../lib/eventBus'
 
 export type WebTracing = {
-  eventBus: EventBus;
-  baseInfo: any;
-  sendData: any;
-  options: Options; // 配置信息
+  eventBus: EventBus
+  baseInfo: any
+  sendData: any
+  options: Options // 配置信息
 }
 
 interface Pv {
@@ -61,7 +61,7 @@ export type Options = {
   // 后面也要做到在某个页面调这个方法就可以多次引用
   // 比如 before 的钩子，在一个项目在多个地方引用了场景
   beforePushBreadcrumb: () => void // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforeDataReport: () => void; // 数据上报前的 hook
+  beforeDataReport: () => void // 数据上报前的 hook
 }
 
 /**
@@ -124,7 +124,7 @@ export type InitOptions = {
   // 比如 before 的钩子，在一个项目在多个地方引用了场景
 
   beforePushBreadcrumb?: () => void // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforeDataReport?: () => void; // 数据上报前的 hook
+  beforeDataReport?: () => void // 数据上报前的 hook
 }
 
 /**
@@ -148,7 +148,7 @@ export type ExportMethods = {
   traceError: () => void // 主动触发一条error类型事件
   tracePerformance: () => void // 主动触发性能事件上报
   traceCustomEvent: () => void // 主动触发事件上报
-  tracePageView:() => void // 主动触发一条pv事件
+  tracePageView: () => void // 主动触发一条pv事件
 }
 
 export type VoidFun = {
