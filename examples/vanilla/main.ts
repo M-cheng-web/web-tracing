@@ -20,8 +20,8 @@
 //   </div>
 // `
 
-import { add } from '@web-tracing/core/index'
-import { pad } from '@web-tracing/utils'
+import { init } from '@web-tracing/core'
+// import { pad } from '@web-tracing/utils'
+// console.log('pad', pad)
 
-console.log('add', add)
-console.log('pad', pad)
+console.log('init', init)

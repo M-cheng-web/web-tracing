@@ -3,8 +3,8 @@
 ## 本地调试
 先 `pnpm install`
 ```
-第一步：初始化测试项目仓库
-nr test
+第一步：初始化所有测试项目仓库
+nr test:install
 
 第二步：打包并监听各个sdk
 nr watch

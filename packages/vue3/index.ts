@@ -1,15 +1,7 @@
-import { add, look, lookFormat } from '@web-tracing/core'
+import { init } from '@web-tracing/core'
 
-const vue3add = (): number => {
-  return add()
+const vue3init = (): any => {
+  return init
 }
 
-const vue3look = (): number => {
-  return look()
-}
-
-const vue3lookFormat = (): string => {
-  return lookFormat()
-}
-
-export { vue3add, vue3look, vue3lookFormat }
+export { vue3init }
