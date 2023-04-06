@@ -1,5 +1,5 @@
+import type { Options } from '../types';
 import { sendData } from './sendData';
-import type { Options } from '../types/option';
 import { eventBus } from './eventBus';
 import { EVENTTYPES } from '../common';
 

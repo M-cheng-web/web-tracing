@@ -1,10 +1,77 @@
-import { setFlag } from './global';
-import { EVENTTYPES } from '../common';
+import { AnyFun, AnyObj } from '../types';
+
+/**
+ * 添加事件监听器
+ * @param target 对象
+ * @param eventName 事件名称
+ * @param handler 回调函数
+ * @param opitons
+ * @returns void
+ */
+export function on(target: Window, eventName: string, handler: AnyFun, opitons = false) {
+  target.addEventListener(eventName, handler, opitons);
+}
+
+/**
+ * 重写对象上面的某个属性
+ * @param source 需要被重写的对象
+ * @param name 需要被重写对象的key
+ * @param replacement 以原有的函数作为参数，执行并重写原有函数
+ * @param isForced 是否强制重写（可能原先没有该属性）
+ * @returns void
+ */
+export function replaceAop(source: { [key: string]: any }, name: string, replacement: AnyFun, isForced = false) {
+  if (source === undefined) return;
+  if (name in source || isForced) {
+    const original = source[name];
+    const wrapped = replacement(original);
+    if (typeof wrapped === 'function') {
+      source[name] = wrapped;
+    }
+  }
+}
+
+/**
+ * 获取当前页面的url
+ * @returns 当前页面的url
+ */
+export function getLocationHref(): string {
+  if (typeof document === 'undefined' || document.location == null) return '';
+  return document.location.href;
+}
+
+/**
+ * 获取当前的时间戳
+ * @returns 当前的时间戳
+ */
+export function getTimestamp(): number {
+  return Date.now();
+}
+
+
+/**
+ * 函数节流
+ * @param fn 需要节流的函数
+ * @param delay 节流的时间间隔
+ * @returns 返回一个包含节流功能的函数
+ */
+export const throttle = (fn: (...args: any[]) => any, delay: number) => {
+  let canRun = true;
+  return function (this: any, ...args: any[]) {
+    if (!canRun) return;
+    fn.apply(this, args);
+    canRun = false;
+    setTimeout(() => {
+      canRun = true;
+    }, delay);
+  };
+};
+
 
 /**
  * 深度合并对象
  */
-export function deepAssign<T>(target: { [key: string]: any }, ...sources: { [key: string]: any }[]) {
+export function deepAssign<T>(target: AnyObj, ...sources: AnyObj[]) {
   sources.forEach(source => {
     for (let key in source) {
         // 判断属性是否为对象或数组
@@ -41,20 +108,6 @@ export function isValidKey(
   object: object
 ): key is keyof typeof object {
   return key in object
-}
-
-export function setSilentFlag(paramOptions: any): void {
-  // 默认会监控xhr，为true时，当silentXhr为true时将不再监控
-  setFlag(EVENTTYPES.XHR, !!paramOptions.silentXhr);
-  setFlag(EVENTTYPES.FETCH, !!paramOptions.silentFetch);
-  setFlag(EVENTTYPES.CLICK, !!paramOptions.silentClick);
-  setFlag(EVENTTYPES.HISTORY, !!paramOptions.silentHistory);
-  setFlag(EVENTTYPES.ERROR, !!paramOptions.silentError);
-  setFlag(EVENTTYPES.HASHCHANGE, !!paramOptions.silentHashchange);
-  setFlag(EVENTTYPES.UNHANDLEDREJECTION, !!paramOptions.silentUnhandledrejection);
-  setFlag(EVENTTYPES.PERFORMANCE, !!paramOptions.silentPerformance);
-  setFlag(EVENTTYPES.RECORDSCREEN, !paramOptions.silentRecordScreen);
-  setFlag(EVENTTYPES.WHITESCREEN, !paramOptions.silentWhiteScreen);
 }
 
 /**
@@ -103,7 +156,7 @@ function uuid() {
 /**
  * 获取cookie中目标name的值
  * @param {String} name cookie名
- * @returns 
+ * @returns
  */
 function getCookieByName(name: string) {
   const result = document.cookie.match(new RegExp(`${name}=([^;]+)(;|$)`));
@@ -114,16 +167,16 @@ function getCookieByName(name: string) {
  * 向下兼容发送信号的方法
  */
 const sendBeacon = navigator.sendBeacon
-  ? (url, data) => {
+  ? (url: string, data: any) => {
     if (data) navigator.sendBeacon(url, JSON.stringify(data));
   }
-  : (url, data) => {
+  : (url: string, data: any) => {
     // 传统方式传递参数
     const beacon = new Image();
     beacon.src = `${url}?v=${encodeURIComponent(JSON.stringify(data))}`;
   };
 
-const arrayMap = Array.prototype.map || function polyfillMap(fn) {
+const arrayMap = Array.prototype.map || function polyfillMap(this: any, fn) {
   const result = [];
   for (let i = 0; i < this.length; i += 1) {
     result.push(fn(this[i], i, this));
@@ -133,15 +186,15 @@ const arrayMap = Array.prototype.map || function polyfillMap(fn) {
 
 /**
  * map方法
- * @param {Array} arr 源数组
- * @param {Function} fn 条件函数
- * @returns 
+ * @param arr 源数组
+ * @param fn 条件函数
+ * @returns
  */
-function map(arr, fn) {
+function map(arr: any[], fn: AnyFun) {
   return arrayMap.call(arr, fn);
 }
 
-const arrayFilter = Array.prototype.filter || function filterPolyfill(fn) {
+const arrayFilter = Array.prototype.filter || function filterPolyfill(this: any, fn: AnyFun) {
   const result = [];
   for (let i = 0; i < this.length; i += 1) {
     if (fn(this[i], i, this)) {
@@ -153,15 +206,15 @@ const arrayFilter = Array.prototype.filter || function filterPolyfill(fn) {
 
 /**
  * filter方法
- * @param {Array} arr 源数组
- * @param {Function} fn 条件函数
- * @returns 
+ * @param arr 源数组
+ * @param fn 条件函数
+ * @returns
  */
-function filter(arr, fn) {
+function filter(arr: [], fn: AnyFun) {
   return arrayFilter.call(arr, fn);
 }
 
-const arrayFind = Array.prototype.find || function findPolyfill(fn) {
+const arrayFind = Array.prototype.find || function findPolyfill(this: any, fn: AnyFun) {
   for (let i = 0; i < this.length; i += 1) {
     if (fn(this[i], i, this)) {
       return this[i];
@@ -172,17 +225,17 @@ const arrayFind = Array.prototype.find || function findPolyfill(fn) {
 
 /**
  * find方法
- * @param {Array} arr 源数组
- * @param {Function} fn 条件函数
- * @returns 
+ * @param arr 源数组
+ * @param fn 条件函数
+ * @returns
  */
-function find(arr, fn) {
+function find(arr: [], fn: AnyFun) {
   return arrayFind.call(arr, fn);
 }
 
 /**
  * 去除头部或者尾部的空格
- * @param {*} str 需要去除的字符串
+ * @param str 需要去除的字符串
  * @returns 去除后的字符串
  */
 function trim(str = '') {

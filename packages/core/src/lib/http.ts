@@ -1,5 +1,5 @@
 import { handleSendError } from './err';
-import type { Options } from '../types/option';
+import type { Options } from '../types';
 import { eventBus } from './eventBus';
 import { EVENTTYPES } from '../common';
 import { handleSendPerformance } from './performance';

@@ -1,6 +1,6 @@
+import type { Options } from '../types';
 import { baseInfo } from './base';
 import { sendData } from './sendData';
-import type { Options } from '../types/option';
 import { getLocationHref } from "../utils/helpers";
 
 let oldURL = getLocationHref(); // 最后一次的url

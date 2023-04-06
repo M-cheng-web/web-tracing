@@ -1,4 +1,4 @@
-import { options } from '../src/options';
+import { options } from '../lib/options';
 
 /**
  * 控制台输出信息

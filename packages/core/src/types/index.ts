@@ -1,3 +1,12 @@
+import type { EventBus } from '../lib/eventBus';
+
+export type WebTracing = {
+  eventBus: EventBus;
+  baseInfo: any;
+  sendData: any;
+  options: Options; // 配置信息
+}
+
 interface Pv {
   core?: boolean
   hashtag?: boolean
@@ -19,7 +28,7 @@ interface Event {
 /**
  * sdk内部配置
  */
-export interface Options {
+export type Options = {
   dsn: string // 上报地址
   appName: string // 应用名称
   appCode: string // 应用code
@@ -58,7 +67,7 @@ export interface Options {
 /**
  * sdk初始化入参配置
  */
-export interface InitOptions {
+export type InitOptions = {
   dsn: string // 上报地址
   appName: string // 应用名称
   appCode?: string // 应用code
@@ -121,7 +130,7 @@ export interface InitOptions {
 /**
  * 暴露给外部的方法
  */
-export interface ExportMethods {
+export type ExportMethods = {
   beforePushBreadcrumb: () => void // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforeDataReport: () => void // 数据上报前的 hook
 
@@ -142,6 +151,14 @@ export interface ExportMethods {
   tracePageView:() => void // 主动触发一条pv事件
 }
 
-export interface voidFun {
+export type VoidFun = {
   (...args: any[]): void
+}
+
+export type AnyFun = {
+  (...args: any[]): any
+}
+
+export type AnyObj = {
+  [key: string]: any
 }

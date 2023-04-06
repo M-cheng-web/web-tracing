@@ -1,8 +1,7 @@
 import { uuid } from '../utils/index';
 import { debug } from '../utils/debug';
-import { baseInfo } from './base';
 import { sendData } from './sendData';
-import type { Options } from '../types/option';
+import type { Options } from '../types';
 
 class RequestTemplate {
   constructor(config = {}) {

@@ -1,4 +1,4 @@
-import type { Options } from "../types/option";
+import type { Options } from "../types";
 import { _support } from "../utils/global";
 import { refreshSession } from "../utils/session";
 import { sendBeacon, nextTime, map } from "../utils/index";

@@ -79,3 +79,4 @@ nr docs
 4. 受不了了，后面研究下用@的方式引入
 5. 在业务中碰到的跳转客服功能，看看能不能在这里用utils包实现
 6. error 检测那边，应该再加一个属性标识错误类型，例如 console.error 还是 Error 或者 reject
+7. ua-parser-js 这个库调研一下

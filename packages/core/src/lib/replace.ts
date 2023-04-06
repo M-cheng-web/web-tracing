@@ -1,8 +1,7 @@
-import type { Options, voidFun } from '../types/option';
+import type { Options, VoidFun } from '../types';
 import { debug } from '../utils/debug';
 import {
   _global,
-  supportsHistory,
 } from '../utils/global';
 import {
   on,
@@ -10,7 +9,7 @@ import {
   replaceAop,
   throttle,
   getLocationHref,
-} from '../utils/helpers';
+} from '../utils';
 import {
   isExistProperty,
   variableTypeDetection,
@@ -136,7 +135,7 @@ function listenUnhandledrejection(type: EVENTTYPES): void {
  * 重写 - console.error
  */
 function replaceConsoleError(type: EVENTTYPES): void {
-  replaceAop(console, 'error', (originalError: voidFun) => {
+  replaceAop(console, 'error', (originalError: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       eventBus.runEvent(type, args)
       originalError.apply(this, args);
@@ -151,7 +150,7 @@ function replaceConsoleError(type: EVENTTYPES): void {
 function xhrReplace(): void {
   if (!('XMLHttpRequest' in _global)) return;
   const originalXhrProto = XMLHttpRequest.prototype;
-  replaceAop(originalXhrProto, 'open', (originalOpen: voidFun) => {
+  replaceAop(originalXhrProto, 'open', (originalOpen: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       this.websee_xhr = {
         method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
@@ -162,7 +161,7 @@ function xhrReplace(): void {
       originalOpen.apply(this, args);
     };
   });
-  replaceAop(originalXhrProto, 'send', (originalSend: voidFun) => {
+  replaceAop(originalXhrProto, 'send', (originalSend: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       const that = this
       // 监听loadend事件，接口成功或失败都会执行
@@ -248,8 +247,6 @@ function listenHashchange(): void {
  */
 let lastHref: string = getLocationHref();
 function historyReplace(): void {
-  // 是否支持history
-  if (!supportsHistory()) return;
   const oldOnpopstate = _global.onpopstate;
   // 添加 onpopstate事件
   _global.onpopstate = function (...args: any[]): void {
@@ -262,7 +259,7 @@ function historyReplace(): void {
     })
     oldOnpopstate && oldOnpopstate.apply(this, args);
   };
-  function historyReplaceFn(originalHistoryFn: voidFun): voidFun {
+  function historyReplaceFn(originalHistoryFn: VoidFun): VoidFun {
     return function (this: any, ...args: any[]): void {
       const url = args.length > 2 ? args[2] : undefined;
       if (url) {

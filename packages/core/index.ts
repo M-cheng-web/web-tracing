@@ -5,13 +5,12 @@
  * 3. 兼容 vue2 和 vue3 的定制化api暴露
  * 4. 要对入参有校验
  */
-import type  { InitOptions, ExportMethods } from './types/option';
-import { _support } from './utils/global';
-import { initReplace } from './src/replace';
-import { initOptions } from './src/options'
-import { initBase } from './src/base'
-import { initSendData } from './src/sendData'
-import { initError } from './src/err'
+import type { ExportMethods, InitOptions } from './src/types';
+import { initReplace } from './src/lib/replace';
+import { initOptions } from './src/lib/options'
+import { initBase } from './src/lib/base'
+import { initSendData } from './src/lib/sendData'
+import { initError } from './src/lib/err'
 // import { initHttp } from './src/http'
 // import { initPerformance } from './src/performance'
 // import { initPv } from './src/pv'
@@ -62,7 +61,6 @@ function init(options: InitOptions) {
   // initPv(_options)
   // initEvent(_options)
 }
-
 
 export default {
   init,

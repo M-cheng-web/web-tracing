@@ -1,4 +1,4 @@
-import { name, version } from '../package.json'
+import { name, version } from '../../package.json'
 
 export const DEVICE_KEY = '_webtracing_device_id'; // 设备ID Key - 私有属性
 

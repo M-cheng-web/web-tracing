@@ -1,8 +1,8 @@
-import type { Options } from '../types/option';
+import type { Options } from '../types';
 import { EVENTTYPES } from '../common';
 import { map, filter } from "../utils/index";
 import { _global } from '../utils/global';
-import { getLocationHref } from "../utils/helpers";
+import { getLocationHref } from "../utils";
 import { sendData } from './sendData';
 import { eventBus } from './eventBus';
 import { isArray } from '../utils/is';
