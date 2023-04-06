@@ -1,30 +1,31 @@
+import type { Options } from "../types/option";
 import { _support } from "../utils/global";
 import { refreshSession } from "../utils/session";
 import { sendBeacon, nextTime, map } from "../utils/index";
 import { debug } from '../utils/debug';
-import { MAX_WAITING_TIME, MAX_CACHE_LEN } from "../common";
 import { baseInfo } from "./base";
 
 export class SendData {
-  requestUrl = ""; // 服务请求地址
+  dsn = ""; // 服务请求地址
   events = []; // 批次队列
+  cacheMaxLength: number
+  cacheWatingTime: number
   timeoutID: NodeJS.Timeout | null = null; // 延迟发送
 
-  constructor(options: any) {
-    this._initSendData(options);
-  }
-  private _initSendData(options: any) {
-    this.requestUrl = options.requestUrl;
+  constructor(options: Options) {
+    this.dsn = options.dsn;
+    this.cacheMaxLength = options.cacheMaxLength;
+    this.cacheWatingTime = options.cacheWatingTime;
   }
   send() {
     if (!this.events.length) return;
     // 选取首部的部分数据来发送,performance会一次性采集大量数据追加到events中
-    const sendEvents = this.events.slice(0, MAX_CACHE_LEN); // 需要发送的事件
-    this.events = this.events.slice(MAX_CACHE_LEN); // 剩下待发的事件
+    const sendEvents = this.events.slice(0, this.cacheMaxLength); // 需要发送的事件
+    this.events = this.events.slice(this.cacheMaxLength); // 剩下待发的事件
     debug("send events", sendEvents);
 
     const time = Date.now();
-    sendBeacon(this.requestUrl, {
+    sendBeacon(this.dsn, {
       baseInfo: { ...baseInfo.base, sendTime: time },
       eventInfo: map(sendEvents, (e: any) => {
         e.sendTime = time; // 设置发送时间
@@ -75,18 +76,17 @@ export class SendData {
     if (this.timeoutID) clearTimeout(this.timeoutID);
 
     // 满足最大记录数,立即发送,否则定时发送(flush为true代表立即发送)
-    this.events.length >= MAX_CACHE_LEN || flush
+    this.events.length >= this.cacheMaxLength || flush
       ? this.send()
       : (this.timeoutID = setTimeout(() => {
           this.send();
-        }, MAX_WAITING_TIME));
+        }, this.cacheWatingTime));
   }
 }
 
 export let sendData:SendData
 
 export function initSendData(options: any) {
-  const { requestUrl } = options;
-  _support.sendData = new SendData({ requestUrl });
+  _support.sendData = new SendData(options);
   sendData = _support.sendData
 }

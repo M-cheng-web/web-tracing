@@ -1,6 +1,6 @@
+import type { Options as _Options, InitOptions } from "../types/option";
 import { validateOption, deepAssign } from "../utils";
 import { _support } from "../utils/global";
-import type { Options as _Options, InitOptions } from "../types/option";
 
 export class Options implements _Options {
   dsn = ""; // 上报地址
