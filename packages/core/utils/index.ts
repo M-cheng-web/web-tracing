@@ -208,7 +208,7 @@ const cancelNextTime = window.cancelIdleCallback || window.cancelAnimationFrame 
  * @param  {...any} args 输出信息
  */
 function debug(...args: any[]) {
-  if (DEBUG_LOG) console.log(...args);
+  if (DEBUG_LOG) console.log('@web-tracing: ', ...args);
 }
 
 export {

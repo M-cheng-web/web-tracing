@@ -1,7 +1,3 @@
-// import './assets/style.css'
-// import javascriptLogo from './assets/javascript.svg'
-// import viteLogo from './assets/vite.svg'
-
 // document.querySelector('#app').innerHTML = `
 //   <div>
 //     <a target="_blank">
@@ -24,4 +20,10 @@ import { init } from '@web-tracing/core'
 // import { pad } from '@web-tracing/utils'
 // console.log('pad', pad)
 
-console.log('init', init)
+
+init({
+  dsn: 'http://1.15.224.10:22/trackweb/tra',
+  appName: 'chengxh',
+  error: true,
+  debug: true
+})

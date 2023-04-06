@@ -32,6 +32,7 @@ nr docs
 + 整体代码结构更改
 + js -> ts
 + 文档系统与sdk核心代码融合 (vuepress -> vitepress)
++ error模块 - 功能完成
 
 ### 二期未完成功能
 + 支持区域曝光度采集
@@ -77,3 +78,4 @@ nr docs
 3. 后面可以用 proxy 来自动化一些东西吗
 4. 受不了了，后面研究下用@的方式引入
 5. 在业务中碰到的跳转客服功能，看看能不能在这里用utils包实现
+6. error 检测那边，应该再加一个属性标识错误类型，例如 console.error 还是 Error 或者 reject

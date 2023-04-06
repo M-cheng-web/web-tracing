@@ -91,7 +91,7 @@ const MAX_CACHE_LEN = 5; // 最大缓存数
 
 const MAX_WAITING_TIME = 5000; // 最大等待时间
 
-const DEBUG_LOG = false; // 是否输出采集信息
+const DEBUG_LOG = true; // 是否输出采集信息
 
 export {
   DEVICE_KEY,

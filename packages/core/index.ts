@@ -50,9 +50,12 @@ function init(options: InitOptions) {
   const _options = initOptions(options)
   if (!_options) return;
 
+  // 注册全局
   initReplace(_options)
   initBase(_options)
   initSendData(_options)
+
+  // 注册各个业务
   initError(_options)
   // initHttp(_options);
   // initPerformance(_options)

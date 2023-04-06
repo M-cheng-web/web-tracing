@@ -1,4 +1,5 @@
 import type { Options, voidFun } from '../types/option';
+import { debug } from '../utils/index';
 import {
   _global,
   supportsHistory,
@@ -71,6 +72,7 @@ export function initReplace(options: Options): void {
 }
 
 function replace(type: EVENTTYPES): void {
+  debug('replace - 初始化挂载事件:', type)
   switch (type) {
     case EVENTTYPES.ERROR:
       listenError(EVENTTYPES.ERROR);
@@ -112,7 +114,6 @@ function replace(type: EVENTTYPES): void {
  * 监听 - error
  */
 function listenError(type: EVENTTYPES): void {
-  if (!isExistProperty(_global, 'error')) return;
   on(
     _global,
     'error',

@@ -8,21 +8,28 @@
   </head>
   <body>
     <script type="module" src="/main.ts"></script>
-
     <div id="app"></div>
-    <button id="codeErr" onclick="codeError()">代码错误</button>
+
+    <div>
+      <div>Error 捕捉</div>
+      <button id="codeErr" onclick="codeError()">代码错误</button>
+      <button id="promiseError" onclick="promiseError()">promiseError</button>
+      <button id="consoleErr" onclick="consoleErr()">手动输出错误</button>
+    </div>
+    <br/>
+
     <button id="normalReq" onclick="onClickXhrNormal()">xhr正常请求</button>
     <button id="exceptionReq" onclick="onClickXhrError()">xhr异常请求</button>
     <button id="normalFetch" onclick="onClickNativeFetch()">Fetch正常请求</button>
     <button id="exceptionFetch" onclick="onClickNativeErrorFetch()">Fetch异常请求</button>
     <button id="logUpload" onclick="mitoLog()">log上报</button>
-    <button id="promiseError" onclick="promiseError()">promiseError</button>
     <button id="hashChange" onclick="hashChange()">改变hash</button>
     <a href="/vue2/index.html">跳到Vue2页面</a>
     <a href="/vue3/index.html">跳到Vue3页面</a>
     <a href="http://www.baidu.com" target="_blank">跳到百度</a>
 
     <script>
+      // ---------------- Error 捕捉 ----------------
       function codeError() {
         let a = {}
         a.split('/')
@@ -34,8 +41,13 @@
         promiseWrap().then(res => {
           console.log('res', res)
         })
-
       }
+      function consoleErr() {
+        console.error('consoleErr1', 'consoleErr1.1', 'consoleErr1.2')
+        console.error('consoleErr2')
+        console.error(new Error('谢谢谢谢谢'))
+      }
+
       function mitoLog() {
         MITO.log({ message: { one: 111 }, tag: '测试' })
       }

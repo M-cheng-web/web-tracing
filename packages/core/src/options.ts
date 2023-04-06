@@ -104,7 +104,7 @@ export class Options implements _Options {
 }
 
 /**
- * 内部参数默认配置
+ * 内部参数默认配置(暂时不用)
  */
 const defaultOptions: _Options = {
   dsn: "", // 上报地址
@@ -308,8 +308,8 @@ export let options: Options;
 
 export function initOptions(initOptions: InitOptions): Options | undefined {
   // 必传校验
-  if (!options.appName) throw Error('请传入appName参数');
-  if (!options.dsn) throw Error('请传入dsn参数');
+  if (!initOptions.appName) throw Error('请传入appName参数');
+  if (!initOptions.dsn) throw Error('请传入dsn参数');
 
   // 入参类型校验
   if (!_validateInitOption(initOptions)) return;

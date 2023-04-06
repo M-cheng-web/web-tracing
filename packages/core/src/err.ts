@@ -5,6 +5,7 @@ import { _global } from '../utils/global';
 import { getLocationHref } from "../utils/helpers";
 import { sendData } from './sendData';
 import { eventBus } from './eventBus';
+import { isArray } from '../utils/is';
 
 function emit(errorInfo: any) {
   const info = {
@@ -53,6 +54,7 @@ function parseStack(err: any) {
 
 function parseError(e: any) {
   if (e instanceof Error) {
+    // fileName: 引发此错误的文件的路径 (此属性为非标准，所以下面得区分)
     const { message, stack, lineNumber, fileName, columnNumber } = (e as any);
     if (fileName) {
       return {
@@ -66,7 +68,13 @@ function parseError(e: any) {
     return parseStack(e);
   }
   if (e.message) return parseStack(e);
-  if (typeof e === 'string') return { errMessage: e };
+
+  // reject 错误
+  if (typeof e === 'string') return { errType: 'reject', errMessage: e };
+
+  // console.error 暴露的错误
+  if (isArray(e)) return { errType: 'console.error', errMessage: e.join(';') }
+
   return {};
 }
 
@@ -83,9 +91,10 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
     return { eventId: 'code', ...parseError(event.reason) }
   }
 
+  // html元素上发生的异常错误
   const { target } = event
   if (target instanceof HTMLElement) {
-    // html元素上发生的异常错误 (为1代表节点是元素节点)
+    // 为1代表节点是元素节点
     if (target.nodeType === 1) {
       const result = { eventId: target.nodeName, src: '' };
       switch (target.nodeName.toLowerCase()) {
@@ -138,12 +147,6 @@ function initError(options: Options) {
     type: EVENTTYPES.CONSOLEERROR,
     callback: (e) => emit({ eventId: 'code', ...parseError(e)})
   })
-
-  // const consoleError = console.error;
-  // console.error = function ce(...args) {
-  //   args.forEach((e) => { emit({ eventId: 'code', ...parseError(e) }) });
-  //   consoleError.apply(console, args);
-  // };
 }
 
 /**
