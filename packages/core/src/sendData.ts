@@ -1,6 +1,7 @@
 import { _support } from "../utils/global";
 import { refreshSession } from "../utils/session";
-import { debug, sendBeacon, nextTime, map } from "../utils/index";
+import { sendBeacon, nextTime, map } from "../utils/index";
+import { debug } from '../utils/debug';
 import { MAX_WAITING_TIME, MAX_CACHE_LEN } from "../common";
 import { baseInfo } from "./base";
 

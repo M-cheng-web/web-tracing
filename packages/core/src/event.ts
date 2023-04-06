@@ -1,4 +1,5 @@
-import { debug, uuid } from '../utils/index';
+import { uuid } from '../utils/index';
+import { debug } from '../utils/debug';
 import { baseInfo } from './base';
 import { sendData } from './sendData';
 import type { Options } from '../types/option';

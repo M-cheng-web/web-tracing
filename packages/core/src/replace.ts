@@ -1,5 +1,5 @@
 import type { Options, voidFun } from '../types/option';
-import { debug } from '../utils/index';
+import { debug } from '../utils/debug';
 import {
   _global,
   supportsHistory,

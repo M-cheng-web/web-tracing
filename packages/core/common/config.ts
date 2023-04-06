@@ -13,5 +13,3 @@ export const SURVIVIE_MILLI_SECONDS = 1800000; // 会话 session存活时长(30m
 export const MAX_CACHE_LEN = 5; // 最大缓存数
 
 export const MAX_WAITING_TIME = 5000; // 最大等待时间
-
-export const DEBUG_LOG = true; // 是否输出采集信息

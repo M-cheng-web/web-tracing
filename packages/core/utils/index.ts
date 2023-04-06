@@ -1,5 +1,5 @@
 import { setFlag } from './global';
-import { EVENTTYPES, DEBUG_LOG } from '../common';
+import { EVENTTYPES } from '../common';
 
 /**
  * 深度合并对象
@@ -203,16 +203,7 @@ const nextTime = window.requestIdleCallback || window.requestAnimationFrame || (
 const cancelNextTime = window.cancelIdleCallback || window.cancelAnimationFrame || clearTimeout;
 
 
-/**
- * 控制台输出信息
- * @param  {...any} args 输出信息
- */
-function debug(...args: any[]) {
-  if (DEBUG_LOG) console.log('@web-tracing: ', ...args);
-}
-
 export {
-  debug,
   uuid,
   getCookieByName,
   sendBeacon,
