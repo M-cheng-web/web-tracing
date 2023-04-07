@@ -51,8 +51,9 @@ export enum EVENTTYPES {
   CLICK = 'click',
   LOAD = 'load',
   BEFOREUNLOAD = 'beforeunload',
+  XHROPEN = 'xhr-open',
+  XHRSEND = 'xhr-send',
 
-  XHR = 'xhr',
   FETCH = 'fetch',
   HISTORY = 'history',
   HASHCHANGE = 'hashchange',

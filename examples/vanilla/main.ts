@@ -23,7 +23,8 @@ import { init } from '@web-tracing/core'
 init({
   dsn: 'http://1.15.224.10:22/trackweb/tra',
   appName: 'cxh',
-  error: true,
   debug: true,
-  event: true
+  performance: true
+  // error: true,
+  // event: true
 })

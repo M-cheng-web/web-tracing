@@ -1,15 +1,9 @@
 import type { Options, VoidFun } from '../types'
 import { debug } from '../utils/debug'
 import { _global } from '../utils/global'
-import {
-  on,
-  getTimestamp,
-  replaceAop,
-  throttle,
-  getLocationHref
-} from '../utils'
-import { isExistProperty, variableTypeDetection } from '../utils/is'
-import { EVENTTYPES, HTTPTYPE } from '../common'
+import { on, replaceAop, throttle, getLocationHref } from '../utils'
+import { isExistProperty } from '../utils/is'
+import { EVENTTYPES } from '../common'
 import { eventBus } from './eventBus'
 
 /**
@@ -50,6 +44,12 @@ export function initReplace(options: Options): void {
   allReplace.push(EVENTTYPES.LOAD) // 监听load事件
   allReplace.push(EVENTTYPES.BEFOREUNLOAD) // 监听beforeunload事件
 
+  if (options.performance.server) {
+    allReplace.push(EVENTTYPES.XHROPEN) // 重写XMLHttpRequest-open
+    allReplace.push(EVENTTYPES.XHRSEND) // 重写XMLHttpRequest-send
+    allReplace.push(EVENTTYPES.FETCH) // 重写fetch
+  }
+
   // -------------
 
   if (options.pv.core || options.pv.hashtag) {
@@ -59,11 +59,6 @@ export function initReplace(options: Options): void {
 
   if (options.performance.core || options.performance.firstResource) {
     allReplace.push(EVENTTYPES.PERFORMANCE) // 监听性能指标
-  }
-
-  if (options.performance.server) {
-    allReplace.push(EVENTTYPES.XHR) // 重写XMLHttpRequest
-    allReplace.push(EVENTTYPES.FETCH) // 重写fetch
   }
 
   allReplace.forEach(replace)
@@ -90,15 +85,18 @@ function replace(type: EVENTTYPES): void {
     case EVENTTYPES.BEFOREUNLOAD:
       listenBeforeunload(EVENTTYPES.BEFOREUNLOAD)
       break
+    case EVENTTYPES.XHROPEN:
+      replaceXHROpen(EVENTTYPES.XHROPEN)
+      break
+    case EVENTTYPES.XHRSEND:
+      replaceXHRSend(EVENTTYPES.XHRSEND)
+      break
+    case EVENTTYPES.FETCH:
+      replaceFetch(EVENTTYPES.FETCH)
+      break
 
     // --------
 
-    case EVENTTYPES.XHR:
-      xhrReplace()
-      break
-    case EVENTTYPES.FETCH:
-      fetchReplace()
-      break
     case EVENTTYPES.HISTORY:
       historyReplace()
       break
@@ -190,95 +188,47 @@ function listenBeforeunload(type: EVENTTYPES): void {
     false
   )
 }
-
-// ---------------------------------
-
 /**
- * 重写 - XHR
+ * 重写 - XHR-open
  */
-function xhrReplace(): void {
+function replaceXHROpen(type: EVENTTYPES): void {
   if (!('XMLHttpRequest' in _global)) return
   const originalXhrProto = XMLHttpRequest.prototype
   replaceAop(originalXhrProto, 'open', (originalOpen: VoidFun) => {
     return function (this: any, ...args: any[]): void {
-      this.websee_xhr = {
-        method: variableTypeDetection.isString(args[0])
-          ? args[0].toUpperCase()
-          : args[0],
-        url: args[1],
-        sTime: getTimestamp(),
-        type: HTTPTYPE.XHR
-      }
+      eventBus.runEvent(type, ...args)
       originalOpen.apply(this, args)
     }
   })
+}
+/**
+ * 重写 - XHR-send
+ */
+function replaceXHRSend(type: EVENTTYPES): void {
+  if (!('XMLHttpRequest' in _global)) return
+  const originalXhrProto = XMLHttpRequest.prototype
   replaceAop(originalXhrProto, 'send', (originalSend: VoidFun) => {
     return function (this: any, ...args: any[]): void {
-      const that = this
-      // 监听loadend事件，接口成功或失败都会执行
-      on(this, 'loadend', function () {
-        that.websee_xhr.requestData = args[0]
-        eventBus.runEvent(EVENTTYPES.XHR, that.websee_xhr)
-      })
+      eventBus.runEvent(type, this, args)
       originalSend.apply(this, args)
     }
   })
 }
-
 /**
  * 重写 - fetch
  */
-function fetchReplace(): void {
+function replaceFetch(type: EVENTTYPES): void {
   if (!('fetch' in _global)) return
-  replaceAop(_global, EVENTTYPES.FETCH, (originalFetch: any) => {
-    return function (url: string, config: Partial<Request> = {}): void {
-      const sTime = getTimestamp()
-      const method = (config && config.method) || 'GET'
-      let handlerData = {
-        type: HTTPTYPE.FETCH,
-        method,
-        requestData: config && config.body,
-        url
-      }
-      // 获取配置的headers
-      const headers = new Headers(config.headers || {})
-      Object.assign(headers, {
-        setRequestHeader: headers.set
-      })
-      config = Object.assign({}, config, headers)
-
-      return originalFetch.apply(_global, [url, config]).then(
-        (res: any) => {
-          // 克隆一份，防止被标记已消费
-          const tempRes = res.clone()
-          const eTime = getTimestamp()
-          handlerData = Object.assign({}, handlerData, {
-            elapsedTime: eTime - sTime,
-            status: tempRes.status,
-            time: sTime
-          })
-          tempRes.text().then(() => {
-            // 同理，进接口进行过滤
-            // 接口返回的数据量可能很大，舍弃保留返回信息
-            eventBus.runEvent(EVENTTYPES.FETCH, handlerData)
-          })
-          return res
-        },
-        // 接口报错
-        (err: any) => {
-          const eTime = getTimestamp()
-          handlerData = Object.assign({}, handlerData, {
-            elapsedTime: eTime - sTime,
-            status: 0,
-            time: sTime
-          })
-          eventBus.runEvent(EVENTTYPES.FETCH, handlerData)
-          throw err
-        }
-      )
+  replaceAop(_global, 'fetch', (originalFetch: any) => {
+    return function (this: any, ...args: any[]): void {
+      return originalFetch
+        .apply(_global, args)
+        .then((res: any) => eventBus.runEvent(type, args, res))
     }
   })
 }
+
+// ---------------------------------
 
 /**
  * 监听 - hashchange

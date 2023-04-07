@@ -46,19 +46,23 @@
     </div>
     <br />
 
-    <!-- <button id="normalReq" onclick="onClickXhrNormal()">xhr正常请求</button>
-    <button id="exceptionReq" onclick="onClickXhrError()">xhr异常请求</button>
-    <button id="normalFetch" onclick="onClickNativeFetch()">
-      Fetch正常请求
-    </button>
-    <button id="exceptionFetch" onclick="onClickNativeErrorFetch()">
-      Fetch异常请求
-    </button>
-    <button id="logUpload" onclick="mitoLog()">log上报</button>
+    <div>
+      <div>Http 事件捕捉</div>
+      <button id="normalReq" onclick="onClickXhrNormal()">xhr正常请求</button>
+      <button id="exceptionReq" onclick="onClickXhrError()">xhr异常请求</button>
+      <button id="normalFetch" onclick="onClickNativeFetch()">
+        Fetch正常请求
+      </button>
+      <button id="exceptionFetch" onclick="onClickNativeErrorFetch()">
+        Fetch异常请求
+      </button>
+    </div>
+    <br />
+
     <button id="hashChange" onclick="hashChange()">改变hash</button>
     <a href="/vue2/index.html">跳到Vue2页面</a>
     <a href="/vue3/index.html">跳到Vue3页面</a>
-    <a href="http://www.baidu.com" target="_blank">跳到百度</a> -->
+    <a href="http://www.baidu.com" target="_blank">跳到百度</a>
 
     <script>
       // ---------------- Error 捕捉 ----------------
@@ -81,19 +85,28 @@
         console.error(new Error("谢谢谢谢谢"));
       }
 
-      // ---------------- Event 点击事件捕捉 ----------------
-
-      // document.getElementById('xxx').addEventListener('click', e => {
-      //   console.log('e.target', e.target.parent);
-      // }, true)
-      // console.log('e.target', e.target.parentElement);
-      // console.log('e.ss', e.composedPath());
-
-      function mitoLog() {
-        MITO.log({ message: { one: 111 }, tag: "测试" });
+      // ---------------- Http 事件捕捉 ----------------
+      function onClickXhrNormal() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("get", "/normal");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            console.log('请求成功', xhr.responseText.slice(0, 10));
+          }
+        };
       }
-      function hashChange() {
-        window.location.hash = "xxx";
+      function onClickXhrError() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("get", "/exception");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            console.log('请求成功', xhr.responseText.slice(0, 10));
+          }
+        };
       }
       function onClickNativeFetch() {
         fetch("/normal/post", {
@@ -124,27 +137,8 @@
           }
         );
       }
-      function onClickXhrNormal() {
-        const xhr = new XMLHttpRequest();
-        xhr.open("get", "/normal");
-        xhr.setRequestHeader("content-type", "application/json");
-        xhr.send();
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            console.log(xhr.responseText);
-          }
-        };
-      }
-      function onClickXhrError() {
-        const xhr = new XMLHttpRequest();
-        xhr.open("get", "/exception");
-        xhr.setRequestHeader("content-type", "application/json");
-        xhr.send();
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            console.log(xhr.responseText);
-          }
-        };
+      function hashChange() {
+        window.location.hash = "xxx";
       }
     </script>
   </body>

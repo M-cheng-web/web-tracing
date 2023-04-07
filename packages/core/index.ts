@@ -13,7 +13,7 @@ import { initSendData } from './src/lib/sendData'
 import { initError } from './src/lib/err'
 import { initEvent } from './src/lib/event'
 import { initEventDwell } from './src/lib/event-dwell'
-// import { initHttp } from './src/http'
+import { initHttp } from './src/lib/http'
 // import { initPerformance } from './src/performance'
 // import { initPv } from './src/pv'
 
@@ -89,9 +89,9 @@ function init(options: InitOptions) {
   // 注册各个业务
   // initError()
   // initEvent()
-  initEventDwell()
+  // initEventDwell()
 
-  // initHttp(_options);
+  initHttp()
   // initPerformance(_options)
   // initPv(_options)
 }

@@ -1,14 +1,22 @@
+import { on, isValidKey } from '../utils'
 import { handleSendError } from './err'
-import type { Options } from '../types'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
-import { handleSendPerformance } from './performance'
+// import { handleSendPerformance } from './performance'
+import { options } from './options'
 
 class RequestTemplate {
+  src = '' // 请求地址
+  method = '' //
+  duration = '' // 请求消耗时间
+  responseStatus = '' // 请求返回状态
+  requestMethod = '' //
+  triggerTime = -1 //
   constructor(config = {}) {
-    const list = ['src', 'method', 'duration', 'responseStatus']
-    list.forEach(key => {
-      this[key] = config[key] || null
+    Object.keys(config).forEach(key => {
+      if (isValidKey(key, config)) {
+        this[key] = config[key] || null
+      }
     })
   }
 }
@@ -16,102 +24,101 @@ class RequestTemplate {
 /**
  * fetch请求拦截
  */
-function interceptFetch(performanceServer, errorServer) {
-  const nativeFetch = window.fetch
-  if (nativeFetch) {
-    window.fetch = function traceFetch(target, options = {}) {
+function interceptFetch() {
+  eventBus.addEvent({
+    type: EVENTTYPES.FETCH,
+    callback: (target: string, _options: Partial<Request> = {}, res: any) => {
       const fetchStart = Date.now()
-      const { method = 'GET' } = options
-      const result = nativeFetch(target, options)
-      result.then(
-        res => {
-          const { url, status, statusText } = res
-          if (status === 200 || status === 304) {
-            if (performanceServer) {
-              handleSendPerformance('server', {
-                src: url,
-                duration: Date.now() - fetchStart,
-                responseStatus: status,
-                params:
-                  method.toUpperCase() === 'POST' ? options.body : undefined
-              })
-            }
-          } else if (errorServer) {
-            handleSendError('server', statusText, {
-              src: url,
-              responseStatus: status,
-              params: method.toUpperCase() === 'POST' ? options.body : undefined
-            })
-          }
-        },
-        e => {
-          // 无法发起请求,连接失败
-          handleSendError('server', e.message, { src: target })
-        }
-      )
-      return result
+      const { method = 'GET' } = _options
+
+      // 正确回调
+      const { url, status, statusText } = res
+      if (status === 200 || status === 304) {
+        console.log('成功')
+        // if (performanceServer) {
+        //   handleSendPerformance('server', {
+        //     src: url,
+        //     duration: Date.now() - fetchStart,
+        //     responseStatus: status,
+        //     params:
+        //       method.toUpperCase() === 'POST' ? _options.body : undefined
+        //   })
+        // }
+      } else if (options.error.server) {
+        handleSendError('server', statusText, {
+          src: url,
+          responseStatus: status,
+          params: method.toUpperCase() === 'POST' ? _options.body : undefined
+        })
+      }
+
+      // 错误回调
+      //   // 无法发起请求,连接失败
+      //   handleSendError('server', e.message, { src: target })
     }
-  }
+  })
 }
 
 /**
- * ajax, axios请求拦截
+ * xhr 请求拦截
  */
-function interceptAjax(performanceServer, errorServer) {
-  const { open, send } = XMLHttpRequest.prototype
+function interceptXHR() {
   const _config = new RequestTemplate()
 
-  // 劫持 open方法
-  XMLHttpRequest.prototype.open = function openXHR(method, url, async) {
-    _config.requestMethod = method
-    _config.src = url
-    return open.call(this, method, url, async)
-  }
+  eventBus.addEvent({
+    type: EVENTTYPES.XHROPEN,
+    callback: (method, url) => {
+      console.log('XHROPEN', method, url)
+      _config.requestMethod = method
+      _config.src = url
+    }
+  })
 
-  // 劫持 send方法
-  XMLHttpRequest.prototype.send = function (body) {
+  eventBus.addEvent({
+    type: EVENTTYPES.XHRSEND,
     // body 就是post方法携带的参数
-
-    // readyState发生改变时触发,也就是请求状态改变时
-    // readyState 会依次变为 2,3,4 也就是会触发三次这里
-    this.addEventListener('readystatechange', () => {
-      const {
-        readyState,
-        status,
-        responseURL = _config.src,
-        responseText
-      } = this
-      if (readyState === 4) {
-        // 请求已完成,且响应已就绪
-        if (status === 200 || status === 304) {
-          if (performanceServer) {
-            handleSendPerformance('server', {
+    callback: (that: XMLHttpRequest & any, body) => {
+      console.log(11, body)
+      // readyState发生改变时触发,也就是请求状态改变时
+      // readyState 会依次变为 2,3,4 也就是会触发三次这里
+      on(that, 'readystatechange', function () {
+        const {
+          readyState,
+          status,
+          responseURL = _config.src,
+          responseText
+        } = that
+        if (readyState === 4) {
+          // 请求已完成,且响应已就绪
+          if (status === 200 || status === 304) {
+            console.log('成功')
+            // if (performanceServer) {
+            //   handleSendPerformance('server', {
+            //     src: responseURL,
+            //     responseStatus: status,
+            //     duration: Date.now() - _config.triggerTime,
+            //     params: body ? body : undefined
+            //   })
+            // }
+          } else if (options.error.server) {
+            console.log('错误')
+            handleSendError('server', responseText, {
               src: responseURL,
               responseStatus: status,
-              duration: Date.now() - _config.triggerTime,
               params: body ? body : undefined
             })
           }
-        } else if (errorServer) {
-          handleSendError('server', responseText, {
-            src: responseURL,
-            responseStatus: status,
-            params: body ? body : undefined
-          })
         }
-      }
-    })
+      })
 
-    _config.triggerTime = Date.now()
-    return send.call(this, body)
-  }
+      _config.triggerTime = Date.now()
+    }
+  })
 }
 
-function initHttp(options: Options) {
-  // if (!performanceServer && !errorServer) return;
-
-  interceptAjax(performanceServer, errorServer)
-  interceptFetch(performanceServer, errorServer)
+function initHttp() {
+  interceptXHR()
+  interceptFetch()
 }
 
 export { initHttp }
