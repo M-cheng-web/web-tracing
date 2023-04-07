@@ -1,10 +1,9 @@
-import { debug } from '../utils/debug'
 import { uuid, isValidKey } from '../utils'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
 import { sendData } from './sendData'
 
-class pageRequestTemplate {
+class DwellRequestTemplate {
   eventId = '' // 事件ID
   eventType = '' // 事件类型
   url = '' // 当前页面URL
@@ -26,7 +25,7 @@ class pageRequestTemplate {
  * 加载 & 卸载事件
  */
 function dwellCollector() {
-  const _config = new pageRequestTemplate({ eventType: 'dwell' })
+  const _config = new DwellRequestTemplate({ eventType: 'dwell' })
 
   // 加载完成事件
   eventBus.addEvent({
@@ -58,8 +57,8 @@ function dwellCollector() {
   })
 }
 
-function initPage() {
+function initEventDwell() {
   dwellCollector()
 }
 
-export { initPage }
+export { initEventDwell }
