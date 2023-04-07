@@ -20,10 +20,10 @@ import { init } from '@web-tracing/core'
 // import { pad } from '@web-tracing/utils'
 // console.log('pad', pad)
 
-
 init({
   dsn: 'http://1.15.224.10:22/trackweb/tra',
-  appName: 'chengxh',
+  appName: 'cxh',
   error: true,
-  debug: true
+  debug: true,
+  event: true
 })

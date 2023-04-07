@@ -1,7 +1,7 @@
 function isType(type: any) {
   return function (value: any): boolean {
-    return Object.prototype.toString.call(value) === `[object ${type}]`;
-  };
+    return Object.prototype.toString.call(value) === `[object ${type}]`
+  }
 }
 
 export const isNumber = isType('Number')
@@ -31,19 +31,19 @@ export const variableTypeDetection = {
   isObject: isType('Object'),
   isArray: isType('Array'),
   isProcess: isType('process'),
-  isWindow: isType('Window'),
-};
+  isWindow: isType('Window')
+}
 
 export function isError(error: Error): boolean {
   switch (Object.prototype.toString.call(error)) {
     case '[object Error]':
-      return true;
+      return true
     case '[object Exception]':
-      return true;
+      return true
     case '[object DOMException]':
-      return true;
+      return true
     default:
-      return false;
+      return false
   }
 }
 
@@ -51,15 +51,17 @@ export function isError(error: Error): boolean {
  * 检查是否是空对象
  */
 export function isEmptyObject(obj: object): boolean {
-  return variableTypeDetection.isObject(obj) && Object.keys(obj).length === 0;
+  return variableTypeDetection.isObject(obj) && Object.keys(obj).length === 0
 }
 
 export function isEmpty(wat: any): boolean {
   return (
-    (variableTypeDetection.isString(wat) && wat.trim() === '') || wat === undefined || wat === null
-  );
+    (variableTypeDetection.isString(wat) && wat.trim() === '') ||
+    wat === undefined ||
+    wat === null
+  )
 }
 
 export function isExistProperty(obj: object, key: string): boolean {
-  return Object.prototype.hasOwnProperty.call(obj, key);
+  return Object.prototype.hasOwnProperty.call(obj, key)
 }

@@ -48,10 +48,12 @@ export enum EVENTTYPES {
   ERROR = 'error',
   CONSOLEERROR = 'consoleError',
   UNHANDLEDREJECTION = 'unhandledrejection',
+  CLICK = 'click',
+  LOAD = 'load',
+  BEFOREUNLOAD = 'beforeunload',
 
   XHR = 'xhr',
   FETCH = 'fetch',
-  CLICK = 'click',
   HISTORY = 'history',
   HASHCHANGE = 'hashchange',
   RESOURCE = 'resource',

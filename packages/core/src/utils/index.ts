@@ -1,4 +1,4 @@
-import { AnyFun, AnyObj } from '../types';
+import { AnyFun, AnyObj } from '../types'
 
 /**
  * 添加事件监听器
@@ -8,8 +8,13 @@ import { AnyFun, AnyObj } from '../types';
  * @param opitons
  * @returns void
  */
-export function on(target: Window, eventName: string, handler: AnyFun, opitons = false) {
-  target.addEventListener(eventName, handler, opitons);
+export function on(
+  target: Window,
+  eventName: string,
+  handler: AnyFun,
+  opitons = false
+) {
+  target.addEventListener(eventName, handler, opitons)
 }
 
 /**
@@ -20,13 +25,18 @@ export function on(target: Window, eventName: string, handler: AnyFun, opitons =
  * @param isForced 是否强制重写（可能原先没有该属性）
  * @returns void
  */
-export function replaceAop(source: { [key: string]: any }, name: string, replacement: AnyFun, isForced = false) {
-  if (source === undefined) return;
+export function replaceAop(
+  source: { [key: string]: any },
+  name: string,
+  replacement: AnyFun,
+  isForced = false
+) {
+  if (source === undefined) return
   if (name in source || isForced) {
-    const original = source[name];
-    const wrapped = replacement(original);
+    const original = source[name]
+    const wrapped = replacement(original)
     if (typeof wrapped === 'function') {
-      source[name] = wrapped;
+      source[name] = wrapped
     }
   }
 }
@@ -36,8 +46,8 @@ export function replaceAop(source: { [key: string]: any }, name: string, replace
  * @returns 当前页面的url
  */
 export function getLocationHref(): string {
-  if (typeof document === 'undefined' || document.location == null) return '';
-  return document.location.href;
+  if (typeof document === 'undefined' || document.location == null) return ''
+  return document.location.href
 }
 
 /**
@@ -45,9 +55,8 @@ export function getLocationHref(): string {
  * @returns 当前的时间戳
  */
 export function getTimestamp(): number {
-  return Date.now();
+  return Date.now()
 }
-
 
 /**
  * 函数节流
@@ -55,52 +64,59 @@ export function getTimestamp(): number {
  * @param delay 节流的时间间隔
  * @returns 返回一个包含节流功能的函数
  */
-export const throttle = (fn: (...args: any[]) => any, delay: number) => {
-  let canRun = true;
+export const throttle = (fn: AnyFun, delay: number) => {
+  let canRun = true
   return function (this: any, ...args: any[]) {
-    if (!canRun) return;
-    fn.apply(this, args);
-    canRun = false;
+    if (!canRun) return
+    fn.apply(this, args)
+    canRun = false
     setTimeout(() => {
-      canRun = true;
-    }, delay);
-  };
-};
-
+      canRun = true
+    }, delay)
+  }
+}
 
 /**
  * 深度合并对象
  */
 export function deepAssign<T>(target: AnyObj, ...sources: AnyObj[]) {
   sources.forEach(source => {
-    for (let key in source) {
-        // 判断属性是否为对象或数组
-      if (typeof source[key] === "object" && source[key] !== null) {
-          // 如果当前 key 对应的值是一个对象或数组，则进行递归
+    for (const key in source) {
+      // 判断属性是否为对象或数组
+      if (typeof source[key] === 'object' && source[key] !== null) {
+        // 如果当前 key 对应的值是一个对象或数组，则进行递归
         target[key] = deepAssign(
           target[key] || (Array.isArray(source[key]) ? [] : {}),
           source[key]
-        );
+        )
       } else {
-          // 如果当前 key 对应的值是基本类型数据，则直接赋值
-        target[key] = source[key];
+        // 如果当前 key 对应的值是基本类型数据，则直接赋值
+        target[key] = source[key]
       }
     }
-  });
-  return target as T;
+  })
+  return target as T
 }
 
 /**
  * 验证选项的类型
  */
-export function validateOption(target: any, targetName: string, expectType: string): boolean | void {
-  if (!target || typeofAny(target) === expectType) return true;
-  console.error(`TypeError: web-tracing: ${targetName}期望传入${expectType}类型，目前是${typeofAny(target)}类型`)
+export function validateOption(
+  target: any,
+  targetName: string,
+  expectType: string
+): boolean | void {
+  if (!target || typeofAny(target) === expectType) return true
+  console.error(
+    `TypeError: web-tracing: ${targetName}期望传入${expectType}类型，目前是${typeofAny(
+      target
+    )}类型`
+  )
   return false
 }
 
 export function typeofAny(target: any): string {
-  return Object.prototype.toString.call(target).slice(8, -1).toLowerCase();
+  return Object.prototype.toString.call(target).slice(8, -1).toLowerCase()
 }
 
 export function isValidKey(
@@ -118,39 +134,51 @@ export function isValidKey(
  * @returns 补全后的值
  */
 function pad(num: number, len: number, placeholder = '0') {
-  const str = String(num);
+  const str = String(num)
   if (str.length < len) {
-    let result = str;
+    let result = str
     for (let i = 0; i < len - str.length; i += 1) {
-      result = placeholder + result;
+      result = placeholder + result
     }
-    return result;
+    return result
   }
-  return str;
+  return str
 }
 
 /**
  * 获取一个随机字符串(全局唯一标识符)
  */
 function uuid() {
-  const date = new Date();
+  const date = new Date()
 
   // yyyy-MM-dd的16进制表示,7位数字
-  const hexDate = parseInt(`${date.getFullYear()}${pad(date.getMonth() + 1, 2)}${pad(date.getDate(), 2)}`, 10).toString(16);
+  const hexDate = parseInt(
+    `${date.getFullYear()}${pad(date.getMonth() + 1, 2)}${pad(
+      date.getDate(),
+      2
+    )}`,
+    10
+  ).toString(16)
 
   // hh-mm-ss-ms的16进制表示，最大也是7位
-  const hexTime = parseInt(`${pad(date.getHours(), 2)}${pad(date.getMinutes(), 2)}${pad(date.getSeconds(), 2)}${pad(date.getMilliseconds(), 3)}`, 10).toString(16);
+  const hexTime = parseInt(
+    `${pad(date.getHours(), 2)}${pad(date.getMinutes(), 2)}${pad(
+      date.getSeconds(),
+      2
+    )}${pad(date.getMilliseconds(), 3)}`,
+    10
+  ).toString(16)
 
   // 第8位数字表示后面的time字符串的长度
-  let guid = hexDate + hexTime.length + hexTime;
+  let guid = hexDate + hexTime.length + hexTime
 
   // 补充随机数，补足32位的16进制数
   while (guid.length < 32) {
-    guid += Math.floor(Math.random() * 16).toString(16);
+    guid += Math.floor(Math.random() * 16).toString(16)
   }
 
   // 分为三段，前两段包含时间戳信息
-  return `${guid.slice(0, 8)}-${guid.slice(8, 16)}-${guid.slice(16)}`;
+  return `${guid.slice(0, 8)}-${guid.slice(8, 16)}-${guid.slice(16)}`
 }
 
 /**
@@ -159,8 +187,8 @@ function uuid() {
  * @returns
  */
 function getCookieByName(name: string) {
-  const result = document.cookie.match(new RegExp(`${name}=([^;]+)(;|$)`));
-  return result ? result[1] : undefined;
+  const result = document.cookie.match(new RegExp(`${name}=([^;]+)(;|$)`))
+  return result ? result[1] : undefined
 }
 
 /**
@@ -168,21 +196,23 @@ function getCookieByName(name: string) {
  */
 const sendBeacon = navigator.sendBeacon
   ? (url: string, data: any) => {
-    if (data) navigator.sendBeacon(url, JSON.stringify(data));
-  }
+      if (data) navigator.sendBeacon(url, JSON.stringify(data))
+    }
   : (url: string, data: any) => {
-    // 传统方式传递参数
-    const beacon = new Image();
-    beacon.src = `${url}?v=${encodeURIComponent(JSON.stringify(data))}`;
-  };
+      // 传统方式传递参数
+      const beacon = new Image()
+      beacon.src = `${url}?v=${encodeURIComponent(JSON.stringify(data))}`
+    }
 
-const arrayMap = Array.prototype.map || function polyfillMap(this: any, fn) {
-  const result = [];
-  for (let i = 0; i < this.length; i += 1) {
-    result.push(fn(this[i], i, this));
+const arrayMap =
+  Array.prototype.map ||
+  function polyfillMap(this: any, fn) {
+    const result = []
+    for (let i = 0; i < this.length; i += 1) {
+      result.push(fn(this[i], i, this))
+    }
+    return result
   }
-  return result;
-};
 
 /**
  * map方法
@@ -191,18 +221,20 @@ const arrayMap = Array.prototype.map || function polyfillMap(this: any, fn) {
  * @returns
  */
 function map(arr: any[], fn: AnyFun) {
-  return arrayMap.call(arr, fn);
+  return arrayMap.call(arr, fn)
 }
 
-const arrayFilter = Array.prototype.filter || function filterPolyfill(this: any, fn: AnyFun) {
-  const result = [];
-  for (let i = 0; i < this.length; i += 1) {
-    if (fn(this[i], i, this)) {
-      result.push(this[i]);
+const arrayFilter =
+  Array.prototype.filter ||
+  function filterPolyfill(this: any, fn: AnyFun) {
+    const result = []
+    for (let i = 0; i < this.length; i += 1) {
+      if (fn(this[i], i, this)) {
+        result.push(this[i])
+      }
     }
+    return result
   }
-  return result;
-};
 
 /**
  * filter方法
@@ -211,17 +243,19 @@ const arrayFilter = Array.prototype.filter || function filterPolyfill(this: any,
  * @returns
  */
 function filter(arr: [], fn: AnyFun) {
-  return arrayFilter.call(arr, fn);
+  return arrayFilter.call(arr, fn)
 }
 
-const arrayFind = Array.prototype.find || function findPolyfill(this: any, fn: AnyFun) {
-  for (let i = 0; i < this.length; i += 1) {
-    if (fn(this[i], i, this)) {
-      return this[i];
+const arrayFind =
+  Array.prototype.find ||
+  function findPolyfill(this: any, fn: AnyFun) {
+    for (let i = 0; i < this.length; i += 1) {
+      if (fn(this[i], i, this)) {
+        return this[i]
+      }
     }
+    return undefined
   }
-  return undefined;
-};
 
 /**
  * find方法
@@ -230,7 +264,7 @@ const arrayFind = Array.prototype.find || function findPolyfill(this: any, fn: A
  * @returns
  */
 function find(arr: [], fn: AnyFun) {
-  return arrayFind.call(arr, fn);
+  return arrayFind.call(arr, fn)
 }
 
 /**
@@ -239,7 +273,7 @@ function find(arr: [], fn: AnyFun) {
  * @returns 去除后的字符串
  */
 function trim(str = '') {
-  return str.replace(/(^\s+)|(\s+$)/, '');
+  return str.replace(/(^\s+)|(\s+$)/, '')
 }
 
 /**
@@ -248,13 +282,16 @@ function trim(str = '') {
  * requestAnimationFrame 是浏览器必须执行的
  * 关于 requestIdleCallback 和  requestAnimationFrame 可以参考 https://www.cnblogs.com/cangqinglang/p/13877078.html
  */
-const nextTime = window.requestIdleCallback || window.requestAnimationFrame || ((callback) => setTimeout(callback, 17));
+const nextTime =
+  window.requestIdleCallback ||
+  window.requestAnimationFrame ||
+  (callback => setTimeout(callback, 17))
 
 /**
  * 取消异步执行
  */
-const cancelNextTime = window.cancelIdleCallback || window.cancelAnimationFrame || clearTimeout;
-
+const cancelNextTime =
+  window.cancelIdleCallback || window.cancelAnimationFrame || clearTimeout
 
 export {
   uuid,
@@ -265,5 +302,5 @@ export {
   find,
   trim,
   nextTime,
-  cancelNextTime,
+  cancelNextTime
 }

@@ -16,94 +16,135 @@
       <button id="promiseError" onclick="promiseError()">promiseError</button>
       <button id="consoleErr" onclick="consoleErr()">手动输出错误</button>
     </div>
-    <br/>
+    <br />
 
-    <button id="normalReq" onclick="onClickXhrNormal()">xhr正常请求</button>
+    <div>
+      <div>Event 点击事件捕捉</div>
+      <div
+        style="border: 1px solid green; height: 200px; padding: 10px"
+        class="sss xxx 111 vvv"
+        data-warden-title="xxx"
+        data-warden-bigTitle="bigTitle"
+        width="100%"
+        id="222"
+        sdfasd
+      >
+        <div
+          style="border: 1px solid red; height: 100px; padding: 10px"
+          data-warden-test="test"
+          data-warden-title="titletitle"
+          data-warden-bing="bing"
+          data-warden-event-id="ddd"
+        >
+          <!-- <img src="../../public/face.jpg" alt="" /> -->
+          <div style="border: 1px solid rgb(71, 1, 236)">asdasdasd</div>
+        </div>
+        <div data-warden-id="我是ID">
+          <button value="xxxxxx" ref="bun">1111</button>
+        </div>
+      </div>
+    </div>
+    <br />
+
+    <!-- <button id="normalReq" onclick="onClickXhrNormal()">xhr正常请求</button>
     <button id="exceptionReq" onclick="onClickXhrError()">xhr异常请求</button>
-    <button id="normalFetch" onclick="onClickNativeFetch()">Fetch正常请求</button>
-    <button id="exceptionFetch" onclick="onClickNativeErrorFetch()">Fetch异常请求</button>
+    <button id="normalFetch" onclick="onClickNativeFetch()">
+      Fetch正常请求
+    </button>
+    <button id="exceptionFetch" onclick="onClickNativeErrorFetch()">
+      Fetch异常请求
+    </button>
     <button id="logUpload" onclick="mitoLog()">log上报</button>
     <button id="hashChange" onclick="hashChange()">改变hash</button>
     <a href="/vue2/index.html">跳到Vue2页面</a>
     <a href="/vue3/index.html">跳到Vue3页面</a>
-    <a href="http://www.baidu.com" target="_blank">跳到百度</a>
+    <a href="http://www.baidu.com" target="_blank">跳到百度</a> -->
 
     <script>
       // ---------------- Error 捕捉 ----------------
       function codeError() {
-        let a = {}
-        a.split('/')
+        let a = {};
+        a.split("/");
       }
       function promiseError() {
-        const promiseWrap = () => new Promise((resolve, reject) => {
-          reject('promise reject')
-        })
-        promiseWrap().then(res => {
-          console.log('res', res)
-        })
+        const promiseWrap = () =>
+          new Promise((resolve, reject) => {
+            reject("promise reject");
+          });
+        promiseWrap().then((res) => {
+          console.log("res", res);
+        });
       }
       function consoleErr() {
-        console.error('consoleErr1', 'consoleErr1.1', 'consoleErr1.2')
-        console.error('consoleErr2')
-        console.error(new Error('谢谢谢谢谢'))
+        console.error("consoleErr1", "consoleErr1.1", "consoleErr1.2");
+        console.error("consoleErr2");
+        console.error(new Error("谢谢谢谢谢"));
       }
 
+      // ---------------- Event 点击事件捕捉 ----------------
+
+      // document.getElementById('xxx').addEventListener('click', e => {
+      //   console.log('e.target', e.target.parent);
+      // }, true)
+      // console.log('e.target', e.target.parentElement);
+      // console.log('e.ss', e.composedPath());
+
       function mitoLog() {
-        MITO.log({ message: { one: 111 }, tag: '测试' })
+        MITO.log({ message: { one: 111 }, tag: "测试" });
       }
       function hashChange() {
-        window.location.hash = 'xxx'
+        window.location.hash = "xxx";
       }
       function onClickNativeFetch() {
-        fetch('/normal/post', {
-          method: 'POST',
-          body: JSON.stringify({ test: '测试请求体' }),
-          mode: 'cors',
+        fetch("/normal/post", {
+          method: "POST",
+          body: JSON.stringify({ test: "测试请求体" }),
+          mode: "cors",
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }).then((res) => {
-          res.text().then((res) => console.log('res', res))
-        })
+          res.text().then((res) => console.log("res", res));
+        });
       }
       function onClickNativeErrorFetch() {
-        fetch('/exception/post', {
-          method: 'POST',
-          body: JSON.stringify({ test: '测试请求体' }),
-          mode: 'cors',
+        fetch("/exception/post", {
+          method: "POST",
+          body: JSON.stringify({ test: "测试请求体" }),
+          mode: "cors",
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }).then(
           (res) => {
-            res.text().then((res) => console.log('res', res))
+            res.text().then((res) => console.log("res", res));
           },
           (err) => {
-            console.log('err', err)
+            console.log("err", err);
           }
-        )
+        );
       }
       function onClickXhrNormal() {
-        const xhr = new XMLHttpRequest()
-        xhr.open('get', '/normal')
-        xhr.setRequestHeader('content-type', 'application/json')
-        xhr.send()
+        const xhr = new XMLHttpRequest();
+        xhr.open("get", "/normal");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send();
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
-            console.log(xhr.responseText)
+            console.log(xhr.responseText);
           }
-        }
+        };
       }
       function onClickXhrError() {
-        const xhr = new XMLHttpRequest()
-        xhr.open('get', '/exception')
-        xhr.setRequestHeader('content-type', 'application/json')
-        xhr.send()
+        const xhr = new XMLHttpRequest();
+        xhr.open("get", "/exception");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send();
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
-            console.log(xhr.responseText)
+            console.log(xhr.responseText);
           }
-        }
+        };
       }
     </script>
   </body>

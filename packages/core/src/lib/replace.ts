@@ -43,6 +43,15 @@ export function initReplace(options: Options): void {
     allReplace.push(EVENTTYPES.CONSOLEERROR) // 重写console.error
   }
 
+  if (options.event.core) {
+    allReplace.push(EVENTTYPES.CLICK) // 监听click事件
+  }
+
+  allReplace.push(EVENTTYPES.LOAD) // 监听load事件
+  allReplace.push(EVENTTYPES.BEFOREUNLOAD) // 监听beforeunload事件
+
+  // -------------
+
   if (options.pv.core || options.pv.hashtag) {
     allReplace.push(EVENTTYPES.HASHCHANGE) // 监听hashchange
     allReplace.push(EVENTTYPES.HISTORY) // 监听history模式路由的变化
@@ -55,10 +64,6 @@ export function initReplace(options: Options): void {
   if (options.performance.server) {
     allReplace.push(EVENTTYPES.XHR) // 重写XMLHttpRequest
     allReplace.push(EVENTTYPES.FETCH) // 重写fetch
-  }
-
-  if (options.event.core) {
-    allReplace.push(EVENTTYPES.CLICK) // 监听click事件
   }
 
   allReplace.forEach(replace)
@@ -76,6 +81,17 @@ function replace(type: EVENTTYPES): void {
     case EVENTTYPES.CONSOLEERROR:
       replaceConsoleError(EVENTTYPES.CONSOLEERROR)
       break
+    case EVENTTYPES.CLICK:
+      listenClick(EVENTTYPES.CLICK)
+      break
+    case EVENTTYPES.LOAD:
+      listenLoad(EVENTTYPES.LOAD)
+      break
+    case EVENTTYPES.BEFOREUNLOAD:
+      listenBeforeunload(EVENTTYPES.BEFOREUNLOAD)
+      break
+
+    // --------
 
     case EVENTTYPES.XHR:
       xhrReplace()
@@ -85,9 +101,6 @@ function replace(type: EVENTTYPES): void {
       break
     case EVENTTYPES.HISTORY:
       historyReplace()
-      break
-    case EVENTTYPES.CLICK:
-      domReplace()
       break
     case EVENTTYPES.HASHCHANGE:
       listenHashchange()
@@ -136,6 +149,49 @@ function replaceConsoleError(type: EVENTTYPES): void {
     }
   })
 }
+/**
+ * 监听 - click
+ */
+function listenClick(type: EVENTTYPES): void {
+  if (!('document' in _global)) return
+  const clickThrottle = throttle(eventBus.runEvent, 100)
+  on(
+    _global.document,
+    'click',
+    function (this: any, e: MouseEvent) {
+      clickThrottle.call(eventBus, type, e)
+    },
+    true
+  )
+}
+/**
+ * 监听 - load
+ */
+function listenLoad(type: EVENTTYPES): void {
+  on(
+    _global,
+    'load',
+    function (e: Event) {
+      eventBus.runEvent(type, e)
+    },
+    true
+  )
+}
+/**
+ * 监听 - beforeunload
+ */
+function listenBeforeunload(type: EVENTTYPES): void {
+  on(
+    _global,
+    'beforeunload',
+    function (e: BeforeUnloadEvent) {
+      eventBus.runEvent(type, e)
+    },
+    false
+  )
+}
+
+// ---------------------------------
 
 /**
  * 重写 - XHR
@@ -272,25 +328,6 @@ function historyReplace(): void {
   // 重写pushState、replaceState事件
   replaceAop(_global.history, 'pushState', historyReplaceFn)
   replaceAop(_global.history, 'replaceState', historyReplaceFn)
-}
-
-/**
- * 监听 - click
- */
-function domReplace(): void {
-  if (!('document' in _global)) return
-  const clickThrottle = throttle(eventBus.runEvent, 100)
-  on(
-    _global.document,
-    'click',
-    function (): void {
-      clickThrottle(EVENTTYPES.CLICK, {
-        category: 'click',
-        data: 'this.data'
-      })
-    },
-    true
-  )
 }
 
 /**

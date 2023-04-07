@@ -1,8 +1,6 @@
-import type { Options } from '../types'
 import { EVENTTYPES } from '../common'
-import { map, filter } from '../utils/index'
+import { map, filter, getLocationHref } from '../utils'
 import { _global } from '../utils/global'
-import { getLocationHref } from '../utils'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
 import { isArray } from '../utils/is'
@@ -138,7 +136,7 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
   }
 }
 
-function initError(options: Options) {
+function initError() {
   // 捕获阶段可以获取资源加载错误,script.onError link.onError img.onError,无法知道具体状态
   eventBus.addEvent({
     type: EVENTTYPES.ERROR,

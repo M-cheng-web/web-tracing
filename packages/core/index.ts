@@ -11,10 +11,11 @@ import { initOptions } from './src/lib/options'
 import { initBase } from './src/lib/base'
 import { initSendData } from './src/lib/sendData'
 import { initError } from './src/lib/err'
+import { initEvent } from './src/lib/event'
+import { initPage } from './src/lib/event-page'
 // import { initHttp } from './src/http'
 // import { initPerformance } from './src/performance'
 // import { initPv } from './src/pv'
-// import { initEvent } from './src/event'
 
 // 暴露给外部的方法
 const exportMethods: ExportMethods = {
@@ -86,11 +87,13 @@ function init(options: InitOptions) {
   initSendData(_options)
 
   // 注册各个业务
-  initError(_options)
+  // initError()
+  initEvent()
+  // initPage()
+
   // initHttp(_options);
   // initPerformance(_options)
   // initPv(_options)
-  // initEvent(_options)
 }
 
 export default {
