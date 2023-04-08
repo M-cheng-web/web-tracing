@@ -90,8 +90,8 @@ function init(options: InitOptions) {
   // initError()
   // initEvent()
   // initEventDwell()
+  // initHttp()
 
-  initHttp()
   // initPerformance(_options)
   // initPv(_options)
 }

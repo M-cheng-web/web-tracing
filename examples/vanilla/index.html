@@ -93,7 +93,7 @@
         xhr.send();
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
-            console.log('请求成功', xhr.responseText.slice(0, 10));
+            console.log("请求成功", xhr.responseText.slice(0, 10));
           }
         };
       }
@@ -104,7 +104,7 @@
         xhr.send();
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
-            console.log('请求成功', xhr.responseText.slice(0, 10));
+            console.log("请求成功", xhr.responseText.slice(0, 10));
           }
         };
       }
@@ -116,9 +116,12 @@
           headers: {
             "Content-Type": "application/json",
           },
-        }).then((res) => {
-          res.text().then((res) => console.log("res", res));
-        });
+        })
+          .then(res => res.text())
+          .then(res => {
+            console.log("res----res", res);
+          })
+          .catch(err => console.log("err----err", err));
       }
       function onClickNativeErrorFetch() {
         fetch("/exception/post", {

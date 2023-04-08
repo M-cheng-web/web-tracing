@@ -221,9 +221,15 @@ function replaceFetch(type: EVENTTYPES): void {
   if (!('fetch' in _global)) return
   replaceAop(_global, 'fetch', (originalFetch: any) => {
     return function (this: any, ...args: any[]): void {
-      return originalFetch
-        .apply(_global, args)
-        .then((res: any) => eventBus.runEvent(type, args, res))
+      return originalFetch.apply(_global, args).then(
+        (res: any) => {
+          eventBus.runEvent(type, ...args, res)
+        }
+        // 这里先不注册错误回调，fetch好像都会“成功”，看res.status 才能分辨真正是否成功
+        // err => {
+        //   console.log('err', err)
+        // }
+      )
     }
   })
 }

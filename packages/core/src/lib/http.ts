@@ -2,16 +2,13 @@ import { on, isValidKey } from '../utils'
 import { handleSendError } from './err'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
-// import { handleSendPerformance } from './performance'
 import { options } from './options'
+// import { handleSendPerformance } from './performance'
 
 class RequestTemplate {
   src = '' // 请求地址
-  method = '' //
-  duration = '' // 请求消耗时间
-  responseStatus = '' // 请求返回状态
-  requestMethod = '' //
-  triggerTime = -1 //
+  requestMethod = '' // 请求类型 GET POST
+  triggerTime = -1 // 请求发生时间
   constructor(config = {}) {
     Object.keys(config).forEach(key => {
       if (isValidKey(key, config)) {
@@ -27,7 +24,12 @@ class RequestTemplate {
 function interceptFetch() {
   eventBus.addEvent({
     type: EVENTTYPES.FETCH,
-    callback: (target: string, _options: Partial<Request> = {}, res: any) => {
+    callback: (
+      reqUrl: string,
+      _options: Partial<Request> = {},
+      res: Response
+    ) => {
+      console.log(reqUrl, _options, res)
       const fetchStart = Date.now()
       const { method = 'GET' } = _options
 
@@ -51,10 +53,6 @@ function interceptFetch() {
           params: method.toUpperCase() === 'POST' ? _options.body : undefined
         })
       }
-
-      // 错误回调
-      //   // 无法发起请求,连接失败
-      //   handleSendError('server', e.message, { src: target })
     }
   })
 }
@@ -68,7 +66,6 @@ function interceptXHR() {
   eventBus.addEvent({
     type: EVENTTYPES.XHROPEN,
     callback: (method, url) => {
-      console.log('XHROPEN', method, url)
       _config.requestMethod = method
       _config.src = url
     }
@@ -78,7 +75,6 @@ function interceptXHR() {
     type: EVENTTYPES.XHRSEND,
     // body 就是post方法携带的参数
     callback: (that: XMLHttpRequest & any, body) => {
-      console.log(11, body)
       // readyState发生改变时触发,也就是请求状态改变时
       // readyState 会依次变为 2,3,4 也就是会触发三次这里
       on(that, 'readystatechange', function () {
