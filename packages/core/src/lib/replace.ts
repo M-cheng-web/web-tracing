@@ -41,8 +41,7 @@ export function initReplace(options: Options): void {
     allReplace.push(EVENTTYPES.CLICK) // 监听click事件
   }
 
-  allReplace.push(EVENTTYPES.LOAD) // 监听load事件
-  allReplace.push(EVENTTYPES.BEFOREUNLOAD) // 监听beforeunload事件
+  // allReplace.push(EVENTTYPES.BEFOREUNLOAD) // 监听beforeunload事件
 
   if (options.performance.server) {
     allReplace.push(EVENTTYPES.XHROPEN) // 重写XMLHttpRequest-open
@@ -50,15 +49,19 @@ export function initReplace(options: Options): void {
     allReplace.push(EVENTTYPES.FETCH) // 重写fetch
   }
 
+  if (options.performance.core) {
+    allReplace.push(EVENTTYPES.PERFORMANCE) // 监听性能指标
+  }
+
+  if (options.performance.firstResource) {
+    allReplace.push(EVENTTYPES.LOAD) // 监听load事件
+  }
+
   // -------------
 
   if (options.pv.core || options.pv.hashtag) {
     allReplace.push(EVENTTYPES.HASHCHANGE) // 监听hashchange
     allReplace.push(EVENTTYPES.HISTORY) // 监听history模式路由的变化
-  }
-
-  if (options.performance.core || options.performance.firstResource) {
-    allReplace.push(EVENTTYPES.PERFORMANCE) // 监听性能指标
   }
 
   allReplace.forEach(replace)

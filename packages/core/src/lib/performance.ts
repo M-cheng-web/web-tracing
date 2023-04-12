@@ -4,6 +4,7 @@ import { EVENTTYPES } from '../common'
 import { AnyObj } from '../types'
 import { getLocationHref, normalizeObj, isValidKey } from '../utils'
 import { _global } from '../utils/global'
+import { options } from './options'
 
 // 兼容判断
 const supported = {
@@ -54,18 +55,9 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
 
     // 只记录observerTypeList中列出的资源类型请求,不在列表中则跳过
     if (observerTypeList.indexOf(initiatorType.toLowerCase()) < 0) return
-  })
-
-  entries.forEach(entry => {
-    // initiatorType含义：通过某种方式请求的资源,例如script,link..
-    const { initiatorType = '' } = entry as PerformanceResourceTiming
-
-    // 只记录observerTypeList中列出的资源类型请求,不在列表中则跳过
-    if (observerTypeList.indexOf(initiatorType.toLowerCase()) < 0) return
 
     const value: AnyObj = {}
-    const attrKeys = Object.keys(performanceEntryAttrs)
-    attrKeys.forEach(attr => {
+    Object.keys(performanceEntryAttrs).forEach(attr => {
       if (isValidKey(attr, entry)) {
         value[attr] = entry[attr]
       }
@@ -128,23 +120,6 @@ function observeSourceInsert() {
     // attributeFilter: ['src', 'href'], // 要观察的属性
   })
   // observer.disconnect();
-}
-
-/**
- * 页面资源加载性能数据
- */
-function observeResource() {
-  traceResourcePerformance(_global.performance)
-  observeNavigationTiming()
-
-  if (supported.PerformanceObserver) {
-    // 监听异步资源加载性能数据 chrome≥52
-    const observer = new PerformanceObserver(traceResourcePerformance)
-    observer.observe({ entryTypes: ['resource'] })
-  } else if (supported.MutationObserver) {
-    // 监听资源、DOM更新操作记录 chrome≥26 ie≥11
-    observeSourceInsert()
-  }
 }
 
 /**
@@ -216,8 +191,33 @@ function observeNavigationTiming() {
   )
 }
 
+/**
+ * 页面资源加载性能数据
+ */
+function observeResource() {
+  if (supported.performance && options.performance.firstResource) {
+    observeNavigationTiming()
+  }
+
+  if (supported.performance && options.performance.core) {
+    traceResourcePerformance(_global.performance)
+
+    if (supported.PerformanceObserver) {
+      // 监听异步资源加载性能数据 chrome≥52
+      const observer = new PerformanceObserver(traceResourcePerformance)
+      observer.observe({ entryTypes: ['resource'] })
+    } else if (supported.MutationObserver) {
+      // 监听资源、DOM更新操作记录 chrome≥26 ie≥11
+      observeSourceInsert()
+    }
+  }
+}
+
 function initPerformance() {
-  // 初始化方法可能在onload事件之后才执行,此时不会触发load事件了,检查document.readyState属性来判断onload事件是否会被触发
+  if (!options.performance.firstResource && !options.performance.core) return
+
+  // 初始化方法可能在onload事件之后才执行,此时不会触发load事件了
+  // 检查document.readyState属性来判断onload事件是否会被触发
   if (document.readyState === 'complete') {
     observeResource()
   } else {

@@ -3,7 +3,7 @@ import { handleSendError } from './err'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
 import { options } from './options'
-// import { handleSendPerformance } from './performance'
+import { handleSendPerformance } from './performance'
 
 class RequestTemplate {
   src = '' // 请求地址
@@ -29,23 +29,20 @@ function interceptFetch() {
       _options: Partial<Request> = {},
       res: Response
     ) => {
-      console.log(reqUrl, _options, res)
       const fetchStart = Date.now()
       const { method = 'GET' } = _options
 
       // 正确回调
       const { url, status, statusText } = res
       if (status === 200 || status === 304) {
-        console.log('成功')
-        // if (performanceServer) {
-        //   handleSendPerformance('server', {
-        //     src: url,
-        //     duration: Date.now() - fetchStart,
-        //     responseStatus: status,
-        //     params:
-        //       method.toUpperCase() === 'POST' ? _options.body : undefined
-        //   })
-        // }
+        if (options.performance.server) {
+          handleSendPerformance('server', {
+            src: url,
+            duration: Date.now() - fetchStart,
+            responseStatus: status,
+            params: method.toUpperCase() === 'POST' ? _options.body : undefined
+          })
+        }
       } else if (options.error.server) {
         handleSendError('server', statusText, {
           src: url,
@@ -87,17 +84,15 @@ function interceptXHR() {
         if (readyState === 4) {
           // 请求已完成,且响应已就绪
           if (status === 200 || status === 304) {
-            console.log('成功')
-            // if (performanceServer) {
-            //   handleSendPerformance('server', {
-            //     src: responseURL,
-            //     responseStatus: status,
-            //     duration: Date.now() - _config.triggerTime,
-            //     params: body ? body : undefined
-            //   })
-            // }
+            if (options.performance.server) {
+              handleSendPerformance('server', {
+                src: responseURL,
+                responseStatus: status,
+                duration: Date.now() - _config.triggerTime,
+                params: body ? body : undefined
+              })
+            }
           } else if (options.error.server) {
-            console.log('错误')
             handleSendError('server', responseText, {
               src: responseURL,
               responseStatus: status,
