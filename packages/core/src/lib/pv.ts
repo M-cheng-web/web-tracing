@@ -1,10 +1,11 @@
 import type { Options } from '../types'
 import { baseInfo } from './base'
 import { sendData } from './sendData'
-import { getLocationHref } from '../utils/helpers'
+import { getLocationHref } from '../utils'
+import { _global } from '../utils/global'
 
 let oldURL = getLocationHref() // 最后一次的url
-let historyLength = window.history.length // 最后一次history栈的长度
+let historyLength = _global.history.length // 最后一次history栈的长度
 
 /**
  * 发送数据
@@ -12,16 +13,16 @@ let historyLength = window.history.length // 最后一次history栈的长度
  */
 function handleSendPageView(option = {}) {
   const {
-    url = window.location.href,
+    url = getLocationHref(),
     referer = oldURL,
     actions = '',
     params
   } = option
   let action = actions
-  if (!action && window.history.length < 50) {
+  if (!action && _global.history.length < 50) {
     action =
-      historyLength === window.history.length ? 'back_forward' : 'navigation'
-    historyLength = window.history.length
+      historyLength === _global.history.length ? 'back_forward' : 'navigation'
+    historyLength = _global.history.length
   }
   // 如果option.title为空,则等待框架处理document.title,延迟17ms
   // 为什么是17ms?  一秒60Hz是基准,平均1Hz是17毫秒,只要出来了页面那就有 document.title
@@ -41,7 +42,7 @@ function handleSendPageView(option = {}) {
     option.title ? 0 : 17
   )
   oldURL = url
-  historyLength = window.history.length
+  historyLength = _global.history.length
 }
 
 /**
@@ -56,18 +57,18 @@ function initPv(options: Options) {
   let lastIsPop = false // 最后一次触发路由变化是否为popState触发
   handleSendPageView({ url: oldURL, referer })
 
-  if (window.history.pushState) {
+  if (_global.history.pushState) {
     // 劫持history.pushState history.replaceState
-    const push = window.history.pushState.bind(window.history)
-    window.history.pushState = (data, title, url) => {
+    const push = _global.history.pushState.bind(_global.history)
+    _global.history.pushState = (data, title, url) => {
       lastIsPop = false
       const result = push(data, title, url)
       handleSendPageView({ actions: 'navigation' })
       return result
     }
 
-    const repalce = window.history.replaceState.bind(window.history)
-    window.history.replaceState = (data, title, url) => {
+    const repalce = _global.history.replaceState.bind(_global.history)
+    _global.history.replaceState = (data, title, url) => {
       lastIsPop = false
       const result = repalce(data, title, url)
       handleSendPageView({ actions: 'navigation' })
@@ -77,14 +78,14 @@ function initPv(options: Options) {
     // hash变化也会触发popstate事件,而且会先触发popstate事件
     // 可以使用popstate来代替hashchange,如果支持History H5 Api
     // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event
-    window.addEventListener('popstate', () => {
-      if (window.location.hash !== '') {
+    _global.addEventListener('popstate', () => {
+      if (_global.location.hash !== '') {
         const oldHost =
           oldURL.indexOf('#') > 0 // 多页面情况下 history模式刷新还是在pv页面
             ? oldURL.slice(0, oldURL.indexOf('#'))
             : oldURL
         if (
-          window.location.href.slice(0, window.location.href.indexOf('#')) ===
+          _global.location.href.slice(0, _global.location.href.indexOf('#')) ===
             oldHost &&
           !pvHashtag
         )
@@ -95,7 +96,7 @@ function initPv(options: Options) {
     })
   }
   // 监听hashchange
-  window.addEventListener('hashchange', () => {
+  _global.addEventListener('hashchange', () => {
     if (pvHashtag && !lastIsPop) handleSendPageView()
     lastIsPop = false
   })

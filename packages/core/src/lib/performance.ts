@@ -1,15 +1,19 @@
-import type { Options } from '../types'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
+import { AnyObj } from '../types'
+import { getLocationHref, normalizeObj, isValidKey } from '../utils'
+import { _global } from '../utils/global'
 
 // 兼容判断
 const supported = {
-  performance: !!window.performance,
-  getEntriesByType: !!(window.performance && performance.getEntriesByType),
-  PerformanceObserver: 'PerformanceObserver' in window,
-  MutationObserver: 'MutationObserver' in window,
-  PerformanceNavigationTiming: 'PerformanceNavigationTiming' in window
+  performance: !!_global.performance,
+  getEntriesByType: !!(
+    _global.performance && _global.performance.getEntriesByType
+  ),
+  PerformanceObserver: 'PerformanceObserver' in _global,
+  MutationObserver: 'MutationObserver' in _global,
+  PerformanceNavigationTiming: 'PerformanceNavigationTiming' in _global
 }
 
 // 资源属性
@@ -34,42 +38,41 @@ const performanceEntryAttrs = {
 }
 
 /**
- * 格式化性能记录,小数位数保留最多两位,等于0的字段不传输,标记为undefined
- */
-function normalizePerformanceRecord(e) {
-  Object.keys(e).forEach(p => {
-    const v = e[p]
-    if (typeof v === 'number')
-      e[p] = v === 0 ? undefined : parseFloat(v.toFixed(2))
-  })
-  return e
-}
-
-/**
  * 发送页面追踪资源加载性能数据
- * 支持getEntriesByType的情况下才追踪
+ * (支持getEntriesByType的情况下才追踪)
  */
-function traceResourcePerformance(performance) {
+function traceResourcePerformance(performance: PerformanceObserverEntryList) {
   // 排除xmlhttprequest类型,服务器有响应便会记录,包括404的请求,转由http-request模块负责记录请求数据,区分请求状态
   // 同时也会排除一些其他类型,比如在引入一个script后会触发一次性能监控,它的类型是beacon,这一次的要排除
   const observerTypeList = ['img', 'script', 'link', 'audio', 'video', 'css']
   const entries = performance.getEntriesByType('resource')
-  const records = []
+  const records: any[] = []
 
   entries.forEach(entry => {
-    const { initiatorType = '' } = entry // initiatorType: 通过某种方式请求的资源,比如script,link
+    // initiatorType含义：通过某种方式请求的资源,例如script,link..
+    const { initiatorType = '' } = entry as PerformanceResourceTiming
+
+    // 只记录observerTypeList中列出的资源类型请求,不在列表中则跳过
+    if (observerTypeList.indexOf(initiatorType.toLowerCase()) < 0) return
+  })
+
+  entries.forEach(entry => {
+    // initiatorType含义：通过某种方式请求的资源,例如script,link..
+    const { initiatorType = '' } = entry as PerformanceResourceTiming
 
     // 只记录observerTypeList中列出的资源类型请求,不在列表中则跳过
     if (observerTypeList.indexOf(initiatorType.toLowerCase()) < 0) return
 
-    const value = {}
+    const value: AnyObj = {}
     const attrKeys = Object.keys(performanceEntryAttrs)
     attrKeys.forEach(attr => {
-      value[attr] = entry[attr]
+      if (isValidKey(attr, entry)) {
+        value[attr] = entry[attr]
+      }
     })
 
     records.push(
-      normalizePerformanceRecord({
+      normalizeObj({
         ...value,
         eventType: 'performance',
         eventId: 'resource',
@@ -79,20 +82,13 @@ function traceResourcePerformance(performance) {
       })
     )
   })
+
   if (records.length) sendData.emit(records)
   return records
 }
 
 /**
- * 监听异步资源加载信息
- */
-function observeAsyncInfo() {
-  const observer = new PerformanceObserver(traceResourcePerformance)
-  observer.observe({ entryTypes: ['resource'] })
-}
-
-/**
- * 监听异步插入的script、link、img,DOM更新操作记录
+ * 监听 - 异步插入的script、link、img, DOM更新操作记录
  */
 function observeSourceInsert() {
   const tags = ['img', 'script', 'link']
@@ -102,21 +98,21 @@ function observeSourceInsert() {
     for (let i = 0; i < mutationsList.length; i += 1) {
       const startTime = Date.now()
       const { addedNodes = [] } = mutationsList[i]
-      const records = []
-      addedNodes.forEach(node => {
+      const records: any[] = []
+      addedNodes.forEach((node: Node & { src?: string; href?: string }) => {
         const { nodeName } = node
         if (tags.indexOf(nodeName.toLowerCase()) !== -1) {
           node.addEventListener('load', () => {
             const endTime = Date.now()
             records.push(
-              normalizePerformanceRecord({
+              normalizeObj({
                 // 没有其他的时间属性,只记录能获取到的
                 eventType: 'performance',
                 eventId: 'resource',
                 src: node.src || node.href,
                 duration: endTime - startTime,
                 triggerTime: Date.now(),
-                url: window.location.href
+                url: getLocationHref()
               })
             )
           })
@@ -125,7 +121,7 @@ function observeSourceInsert() {
       sendData.emit(records)
     }
   })
-  observer.observe(window.document, {
+  observer.observe(_global.document, {
     subtree: true, // 目标以及目标的后代改变都会观察
     childList: true // 表示观察目标子节点的变化，比如添加或者删除目标子节点，不包括修改子节点以及子节点后代的变化
     // attributes: true, // 观察属性变动
@@ -135,37 +131,36 @@ function observeSourceInsert() {
 }
 
 /**
- * 兼容-异步资源
+ * 页面资源加载性能数据
  */
-function observeAsyncResource() {
+function observeResource() {
+  traceResourcePerformance(_global.performance)
+  observeNavigationTiming()
+
   if (supported.PerformanceObserver) {
-    observeAsyncInfo() // 监听异步资源加载性能数据 chrome≥52
+    // 监听异步资源加载性能数据 chrome≥52
+    const observer = new PerformanceObserver(traceResourcePerformance)
+    observer.observe({ entryTypes: ['resource'] })
   } else if (supported.MutationObserver) {
-    observeSourceInsert() // 监听资源、DOM更新操作记录 chrome≥26 ie11
+    // 监听资源、DOM更新操作记录 chrome≥26 ie≥11
+    observeSourceInsert()
   }
 }
 
 /**
- * 页面资源加载性能数据
- */
-function observeResource() {
-  traceResourcePerformance(window.performance)
-  observeAsyncResource()
-}
-
-/**
- * 发送首次页面性能数据
+ * 发送页面性能数据
  */
 function observeNavigationTiming() {
-  const times = {}
-  const { performance } = window
+  const times: AnyObj = {}
+  const { performance } = _global
   let t = performance.timing
 
   times.fmp = 0 // 首屏时间 (渲染节点增量最大的时间点)
   if (supported.getEntriesByType) {
     const paintEntries = performance.getEntriesByType('paint')
-    if (paintEntries.length)
+    if (paintEntries.length) {
       times.fmp = paintEntries[paintEntries.length - 1].startTime
+    }
 
     // 优先使用 navigation v2  https://www.w3.org/TR/navigation-timing-2/
     if (supported.PerformanceNavigationTiming) {
@@ -174,9 +169,11 @@ function observeNavigationTiming() {
     }
   }
 
-  // 从开始发起这个页面的访问开始算起,减去重定向跳转的时间,在performanceV2版本下才进行计算,v1版本的fetchStart是时间戳而不是相对于访问起始点的相对时间
-  if (times.fmp && supported.PerformanceNavigationTiming)
+  // 从开始发起这个页面的访问开始算起,减去重定向跳转的时间,在performanceV2版本下才进行计算
+  // v1版本的fetchStart是时间戳而不是相对于访问起始点的相对时间
+  if (times.fmp && supported.PerformanceNavigationTiming) {
     times.fmp -= t.fetchStart
+  }
 
   // 白屏时间 (从请求开始到浏览器开始解析第一批HTML文档字节的时间差)
   // times.fpt = t.responseEnd - t.fetchStart;
@@ -210,46 +207,43 @@ function observeNavigationTiming() {
   times.unloadTime = t.unloadEventEnd - t.unloadEventStart // 上一个页面的卸载耗时
 
   sendData.emit(
-    normalizePerformanceRecord({
+    normalizeObj({
       ...times,
       eventType: 'performance',
       eventId: 'page',
-      url: window.location.href
+      url: getLocationHref()
     })
   )
 }
 
-function initPerformance(options: Options) {
-  // if (!performanceFirstResource && !performanceCore) return;
-
+function initPerformance() {
   // 初始化方法可能在onload事件之后才执行,此时不会触发load事件了,检查document.readyState属性来判断onload事件是否会被触发
   if (document.readyState === 'complete') {
-    if (supported.performance && performanceFirstResource)
-      observeNavigationTiming()
-    if (supported.getEntriesByType && performanceCore) observeResource()
+    observeResource()
   } else {
-    window.addEventListener('load', () => {
-      if (supported.performance && performanceFirstResource)
-        observeNavigationTiming()
-      if (supported.getEntriesByType && performanceCore) observeResource()
+    eventBus.addEvent({
+      type: EVENTTYPES.LOAD,
+      callback: () => {
+        observeResource()
+      }
     })
   }
 }
 
 /**
  * 主动触发性能事件上报
- * @param {*} eventId 事件ID
- * @param {*} options 自定义配置信息
+ * @param eventId 事件ID
+ * @param options 自定义配置信息
  */
-function handleSendPerformance(eventId, options) {
+function handleSendPerformance(eventId: string, options: AnyObj) {
   const record = {
     triggerTime: Date.now(),
-    url: window.location.href,
-    ...options,
+    url: getLocationHref(),
     eventId,
-    eventType: 'performance'
+    eventType: 'performance',
+    ...options
   }
-  sendData.emit(normalizePerformanceRecord(record))
+  sendData.emit(normalizeObj(record))
 }
 
 export { initPerformance, handleSendPerformance }

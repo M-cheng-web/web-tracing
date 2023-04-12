@@ -42,6 +42,20 @@ export function replaceAop(
 }
 
 /**
+ * 格式化对象
+ * 小数位数保留最多两位
+ * 空值赋 undefined
+ */
+export function normalizeObj(e: AnyObj) {
+  Object.keys(e).forEach(p => {
+    const v = e[p]
+    if (typeof v === 'number')
+      e[p] = v === 0 ? undefined : parseFloat(v.toFixed(2))
+  })
+  return e
+}
+
+/**
  * 获取当前页面的url
  * @returns 当前页面的url
  */

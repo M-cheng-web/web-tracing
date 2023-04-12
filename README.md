@@ -81,3 +81,5 @@ nr docs
 5. 在业务中碰到的跳转客服功能，看看能不能在这里用utils包实现
 6. error 检测那边，应该再加一个属性标识错误类型，例如 console.error 还是 Error 或者 reject
 7. ua-parser-js 这个库调研一下
+8. https://juejin.cn/post/7220309530910851130?#heading-5 曝光
+9. 针对性能采集需要多调研一下(vue 内部也有，可参考https://juejin.cn/post/7012641316144152589)

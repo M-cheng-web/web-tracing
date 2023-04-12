@@ -14,7 +14,7 @@ import { initError } from './src/lib/err'
 import { initEvent } from './src/lib/event'
 import { initEventDwell } from './src/lib/event-dwell'
 import { initHttp } from './src/lib/http'
-// import { initPerformance } from './src/performance'
+import { initPerformance } from './src/lib/performance'
 // import { initPv } from './src/pv'
 
 // 暴露给外部的方法
@@ -92,7 +92,7 @@ function init(options: InitOptions) {
   // initEventDwell()
   // initHttp()
 
-  // initPerformance(_options)
+  initPerformance()
   // initPv(_options)
 }
 
