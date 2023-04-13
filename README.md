@@ -6,10 +6,8 @@
 ## 官方文档 & Demo演示
 [https://m-cheng-web.github.io/web-tracing-docu/](https://m-cheng-web.github.io/web-tracing-docu/)
 
+<br>
 
-<br>
-<br>
-<br>
 
 ## 重构 & 新功能添加
 此项目正进行重构中，在重构完成前已发布的npm包不会继续更新（文档也不会更新），且一期代码已封版移入“1.0”分支，当前main分支会持续更新重构代码（如果这样的模式影响到您，作者表示很抱歉，如果需要支持请随时联系我）
@@ -53,6 +51,23 @@
 
 <br>
 
+## 本地调试(main分支代码)
+先 `pnpm install`
+```
+第一步：初始化所有测试项目仓库
+nr test:install
+
+第二步：打包并监听各个sdk
+nr watch
+
+第三步：运行js测试项目
+nr test:js
+
+nr test:vue2 (也可以运行vue2测试项目)
+nr test:vue3 (也可以运行vue3测试项目)
+
+nr docs (文档调试)
+```
 ## 🙏🙏🙏 点个Star
 
 **如果您觉得这个项目还不错, 可以在 [Github](https://github.com/M-cheng-web/web-tracing) 上面帮我点个`star`, 支持一下作者ヾ(◍°∇°◍)ﾉﾞ**
