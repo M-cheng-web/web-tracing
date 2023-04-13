@@ -51,12 +51,15 @@ export enum EVENTTYPES {
   CLICK = 'click',
   LOAD = 'load',
   BEFOREUNLOAD = 'beforeunload',
+  FETCH = 'fetch',
   XHROPEN = 'xhr-open',
   XHRSEND = 'xhr-send',
-
-  FETCH = 'fetch',
-  HISTORY = 'history',
   HASHCHANGE = 'hashchange',
+  HISTORYPUSHSTATE = 'history-pushState',
+  HISTORYREPLACESTATE = 'history-replaceState',
+  POPSTATE = 'popstate',
+
+  HISTORY = 'history',
   RESOURCE = 'resource',
   DOM = 'dom',
   VUE = 'vue',

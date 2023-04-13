@@ -15,7 +15,7 @@ import { initEvent } from './src/lib/event'
 import { initEventDwell } from './src/lib/event-dwell'
 import { initHttp } from './src/lib/http'
 import { initPerformance } from './src/lib/performance'
-// import { initPv } from './src/pv'
+import { initPv } from './src/lib/pv'
 
 // 暴露给外部的方法
 const exportMethods: ExportMethods = {
@@ -91,9 +91,9 @@ function init(options: InitOptions) {
   // initEvent()
   // initEventDwell()
   // initHttp()
+  // initPerformance()
 
-  initPerformance()
-  // initPv(_options)
+  initPv()
 }
 
 export default {

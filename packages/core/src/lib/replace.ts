@@ -57,11 +57,11 @@ export function initReplace(options: Options): void {
     allReplace.push(EVENTTYPES.LOAD) // 监听load事件
   }
 
-  // -------------
-
   if (options.pv.core || options.pv.hashtag) {
     allReplace.push(EVENTTYPES.HASHCHANGE) // 监听hashchange
-    allReplace.push(EVENTTYPES.HISTORY) // 监听history模式路由的变化
+    allReplace.push(EVENTTYPES.HISTORYPUSHSTATE)
+    allReplace.push(EVENTTYPES.HISTORYREPLACESTATE)
+    allReplace.push(EVENTTYPES.POPSTATE)
   }
 
   allReplace.forEach(replace)
@@ -97,15 +97,21 @@ function replace(type: EVENTTYPES): void {
     case EVENTTYPES.FETCH:
       replaceFetch(EVENTTYPES.FETCH)
       break
+    case EVENTTYPES.HASHCHANGE:
+      listenHashchange(EVENTTYPES.HASHCHANGE)
+      break
+    case EVENTTYPES.HISTORYPUSHSTATE:
+      replaceHistoryPushState(EVENTTYPES.HISTORYPUSHSTATE)
+      break
+    case EVENTTYPES.HISTORYREPLACESTATE:
+      replaceHistoryReplaceState(EVENTTYPES.HISTORYREPLACESTATE)
+      break
+    case EVENTTYPES.POPSTATE:
+      listenPopState(EVENTTYPES.POPSTATE)
+      break
 
     // --------
 
-    case EVENTTYPES.HISTORY:
-      historyReplace()
-      break
-    case EVENTTYPES.HASHCHANGE:
-      listenHashchange()
-      break
     case EVENTTYPES.PERFORMANCE:
       listenPerformance()
       break
@@ -224,70 +230,59 @@ function replaceFetch(type: EVENTTYPES): void {
   if (!('fetch' in _global)) return
   replaceAop(_global, 'fetch', (originalFetch: any) => {
     return function (this: any, ...args: any[]): void {
-      return originalFetch.apply(_global, args).then(
-        (res: any) => {
-          eventBus.runEvent(type, ...args, res)
-        }
-        // 这里先不注册错误回调，fetch好像都会“成功”，看res.status 才能分辨真正是否成功
-        // err => {
-        //   console.log('err', err)
-        // }
-      )
+      return originalFetch.apply(_global, args).then((res: any) => {
+        eventBus.runEvent(type, ...args, res)
+      })
     }
+  })
+}
+/**
+ * 监听 - hashchange
+ */
+function listenHashchange(type: EVENTTYPES): void {
+  // 通过onpopstate事件，来监听hash模式下路由的变化
+  on(_global, type, function (e: HashChangeEvent) {
+    eventBus.runEvent(type, e)
+  })
+}
+/**
+ * 重写 - history-replaceState
+ */
+function replaceHistoryReplaceState(type: EVENTTYPES): void {
+  if (!('history' in _global)) return
+  if (!('pushState' in _global.history)) return
+  replaceAop(_global.history, 'pushState', (originalFetch: any) => {
+    return function (this: any, ...args: any[]): void {
+      return originalFetch.apply(_global, args).then((res: any) => {
+        eventBus.runEvent(type, ...args, res)
+      })
+    }
+  })
+}
+/**
+ * 重写 - history-pushState
+ */
+function replaceHistoryPushState(type: EVENTTYPES): void {
+  if (!('history' in _global)) return
+  if (!('pushState' in _global.history)) return
+  replaceAop(_global.history, 'pushState', (originalFetch: any) => {
+    return function (this: any, ...args: any[]): void {
+      return originalFetch.apply(_global, args).then((res: any) => {
+        eventBus.runEvent(type, ...args, res)
+      })
+    }
+  })
+}
+/**
+ * 监听 - popstate
+ */
+function listenPopState(type: EVENTTYPES): void {
+  on(_global, type, function (e: HashChangeEvent) {
+    eventBus.runEvent(type, e)
   })
 }
 
 // ---------------------------------
-
-/**
- * 监听 - hashchange
- */
-function listenHashchange(): void {
-  // 通过onpopstate事件，来监听hash模式下路由的变化
-  if (!isExistProperty(_global, 'onhashchange')) return
-  on(_global, EVENTTYPES.HASHCHANGE, function (e: HashChangeEvent) {
-    eventBus.runEvent(EVENTTYPES.HASHCHANGE, e)
-  })
-}
-
-/**
- * 监听 - popstate
- * 重写 - pushState
- * 重写 - replaceState
- */
-let lastHref: string = getLocationHref()
-function historyReplace(): void {
-  const oldOnpopstate = _global.onpopstate
-  // 添加 onpopstate事件
-  _global.onpopstate = function (...args: any[]): void {
-    const to = getLocationHref()
-    const from = lastHref
-    lastHref = to
-    eventBus.runEvent(EVENTTYPES.HISTORY, {
-      from,
-      to
-    })
-    oldOnpopstate && oldOnpopstate.apply(this, args)
-  }
-  function historyReplaceFn(originalHistoryFn: VoidFun): VoidFun {
-    return function (this: any, ...args: any[]): void {
-      const url = args.length > 2 ? args[2] : undefined
-      if (url) {
-        const from = lastHref
-        const to = String(url)
-        lastHref = to
-        eventBus.runEvent(EVENTTYPES.HISTORY, {
-          from,
-          to
-        })
-      }
-      return originalHistoryFn.apply(this, args)
-    }
-  }
-  // 重写pushState、replaceState事件
-  replaceAop(_global.history, 'pushState', historyReplaceFn)
-  replaceAop(_global.history, 'replaceState', historyReplaceFn)
-}
 
 /**
  * 直接获取 - 性能(performance)

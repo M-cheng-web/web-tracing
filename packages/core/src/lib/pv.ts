@@ -1,17 +1,78 @@
-import type { Options } from '../types'
+import type { AnyObj } from '../types'
 import { baseInfo } from './base'
 import { sendData } from './sendData'
 import { getLocationHref } from '../utils'
 import { _global } from '../utils/global'
+import { options } from './options'
+import { eventBus } from './eventBus'
+import { EVENTTYPES } from '../common'
 
 let oldURL = getLocationHref() // 最后一次的url
-let historyLength = _global.history.length // 最后一次history栈的长度
+let historyLength = _global.history.length
+
+/**
+ * 路由Pv采集
+ */
+function initPv() {
+  // 这边是有异议的，hashtag 也需要考虑倒
+  if (!options.pv.core) return
+
+  const referer = document.referrer // 获取是从哪个页面跳转来的
+
+  let lastIsPop = false // 最后一次触发路由变化是否为popState触发
+  sendPageView({ url: oldURL, referer })
+
+  eventBus.addEvent({
+    type: EVENTTYPES.HASHCHANGE,
+    callback: () => {
+      if (options.pv.hashtag && !lastIsPop) sendPageView()
+      lastIsPop = false
+    }
+  })
+
+  eventBus.addEvent({
+    type: EVENTTYPES.HISTORYPUSHSTATE,
+    callback: () => {
+      lastIsPop = false
+      sendPageView({ actions: 'navigation' })
+    }
+  })
+  eventBus.addEvent({
+    type: EVENTTYPES.HISTORYREPLACESTATE,
+    callback: () => {
+      lastIsPop = false
+      sendPageView({ actions: 'navigation' })
+    }
+  })
+
+  // hash变化也会触发popstate事件,而且会先触发popstate事件
+  // 可以使用popstate来代替hashchange,如果支持History H5 Api
+  // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event
+  eventBus.addEvent({
+    type: EVENTTYPES.POPSTATE,
+    callback: () => {
+      if (_global.location.hash !== '') {
+        const oldHost =
+          oldURL.indexOf('#') > 0 // 多页面情况下 history模式刷新还是在pv页面
+            ? oldURL.slice(0, oldURL.indexOf('#'))
+            : oldURL
+        if (
+          _global.location.href.slice(0, _global.location.href.indexOf('#')) ===
+            oldHost &&
+          !options.pv.hashtag
+        )
+          return
+      }
+      lastIsPop = true
+      sendPageView()
+    }
+  })
+}
 
 /**
  * 发送数据
- * option 请求参数
  */
-function handleSendPageView(option = {}) {
+function sendPageView(option: AnyObj = {}) {
   const {
     url = getLocationHref(),
     referer = oldURL,
@@ -46,60 +107,32 @@ function handleSendPageView(option = {}) {
 }
 
 /**
- * 路由Pv采集
- * pvHashtag 是否监听hash变化
+ * 手动发送数据
  */
-function initPv(options: Options) {
-  const { pvCore, pvHashtag } = options
-  const referer = document.referrer // 获取是从哪个页面跳转来的
-  if (!pvCore) return
-
-  let lastIsPop = false // 最后一次触发路由变化是否为popState触发
-  handleSendPageView({ url: oldURL, referer })
-
-  if (_global.history.pushState) {
-    // 劫持history.pushState history.replaceState
-    const push = _global.history.pushState.bind(_global.history)
-    _global.history.pushState = (data, title, url) => {
-      lastIsPop = false
-      const result = push(data, title, url)
-      handleSendPageView({ actions: 'navigation' })
-      return result
-    }
-
-    const repalce = _global.history.replaceState.bind(_global.history)
-    _global.history.replaceState = (data, title, url) => {
-      lastIsPop = false
-      const result = repalce(data, title, url)
-      handleSendPageView({ actions: 'navigation' })
-      return result
-    }
-
-    // hash变化也会触发popstate事件,而且会先触发popstate事件
-    // 可以使用popstate来代替hashchange,如果支持History H5 Api
-    // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event
-    _global.addEventListener('popstate', () => {
-      if (_global.location.hash !== '') {
-        const oldHost =
-          oldURL.indexOf('#') > 0 // 多页面情况下 history模式刷新还是在pv页面
-            ? oldURL.slice(0, oldURL.indexOf('#'))
-            : oldURL
-        if (
-          _global.location.href.slice(0, _global.location.href.indexOf('#')) ===
-            oldHost &&
-          !pvHashtag
-        )
-          return
-      }
-      lastIsPop = true
-      handleSendPageView()
-    })
-  }
-  // 监听hashchange
-  _global.addEventListener('hashchange', () => {
-    if (pvHashtag && !lastIsPop) handleSendPageView()
-    lastIsPop = false
-  })
+function handleSendPageView(option: AnyObj = {}) {
+  const {
+    url = getLocationHref(),
+    referer = oldURL,
+    actions = '',
+    params
+  } = option
+  // 如果option.title为空,则等待框架处理document.title,延迟17ms
+  // 为什么是17ms?  一秒60Hz是基准,平均1Hz是17毫秒,只要出来了页面那就有 document.title
+  setTimeout(
+    () => {
+      sendData.emit({
+        eventType: 'pv',
+        eventId: baseInfo.pageId,
+        url,
+        referer,
+        params,
+        title: option.title || document.title,
+        action: actions,
+        triggerTime: Date.now()
+      })
+    },
+    option.title ? 0 : 17
+  )
 }
 
 export { initPv, handleSendPageView }
