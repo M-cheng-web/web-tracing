@@ -85,3 +85,19 @@ nr docs
 9. 针对性能采集需要多调研一下(vue 内部也有，可参考https://juejin.cn/post/7012641316144152589)
 10. 多个事件注册会不会紊乱，比如触发 onload事件会将本应该执行的方法也执行了
 11. 数据结构不够直观，再优化下
+12. hash 和 history 的跳转重复点击都会触发的，是否给用户一个选择来取消这个
+
+目前无法捕捉一下pv
+```
+1. window.open 外部网站的url
+2. a 标签 href 外部网站url
+
+第一种可以这样，但不通用，先暂定不这样搞，后面用户自己可以封装然后调用sdk就行
+const open = window.open
+window.open = function(url) {
+  console.log('url', url);
+  open(url)
+}
+
+第二种目前没办法拦截到
+```

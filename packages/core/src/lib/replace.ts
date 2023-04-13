@@ -1,8 +1,7 @@
 import type { Options, VoidFun } from '../types'
 import { debug } from '../utils/debug'
 import { _global } from '../utils/global'
-import { on, replaceAop, throttle, getLocationHref } from '../utils'
-import { isExistProperty } from '../utils/is'
+import { on, replaceAop, throttle } from '../utils'
 import { EVENTTYPES } from '../common'
 import { eventBus } from './eventBus'
 
@@ -49,26 +48,25 @@ export function initReplace(options: Options): void {
     allReplace.push(EVENTTYPES.FETCH) // 重写fetch
   }
 
-  if (options.performance.core) {
-    allReplace.push(EVENTTYPES.PERFORMANCE) // 监听性能指标
-  }
-
   if (options.performance.firstResource) {
     allReplace.push(EVENTTYPES.LOAD) // 监听load事件
   }
 
-  if (options.pv.core || options.pv.hashtag) {
-    allReplace.push(EVENTTYPES.HASHCHANGE) // 监听hashchange
+  if (options.pv.core) {
     allReplace.push(EVENTTYPES.HISTORYPUSHSTATE)
     allReplace.push(EVENTTYPES.HISTORYREPLACESTATE)
-    allReplace.push(EVENTTYPES.POPSTATE)
+
+    if (options.pv.hashtag) {
+      allReplace.push(EVENTTYPES.HASHCHANGE) // 监听hashchange
+      allReplace.push(EVENTTYPES.POPSTATE)
+    }
   }
 
   allReplace.forEach(replace)
 }
 
 function replace(type: EVENTTYPES): void {
-  debug('replace - 初始化挂载事件:', type)
+  debug('replace-初始化挂载事件:', type)
   switch (type) {
     case EVENTTYPES.ERROR:
       listenError(EVENTTYPES.ERROR)
@@ -110,14 +108,6 @@ function replace(type: EVENTTYPES): void {
       listenPopState(EVENTTYPES.POPSTATE)
       break
 
-    // --------
-
-    case EVENTTYPES.PERFORMANCE:
-      listenPerformance()
-      break
-    case EVENTTYPES.RECORDSCREEN:
-      recordScreen()
-      break
     default:
       break
   }
@@ -140,7 +130,7 @@ function listenError(type: EVENTTYPES): void {
  * 监听 - unhandledrejection（promise异常）
  */
 function listenUnhandledrejection(type: EVENTTYPES): void {
-  on(_global, type, function (ev: PromiseRejectionEvent) {
+  on(_global, 'unhandledrejection', function (ev: PromiseRejectionEvent) {
     // ev.preventDefault() 阻止默认行为后，控制台就不会再报红色错误
     eventBus.runEvent(type, ev)
   })
@@ -202,8 +192,7 @@ function listenBeforeunload(type: EVENTTYPES): void {
  */
 function replaceXHROpen(type: EVENTTYPES): void {
   if (!('XMLHttpRequest' in _global)) return
-  const originalXhrProto = XMLHttpRequest.prototype
-  replaceAop(originalXhrProto, 'open', (originalOpen: VoidFun) => {
+  replaceAop(XMLHttpRequest.prototype, 'open', (originalOpen: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       eventBus.runEvent(type, ...args)
       originalOpen.apply(this, args)
@@ -215,8 +204,7 @@ function replaceXHROpen(type: EVENTTYPES): void {
  */
 function replaceXHRSend(type: EVENTTYPES): void {
   if (!('XMLHttpRequest' in _global)) return
-  const originalXhrProto = XMLHttpRequest.prototype
-  replaceAop(originalXhrProto, 'send', (originalSend: VoidFun) => {
+  replaceAop(XMLHttpRequest.prototype, 'send', (originalSend: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       eventBus.runEvent(type, this, args)
       originalSend.apply(this, args)
@@ -241,7 +229,7 @@ function replaceFetch(type: EVENTTYPES): void {
  */
 function listenHashchange(type: EVENTTYPES): void {
   // 通过onpopstate事件，来监听hash模式下路由的变化
-  on(_global, type, function (e: HashChangeEvent) {
+  on(_global, 'hashchange', function (e: HashChangeEvent) {
     eventBus.runEvent(type, e)
   })
 }
@@ -251,11 +239,10 @@ function listenHashchange(type: EVENTTYPES): void {
 function replaceHistoryReplaceState(type: EVENTTYPES): void {
   if (!('history' in _global)) return
   if (!('pushState' in _global.history)) return
-  replaceAop(_global.history, 'pushState', (originalFetch: any) => {
+  replaceAop(_global.history, 'replaceState', (originalSend: VoidFun) => {
     return function (this: any, ...args: any[]): void {
-      return originalFetch.apply(_global, args).then((res: any) => {
-        eventBus.runEvent(type, ...args, res)
-      })
+      eventBus.runEvent(type, ...args)
+      originalSend.apply(this, args)
     }
   })
 }
@@ -265,11 +252,10 @@ function replaceHistoryReplaceState(type: EVENTTYPES): void {
 function replaceHistoryPushState(type: EVENTTYPES): void {
   if (!('history' in _global)) return
   if (!('pushState' in _global.history)) return
-  replaceAop(_global.history, 'pushState', (originalFetch: any) => {
+  replaceAop(_global.history, 'pushState', (originalSend: VoidFun) => {
     return function (this: any, ...args: any[]): void {
-      return originalFetch.apply(_global, args).then((res: any) => {
-        eventBus.runEvent(type, ...args, res)
-      })
+      eventBus.runEvent(type, ...args)
+      originalSend.apply(this, args)
     }
   })
 }
@@ -277,23 +263,7 @@ function replaceHistoryPushState(type: EVENTTYPES): void {
  * 监听 - popstate
  */
 function listenPopState(type: EVENTTYPES): void {
-  on(_global, type, function (e: HashChangeEvent) {
+  on(_global, 'popstate', function (e: HashChangeEvent) {
     eventBus.runEvent(type, e)
   })
-}
-
-// ---------------------------------
-
-/**
- * 直接获取 - 性能(performance)
- */
-function listenPerformance(): void {
-  eventBus.runEvent(EVENTTYPES.PERFORMANCE)
-}
-
-/**
- * 直接获取 - recordScreen
- */
-function recordScreen(): void {
-  eventBus.runEvent(EVENTTYPES.RECORDSCREEN)
 }

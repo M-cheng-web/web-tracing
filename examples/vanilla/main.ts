@@ -24,11 +24,8 @@ init({
   dsn: 'http://1.15.224.10:22/trackweb/tra',
   appName: 'cxh',
   debug: true,
-  pv: {
-    core: true,
-    hashtag: false
-  }
-  // performance: true
-  // error: true,
-  // event: true
+  pv: true,
+  performance: true,
+  error: true,
+  event: true
 })

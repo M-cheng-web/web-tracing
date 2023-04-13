@@ -10,14 +10,7 @@
     <script type="module" src="/main.ts"></script>
     <div id="app"></div>
 
-    <div>
-      <div>Error 捕捉</div>
-      <button id="codeErr" onclick="codeError()">代码错误</button>
-      <button id="promiseError" onclick="promiseError()">promiseError</button>
-      <button id="consoleErr" onclick="consoleErr()">手动输出错误</button>
-    </div>
-    <br />
-
+    <!-- Event 点击事件捕捉 -->
     <div>
       <div>Event 点击事件捕捉</div>
       <div
@@ -46,24 +39,16 @@
     </div>
     <br />
 
+    <!-- Error 捕捉 -->
     <div>
-      <div>Http 事件捕捉</div>
-      <button id="normalReq" onclick="onClickXhrNormal()">xhr正常请求</button>
-      <button id="exceptionReq" onclick="onClickXhrError()">xhr异常请求</button>
-      <button id="normalFetch" onclick="onClickNativeFetch()">
-        Fetch正常请求
-      </button>
-      <button id="exceptionFetch" onclick="onClickNativeErrorFetch()">
-        Fetch异常请求
-      </button>
+      <div>Error 捕捉</div>
+      <button id="codeErr" onclick="codeError()">代码错误</button>
+      <button id="promiseError" onclick="promiseError()">promiseError</button>
+      <button id="consoleErr" onclick="consoleErr()">手动输出错误</button>
     </div>
     <br />
 
-    <button id="hashChange" onclick="hashChange()">改变hash</button>
-    <a href="/vue2/index.html">跳到Vue2页面</a>
-    <a href="/vue3/index.html">跳到Vue3页面</a>
-    <a href="http://www.baidu.com" target="_blank">跳到百度</a>
-
+    <!-- Error 捕捉 -->
     <script>
       // ---------------- Error 捕捉 ----------------
       function codeError() {
@@ -84,7 +69,24 @@
         console.error("consoleErr2");
         console.error(new Error("谢谢谢谢谢"));
       }
+    </script>
 
+    <!-- Http 事件捕捉 -->
+    <div>
+      <div>Http 事件捕捉</div>
+      <button id="normalReq" onclick="onClickXhrNormal()">xhr正常请求</button>
+      <button id="exceptionReq" onclick="onClickXhrError()">xhr异常请求</button>
+      <button id="normalFetch" onclick="onClickNativeFetch()">
+        Fetch正常请求
+      </button>
+      <button id="exceptionFetch" onclick="onClickNativeErrorFetch()">
+        Fetch异常请求
+      </button>
+    </div>
+    <br />
+
+    <!-- Http 事件捕捉 -->
+    <script>
       // ---------------- Http 事件捕捉 ----------------
       function onClickXhrNormal() {
         const xhr = new XMLHttpRequest();
@@ -117,11 +119,11 @@
             "Content-Type": "application/json",
           },
         })
-          .then(res => res.text())
-          .then(res => {
+          .then((res) => res.text())
+          .then((res) => {
             console.log("res----res", res);
           })
-          .catch(err => console.log("err----err", err));
+          .catch((err) => console.log("err----err", err));
       }
       function onClickNativeErrorFetch() {
         fetch("/exception/post", {
@@ -140,8 +142,46 @@
           }
         );
       }
+    </script>
+
+    <!-- Pv 事件捕捉 -->
+    <div>
+      <div>Pv 事件捕捉</div>
+      <!-- 这种页面内的可以捕捉 -->
+      <!-- <a href="/#/edit">hash跳转</a> -->
+      <button onclick="hashChange()">hash跳转</button>
+      <button onclick="historyPushState()">history push跳转</button>
+      <button onclick="historyReplaceState()">history replace跳转</button>
+      <!-- <a href="/vue2/index.html">跳到Vue2页面</a> -->
+      <!-- <a href="/vue3/index.html">跳到Vue3页面</a> -->
+
+      <!-- 这种无法捕捉 -->
+      <a href="http://www.baidu.com" target="_blank">跳到百度</a>
+    </div>
+    <br />
+
+    <!-- Pv 事件捕捉 -->
+    <script>
+      // ---------------- Pv 事件捕捉 ----------------
       function hashChange() {
-        window.location.hash = "xxx";
+        // window.open('https://www.baidu.com') // 这种无法捕捉
+        // window.open('/#/edit') // 这种可以捕捉到，不过也是在新开的地方进来才能捕捉，并不是跳走阶段捕捉
+        window.location.href = '/#/edit'
+      }
+      function historyPushState() {
+        // window.history.pushState({}, "测试", `123`);
+        window.history.pushState(
+          {},
+          "测试",
+          `${parseInt(Math.random() * 1000)}`
+        );
+      }
+      function historyReplaceState() {
+        window.history.replaceState(
+          {},
+          "测试",
+          `${parseInt(Math.random() * 1000)}`
+        );
       }
     </script>
   </body>

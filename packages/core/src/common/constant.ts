@@ -57,17 +57,7 @@ export enum EVENTTYPES {
   HASHCHANGE = 'hashchange',
   HISTORYPUSHSTATE = 'history-pushState',
   HISTORYREPLACESTATE = 'history-replaceState',
-  POPSTATE = 'popstate',
-
-  HISTORY = 'history',
-  RESOURCE = 'resource',
-  DOM = 'dom',
-  VUE = 'vue',
-  REACT = 'react',
-  CUSTOM = 'custom',
-  PERFORMANCE = 'performance',
-  RECORDSCREEN = 'recordScreen',
-  WHITESCREEN = 'whiteScreen' // 白屏
+  POPSTATE = 'popstate'
 }
 
 export enum HTTPTYPE {
