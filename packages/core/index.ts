@@ -87,12 +87,11 @@ function init(options: InitOptions) {
   initSendData(_options)
 
   // 注册各个业务
-  // initError()
-  // initEvent()
-  // initEventDwell()
-  // initHttp()
-  // initPerformance()
-
+  initError()
+  initEvent()
+  initEventDwell()
+  initHttp()
+  initPerformance()
   initPv()
 }
 
