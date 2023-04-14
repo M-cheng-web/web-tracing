@@ -75,18 +75,13 @@ function interceptXHR() {
       // readyState发生改变时触发,也就是请求状态改变时
       // readyState 会依次变为 2,3,4 也就是会触发三次这里
       on(that, 'readystatechange', function () {
-        const {
-          readyState,
-          status,
-          responseURL = _config.src,
-          responseText
-        } = that
+        const { readyState, status, responseURL, responseText } = that
         if (readyState === 4) {
           // 请求已完成,且响应已就绪
           if (status === 200 || status === 304) {
             if (options.performance.server) {
               handleSendPerformance('server', {
-                src: responseURL,
+                src: responseURL || _config.src,
                 responseStatus: status,
                 duration: Date.now() - _config.triggerTime,
                 params: body ? body : undefined
@@ -94,7 +89,7 @@ function interceptXHR() {
             }
           } else if (options.error.server) {
             handleSendError('server', responseText, {
-              src: responseURL,
+              src: responseURL || _config.src,
               responseStatus: status,
               params: body ? body : undefined
             })
