@@ -86,6 +86,7 @@ nr docs
 10. 多个事件注册会不会紊乱，比如触发 onload事件会将本应该执行的方法也执行了
 11. 数据结构不够直观，再优化下
 12. hash 和 history 的跳转重复点击都会触发的，是否给用户一个选择来取消这个
+13. 可否用 iframe的方式让用户快速体验(https://making.close.com/posts/rendering-untrusted-html-email-safely)
 
 目前无法捕捉一下pv
 ```
