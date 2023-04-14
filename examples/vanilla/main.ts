@@ -9,5 +9,7 @@ init({
   pv: true,
   performance: true,
   error: true,
-  event: true
+  event: true,
+  cacheMaxLength: 2,
+  cacheWatingTime: 1000
 })
