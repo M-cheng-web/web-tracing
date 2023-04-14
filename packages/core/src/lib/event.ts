@@ -4,6 +4,7 @@ import { getElByAttr, isSimpleEl, getNodeXPath } from '../utils/element'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
+import { options } from './options'
 
 class RequestTemplateClick {
   eventId = '' // 事件ID
@@ -32,7 +33,6 @@ function clickCollection() {
     type: EVENTTYPES.CLICK,
     callback: (e: MouseEvent) => {
       const _config = new RequestTemplateClick({ eventType: 'click' })
-      debug('caught click event: ', e)
 
       // 获取被点击的元素到最外层元素组成的数组
       const path: HTMLElement[] = e.composedPath()
@@ -221,8 +221,7 @@ function extractParamsByPath(list: HTMLElement[] = []) {
 }
 
 function initEvent() {
-  // 注册点击事件
-  clickCollection()
+  options.event.core && clickCollection()
 }
 
 /**

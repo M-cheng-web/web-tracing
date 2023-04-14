@@ -2,6 +2,7 @@ import { uuid, isValidKey } from '../utils'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
 import { sendData } from './sendData'
+import { options } from './options'
 
 class DwellRequestTemplate {
   eventId = '' // 事件ID
@@ -58,7 +59,7 @@ function dwellCollector() {
 }
 
 function initEventDwell() {
-  dwellCollector()
+  options.event.unload && dwellCollector()
 }
 
 export { initEventDwell }

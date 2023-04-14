@@ -108,6 +108,8 @@ function interceptXHR() {
 }
 
 function initHttp() {
+  if (!options.performance.server && !options.error.server) return
+
   interceptXHR()
   interceptFetch()
 }

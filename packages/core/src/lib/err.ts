@@ -4,6 +4,7 @@ import { _global } from '../utils/global'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
 import { isArray } from '../utils/is'
+import { options } from './options'
 
 function emit(errorInfo: any) {
   const info = {
@@ -137,6 +138,8 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
 }
 
 function initError() {
+  if (!options.error.core) return
+
   // 捕获阶段可以获取资源加载错误,script.onError link.onError img.onError,无法知道具体状态
   eventBus.addEvent({
     type: EVENTTYPES.ERROR,

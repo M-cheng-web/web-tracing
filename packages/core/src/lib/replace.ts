@@ -1,15 +1,14 @@
-import type { Options, VoidFun } from '../types'
+import type { VoidFun } from '../types'
 import { debug } from '../utils/debug'
 import { _global } from '../utils/global'
-import { on, replaceAop, throttle } from '../utils'
+import { on, replaceAop, throttle, isValidKey } from '../utils'
 import { EVENTTYPES } from '../common'
 import { eventBus } from './eventBus'
 
 /**
  * 根据入参初始化 重写、监听
- * @param options sdk入参
  */
-export function initReplace(options: Options): void {
+export function initReplace(): void {
   const baseReplace: EVENTTYPES[] = []
   const allReplace: EVENTTYPES[] = [...baseReplace]
 
@@ -30,44 +29,52 @@ export function initReplace(options: Options): void {
 
   // 这个后面改成键值对的方式会好些把，但要考虑有些或的逻辑
 
-  if (options.error.core) {
-    allReplace.push(EVENTTYPES.ERROR) // 监听捕获错误
-    allReplace.push(EVENTTYPES.UNHANDLEDREJECTION) // 监听handleUnhandleRejection事件
-    allReplace.push(EVENTTYPES.CONSOLEERROR) // 重写console.error
-  }
+  // 这里先不用这种方式，采用全局挂载
+  // if (options.error.core) {
+  //   allReplace.push(EVENTTYPES.ERROR) // 监听捕获错误
+  //   allReplace.push(EVENTTYPES.UNHANDLEDREJECTION) // 监听handleUnhandleRejection事件
+  //   allReplace.push(EVENTTYPES.CONSOLEERROR) // 重写console.error
+  // }
 
-  if (options.event.core) {
-    allReplace.push(EVENTTYPES.CLICK) // 监听click事件
-  }
+  // if (options.event.core) {
+  //   allReplace.push(EVENTTYPES.CLICK) // 监听click事件
+  // }
 
   // allReplace.push(EVENTTYPES.BEFOREUNLOAD) // 监听beforeunload事件
 
-  if (options.performance.server) {
-    allReplace.push(EVENTTYPES.XHROPEN) // 重写XMLHttpRequest-open
-    allReplace.push(EVENTTYPES.XHRSEND) // 重写XMLHttpRequest-send
-    allReplace.push(EVENTTYPES.FETCH) // 重写fetch
-  }
+  // if (options.performance.server) {
+  //   allReplace.push(EVENTTYPES.XHROPEN) // 重写XMLHttpRequest-open
+  //   allReplace.push(EVENTTYPES.XHRSEND) // 重写XMLHttpRequest-send
+  //   allReplace.push(EVENTTYPES.FETCH) // 重写fetch
+  // }
 
-  if (options.performance.firstResource) {
-    allReplace.push(EVENTTYPES.LOAD) // 监听load事件
-  }
+  // if (options.performance.firstResource) {
+  //   allReplace.push(EVENTTYPES.LOAD) // 监听load事件
+  // }
 
-  if (options.pv.core) {
-    allReplace.push(EVENTTYPES.HISTORYPUSHSTATE)
-    allReplace.push(EVENTTYPES.HISTORYREPLACESTATE)
+  // if (options.pv.core) {
+  //   allReplace.push(EVENTTYPES.HISTORYPUSHSTATE)
+  //   allReplace.push(EVENTTYPES.HISTORYREPLACESTATE)
 
-    if (options.pv.hashtag) {
-      allReplace.push(EVENTTYPES.HASHCHANGE) // 监听hashchange
-      allReplace.push(EVENTTYPES.POPSTATE)
+  //   if (options.pv.hashtag) {
+  //     allReplace.push(EVENTTYPES.HASHCHANGE) // 监听hashchange
+  //     allReplace.push(EVENTTYPES.POPSTATE)
+  //   }
+  // }
+
+  for (const key in EVENTTYPES) {
+    if (isValidKey(key, EVENTTYPES)) {
+      replace(key)
     }
   }
-
-  allReplace.forEach(replace)
 }
 
 function replace(type: EVENTTYPES): void {
-  debug('replace-初始化挂载事件:', type)
-  switch (type) {
+  if (!isValidKey(type, EVENTTYPES)) return
+
+  const value = EVENTTYPES[type]
+  debug('replace-初始化挂载事件:', value)
+  switch (value) {
     case EVENTTYPES.ERROR:
       listenError(EVENTTYPES.ERROR)
       break

@@ -82,7 +82,7 @@ function init(options: InitOptions) {
   if (!_options) return
 
   // 注册全局
-  initReplace(_options)
+  initReplace()
   initBase(_options)
   initSendData(_options)
 
