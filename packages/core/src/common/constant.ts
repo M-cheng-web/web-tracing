@@ -1,4 +1,23 @@
 /**
+ * 事件类型
+ */
+export enum EVENTTYPES {
+  ERROR = 'error',
+  CONSOLEERROR = 'consoleError',
+  UNHANDLEDREJECTION = 'unhandledrejection',
+  CLICK = 'click',
+  LOAD = 'load',
+  BEFOREUNLOAD = 'beforeunload',
+  FETCH = 'fetch',
+  XHROPEN = 'xhr-open',
+  XHRSEND = 'xhr-send',
+  HASHCHANGE = 'hashchange',
+  HISTORYPUSHSTATE = 'history-pushState',
+  HISTORYREPLACESTATE = 'history-replaceState',
+  POPSTATE = 'popstate'
+}
+
+/**
  * 接口错误状态
  */
 export enum SpanStatus {
@@ -39,25 +58,6 @@ export enum BREADCRUMBTYPES {
 export enum STATUS_CODE {
   ERROR = 'error',
   OK = 'ok'
-}
-
-/**
- * 事件类型
- */
-export enum EVENTTYPES {
-  ERROR = 'error',
-  CONSOLEERROR = 'consoleError',
-  UNHANDLEDREJECTION = 'unhandledrejection',
-  CLICK = 'click',
-  LOAD = 'load',
-  BEFOREUNLOAD = 'beforeunload',
-  FETCH = 'fetch',
-  XHROPEN = 'xhr-open',
-  XHRSEND = 'xhr-send',
-  HASHCHANGE = 'hashchange',
-  HISTORYPUSHSTATE = 'history-pushState',
-  HISTORYREPLACESTATE = 'history-replaceState',
-  POPSTATE = 'popstate'
 }
 
 export enum HTTPTYPE {
