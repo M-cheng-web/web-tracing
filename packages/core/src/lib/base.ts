@@ -1,6 +1,6 @@
 import { DEVICE_KEY, SDK_VERSION } from '../common'
 import { _support, getGlobal } from '../utils/global'
-import { getCookieByName, uuid } from '../utils/index'
+import { getCookieByName, uuid } from '../utils'
 import { getSessionId } from '../utils/session'
 import { options } from './options'
 

@@ -1,6 +1,6 @@
 import { _support } from '../utils/global'
 import { refreshSession } from '../utils/session'
-import { sendBeacon, nextTime, map } from '../utils/index'
+import { sendBeacon, nextTime, map } from '../utils'
 import { debug } from '../utils/debug'
 import { baseInfo } from './base'
 import { options } from './options'
