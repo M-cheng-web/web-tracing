@@ -1,9 +1,9 @@
-import type { Options } from '../types'
 import { _support } from '../utils/global'
 import { refreshSession } from '../utils/session'
 import { sendBeacon, nextTime, map } from '../utils/index'
 import { debug } from '../utils/debug'
 import { baseInfo } from './base'
+import { options } from './options'
 
 export class SendData {
   dsn = '' // 服务请求地址
@@ -12,7 +12,7 @@ export class SendData {
   cacheWatingTime: number
   timeoutID: NodeJS.Timeout | null = null // 延迟发送
 
-  constructor(options: Options) {
+  constructor() {
     this.dsn = options.dsn
     this.cacheMaxLength = options.cacheMaxLength
     this.cacheWatingTime = options.cacheWatingTime
@@ -86,7 +86,7 @@ export class SendData {
 
 export let sendData: SendData
 
-export function initSendData(options: any) {
-  _support.sendData = new SendData(options)
+export function initSendData() {
+  _support.sendData = new SendData()
   sendData = _support.sendData
 }

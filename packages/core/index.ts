@@ -78,13 +78,12 @@ const exportMethods: ExportMethods = {
 }
 
 function init(options: InitOptions) {
-  const _options = initOptions(options)
-  if (!_options) return
+  if (!initOptions(options)) return
 
   // 注册全局
   initReplace()
-  initBase(_options)
-  initSendData(_options)
+  initBase()
+  initSendData()
 
   // 注册各个业务
   initError()
