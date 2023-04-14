@@ -1,21 +1,14 @@
+import type { AnyFun } from '../types'
 import { EVENTTYPES } from '../common'
 import { _support } from '../utils/global'
 
-/**
- * 事件中转
- */
-
-interface Callback {
-  (...args: any[]): void
-}
-
 interface EventHandler {
   type: EVENTTYPES
-  callback: Callback
+  callback: AnyFun
 }
 
 type Handlers = {
-  [key in EVENTTYPES]?: Callback[]
+  [key in EVENTTYPES]?: AnyFun[]
 }
 
 export class EventBus {
@@ -49,7 +42,7 @@ export class EventBus {
    * @param handler 需要被更改的类型以及回调函数
    * @param newCallback 新的回调函数
    */
-  changeEvent(handler: EventHandler, newCallback: Callback) {
+  changeEvent(handler: EventHandler, newCallback: AnyFun) {
     const funIndex = this._getCallbackIndex(handler)
     if (funIndex !== -1) {
       this.handlers[handler.type]?.splice(funIndex, 1, newCallback)
