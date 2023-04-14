@@ -1,5 +1,4 @@
 import { isValidKey, getLocationHref } from '../utils'
-import { debug } from '../utils/debug'
 import { getElByAttr, isSimpleEl, getNodeXPath } from '../utils/element'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
