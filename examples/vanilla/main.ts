@@ -11,5 +11,6 @@ init({
   error: true,
   event: true,
   cacheMaxLength: 2,
-  cacheWatingTime: 1000
+  cacheWatingTime: 1000,
+  eventDomAttrsPerfix: 'hz-data-tracing-'
 })

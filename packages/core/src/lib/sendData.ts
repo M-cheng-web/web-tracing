@@ -67,8 +67,8 @@ export class SendData {
   }
   /**
    * 记录需要发送的埋点数据
-   * @param {*} e 需要发送的事件信息
-   * @param {boolean} flush 是否立即发送
+   * @param e 需要发送的事件信息
+   * @param flush 是否立即发送
    */
   emit(e: AnyObj, flush = false) {
     this.events = this.events.concat(e) // 追加到事件队列里
