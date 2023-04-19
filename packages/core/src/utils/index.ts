@@ -1,4 +1,5 @@
 import { AnyFun, AnyObj } from '../types'
+import { logError } from './debug'
 
 /**
  * 添加事件监听器
@@ -121,7 +122,7 @@ export function validateOption(
   expectType: string
 ): boolean | void {
   if (!target || typeofAny(target) === expectType) return true
-  console.error(
+  logError(
     `TypeError: web-tracing: ${targetName}期望传入${expectType}类型，目前是${typeofAny(
       target
     )}类型`
@@ -197,7 +198,7 @@ function uuid() {
 
 /**
  * 获取cookie中目标name的值
- * @param {String} name cookie名
+ * @param name cookie名
  * @returns
  */
 function getCookieByName(name: string) {
@@ -206,17 +207,33 @@ function getCookieByName(name: string) {
 }
 
 /**
- * 向下兼容发送信号的方法
+ * 发送数据方式 - navigator.sendBeacon
  */
-const sendBeacon = navigator.sendBeacon
-  ? (url: string, data: any) => {
-      if (data) navigator.sendBeacon(url, JSON.stringify(data))
+export function sendByBeacon(url: string, data: any) {
+  return navigator.sendBeacon(url, JSON.stringify(data))
+}
+
+export const sendReaconImageList: any[] = []
+
+/**
+ * 发送数据方式 - image
+ */
+export function sendByImage(url: string, data: any): Promise<any> {
+  return new Promise(resolve => {
+    const beacon = new Image()
+    beacon.src = `${url}?v=${encodeURIComponent(JSON.stringify(data))}`
+    sendReaconImageList.push(beacon)
+    beacon.onload = e => {
+      console.log('发送成功')
+      resolve({ success: true, msg: e })
     }
-  : (url: string, data: any) => {
-      // 传统方式传递参数
-      const beacon = new Image()
-      beacon.src = `${url}?v=${encodeURIComponent(JSON.stringify(data))}`
+    beacon.onerror = function (e) {
+      console.log('发送失败')
+      resolve({ success: false, msg: e })
+      // console.log('e', e)
     }
+  })
+}
 
 const arrayMap =
   Array.prototype.map ||
@@ -310,7 +327,6 @@ const cancelNextTime =
 export {
   uuid,
   getCookieByName,
-  sendBeacon,
   map,
   filter,
   find,

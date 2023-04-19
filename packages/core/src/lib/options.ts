@@ -55,11 +55,15 @@ export class Options {
   // 比如 before 的钩子，在一个项目在多个地方引用了场景
 
   // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforePushBreadcrumb = () => {
-    // do something
+  beforePushEventList = (data: any): any => {
+    return data
   }
   // 数据上报前的 hook
-  beforeDataReport = () => {
+  beforeSendData = (data: any): any => {
+    return data
+  }
+  // 数据上报后的 hook
+  afterSendData = (data: any): void => {
     // do something
   }
 
@@ -164,8 +168,8 @@ export class Options {
 //   // 后面也要做到在某个页面调这个方法就可以多次引用
 //   // 比如 before 的钩子，在一个项目在多个地方引用了场景
 
-//   beforePushBreadcrumb: () => {}, // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-//   beforeDataReport: () => {}, // 数据上报前的 hook
+//   beforePushEventList: () => {}, // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
+//   beforeSendData: () => {}, // 数据上报前的 hook
 // };
 
 function _validateInitOption(options: InitOptions) {
@@ -202,8 +206,8 @@ function _validateInitOption(options: InitOptions) {
     ignoreRequest,
     scopeError,
     whiteScreen,
-    beforePushBreadcrumb,
-    beforeDataReport
+    beforePushEventList,
+    beforeSendData
   } = options
 
   const validateFunList = []
@@ -301,8 +305,8 @@ function _validateInitOption(options: InitOptions) {
     validateOption(ignoreRequest, 'ignoreRequest', 'array'),
     validateOption(scopeError, 'scopeError', 'boolean'),
     validateOption(whiteScreen, 'whiteScreen', 'boolean'),
-    validateOption(beforePushBreadcrumb, 'beforePushBreadcrumb', 'function'),
-    validateOption(beforeDataReport, 'beforeDataReport', 'function')
+    validateOption(beforePushEventList, 'beforePushEventList', 'function'),
+    validateOption(beforeSendData, 'beforeSendData', 'function')
   ]
 
   return validateList.every(res => !!res)

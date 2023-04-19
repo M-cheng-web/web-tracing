@@ -2,7 +2,12 @@ import { sendData } from './sendData'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
 import { AnyObj } from '../types'
-import { getLocationHref, normalizeObj, isValidKey } from '../utils'
+import {
+  getLocationHref,
+  normalizeObj,
+  isValidKey,
+  sendReaconImageList
+} from '../utils'
 import { _global } from '../utils/global'
 import { options } from './options'
 
@@ -55,6 +60,20 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
 
     // 只记录observerTypeList中列出的资源类型请求,不在列表中则跳过
     if (observerTypeList.indexOf(initiatorType.toLowerCase()) < 0) return
+
+    // 认为只能内部维护一个对象列表了，然后每次都遍历那个列表
+
+    // sdk内部 img 发送请求的错误不会记录
+    if (sendReaconImageList.length) {
+      const index = sendReaconImageList.findIndex(
+        item => item.src === entry.name
+      )
+
+      if (index !== -1) {
+        sendReaconImageList.splice(index, 1)
+        return
+      }
+    }
 
     const value: AnyObj = {}
     Object.keys(performanceEntryAttrs).forEach(attr => {

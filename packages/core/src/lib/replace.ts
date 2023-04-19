@@ -148,7 +148,9 @@ function listenUnhandledrejection(type: EVENTTYPES): void {
 function replaceConsoleError(type: EVENTTYPES): void {
   replaceAop(console, 'error', (originalError: VoidFun) => {
     return function (this: any, ...args: any[]): void {
-      eventBus.runEvent(type, args)
+      if (!(args[0] && args[0].slice(0, 12) === '@web-tracing')) {
+        eventBus.runEvent(type, args)
+      }
       originalError.apply(this, args)
     }
   })

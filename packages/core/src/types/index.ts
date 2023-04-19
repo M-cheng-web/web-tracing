@@ -60,8 +60,9 @@ export type Options = {
   // 这些函数一方面是可以在首次init可以用
   // 后面也要做到在某个页面调这个方法就可以多次引用
   // 比如 before 的钩子，在一个项目在多个地方引用了场景
-  beforePushBreadcrumb: () => void // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforeDataReport: () => void // 数据上报前的 hook
+  beforePushEventList: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
+  beforeSendData: (data: any) => any // 数据上报前的 hook
+  afterSendData: (data: any) => void // 数据上报后的 hook
 }
 
 /**
@@ -123,16 +124,18 @@ export type InitOptions = {
   // 后面也要做到在某个页面调这个方法就可以多次引用
   // 比如 before 的钩子，在一个项目在多个地方引用了场景
 
-  beforePushBreadcrumb?: () => void // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforeDataReport?: () => void // 数据上报前的 hook
+  beforePushEventList?: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
+  beforeSendData?: (data: any) => any // 数据上报前的 hook
+  afterSendData?: (data: any) => void // 数据上报后的 hook
 }
 
 /**
  * 暴露给外部的方法
  */
 export type ExportMethods = {
-  beforePushBreadcrumb: () => void // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforeDataReport: () => void // 数据上报前的 hook
+  beforePushEventList: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
+  beforeSendData: (data: any) => any // 数据上报前的 hook
+  afterSendData?: (data: any) => void // 数据上报后的 hook
 
   setUserId: () => void // // 设置用户id，与sdk的用户id绑定
   getBreadcrumb: () => any // 获取当前行为列表

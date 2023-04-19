@@ -27,11 +27,11 @@ const exportMethods: ExportMethods = {
   // tracePageView: pv.tracePageView,
 
   // 钩子:放入事件队列之前
-  beforePushBreadcrumb: () => {
+  beforePushEventList: () => {
     // do something
   },
   // 钩子:发送之前
-  beforeDataReport: () => {
+  beforeSendData: () => {
     // do something
   },
   // 设置用户id，与sdk的用户id绑定

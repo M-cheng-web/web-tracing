@@ -1,7 +1,7 @@
-import { _support } from '../utils/global'
+import { _support, _global } from '../utils/global'
 import { refreshSession } from '../utils/session'
-import { sendBeacon, nextTime, map } from '../utils'
-import { debug } from '../utils/debug'
+import { sendByBeacon, sendByImage, nextTime, map, typeofAny } from '../utils'
+import { debug, logError } from '../utils/debug'
 import { baseInfo } from './base'
 import { options } from './options'
 import { AnyObj } from '../types'
@@ -27,7 +27,7 @@ export class SendData {
     debug('send events', sendEvents, sendEvents.length)
 
     const time = Date.now()
-    sendBeacon(this.dsn, {
+    const sendParams = {
       baseInfo: { ...baseInfo.base, sendTime: time },
       eventInfo: map(sendEvents, (e: any) => {
         e.sendTime = time // 设置发送时间
@@ -58,6 +58,11 @@ export class SendData {
         e.type = e.eventType // 其他类型type同eventType
         return e
       })
+    }
+    const afterSendParams = options.beforeSendData(sendParams)
+    if (!this._validateObject(afterSendParams, 'beforeSendData')) return
+    this._sendBeacon(this.dsn, afterSendParams).then((res: any) => {
+      options.afterSendData({ ...res, params: afterSendParams })
     })
 
     // 如果一次性发生的事件超过了阈值(cacheMaxLength)，那么这些经过裁剪的事件列表剩下的会直接发，并不会延迟等到下一个队列
@@ -71,7 +76,9 @@ export class SendData {
    * @param flush 是否立即发送
    */
   emit(e: AnyObj, flush = false) {
-    this.events = this.events.concat(e) // 追加到事件队列里
+    const eventList = options.beforePushEventList(e)
+    if (!this._validateObject(eventList, 'beforePushEventList')) return
+    this.events = this.events.concat(eventList) // 追加到事件队列里
     refreshSession()
     debug('receive event, waiting to send', e)
     if (this.timeoutID) clearTimeout(this.timeoutID)
@@ -82,6 +89,41 @@ export class SendData {
     } else {
       this.timeoutID = setTimeout(this.send.bind(this), this.cacheWatingTime)
     }
+  }
+  /**
+   * 发送数据
+   * @param url 目标地址
+   * @param data 附带参数
+   */
+  private _sendBeacon(url: string, data: any) {
+    // const sendType: any = 2
+    const sendType = _global.navigator ? 1 : 2
+    return new Promise(resolve => {
+      if (sendType === 1) {
+        const res = sendByBeacon(url, data)
+        resolve({ sendType: 'sendBeacon', success: res })
+      } else {
+        sendByImage(url, data).then(res => {
+          resolve({ sendType: 'image', ...res })
+        })
+      }
+    })
+  }
+  /**
+   * 验证选项的类型 - 只验证是否为 {} []
+   */
+  private _validateObject(target: any, targetName: string): boolean | void {
+    if (!target) {
+      logError(`NullError: ${targetName}期望返回 {} 或者 [] 类型，目前无返回值`)
+      return false
+    }
+    if (['object', 'array'].includes(typeofAny(target))) return true
+    logError(
+      `TypeError: ${targetName}期望返回 {} 或者 [] 类型，目前是${typeofAny(
+        target
+      )}类型`
+    )
+    return false
   }
 }
 
