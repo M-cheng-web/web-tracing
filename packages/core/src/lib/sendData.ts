@@ -111,8 +111,11 @@ export class SendData {
   }
   /**
    * 验证选项的类型 - 只验证是否为 {} []
+   * 返回 false意思是取消放入队列 / 取消发送
    */
   private _validateObject(target: any, targetName: string): boolean | void {
+    if (target === false) return false
+
     if (!target) {
       logError(`NullError: ${targetName}期望返回 {} 或者 [] 类型，目前无返回值`)
       return false
