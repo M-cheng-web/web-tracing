@@ -4,6 +4,7 @@ function isType(type: any) {
   }
 }
 
+export const isRegExp = isType('RegExp')
 export const isNumber = isType('Number')
 export const isString = isType('String')
 export const isBoolean = isType('Boolean')
@@ -51,14 +52,12 @@ export function isError(error: Error): boolean {
  * 检查是否是空对象
  */
 export function isEmptyObject(obj: object): boolean {
-  return variableTypeDetection.isObject(obj) && Object.keys(obj).length === 0
+  return isObject(obj) && Object.keys(obj).length === 0
 }
 
 export function isEmpty(wat: any): boolean {
   return (
-    (variableTypeDetection.isString(wat) && wat.trim() === '') ||
-    wat === undefined ||
-    wat === null
+    (isString(wat) && wat.trim() === '') || wat === undefined || wat === null
   )
 }
 

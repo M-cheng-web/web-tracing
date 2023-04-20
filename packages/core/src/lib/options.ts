@@ -1,5 +1,5 @@
 import type { Options as _Options, InitOptions } from '../types'
-import { validateOption, deepAssign } from '../utils'
+import { validateOption, deepAssign, validateOptionArray } from '../utils'
 import { _support } from '../utils/global'
 
 export class Options {
@@ -301,7 +301,10 @@ function _validateInitOption(options: InitOptions) {
     validateOption(cacheMaxLength, 'cacheMaxLength', 'number'),
     validateOption(cacheWatingTime, 'cacheWatingTime', 'number'),
     validateOption(eventDomAttrsPerfix, 'eventDomAttrsPerfix', 'string'),
+
     validateOption(ignoreErrors, 'ignoreErrors', 'array'),
+    validateOptionArray(ignoreErrors, 'ignoreErrors', ['string', 'regexp']),
+
     validateOption(ignoreRequest, 'ignoreRequest', 'array'),
     validateOption(scopeError, 'scopeError', 'boolean'),
     validateOption(whiteScreen, 'whiteScreen', 'boolean'),

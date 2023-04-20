@@ -37,6 +37,8 @@ nr docs
 + sdk内部的img发送请求不会记录
 + sdk内部的console.error不会记录
 + 支持hook以及自定义hook -【1.放入消息队列的钩子 2.发送时的钩子 3.发送之后的钩子】(1,2返回false会取消放入以及取消发送) (这些钩子目前没有做成动态的，只支持在初始化时挂上去，等做了 exportMethods 后再做)
++ ignoreErrors
++ ignoreErrors 入参格式进行校验，只能是 (string|number|reg)[]
 
 ### 二期未完成功能
 + 提供 ignoreErrors，ignoreRequest 等

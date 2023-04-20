@@ -3,8 +3,9 @@ import { map, filter, getLocationHref } from '../utils'
 import { _global } from '../utils/global'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
-import { isArray } from '../utils/is'
+import { isArray, isRegExp } from '../utils/is'
 import { options } from './options'
+import { debug } from '../utils/debug'
 
 function emit(errorInfo: any) {
   const info = {
@@ -127,14 +128,40 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
     return { eventId: 'code', ...parseError(e) }
   }
 
+  // 兜底
   // ie9版本,从全局的event对象中获取错误信息
   return {
     eventId: 'code',
     line: _global.event.errorLine,
     col: _global.event.errorCharacter,
-    message: _global.event.errorMessage,
+    errMessage: _global.event.errorMessage,
     src: _global.event.errorUrl
   }
+}
+
+function isIgnoreErrors(error: any) {
+  if (!options.ignoreErrors.length) return false
+  let errMessage = error.errMessage || error.message
+  if (!errMessage) return false
+  errMessage = String(errMessage)
+
+  return options.ignoreErrors.some(item => {
+    if (isRegExp(item)) {
+      if ((item as RegExp).test(errMessage)) {
+        debug(`ignoreErrors拦截成功 - 截条件:${item} 错误信息:${errMessage}`)
+        return true
+      } else {
+        return false
+      }
+    } else {
+      if (errMessage === item) {
+        debug(`ignoreErrors拦截成功 - 截条件:${item} 错误信息:${errMessage}`)
+        return true
+      } else {
+        return false
+      }
+    }
+  })
 }
 
 function initError() {
@@ -143,19 +170,32 @@ function initError() {
   // 捕获阶段可以获取资源加载错误,script.onError link.onError img.onError,无法知道具体状态
   eventBus.addEvent({
     type: EVENTTYPES.ERROR,
-    callback: (e: ErrorEvent) => emit(parseErrorEvent(e))
+    callback: (e: ErrorEvent) => {
+      const errorInfo = parseErrorEvent(e)
+      if (isIgnoreErrors(errorInfo)) return
+      emit(errorInfo)
+    }
   })
 
   // promise调用链未捕获异常
+  // 只捕获未处理的 reject的错误，如果对reject进行了回调处理这边不进行捕获
   eventBus.addEvent({
     type: EVENTTYPES.UNHANDLEDREJECTION,
-    callback: (e: PromiseRejectedResult) => emit(parseErrorEvent(e))
+    callback: (e: PromiseRejectedResult) => {
+      const errorInfo = parseErrorEvent(e)
+      if (isIgnoreErrors(errorInfo)) return
+      emit(errorInfo)
+    }
   })
 
   // 劫持console.error
   eventBus.addEvent({
     type: EVENTTYPES.CONSOLEERROR,
-    callback: e => emit({ eventId: 'code', ...parseError(e) })
+    callback: e => {
+      const errorInfo = parseError(e)
+      if (isIgnoreErrors(errorInfo)) return
+      emit({ eventId: 'code', ...parseError(e) })
+    }
   })
 }
 

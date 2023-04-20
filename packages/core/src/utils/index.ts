@@ -1,5 +1,6 @@
 import { AnyFun, AnyObj } from '../types'
 import { logError } from './debug'
+import { isRegExp, isArray } from './is'
 
 /**
  * 添加事件监听器
@@ -97,11 +98,12 @@ export const throttle = (fn: AnyFun, delay: number) => {
 export function deepAssign<T>(target: AnyObj, ...sources: AnyObj[]) {
   sources.forEach(source => {
     for (const key in source) {
-      // 判断属性是否为对象或数组
-      if (typeof source[key] === 'object' && source[key] !== null) {
+      if (source[key] !== null && isRegExp(source[key])) {
+        target[key] = source[key]
+      } else if (source[key] !== null && typeof source[key] === 'object') {
         // 如果当前 key 对应的值是一个对象或数组，则进行递归
         target[key] = deepAssign(
-          target[key] || (Array.isArray(source[key]) ? [] : {}),
+          target[key] || (isArray(source[key]) ? [] : {}),
           source[key]
         )
       } else {
@@ -128,6 +130,31 @@ export function validateOption(
     )}类型`
   )
   return false
+}
+
+/**
+ * 验证选项的类型 - 针对数组内容类型的验证
+ */
+export function validateOptionArray(
+  target: any[] | undefined,
+  targetName: string,
+  expectTypes: string[]
+): boolean | void {
+  if (!target) return true
+  let pass = true
+
+  target.forEach(item => {
+    if (!expectTypes.includes(typeofAny(item))) {
+      logError(
+        `TypeError: ${targetName}数组内的值期望传入${expectTypes.join(
+          '|'
+        )}类型，目前值${item}是${typeofAny(item)}类型`
+      )
+      pass = false
+    }
+  })
+
+  return pass
 }
 
 export function typeofAny(target: any): string {
