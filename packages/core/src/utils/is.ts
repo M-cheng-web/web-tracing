@@ -16,6 +16,9 @@ export const isObject = isType('Object')
 export const isArray = isType('Array')
 export const isProcess = isType('process')
 export const isWindow = isType('Window')
+export const isFlase = (val: any) => {
+  return isBoolean(val) && String(val) === 'false'
+}
 
 /**
  * 检测变量类型

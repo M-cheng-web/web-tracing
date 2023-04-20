@@ -5,6 +5,7 @@ import { debug, logError } from '../utils/debug'
 import { baseInfo } from './base'
 import { options } from './options'
 import { AnyObj } from '../types'
+import { isFlase } from '../utils/is'
 
 export class SendData {
   dsn = '' // 服务请求地址
@@ -60,7 +61,9 @@ export class SendData {
       })
     }
     const afterSendParams = options.beforeSendData(sendParams)
+    if (isFlase(afterSendParams)) return
     if (!this._validateObject(afterSendParams, 'beforeSendData')) return
+
     this._sendBeacon(this.dsn, afterSendParams).then((res: any) => {
       options.afterSendData({ ...res, params: afterSendParams })
     })
@@ -78,6 +81,7 @@ export class SendData {
   emit(e: AnyObj, flush = false) {
     const eventList = options.beforePushEventList(e)
     if (!this._validateObject(eventList, 'beforePushEventList')) return
+
     this.events = this.events.concat(eventList) // 追加到事件队列里
     refreshSession()
     debug('receive event, waiting to send', e)
