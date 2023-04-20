@@ -306,6 +306,8 @@ function _validateInitOption(options: InitOptions) {
     validateOptionArray(ignoreErrors, 'ignoreErrors', ['string', 'regexp']),
 
     validateOption(ignoreRequest, 'ignoreRequest', 'array'),
+    validateOptionArray(ignoreRequest, 'ignoreRequest', ['string', 'regexp']),
+
     validateOption(scopeError, 'scopeError', 'boolean'),
     validateOption(whiteScreen, 'whiteScreen', 'boolean'),
     validateOption(beforePushEventList, 'beforePushEventList', 'function'),

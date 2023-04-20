@@ -26,8 +26,8 @@ init({
   cacheMaxLength: 5,
   cacheWatingTime: 1000,
 
-  ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
-  // ignoreErrors: ['111', 123, true, /^promise/, /.*split is not .* function/],
+  // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
+  ignoreRequest: ['111', /normal/],
 
   beforePushEventList(data) {
     // console.log('beforePushEventList-data', data)

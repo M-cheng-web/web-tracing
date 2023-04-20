@@ -133,9 +133,11 @@
           headers: {
             "Content-Type": "application/json",
           },
-        }).then(
+        })
+        .then((res) => res.text())
+        .then(
           (res) => {
-            res.text().then((res) => console.log("res", res));
+            console.log("res", res)
           },
           (err) => {
             console.log("err", err);
