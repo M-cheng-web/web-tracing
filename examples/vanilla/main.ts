@@ -1,18 +1,5 @@
 import { init } from '@web-tracing/core'
 // import { pad } from '@web-tracing/utils'
-// console.log('pad', pad)
-
-// setTimeout(() => {
-//   const promiseWrap = () =>
-//     new Promise((resolve, reject) => {
-//       reject('111')
-//     })
-//   promiseWrap().then(res => {
-//     console.log('res', res)
-//   })
-
-//   console.error('222')
-// }, 1000)
 
 init({
   // dsn: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/blog/Annapurna-Ranges-2560x1440.5r9m9t5vg1g0.webp',
@@ -27,7 +14,7 @@ init({
   cacheWatingTime: 1000,
 
   // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
-  ignoreRequest: ['111', /normal/],
+  // ignoreRequest: ['111', /normal/],
 
   beforePushEventList(data) {
     // console.log('beforePushEventList-data', data)
