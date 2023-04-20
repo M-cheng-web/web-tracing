@@ -34,10 +34,10 @@ init({
     return data
   },
   beforeSendData(data) {
-    console.log('beforeSendData-data', data)
+    // console.log('beforeSendData-data', data)
     // return { xx: 2123 }
     // 返回false代表sdk不再发送
-    return false
+    return data
   },
   afterSendData(data) {
     // console.log('afterSendData-data', data)
