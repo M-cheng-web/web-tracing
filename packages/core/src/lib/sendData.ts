@@ -87,12 +87,10 @@ export class SendData {
    * @param flush 是否立即发送
    */
   emit(e: AnyObj, flush = false) {
-    if (!flush && !randomBoolean(options.tracesSampleRate)) {
-      debug(`tracesSampleRate-拦截成功，拦截数据:${JSON.stringify(e)}`)
-      return
-    }
+    if (!flush && !randomBoolean(options.tracesSampleRate)) return
 
     const eventList = options.beforePushEventList(e)
+    if (isFlase(eventList)) return
     if (!this._validateObject(eventList, 'beforePushEventList')) return
 
     this.events = this.events.concat(eventList) // 追加到事件队列里
