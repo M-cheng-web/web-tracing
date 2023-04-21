@@ -29,8 +29,7 @@ export class Options {
 
   // ------------- 未做 -------------
   ext = {} // 自定义全局附加参数(放在baseInfo中)
-  tracesSampleRate = 1 // 抽样发送(针对全局)
-  tracesSampleRateDom = 1 // 抽样发送(针对埋点事件)
+  tracesSampleRate = 1 // 抽样发送
 
   // 事件流本地存储化(同样在发送的时候要触发钩子并且能看到类型)
   dataStreamLocal = {
@@ -143,8 +142,7 @@ export class Options {
 
 //   // ------------- 未做 -------------
 //   ext: {}, // 自定义全局附加参数(放在baseInfo中)
-//   tracesSampleRate: 1, // 抽样发送(针对全局)
-//   tracesSampleRateDom: 1, // 抽样发送(针对埋点事件)
+//   tracesSampleRate: 1, // 抽样发送
 
 //   // 事件流本地存储化(同样在发送的时候要触发钩子并且能看到类型)
 //   dataStreamLocal: {
@@ -195,7 +193,6 @@ function _validateInitOption(options: InitOptions) {
     eventUnload,
     ext,
     tracesSampleRate,
-    tracesSampleRateDom,
     dataStreamLocal,
     fullPoint,
     delayInit,
@@ -294,7 +291,6 @@ function _validateInitOption(options: InitOptions) {
     validateOption(eventUnload, 'eventUnload', 'boolean'),
     validateOption(ext, 'ext', 'object'),
     validateOption(tracesSampleRate, 'tracesSampleRate', 'number'),
-    validateOption(tracesSampleRateDom, 'tracesSampleRateDom', 'number'),
 
     validateOption(fullPoint, 'fullPoint', 'boolean'),
     validateOption(delayInit, 'delayInit', 'boolean'),

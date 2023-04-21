@@ -40,8 +40,7 @@ export type Options = {
   error: Error
   event: Event
   ext: { [key: string]: any } // 自定义全局附加参数(放在baseInfo中)
-  tracesSampleRate: number // 抽样发送(针对全局)
-  tracesSampleRateDom: number // 抽样发送(针对埋点事件)
+  tracesSampleRate: number // 抽样发送
   // 事件流本地存储化(同样在发送的时候要触发钩子并且能看到类型)
   dataStreamLocal: {
     deadline: number // 期限（ps:设为1天则一天只上传一次，但会受到接口大小影响，所以还要手动规定服务端接口内容最大承受）
@@ -96,8 +95,7 @@ export type InitOptions = {
   // ------------- 未做 -------------
   ext?: { [key: string]: any } // 自定义全局附加参数(放在baseInfo中)
 
-  tracesSampleRate?: number // 抽样发送(针对全局)
-  tracesSampleRateDom?: number // 抽样发送(针对埋点事件)
+  tracesSampleRate?: number // 抽样发送
 
   // 事件流本地存储化(同样在发送的时候要触发钩子并且能看到类型)
   dataStreamLocal?: {
