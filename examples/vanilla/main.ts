@@ -12,6 +12,7 @@ init({
   event: true,
   cacheMaxLength: 5,
   cacheWatingTime: 1000,
+  tracesSampleRate: 0.5,
 
   // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
   // ignoreRequest: ['111', /normal/],

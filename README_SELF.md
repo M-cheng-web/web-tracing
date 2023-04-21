@@ -42,7 +42,7 @@ nr docs
 + ignoreRequest
 + ignoreRequest 入参格式进行校验，只能是 (string|number|reg)[]
 + 支持更多上传方式(此功能放入 beforeSendData 钩子，当返回false则sdk内部不发送请求)
-+ 支持抽样发送
++ 支持抽样发送(tracesSampleRate全局抽样，具体到模块的抽样可以用beforePushEventList来阻止)
 
 ### 二期未完成功能
 + 支持数据临时存储本地的形式减少服务端压力

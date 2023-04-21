@@ -168,6 +168,10 @@ export function isValidKey(
   return key in object
 }
 
+export function randomBoolean(randow: number) {
+  return Math.random() <= randow
+}
+
 /**
  * 补全字符
  * @param {*} num 初始值

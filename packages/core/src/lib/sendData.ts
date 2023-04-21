@@ -1,6 +1,13 @@
 import { _support, _global } from '../utils/global'
 import { refreshSession } from '../utils/session'
-import { sendByBeacon, sendByImage, nextTime, map, typeofAny } from '../utils'
+import {
+  sendByBeacon,
+  sendByImage,
+  nextTime,
+  map,
+  typeofAny,
+  randomBoolean
+} from '../utils'
 import { debug, logError } from '../utils/debug'
 import { baseInfo } from './base'
 import { options } from './options'
@@ -60,6 +67,7 @@ export class SendData {
         return e
       })
     }
+
     const afterSendParams = options.beforeSendData(sendParams)
     if (isFlase(afterSendParams)) return
     if (!this._validateObject(afterSendParams, 'beforeSendData')) return
@@ -79,6 +87,11 @@ export class SendData {
    * @param flush 是否立即发送
    */
   emit(e: AnyObj, flush = false) {
+    if (!flush && !randomBoolean(options.tracesSampleRate)) {
+      debug(`tracesSampleRate-拦截成功，拦截数据:${JSON.stringify(e)}`)
+      return
+    }
+
     const eventList = options.beforePushEventList(e)
     if (!this._validateObject(eventList, 'beforePushEventList')) return
 
