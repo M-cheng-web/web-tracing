@@ -1,7 +1,7 @@
 import { init } from '@web-tracing/core'
 // import { pad } from '@web-tracing/utils'
 
-// start()
+start()
 
 function start() {
   init({

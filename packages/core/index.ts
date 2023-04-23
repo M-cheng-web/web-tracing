@@ -16,6 +16,7 @@ import { initEventDwell } from './src/lib/event-dwell'
 import { initHttp } from './src/lib/http'
 import { initPerformance } from './src/lib/performance'
 import { initPv } from './src/lib/pv'
+import { _global } from './src/utils/global'
 
 // 暴露给外部的方法
 const exportMethods: ExportMethods = {
@@ -78,6 +79,7 @@ const exportMethods: ExportMethods = {
 }
 
 function init(options: InitOptions) {
+  if (_global.__webTracingInit__) return
   if (!initOptions(options)) return
 
   // 注册全局
@@ -92,6 +94,8 @@ function init(options: InitOptions) {
   initHttp()
   initPerformance()
   initPv()
+
+  _global.__webTracingInit__ = true
 }
 
 export default {
