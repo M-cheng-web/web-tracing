@@ -316,10 +316,6 @@ function _validateInitOption(options: InitOptions) {
 export let options: _Options
 
 export function initOptions(initOptions: InitOptions): _Options | undefined {
-  // 必传校验
-  if (!initOptions.appName) throw Error('请传入appName参数')
-  if (!initOptions.dsn) throw Error('请传入dsn参数')
-
   // 入参类型校验
   if (!_validateInitOption(initOptions)) return
   options = new Options(initOptions)
