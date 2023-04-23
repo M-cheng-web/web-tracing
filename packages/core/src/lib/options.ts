@@ -1,6 +1,7 @@
 import type { Options as _Options, InitOptions } from '../types'
 import { validateOption, deepAssign, validateOptionArray } from '../utils'
 import { _support } from '../utils/global'
+import { logError } from '../utils/debug'
 
 export class Options {
   dsn = '' // 上报地址
@@ -316,6 +317,10 @@ function _validateInitOption(options: InitOptions) {
 export let options: _Options
 
 export function initOptions(initOptions: InitOptions): _Options | undefined {
+  // 必传校验
+  if (!initOptions.appName) logError('请传入appName参数')
+  if (!initOptions.dsn) logError('请传入dsn参数')
+
   // 入参类型校验
   if (!_validateInitOption(initOptions)) return
   options = new Options(initOptions)

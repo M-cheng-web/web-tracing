@@ -68,8 +68,8 @@ export type Options = {
  * sdk初始化入参配置
  */
 export type InitOptions = {
-  dsn?: string // 上报地址
-  appName?: string // 应用名称
+  dsn: string // 上报地址
+  appName: string // 应用名称
   appCode?: string // 应用code
   appVersion?: string // 应用版本
   userId?: string // 用户id(应该是用户在库中的id)
