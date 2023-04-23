@@ -43,9 +43,9 @@ nr docs
 + ignoreRequest 入参格式进行校验，只能是 (string|number|reg)[]
 + 支持更多上传方式(此功能放入 beforeSendData 钩子，当返回false则sdk内部不发送请求)
 + 支持抽样发送(tracesSampleRate全局抽样，具体到模块的抽样可以用beforePushEventList来阻止)
++ 支持延迟加载sdk(delayInit)
 
 ### 二期未完成功能
-+ 支持延迟加载sdk
 + 支持断网续联后发送
 + 支持暴露更多sdk内部方法（例如使用者想要拿到此时的硬件数据）
 + 支持更多的事件以及行为监听(hover、单机、双击。。。。)

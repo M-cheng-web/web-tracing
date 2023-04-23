@@ -134,15 +134,15 @@
             "Content-Type": "application/json",
           },
         })
-        .then((res) => res.text())
-        .then(
-          (res) => {
-            console.log("res", res)
-          },
-          (err) => {
-            console.log("err", err);
-          }
-        );
+          .then((res) => res.text())
+          .then(
+            (res) => {
+              console.log("res", res);
+            },
+            (err) => {
+              console.log("err", err);
+            }
+          );
       }
     </script>
 
@@ -168,7 +168,7 @@
       function hashChange() {
         // window.open('https://www.baidu.com') // 这种无法捕捉
         // window.open('/#/edit') // 这种可以捕捉到，不过也是在新开的地方进来才能捕捉，并不是跳走阶段捕捉
-        window.location.href = '/#/edit'
+        window.location.href = "/#/edit";
       }
       function historyPushState() {
         // window.history.pushState({}, "测试", `123`);
@@ -184,6 +184,48 @@
           "测试",
           `${parseInt(Math.random() * 1000)}`
         );
+      }
+    </script>
+
+    <!-- 延迟加载sdk -->
+    <div>
+      <div>延迟加载sdk</div>
+      <button onclick="delayInit()">延迟加载sdk</button>
+    </div>
+    <script type="module">
+      import { init } from "@web-tracing/core";
+      window.delayInit = function() {
+        init({
+          // dsn: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/blog/Annapurna-Ranges-2560x1440.5r9m9t5vg1g0.webp',
+          dsn: "http://1.15.224.10:22/trackweb/tra",
+          appName: "cxh",
+          debug: true,
+          pv: true,
+          performance: true,
+          error: true,
+          event: true,
+          cacheMaxLength: 5,
+          cacheWatingTime: 1000,
+          delayInit: true,
+          // tracesSampleRate: 0.5,
+
+          // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
+          // ignoreRequest: ['111', /normal/],
+
+          beforePushEventList(data) {
+            // console.log('beforePushEventList-data', data)
+            return data;
+          },
+          beforeSendData(data) {
+            // console.log('beforeSendData-data', data)
+            // return { xx: 2123 }
+            // 返回false代表sdk不再发送
+            return data;
+          },
+          afterSendData(data) {
+            // console.log('afterSendData-data', data)
+          },
+        });
       }
     </script>
   </body>
