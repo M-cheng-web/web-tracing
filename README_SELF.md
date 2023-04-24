@@ -92,6 +92,7 @@ nr docs
 12. hash 和 history 的跳转重复点击都会触发的，是否给用户一个选择来取消这个
 13. 可否用 iframe的方式让用户快速体验(https://making.close.com/posts/rendering-untrusted-html-email-safely)
 14. 发送的数据类型后面再用ts定义把，可能后面会有改动
+15. 引入测试单元
 
 目前无法捕捉一下pv
 ```
