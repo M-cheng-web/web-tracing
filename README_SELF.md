@@ -44,6 +44,7 @@ nr docs
 + 支持更多上传方式(此功能放入 beforeSendData 钩子，当返回false则sdk内部不发送请求)
 + 支持抽样发送(tracesSampleRate全局抽样，具体到模块的抽样可以用beforePushEventList来阻止)
 + 支持延迟加载sdk(delayInit)
++ 防止重复init sdk
 
 ### 二期未完成功能
 + 支持错误信息去重（并自动转为区间事件）(注意原生和vue是否会重复，sdk这个范围要做好去重)(其次这里的场景应该是比如说下午到晚上都报错，那肯定不能一直捕捉错误，错误类型和时间范围应该是集合为一个事件就行)
