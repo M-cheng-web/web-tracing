@@ -228,5 +228,14 @@
         });
       }
     </script>
+
+    <script>
+      window.addEventListener("offline", () => {
+        console.log("已断网");
+      });
+      window.addEventListener("online", () => {
+          console.log("网络已连接");
+      });
+    </script>
   </body>
 </html>
