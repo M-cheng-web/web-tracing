@@ -10,6 +10,7 @@ import { initReplace } from './src/lib/replace'
 import { initOptions } from './src/lib/options'
 import { initBase } from './src/lib/base'
 import { initSendData } from './src/lib/sendData'
+import { initLineStatus } from './src/lib/line-status'
 import { initError } from './src/lib/err'
 import { initEvent } from './src/lib/event'
 import { initEventDwell } from './src/lib/event-dwell'
@@ -86,6 +87,7 @@ function init(options: InitOptions) {
   initReplace()
   initBase()
   initSendData()
+  initLineStatus()
 
   // 注册各个业务
   initError()

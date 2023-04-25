@@ -114,6 +114,12 @@ function replace(type: EVENTTYPES): void {
     case EVENTTYPES.POPSTATE:
       listenPopState(EVENTTYPES.POPSTATE)
       break
+    case EVENTTYPES.OFFLINE:
+      listenOffline(EVENTTYPES.OFFLINE)
+      break
+    case EVENTTYPES.ONLINE:
+      listenOnline(EVENTTYPES.ONLINE)
+      break
 
     default:
       break
@@ -277,4 +283,31 @@ function listenPopState(type: EVENTTYPES): void {
   on(_global, 'popstate', function (e: HashChangeEvent) {
     eventBus.runEvent(type, e)
   })
+}
+
+/**
+ * 监听 - offline 网络是否关闭
+ */
+function listenOffline(type: EVENTTYPES): void {
+  on(
+    _global,
+    'offline',
+    function (e: ErrorEvent) {
+      eventBus.runEvent(type, e)
+    },
+    true
+  )
+}
+/**
+ * 监听 - online 网络是否开启
+ */
+function listenOnline(type: EVENTTYPES): void {
+  on(
+    _global,
+    'online',
+    function (e: ErrorEvent) {
+      eventBus.runEvent(type, e)
+    },
+    true
+  )
 }

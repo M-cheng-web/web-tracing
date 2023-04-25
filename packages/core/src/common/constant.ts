@@ -14,7 +14,9 @@ export enum EVENTTYPES {
   HASHCHANGE = 'hashchange',
   HISTORYPUSHSTATE = 'history-pushState',
   HISTORYREPLACESTATE = 'history-replaceState',
-  POPSTATE = 'popstate'
+  POPSTATE = 'popstate',
+  ONLINE = 'online',
+  OFFLINE = 'offline'
 }
 
 /**

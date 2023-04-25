@@ -87,6 +87,8 @@ export class SendData {
    * @param flush 是否立即发送
    */
   emit(e: AnyObj, flush = false) {
+    if (!_support.lineStatus.onLine) return
+
     if (!flush && !randomBoolean(options.tracesSampleRate)) return
 
     const eventList = options.beforePushEventList(e)

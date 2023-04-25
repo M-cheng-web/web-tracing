@@ -4,6 +4,7 @@ export type WebTracing = {
   eventBus: EventBus
   baseInfo: any
   sendData: any
+  lineStatus: any
   options: Options // 配置信息
 }
 
