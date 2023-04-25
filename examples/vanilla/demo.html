@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>轮播图自动曝光埋点demo</title>
+    <style type="text/css">
+      ul {
+        padding: 0;
+      }
+      .clear {
+        clear: both;
+        zoom: 1;
+      }
+      *,
+      :after,
+      :before {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      .clearfix:after {
+        clear: both;
+      }
+      .clearfix:after,
+      .clearfix:before {
+        display: table;
+        content: "";
+      }
+      .promo-bd {
+        margin: 0 auto;
+        overflow: hidden;
+        width: 520px;
+      }
+      .promo-bd .items-container {
+        list-style: none;
+        overflow: hidden;
+        width: 2280px;
+        left: 0px;
+        opacity: 1;
+        height: 280px;
+      }
+      .promo-bd .items-container .item {
+        display: list-item;
+        float: left;
+        overflow: hidden;
+        display: block;
+        visibility: visible;
+        height: 100%;
+      }
+      .promo-bd .items-container .item a {
+        display: inline-block;
+        height: 100%;
+      }
+      .sld-ft-nav {
+        text-align: center;
+      }
+      .sld-ft-nav li {
+        display: inline-block;
+        margin-left: 8px;
+        border-radius: 10px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        background-color: #ccc;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .sld-ft-nav li:first-child {
+        margin-left: 0px;
+      }
+      .sld-ft-nav li.selector {
+        background-color: #ff7300;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="promo-bd">
+        <div class="items-container clear">
+          <div class="item" data-id="111">
+            <a href="#">
+              <img
+                src="https://img.alicdn.com/tfs/TB1fEOLCrr1gK0jSZFDXXb9yVXa-520-280.jpg"
+              />
+            </a>
+          </div>
+          <div class="item" data-id="112">
+            <a href="#">
+              <img
+                src="https://img.alicdn.com/tfs/TB1BrwUFuL2gK0jSZPhXXahvXXa-520-280.jpg_q90_.webp"
+              />
+            </a>
+          </div>
+          <div class="item" data-id="113">
+            <a href="#">
+              <img
+                border="0"
+                src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+              />
+            </a>
+          </div>
+          <div class="item" data-id="114">
+            <a href="#">
+              <img
+                border="0"
+                src="https://aecpm.alicdn.com/simba/img/TB1JNHwKFXXXXafXVXXSutbFXXX.jpg"
+              />
+            </a>
+          </div>
+        </div>
+
+        <ul class="promo-nav sld-ft-nav">
+          <li class="dot selector" onclick="handlerClick(0)">1</li>
+          <li class="dot" onclick="handlerClick(1)">2</li>
+          <li class="dot" onclick="handlerClick(2)">3</li>
+          <li class="dot" onclick="handlerClick(3)">4</li>
+        </ul>
+      </div>
+    </div>
+    <script type="text/javascript">
+      let handlerLoop;
+      let width = 520;
+
+      function transform(num) {
+        document.querySelector(".items-container").setAttribute(
+          "style",
+          `
+		  transition-duration: 0.3s;
+		  transform: translate3d(-${width * num}px, 0px, 0px);
+		  backface-visibility: hidden;
+		  left: 0px;
+		  opacity: 1;
+		`
+        );
+        document.querySelectorAll("li.dot").forEach(function (ele, i) {
+          ele.setAttribute("class", "dot");
+          if (i === num) {
+            ele.setAttribute("class", "dot selector");
+          }
+        });
+      }
+
+      function loop(n) {
+        let num = n;
+        handlerLoop = setInterval(function () {
+          if (num === 3) {
+            num = 0;
+          } else {
+            num++;
+          }
+          transform(num);
+        }, 1500);
+      }
+      loop(0);
+
+      function handlerClick(index) {
+        clearInterval(handlerLoop);
+        transform(index);
+        loop(index);
+      }
+    </script>
+  </body>
+</html>

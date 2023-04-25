@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>example-vanilla</title>
   </head>
-  <body>
+  <body style="height: 2000px">
     <script type="module" src="/main.ts"></script>
     <div id="app"></div>
 
@@ -46,9 +46,6 @@
       <button id="promiseError" onclick="promiseError()">promiseError</button>
       <button id="consoleErr" onclick="consoleErr()">手动输出错误</button>
     </div>
-    <br />
-
-    <!-- Error 捕捉 -->
     <script>
       // ---------------- Error 捕捉 ----------------
       function codeError() {
@@ -71,6 +68,8 @@
       }
     </script>
 
+    <br />
+
     <!-- Http 事件捕捉 -->
     <div>
       <div>Http 事件捕捉</div>
@@ -83,9 +82,6 @@
         Fetch异常请求
       </button>
     </div>
-    <br />
-
-    <!-- Http 事件捕捉 -->
     <script>
       // ---------------- Http 事件捕捉 ----------------
       function onClickXhrNormal() {
@@ -146,6 +142,8 @@
       }
     </script>
 
+    <br />
+
     <!-- Pv 事件捕捉 -->
     <div>
       <div>Pv 事件捕捉</div>
@@ -160,9 +158,6 @@
       <!-- 这种无法捕捉 -->
       <a href="http://www.baidu.com" target="_blank">跳到百度</a>
     </div>
-    <br />
-
-    <!-- Pv 事件捕捉 -->
     <script>
       // ---------------- Pv 事件捕捉 ----------------
       function hashChange() {
@@ -187,6 +182,8 @@
       }
     </script>
 
+    <br />
+
     <!-- 延迟加载sdk -->
     <div>
       <div>延迟加载sdk</div>
@@ -194,7 +191,7 @@
     </div>
     <script type="module">
       import { init } from "@web-tracing/core";
-      window.delayInit = function() {
+      window.delayInit = function () {
         init({
           // dsn: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/blog/Annapurna-Ranges-2560x1440.5r9m9t5vg1g0.webp',
           dsn: "http://1.15.224.10:22/trackweb/tra",
@@ -226,16 +223,42 @@
             // console.log('afterSendData-data', data)
           },
         });
-      }
+      };
+    </script>
+
+    <br />
+
+    <!-- 曝光采集 -->
+    <div>
+      <div>曝光采集</div>
+      <div id="target">
+        <img
+          src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+        />
+      </div>
+    </div>
+    <script>
+      const target = document.querySelector("#target");
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          // 如果该元素是可见，就执行某些操作
+          if (entry.isIntersecting) {
+            console.log("目标元素已经曝光");
+          }
+        });
+      });
+
+      // 开始观察目标元素
+      io.observe(target);
     </script>
 
     <script>
-      window.addEventListener("offline", () => {
-        console.log("已断网");
-      });
-      window.addEventListener("online", () => {
-          console.log("网络已连接");
-      });
+      // window.addEventListener("offline", () => {
+      //   console.log("已断网");
+      // });
+      // window.addEventListener("online", () => {
+      //     console.log("网络已连接");
+      // });
     </script>
   </body>
 </html>
