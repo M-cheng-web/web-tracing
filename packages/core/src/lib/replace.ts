@@ -168,7 +168,7 @@ function replaceConsoleError(type: EVENTTYPES): void {
  */
 function listenClick(type: EVENTTYPES): void {
   if (!('document' in _global)) return
-  const clickThrottle = throttle(eventBus.runEvent, 100)
+  const clickThrottle = throttle(eventBus.runEvent, 100, true)
   on(
     _global.document,
     'click',

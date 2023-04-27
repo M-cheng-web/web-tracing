@@ -78,18 +78,50 @@ export function getTimestamp(): number {
  * 函数节流
  * @param fn 需要节流的函数
  * @param delay 节流的时间间隔
+ * @param runFirst 是否需要第一个函数立即执行 (每次)
  * @returns 返回一个包含节流功能的函数
  */
-export const throttle = (fn: AnyFun, delay: number) => {
-  let canRun = true
+export function throttle(func: AnyFun, wait: number, runFirst = false) {
+  let timer: NodeJS.Timeout | null = null
+  let lastArgs: any[]
+
   return function (this: any, ...args: any[]) {
-    if (!canRun) return
-    fn.apply(this, args)
-    canRun = false
-    setTimeout(() => {
-      canRun = true
-    }, delay)
+    lastArgs = args
+
+    if (timer === null) {
+      if (runFirst) {
+        func.apply(this, lastArgs)
+      }
+      timer = setTimeout(() => {
+        timer = null
+        func.apply(this, lastArgs)
+      }, wait)
+    }
   }
+}
+
+/**
+ * 将数组内对象以对象内的属性分类
+ * @param arr 数组源 - 格式为 [{}, {}...]
+ * @param pop 是否需要在遍历后清除源数组内的数据
+ * @param keys 需要匹配的属性名
+ */
+export function groupArray<T, K extends keyof T>(
+  arr: T[],
+  ...keys: K[]
+): T[][] {
+  const groups = new Map<string, T[]>()
+  for (const obj of arr) {
+    const key = keys
+      .filter(k => obj[k])
+      .map(k => obj[k])
+      .join(':')
+    if (!groups.has(key)) {
+      groups.set(key, [])
+    }
+    groups.get(key)!.push(obj)
+  }
+  return Array.from(groups.values())
 }
 
 /**

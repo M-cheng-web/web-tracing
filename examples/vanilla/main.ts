@@ -15,6 +15,9 @@ function start() {
     event: true,
     cacheMaxLength: 10,
     cacheWatingTime: 1000,
+
+    scopeError: true,
+
     // tracesSampleRate: 0.5,
 
     // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
@@ -28,6 +31,7 @@ function start() {
       // console.log('beforeSendData-data', data)
       // return { xx: 2123 }
       // 返回false代表sdk不再发送
+      // return false
       return data
     },
     afterSendData(data) {

@@ -6,20 +6,11 @@ import { eventBus } from './eventBus'
 import { isArray, isRegExp } from '../utils/is'
 import { options } from './options'
 import { debug } from '../utils/debug'
-
-function emit(errorInfo: any) {
-  const info = {
-    ...errorInfo,
-    eventType: 'error',
-    url: getLocationHref(),
-    triggerTime: Date.now()
-  }
-  sendData.emit(info)
-}
+import { initBatchError, batchError } from './err-batch'
 
 function parseStack(err: any) {
   const { stack = '', message = '' } = err
-  const result = { errMessage: message, errStack: stack }
+  const result = { errType: 'code', errMessage: message, errStack: stack }
 
   if (stack) {
     const rChromeCallStack = /^\s*at\s*([^(]+)\s*\((.+?):(\d+):(\d+)\)$/
@@ -66,6 +57,7 @@ function parseError(e: any) {
       return {
         errMessage: message,
         errStack: stack,
+        errType: 'code',
         line: lineNumber, // 不稳定属性 - 在某些浏览器可能是undefined，被废弃了
         col: columnNumber, // 不稳定属性 - 非标准，有些浏览器可能不支持
         src: fileName // 不稳定属性 - 非标准，有些浏览器可能不支持
@@ -164,8 +156,39 @@ function isIgnoreErrors(error: any) {
   })
 }
 
+function emit(errorInfo: any) {
+  const info = {
+    ...errorInfo,
+    eventType: 'error',
+    url: getLocationHref(),
+    triggerTime: Date.now()
+  }
+
+  if (options.scopeError) {
+    batchError.pushCacheErrorA(info)
+  } else {
+    sendData.emit(info)
+  }
+}
+
 function initError() {
   if (!options.error.core) return
+
+  if (options.scopeError) {
+    initBatchError()
+    // 如果开启了检测批量错误 则要挂载卸载事件以防缓存池内的错误丢失
+    eventBus.addEvent({
+      type: EVENTTYPES.BEFOREUNLOAD,
+      callback: () => {
+        const errInfoList = batchError.cacheErrorA.concat(
+          batchError.cacheErrorB
+        )
+        if (errInfoList.length) {
+          sendData.emit(errInfoList, true)
+        }
+      }
+    })
+  }
 
   // 捕获阶段可以获取资源加载错误,script.onError link.onError img.onError,无法知道具体状态
   eventBus.addEvent({

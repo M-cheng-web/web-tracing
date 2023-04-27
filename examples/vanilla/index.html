@@ -63,9 +63,94 @@
       }
       function consoleErr() {
         console.error("consoleErr1", "consoleErr1.1", "consoleErr1.2");
-        console.error(111);
-        console.error(new Error("谢谢谢谢谢"));
+        // console.error(111);
+        // console.error(new Error("谢谢谢谢谢"));
       }
+    </script>
+
+    <br />
+
+    <!-- 批量 Error -->
+    <div>
+      <div>批量 Error 捕捉</div>
+      <button onclick="batchErrorA(10)">立即触发代码错误-10条</button>
+      <button onclick="batchErrorA(100)">立即触发代码错误-100条</button>
+      <br />
+      <br />
+      <button onclick="batchErrorAT(10)">异步触发代码错误-10条</button>
+      <button onclick="batchErrorAT(100)">异步触发代码错误-100条</button>
+      <br />
+      <br />
+      <button onclick="batchErrorB(10)">立即触发[reject-10条 + 代码错误-10条 + console.error-10条]</button>
+      <br />
+      <br />
+      <button onclick="batchErrorC(10)">异步触发[reject-10条 + 代码错误-10条 + console.error-10条]</button>
+      <br />
+      <br />
+      <button onclick="batchErrorD()">异步触发无限错误</button>
+    </div>
+    <script>
+      function batchErrorA(num) {
+        for (let x = 1; x <= num; x++) {
+          document.getElementById("codeErr").click();
+        }
+      }
+      function batchErrorAT(num) {
+        for (let x = 1; x <= num; x++) {
+          setTimeout(() => {
+            document.getElementById("codeErr").click();
+          }, x * 300);
+        }
+      }
+      function batchErrorB(num) {
+        for (let x = 1; x <= num; x++) {
+          promiseError();
+          consoleErr();
+          document.getElementById("codeErr").click();
+        }
+      }
+      function batchErrorC(num) {
+        for (let x = 1; x <= num; x++) {
+          setTimeout(() => {
+            batchErrorB(1)
+          }, x * 300);
+        }
+      }
+      function batchErrorD() {
+        while (true) {
+          setTimeout(() => {
+            batchErrorB(1)
+          }, x * 300);
+        }
+      }
+
+      // function groupArray(arr, ...keys) {
+      //   const groups = new Map();
+      //   for (const obj of arr) {
+      //     const keyArr = keys.filter(k => obj[k]).map(k => obj[k]);
+
+      //     // if (keyArr.length !== keys.length) return undefined
+      //     const key = keyArr.join(':')
+      //     console.log('key', key);
+      //     if (!groups.has(key)) {
+      //       groups.set(key, []);
+      //     }
+      //     groups.get(key).push(obj);
+      //   }
+      //   return Array.from(groups.values());
+      // }
+
+      // // 示例代码
+      // const arr = [
+      //   { name: 'apple', category2: 'fruit', price: 1.5 },
+      //   { name: 'apple', category: 'fruit', price: 1 },
+      //   { name: 'carrot', category: 'vegetable', price: 2 },
+      //   { name: 'carrot', category: 'vegetable', price: 1.8 },
+      //   { name: 'orange', category: 'fruit', price: 2 },
+      // ];
+
+      // const groups = groupArray(arr, 'name', 'category');
+      // console.log(groups);
     </script>
 
     <br />
@@ -249,7 +334,7 @@
       });
 
       // 开始观察目标元素
-      io.observe(target);
+      // io.observe(target);
     </script>
 
     <script>
