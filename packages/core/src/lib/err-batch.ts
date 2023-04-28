@@ -1,9 +1,10 @@
 import { sendData } from './sendData'
 import { AnyFun } from '../types'
 import { throttle, groupArray } from '../utils'
+import { debug } from '../utils/debug'
 
 const SETTIMEA = 5000
-const SETTIMEB = 20000
+const SETTIMEB = 30000
 
 /**
  * 判断是否为批量错误
@@ -35,7 +36,6 @@ class BatchError {
     )
   }
   proxyAddCacheErrorA() {
-    // console.log('进入timmerA')
     let len = this.cacheErrorA.length
     if (!len) return
     const arr = groupArray(this.cacheErrorA, 'errMessage', 'errType')
@@ -65,12 +65,9 @@ class BatchError {
   proxyAddCacheErrorB() {
     let len = this.cacheErrorB.length
     if (!len) return
-    // console.log('进入timmerB', JSON.stringify(this.cacheErrorB))
     const arr = groupArray(this.cacheErrorB, 'errMessage', 'errType')
     const arrA = arr.filter(item => item.length < 5)
     const arrB = arr.filter(item => item.length >= 5)
-
-    console.log('arr', arr)
 
     while (len--) {
       this.cacheErrorB.shift()
@@ -94,6 +91,7 @@ class BatchError {
       sendData.emit(emitList)
     }
     if (arrB.length) {
+      debug('无限错误')
       // 在这的错误就是无限错误
       const arrBsum: any[] = []
       arrB.forEach(itemList => {

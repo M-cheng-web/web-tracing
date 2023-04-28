@@ -81,10 +81,14 @@
       <button onclick="batchErrorAT(100)">异步触发代码错误-100条</button>
       <br />
       <br />
-      <button onclick="batchErrorB(10)">立即触发[reject-10条 + 代码错误-10条 + console.error-10条]</button>
+      <button onclick="batchErrorB(10)">
+        立即触发[reject-10条 + 代码错误-10条 + console.error-10条]
+      </button>
       <br />
       <br />
-      <button onclick="batchErrorC(10)">异步触发[reject-10条 + 代码错误-10条 + console.error-10条]</button>
+      <button onclick="batchErrorC(10)">
+        异步触发[reject-10条 + 代码错误-10条 + console.error-10条]
+      </button>
       <br />
       <br />
       <button onclick="batchErrorD()">异步触发无限错误</button>
@@ -112,16 +116,14 @@
       function batchErrorC(num) {
         for (let x = 1; x <= num; x++) {
           setTimeout(() => {
-            batchErrorB(1)
+            batchErrorB(1);
           }, x * 300);
         }
       }
       function batchErrorD() {
-        while (true) {
-          setTimeout(() => {
-            batchErrorB(1)
-          }, x * 300);
-        }
+        setInterval(() => {
+          document.getElementById("codeErr").click();
+        }, 80);
       }
 
       // function groupArray(arr, ...keys) {
