@@ -134,21 +134,21 @@ export type InitOptions = {
 export type ExportMethods = {
   beforePushEventList: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforeSendData: (data: any) => any // 数据上报前的 hook
-  afterSendData?: (data: any) => void // 数据上报后的 hook
+  afterSendData: (data: any) => void // 数据上报后的 hook
 
-  setUserId: () => void // // 设置用户id，与sdk的用户id绑定
-  getBreadcrumb: () => any // 获取当前行为列表
-  getUserId: () => string // 获取用户id(此id是初始化传入的id)
-  getUserSDKId: () => string // 获取用户此时在sdk中的id
-  handleDelayInit: () => void // 设置延迟加载后这边手动初始化
-  getRouteTreeing: () => string[] // 获取路由历史记录 (前提是开启了监听路由)
-  getBaseInfo: () => any // 获取在sdk中记录的所有基础的信息 (包括硬件，地理位置等等)
+  setUserUuid: () => void // 设置用户id，与sdk的用户id绑定
+  getUserUuid: () => string // 获取用户id，此id为初始传入的id，sdk内部不会更改
+  getUserSDKId: () => string // 获取用户此时在sdk中的id，sdk会对每个用户提供一个“唯一”的id（尽量往唯一的方向靠，会参考多个参数）
+  getBaseInfo: () => any // 获取在sdk中记录的所有基础的信息（包括硬件，地理位置等等）
+  handleDelayInit: () => void // 手动初始化（设置延迟加载后才可以使用此方法手动初始化）
+  getRouteTreeing: () => string[] // 获取路由历史记录（前提是开启了监听路由）
   getFirstScreen: () => any // 获取首屏数据
 
   trackScopeStart: () => void // 开始范围捕捉事件（在这个范围中发生的所有事件都会集中到此范围中）
   trackScopeEnd: () => void // 停止范围捕捉事件（后续可以加入一系列参数，回调等。让用户可选择的更多）
-  traceError: () => void // 主动触发一条error类型事件
-  tracePerformance: () => void // 主动触发性能事件上报
+
+  traceError: () => void // 主动触发error事件
+  tracePerformance: () => void // 主动触发资源上报
   traceCustomEvent: () => void // 主动触发事件上报
   tracePageView: () => void // 主动触发一条pv事件
 }

@@ -16,7 +16,7 @@ function start() {
     cacheMaxLength: 10,
     cacheWatingTime: 1000,
 
-    scopeError: true,
+    // scopeError: true,
 
     // tracesSampleRate: 0.5,
 

@@ -19,10 +19,7 @@ import { initPerformance } from './src/lib/performance'
 import { initPv } from './src/lib/pv'
 import { _global } from './src/utils/global'
 
-// 暴露给外部的方法
 const exportMethods: ExportMethods = {
-  // setCustomerId: base.setCustomerId, // 舍弃
-  // setUserUuid: base.setUserUuid, // 舍弃
   // traceError: err.traceError,
   // tracePerformance: performance.tracePerformance,
   // traceCustomEvent: event.traceCustomEvent,
@@ -36,15 +33,15 @@ const exportMethods: ExportMethods = {
   beforeSendData: () => {
     // do something
   },
+  // 钩子:发送之后
+  afterSendData: () => {
+    // do something
+  },
   // 设置用户id，与sdk的用户id绑定
-  setUserId: () => {
+  setUserUuid: () => {
     // do something
   },
-  // 获取当前行为列表
-  getBreadcrumb: () => {
-    // do something
-  },
-  getUserId: () => '', // 获取用户id(此id是初始化传入的id)
+  getUserUuid: () => '', // 获取用户id(此id是初始化传入的id)
   getUserSDKId: () => '', // 获取用户此时在sdk中的id
   handleDelayInit: () => {
     // do something
@@ -61,15 +58,15 @@ const exportMethods: ExportMethods = {
   trackScopeEnd: () => {
     // do something
   },
-  // 主动触发一条error类型事件
+  // 主动触发error类型事件
   traceError: () => {
     // do something
   },
-  // 主动触发性能事件上报
+  // 主动触发资源性能事件上报
   tracePerformance: () => {
     // do something
   },
-  // 主动触发事件上报
+  // 主动触发手动事件上报
   traceCustomEvent: () => {
     // do something
   },
