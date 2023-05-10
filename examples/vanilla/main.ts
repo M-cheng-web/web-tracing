@@ -1,7 +1,14 @@
-import { init } from '@web-tracing/core'
+import { init, exportMethods } from '@web-tracing/core'
 // import { pad } from '@web-tracing/utils'
 
 start()
+
+setTimeout(() => {
+  exportMethods.beforePushEventList(data => {
+    console.log('-----------data', data)
+    return data
+  })
+}, 2000)
 
 function start() {
   init({

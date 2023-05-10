@@ -339,6 +339,34 @@
       // io.observe(target);
     </script>
 
+    <!-- 获取唯一标识 -->
+    <script type="module">
+      import { getIPs } from "./getIps.js";
+      // window.getIPs().then((res) => {
+      //   console.log("getIPs", res);
+      // });
+    </script>
+
+    <!-- <script>
+      const fpPromise = import('./fingerprintjs.js').then(
+        (FingerprintJS) => FingerprintJS.load()
+      );
+      fpPromise
+        .then((fp) => fp.get())
+        .then((result) => {
+          const visitorId = result.visitorId;
+          console.log(visitorId);
+        });
+    </script> -->
+
+    <!-- 获取IP -->
+    <script type="module">
+      import { getIPs } from "./getIps.js";
+      // window.getIPs().then((res) => {
+      //   console.log("getIPs", res);
+      // });
+    </script>
+
     <script>
       // window.addEventListener("offline", () => {
       //   console.log("已断网");

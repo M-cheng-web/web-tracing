@@ -1,19 +1,23 @@
 import { DEVICE_KEY, SDK_VERSION } from '../common'
 import { _support, getGlobal } from '../utils/global'
+import { load } from '../utils/fingerprintjs'
 import { getCookieByName, uuid } from '../utils'
 import { getSessionId } from '../utils/session'
 import { options } from './options'
 
 export class BaseInfo {
-  base: any
+  base = {}
   pageId: string
+  sdkUserUuid = ''
   private device: any
 
   constructor() {
     // 当前应用ID,在整个页面生命周期内不变,单页应用路由变化也不会改变,加载SDK时创建,且只创建一次
     this.pageId = uuid()
-    this._initDevice()
-    this._initBase()
+    this._initSdkUserUuid().then(() => {
+      this._initDevice()
+      this._initBase()
+    })
   }
   private _initDevice() {
     const { screen } = getGlobal()
@@ -43,6 +47,7 @@ export class BaseInfo {
     this.base = {
       // 基础数据
       ...this.device,
+      sdkUserUuid: this.sdkUserUuid,
       ext: options.ext,
       appName: options.appName,
       appCode: options.appCode,
@@ -50,6 +55,14 @@ export class BaseInfo {
       sessionId,
       sdkVersion: SDK_VERSION
     }
+  }
+  private _initSdkUserUuid() {
+    return load({})
+      .then((fp: any) => fp.get())
+      .then((result: any) => {
+        const visitorId = result.visitorId
+        this.sdkUserUuid = visitorId
+      })
   }
 }
 

@@ -16,3 +16,5 @@ index.html
 /bin
 Dockerfile
 _old
+fingerprintjs.js
+fingerprintjs.ts
