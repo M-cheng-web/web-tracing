@@ -60,9 +60,9 @@ export type Options = {
   // 这些函数一方面是可以在首次init可以用
   // 后面也要做到在某个页面调这个方法就可以多次引用
   // 比如 before 的钩子，在一个项目在多个地方引用了场景
-  beforePushEventList: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforeSendData: (data: any) => any // 数据上报前的 hook
-  afterSendData: (data: any) => void // 数据上报后的 hook
+  beforePushEventList: AnyFun[] // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
+  beforeSendData: AnyFun[] // 数据上报前的 hook
+  afterSendData: AnyFun[] // 数据上报后的 hook
 }
 
 /**
@@ -132,9 +132,9 @@ export type InitOptions = {
  * 暴露给外部的方法
  */
 export type ExportMethods = {
-  beforePushEventList: (fun: AnyFun[] | AnyFun) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforeSendData: (fun: AnyFun[] | AnyFun) => any // 数据上报前的 hook
-  afterSendData: (fun: AnyFun[] | AnyFun) => any // 数据上报后的 hook
+  beforePushEventList: (fun: AnyFun) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
+  beforeSendData: (fun: AnyFun) => any // 数据上报前的 hook
+  afterSendData: (fun: AnyFun) => any // 数据上报后的 hook
 
   setUserUuid: (id: string) => void // 设置用户id，与sdk的用户id绑定
   getUserUuid: () => string // 获取用户id，此id为初始传入的id，sdk内部不会更改

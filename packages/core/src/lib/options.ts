@@ -55,17 +55,23 @@ export class Options {
   // 比如 before 的钩子，在一个项目在多个地方引用了场景
 
   // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforePushEventList = (data: any): any => {
-    return data
-  }
+  beforePushEventList = [
+    (data: any): any => {
+      return data
+    }
+  ]
   // 数据上报前的 hook
-  beforeSendData = (data: any): any => {
-    return data
-  }
+  beforeSendData = [
+    (data: any): any => {
+      return data
+    }
+  ]
   // 数据上报后的 hook
-  afterSendData = (data: any): void => {
-    // do something
-  }
+  afterSendData = [
+    (data: any): void => {
+      // do something
+    }
+  ]
 
   constructor(initOptions: InitOptions) {
     const _options = this._transitionOptions(initOptions)
@@ -81,6 +87,7 @@ export class Options {
   private _transitionOptions(options: InitOptions): Options {
     // 这里的 this 目前是包括这些私有方法的，后面看看有没有风险
     const _options = deepAssign<Options>({}, this, options)
+    const { beforePushEventList, beforeSendData, afterSendData } = options
     const { pv, performance, error, event } = _options
 
     if (typeof pv === 'boolean') {
@@ -107,6 +114,16 @@ export class Options {
         core: event,
         unload: event
       }
+    }
+
+    if (beforePushEventList) {
+      _options.beforePushEventList = [beforePushEventList]
+    }
+    if (beforeSendData) {
+      _options.beforeSendData = [beforeSendData]
+    }
+    if (afterSendData) {
+      _options.afterSendData = [afterSendData]
     }
 
     return _options

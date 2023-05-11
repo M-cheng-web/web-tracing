@@ -5,8 +5,28 @@ start()
 
 setTimeout(() => {
   exportMethods.beforePushEventList(data => {
-    console.log('-----------data', data)
+    console.log('-----------beforePushEventList', data)
     return data
+  })
+  exportMethods.beforePushEventList(data => {
+    console.log('-----------beforePushEventList2', data)
+    return data
+  })
+
+  exportMethods.beforeSendData(data => {
+    console.log('-----------beforeSendData', data)
+    return data
+  })
+  exportMethods.beforeSendData(data => {
+    console.log('-----------beforeSendData2', data)
+    return data
+  })
+
+  exportMethods.afterSendData(data => {
+    console.log('-----------afterSendData', data)
+  })
+  exportMethods.afterSendData(data => {
+    console.log('-----------afterSendData2', data)
   })
 }, 2000)
 

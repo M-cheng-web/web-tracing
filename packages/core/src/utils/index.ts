@@ -298,6 +298,30 @@ export function sendByImage(url: string, data: any): Promise<any> {
   })
 }
 
+/**
+ * 批量执行方法
+ * @param funList 方法数组
+ * @param through 是否将第一次参数贯穿全部方法
+ * @param args 额外参数
+ * @returns
+ */
+export function executeFunctions(
+  funList: AnyFun[],
+  through: boolean,
+  ...args: any[]
+): any {
+  let result: any = undefined
+  for (let i = 0; i < funList.length; i++) {
+    const func = funList[i]
+    if (i === 0 || through) {
+      result = func(...args)
+    } else {
+      result = func(result)
+    }
+  }
+  return result
+}
+
 const arrayMap =
   Array.prototype.map ||
   function polyfillMap(this: any, fn) {

@@ -1,4 +1,5 @@
-import type { ExportMethods } from '../types'
+import type { ExportMethods, AnyFun } from '../types'
+import { options } from './options'
 
 export const exportMethods: ExportMethods = {
   // traceError: err.traceError,
@@ -7,16 +8,16 @@ export const exportMethods: ExportMethods = {
   // tracePageView: pv.tracePageView,
 
   // 钩子:放入事件队列之前
-  beforePushEventList: function (fun) {
-    console.log('beforePushEventList-fun', fun)
+  beforePushEventList: function (fun: AnyFun) {
+    options.beforePushEventList.push(fun)
   },
   // 钩子:发送之前
-  beforeSendData: function (fun) {
-    console.log('beforeSendData-fun', fun)
+  beforeSendData: function (fun: AnyFun) {
+    options.beforeSendData.push(fun)
   },
   // 钩子:发送之后
-  afterSendData: function (fun) {
-    console.log('afterSendData-fun', fun)
+  afterSendData: function (fun: AnyFun) {
+    options.afterSendData.push(fun)
   },
   // 设置用户id
   setUserUuid: id => {

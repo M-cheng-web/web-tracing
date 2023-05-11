@@ -13,6 +13,7 @@ import { baseInfo } from './base'
 import { options } from './options'
 import { AnyObj } from '../types'
 import { isFlase } from '../utils/is'
+import { executeFunctions } from '../utils'
 
 export class SendData {
   dsn = '' // 服务请求地址
@@ -68,12 +69,19 @@ export class SendData {
       })
     }
 
-    const afterSendParams = options.beforeSendData(sendParams)
+    const afterSendParams = executeFunctions(
+      options.beforeSendData,
+      false,
+      sendParams
+    )
     if (isFlase(afterSendParams)) return
     if (!this._validateObject(afterSendParams, 'beforeSendData')) return
 
     this._sendBeacon(this.dsn, afterSendParams).then((res: any) => {
-      options.afterSendData({ ...res, params: afterSendParams })
+      executeFunctions(options.afterSendData, true, {
+        ...res,
+        params: afterSendParams
+      })
     })
 
     // 如果一次性发生的事件超过了阈值(cacheMaxLength)，那么这些经过裁剪的事件列表剩下的会直接发，并不会延迟等到下一个队列
@@ -91,7 +99,8 @@ export class SendData {
 
     if (!flush && !randomBoolean(options.tracesSampleRate)) return
 
-    const eventList = options.beforePushEventList(e)
+    const eventList = executeFunctions(options.beforePushEventList, false, e)
+
     if (isFlase(eventList)) return
     if (!this._validateObject(eventList, 'beforePushEventList')) return
 
