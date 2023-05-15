@@ -14,6 +14,7 @@ export class BaseInfo {
   constructor() {
     // 当前应用ID,在整个页面生命周期内不变,单页应用路由变化也不会改变,加载SDK时创建,且只创建一次
     this.pageId = uuid()
+
     this._initSdkUserUuid().then(() => {
       this._initDevice()
       this._initBase()
@@ -47,6 +48,7 @@ export class BaseInfo {
     this.base = {
       // 基础数据
       ...this.device,
+      userUuid: options.userUuid,
       sdkUserUuid: this.sdkUserUuid,
       ext: options.ext,
       appName: options.appName,
@@ -62,6 +64,7 @@ export class BaseInfo {
       .then((result: any) => {
         const visitorId = result.visitorId
         this.sdkUserUuid = visitorId
+        options.sdkUserUuid = visitorId
       })
   }
 }

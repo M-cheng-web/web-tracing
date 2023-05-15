@@ -1,6 +1,7 @@
 import { AnyFun, AnyObj } from '../types'
 import { logError } from './debug'
 import { isRegExp, isArray } from './is'
+import { isInit } from '../utils/global'
 
 /**
  * 添加事件监听器
@@ -145,6 +146,17 @@ export function deepAssign<T>(target: AnyObj, ...sources: AnyObj[]) {
     }
   })
   return target as T
+}
+
+/**
+ * 验证调用sdk暴露的方法之前是否初始化
+ */
+export function validateMethods(methodsName: string): boolean {
+  if (!isInit()) {
+    logError(`${methodsName} 需要在SDK初始化之后使用`)
+    return false
+  }
+  return true
 }
 
 /**

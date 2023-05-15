@@ -6,6 +6,7 @@ export type WebTracing = {
   sendData: any
   lineStatus: any
   options: Options // 配置信息
+  firstScreen: any // 首屏信息
 }
 
 interface Pv {
@@ -34,7 +35,8 @@ export type Options = {
   appName: string // 应用名称
   appCode: string // 应用code
   appVersion: string // 应用版本
-  userId: string // 用户id(应该是用户在库中的id)
+  userUuid: string // 用户id(外部填充进来的id)
+  sdkUserUuid: string // 用户id(sdk内部生成的id)
   debug: boolean // 是否开启调试模式(控制台会输出sdk动作)
   pv: Pv
   performance: Performance
@@ -73,7 +75,7 @@ export type InitOptions = {
   appName: string // 应用名称
   appCode?: string // 应用code
   appVersion?: string // 应用版本
-  userId?: string // 用户id(应该是用户在库中的id)
+  userUuid?: string // 用户id(外部填充进来的id)
   debug?: boolean // 是否开启调试模式(控制台会输出sdk动作)
 
   pv?: Pv | boolean
@@ -126,31 +128,6 @@ export type InitOptions = {
   beforePushEventList?: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforeSendData?: (data: any) => any // 数据上报前的 hook
   afterSendData?: (data: any) => void // 数据上报后的 hook
-}
-
-/**
- * 暴露给外部的方法
- */
-export type ExportMethods = {
-  beforePushEventList: (fun: AnyFun) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforeSendData: (fun: AnyFun) => any // 数据上报前的 hook
-  afterSendData: (fun: AnyFun) => any // 数据上报后的 hook
-
-  setUserUuid: (id: string) => void // 设置用户id，与sdk的用户id绑定
-  getUserUuid: () => string // 获取用户id，此id为初始传入的id，sdk内部不会更改
-  getSDKUserUuid: () => string // 获取用户此时在sdk中的id，sdk会对每个用户提供一个“唯一”的id（尽量往唯一的方向靠，会参考多个参数）
-  getBaseInfo: () => object // 获取在sdk中记录的所有基础的信息（包括硬件，地理位置等等）
-  handleDelayInit: () => void // 手动初始化（设置延迟加载后才可以使用此方法手动初始化）
-  getRouteTreeing: () => string[] // 获取路由历史记录（前提是开启了监听路由）
-  getFirstScreen: () => object // 获取首屏数据
-
-  trackScopeStart: () => void // 开始范围捕捉事件（在这个范围中发生的所有事件都会集中到此范围中）
-  trackScopeEnd: () => void // 停止范围捕捉事件（后续可以加入一系列参数，回调等。让用户可选择的更多）
-
-  traceError: () => void // 主动触发error事件
-  tracePerformance: () => void // 主动触发资源上报
-  traceCustomEvent: () => void // 主动触发事件上报
-  tracePageView: () => void // 主动触发一条pv事件
 }
 
 export type VoidFun = {

@@ -111,14 +111,15 @@ function sendPageView(option: AnyObj = {}) {
 
 /**
  * 手动发送数据
+ * @param options 自定义配置信息
  */
-function handleSendPageView(option: AnyObj = {}) {
+function handleSendPageView(options: AnyObj = {}) {
   const {
     url = getLocationHref(),
     referer = oldURL,
     actions = '',
     params
-  } = option
+  } = options
   // 如果option.title为空,则等待框架处理document.title,延迟17ms
   // 为什么是17ms?  一秒60Hz是基准,平均1Hz是17毫秒,只要出来了页面那就有 document.title
   setTimeout(
@@ -129,12 +130,12 @@ function handleSendPageView(option: AnyObj = {}) {
         url,
         referer,
         params,
-        title: option.title || document.title,
+        title: options.title || document.title,
         action: actions,
         triggerTime: Date.now()
       })
     },
-    option.title ? 0 : 17
+    options.title ? 0 : 17
   )
 }
 

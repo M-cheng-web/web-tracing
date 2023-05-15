@@ -288,32 +288,24 @@
           performance: true,
           error: true,
           event: true,
-          cacheMaxLength: 5,
+          cacheMaxLength: 10,
           cacheWatingTime: 1000,
-          delayInit: true,
-          // tracesSampleRate: 0.5,
-
-          // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
-          // ignoreRequest: ['111', /normal/],
-
-          beforePushEventList(data) {
-            // console.log('beforePushEventList-data', data)
-            return data;
-          },
-          beforeSendData(data) {
-            // console.log('beforeSendData-data', data)
-            // return { xx: 2123 }
-            // 返回false代表sdk不再发送
-            return data;
-          },
-          afterSendData(data) {
-            // console.log('afterSendData-data', data)
-          },
         });
       };
     </script>
 
     <br />
+
+     <!-- 测试sdk暴露的外部方法 -->
+     <div>
+      <div>测试sdk暴露的外部方法</div>
+      <div>
+      </div>
+    </div>
+    <script></script>
+
+    <br />
+
 
     <!-- 曝光采集 -->
     <div>

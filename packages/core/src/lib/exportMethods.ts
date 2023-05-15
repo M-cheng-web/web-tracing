@@ -1,60 +1,127 @@
-import type { ExportMethods, AnyFun } from '../types'
+import type { AnyFun } from '../types'
 import { options } from './options'
+import { _support } from '../utils/global'
+import { validateMethods } from '../utils'
+import { handleSendError } from './err'
+import { handleSendPerformance } from './performance'
+import { handleSendEvent } from './event'
+import { handleSendPageView } from './pv'
 
-export const exportMethods: ExportMethods = {
-  // traceError: err.traceError,
-  // tracePerformance: performance.tracePerformance,
-  // traceCustomEvent: event.traceCustomEvent,
-  // tracePageView: pv.tracePageView,
+/**
+ * 钩子：放入事件队列之前
+ * @param fun 回调函数
+ */
+export function beforePushEventList(fun: AnyFun): void {
+  if (!validateMethods('beforePushEventList')) return
+  options.beforePushEventList.push(fun)
+}
 
-  // 钩子:放入事件队列之前
-  beforePushEventList: function (fun: AnyFun) {
-    options.beforePushEventList.push(fun)
-  },
-  // 钩子:发送之前
-  beforeSendData: function (fun: AnyFun) {
-    options.beforeSendData.push(fun)
-  },
-  // 钩子:发送之后
-  afterSendData: function (fun: AnyFun) {
-    options.afterSendData.push(fun)
-  },
-  // 设置用户id
-  setUserUuid: id => {
-    console.log('id', id)
-  },
-  getUserUuid: () => '', // 获取用户id(此id是初始化传入的id)
-  getSDKUserUuid: () => '', // 获取用户此时在sdk中的id
-  // 设置延迟加载后这边手动初始化
-  handleDelayInit: () => {
-    // do something
-  },
-  getRouteTreeing: () => ['asd'], // 获取路由历史记录 (前提是开启了监听路由)
-  getBaseInfo: () => ({}), // 获取在sdk中记录的所有基础的信息 (包括硬件，地理位置等等)
-  getFirstScreen: () => ({}), // 获取首屏数据
+/**
+ * 钩子：发送之前
+ * @param fun 回调函数
+ */
+export function beforeSendData(fun: AnyFun): void {
+  if (!validateMethods('beforeSendData')) return
+  options.beforeSendData.push(fun)
+}
 
-  // 开始范围捕捉事件（在这个范围中发生的所有事件都会集中到此范围中）
-  trackScopeStart: () => {
-    // do something
-  },
-  // 停止范围捕捉事件（后续可以加入一系列参数，回调等。让用户可选择的更多）
-  trackScopeEnd: () => {
-    // do something
-  },
-  // 主动触发error类型事件
-  traceError: () => {
-    // do something
-  },
-  // 主动触发资源性能事件上报
-  tracePerformance: () => {
-    // do something
-  },
-  // 主动触发手动事件上报
-  traceCustomEvent: () => {
-    // do something
-  },
-  // 主动触发一条pv事件
-  tracePageView: () => {
-    // do something
+/**
+ * 钩子：发送之后
+ * @param fun 回调函数
+ */
+export function afterSendData(fun: AnyFun): void {
+  if (!validateMethods('afterSendData')) return
+  options.afterSendData.push(fun)
+}
+
+/**
+ * 设置用户id
+ * @param id 用户id
+ */
+export function setUserUuid(id: string): void {
+  if (!validateMethods('setUserUuid')) return
+  options.userUuid = id
+}
+
+/**
+ * 获取用户id（此id是手动设置的id）
+ */
+export function getUserUuid(): string | void {
+  if (!validateMethods('getUserUuid')) return
+  return options.userUuid
+}
+
+/**
+ * 获取sdk中的用户id
+ */
+export function getSDKUserUuid(): string | void {
+  if (!validateMethods('getSDKUserUuid')) return
+
+  return options.sdkUserUuid
+}
+
+/**
+ * 获取在sdk中记录的所有基础的信息（包括硬件，地理位置等等）
+ */
+export function getBaseInfo(): object | void {
+  if (!validateMethods('getBaseInfo')) return
+
+  return {
+    ..._support.baseInfo.base,
+    userUuid: options.userUuid
   }
+}
+
+/**
+ * 获取首屏数据
+ */
+export function getFirstScreen(): object | void {
+  if (!validateMethods('getFirstScreen')) return
+
+  return { ..._support.firstScreen }
+}
+
+/**
+ * 主动触发error类型事件
+ * @param eventId 事件ID
+ * @param message 错误信息
+ * @param options 自定义配置信息
+ */
+export function traceError(eventId: string, message: string, options = {}) {
+  if (!validateMethods('traceError')) return
+
+  return handleSendError(eventId, message, options)
+}
+
+/**
+ * 主动触发性能事件上报
+ * @param eventId 事件ID
+ * @param options 自定义配置信息
+ */
+export function tracePerformance(eventId: string, options = {}) {
+  if (!validateMethods('tracePerformance')) return
+
+  return handleSendPerformance(eventId, options)
+}
+
+/**
+ * 主动触发事件上报
+ * @param eventId 事件ID
+ * @param title 事件标题
+ * @param options 自定义配置信息
+ */
+export function traceCustomEvent(eventId: string, title: string, options = {}) {
+  if (!validateMethods('traceCustomEvent')) return
+
+  return handleSendEvent(eventId, title, options)
+}
+
+/**
+ * 主动触发一条pv事件
+ * @param options 自定义配置信息
+ */
+export function tracePageView(option = {}) {
+  if (!validateMethods('tracePageView')) return
+
+  return handleSendPageView(option)
 }

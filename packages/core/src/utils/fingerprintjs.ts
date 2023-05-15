@@ -1435,7 +1435,9 @@ const ne = {
           i.appendChild(u),
           e(a, i)
         )
-      }, '<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1">')
+      })
+      // 不能添加这个 head，否则会在延迟手动加载中报错
+      // }, '<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1">')
     })(function (e, n) {
       for (var t = {}, r = {}, o = 0, a = Object.keys(ee); o < a.length; o++) {
         var i = a[o],

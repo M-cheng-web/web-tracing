@@ -227,16 +227,15 @@ function initEvent() {
  * 主动触发事件上报
  * @param eventId 事件ID
  * @param title 事件标题
- * @param params 自定义配置信息
- * @returns
+ * @param options 自定义配置信息
  */
-function handleSendEvent(eventId: string, title: string, params = {}) {
+function handleSendEvent(eventId: string, title: string, options = {}) {
   sendData.emit({
     eventId,
     title,
-    params,
     eventType: 'custom',
-    triggerTime: Date.now()
+    triggerTime: Date.now(),
+    ...options
   })
 }
 

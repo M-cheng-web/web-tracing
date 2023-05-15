@@ -8,7 +8,7 @@ import {
   isValidKey,
   sendReaconImageList
 } from '../utils'
-import { _global } from '../utils/global'
+import { _global, _support } from '../utils/global'
 import { options } from './options'
 
 // 兼容判断
@@ -200,12 +200,15 @@ function observeNavigationTiming() {
 
   times.unloadTime = t.unloadEventEnd - t.unloadEventStart // 上一个页面的卸载耗时
 
+  const resultInfo = { ...times, url: getLocationHref() }
+
+  _support.firstScreen = { ...resultInfo }
+
   sendData.emit(
     normalizeObj({
-      ...times,
+      ...resultInfo,
       eventType: 'performance',
-      eventId: 'page',
-      url: getLocationHref()
+      eventId: 'page'
     })
   )
 }

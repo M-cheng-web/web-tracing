@@ -18,7 +18,7 @@ import { initHttp } from './src/lib/http'
 import { initPerformance } from './src/lib/performance'
 import { initPv } from './src/lib/pv'
 import { _global } from './src/utils/global'
-import { exportMethods } from './src/lib/exportMethods'
+import * as exportMethods from './src/lib/exportMethods'
 
 function init(options: InitOptions) {
   if (_global.__webTracingInit__) return
@@ -41,5 +41,6 @@ function init(options: InitOptions) {
   _global.__webTracingInit__ = true
 }
 
-export default { init }
-export { init, exportMethods }
+export { init }
+export * from './src/lib/exportMethods'
+export default { init, ...exportMethods }

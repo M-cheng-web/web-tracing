@@ -37,7 +37,11 @@ export class SendData {
 
     const time = Date.now()
     const sendParams = {
-      baseInfo: { ...baseInfo.base, sendTime: time },
+      baseInfo: {
+        ...baseInfo.base,
+        sendTime: time,
+        userUuid: options.userUuid // 这个暂时这样，后面改成响应式就不需要在这覆盖最新值了
+      },
       eventInfo: map(sendEvents, (e: any) => {
         e.sendTime = time // 设置发送时间
 

@@ -22,4 +22,12 @@ export function getGlobalSupport(): WebTracing {
   return _global.__webTracing__
 }
 
+/**
+ * 判断sdk是否初始化
+ * @returns sdk是否初始化
+ */
+export function isInit(): boolean {
+  return !!_global.__webTracingInit__
+}
+
 export { _global, _support }
