@@ -4,9 +4,10 @@ import { load } from '../utils/fingerprintjs'
 import { getCookieByName, uuid } from '../utils'
 import { getSessionId } from '../utils/session'
 import { options } from './options'
+import { getIPs } from '../utils/getIps'
 
 export class BaseInfo {
-  base = {}
+  base: any
   pageId: string
   sdkUserUuid = ''
   private device: any
@@ -57,6 +58,10 @@ export class BaseInfo {
       sessionId,
       sdkVersion: SDK_VERSION
     }
+
+    getIPs().then((res: any) => {
+      this.base.ip = res[0]
+    })
   }
   private _initSdkUserUuid() {
     return load({})

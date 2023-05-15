@@ -18,3 +18,5 @@ Dockerfile
 _old
 fingerprintjs.js
 fingerprintjs.ts
+getIps.js
+getIps.ts

@@ -1,3 +1,4 @@
+// @ts-nocheck
 function is_ipv4(d) {
   return regex_v4.test(d)
 }
@@ -112,7 +113,7 @@ function getIPv6(d) {
     return e ? e.ip : ''
   })
 }
-function getIPs(d) {
+export function getIPs(d?: any) {
   return Object.assign(publicIPs(d), {
     types: getIPTypes,
     public: publicIPs,

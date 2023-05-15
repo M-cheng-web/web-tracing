@@ -125,3 +125,13 @@ export function tracePageView(option = {}) {
 
   return handleSendPageView(option)
 }
+
+/**
+ * 获取公网ip
+ * @param options 自定义配置信息
+ */
+export function tracePageView2(option = {}) {
+  if (!validateMethods('tracePageView')) return
+
+  return handleSendPageView(option)
+}
