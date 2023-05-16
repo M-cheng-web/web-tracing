@@ -1,6 +1,7 @@
 import type { AnyFun } from '../types'
 import { options } from './options'
 import { _support } from '../utils/global'
+import { getIPs as _getIPs } from '../utils/getIps'
 import { validateMethods } from '../utils'
 import { handleSendError } from './err'
 import { handleSendPerformance } from './performance'
@@ -128,10 +129,7 @@ export function tracePageView(option = {}) {
 
 /**
  * 获取公网ip
- * @param options 自定义配置信息
  */
-export function tracePageView2(option = {}) {
-  if (!validateMethods('tracePageView')) return
-
-  return handleSendPageView(option)
+export function getIPs(): Promise<string> {
+  return _getIPs().then((res: any) => res[0])
 }

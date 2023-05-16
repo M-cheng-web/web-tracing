@@ -5,7 +5,8 @@ import {
   afterSendData,
   setUserUuid,
   getBaseInfo,
-  getFirstScreen
+  getFirstScreen,
+  getIPs
 } from '@web-tracing/core'
 // import { pad } from '@web-tracing/utils'
 
