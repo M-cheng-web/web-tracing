@@ -1,4 +1,4 @@
-import type { AnyFun } from '../types'
+import type { AnyFun, TargetGather, ElementOrList } from '../types'
 import { options } from './options'
 import { _support } from '../utils/global'
 import { getIPs as _getIPs } from '../utils/getIps'
@@ -7,6 +7,7 @@ import { handleSendError } from './err'
 import { handleSendPerformance } from './performance'
 import { handleSendEvent } from './event'
 import { handleSendPageView } from './pv'
+import { intersection } from './intersectionObserver'
 
 /**
  * 钩子：放入事件队列之前
@@ -132,4 +133,29 @@ export function tracePageView(option = {}) {
  */
 export function getIPs(): Promise<string> {
   return _getIPs().then((res: any) => res[0])
+}
+
+/**
+ * 曝光 - 对目标元素进行监听
+ * @param params 附带的额外参数
+ */
+export function intersectionObserver(gather: TargetGather): void {
+  if (!validateMethods('intersectionObserver')) return
+  intersection.observe(gather)
+}
+
+/**
+ * 曝光 - 对目标元素进行取消监听
+ */
+export function intersectionUnobserve(target: ElementOrList): void {
+  if (!validateMethods('intersectionUnobserve')) return
+  intersection.unobserve(target)
+}
+
+/**
+ * 曝光 - 取消所有监听
+ */
+export function intersectionDisconnect(): void {
+  if (!validateMethods('intersectionDisconnect')) return
+  intersection.disconnect()
 }

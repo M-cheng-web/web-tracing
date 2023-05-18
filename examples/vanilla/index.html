@@ -296,40 +296,80 @@
 
     <br />
 
-     <!-- 测试sdk暴露的外部方法 -->
-     <div>
-      <div>测试sdk暴露的外部方法</div>
-      <div>
-      </div>
-    </div>
-    <script></script>
-
-    <br />
-
-
     <!-- 曝光采集 -->
     <div>
       <div>曝光采集</div>
+      <button onclick="intersectionDisconnect()">取消所有采集曝光</button>
+      <button onclick="intersectionObserver('target')">采集图片的曝光</button>
+      <button onclick="intersectionUnobserve('target')">取消采集曝光</button>
       <div id="target">
         <img
           src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
         />
       </div>
+      <br />
+      <button onclick="intersectionObserver('target2')">采集图片的曝光</button>
+      <button onclick="intersectionUnobserve('target2')">取消采集曝光</button>
+      <div id="target2">
+        <img
+          src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+        />
+      </div>
     </div>
-    <script>
-      const target = document.querySelector("#target");
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          // 如果该元素是可见，就执行某些操作
-          if (entry.isIntersecting) {
-            console.log("目标元素已经曝光");
-          }
+    <script type="module">
+      import {
+        intersectionObserver,
+        intersectionUnobserve,
+        intersectionDisconnect,
+      } from "@web-tracing/core";
+      window.intersectionObserver = function (str) {
+        const target = document.querySelector(`#${str}`);
+        intersectionObserver({
+          target,
+          threshold: 0.5, // 曝光的临界点 (0.5表示移入窗口一半算做开始曝光、移出窗口一半算结束曝光)
+          params: { name: 1111, targetName: str }, // 附带的额外参数
         });
-      });
-
-      // 开始观察目标元素
-      io.observe(target);
+      };
+      window.intersectionUnobserve = function (str) {
+        const target = document.querySelector(`#${str}`);
+        intersectionUnobserve(target);
+      };
+      window.intersectionDisconnect = function () {
+        intersectionDisconnect()
+      };
     </script>
+    <script>
+      // const target = document.querySelector("#target");
+      // const io = new IntersectionObserver(
+      //   (entries) => {
+      //     entries.forEach((entry) => {
+      //       // 如果该元素是可见，就执行某些操作
+      //       if (entry.isIntersecting) {
+      //         console.log("目标元素已经曝光");
+      //       } else {
+      //         console.log("目标元素已经离开");
+      //       }
+      //     });
+      //   },
+      //   {
+      //     root: null,
+      //     threshold: 1, // 阀值设为1，当只有比例达到1时才触发回调函数
+      //   }
+      // );
+      // // 开始观察目标元素
+      // io.observe(target);
+    </script>
+
+    <br />
+
+    <!-- 测试sdk暴露的外部方法 -->
+    <div>
+      <div>测试sdk暴露的外部方法</div>
+      <div>先不放上来</div>
+    </div>
+    <script></script>
+
+    <br />
 
     <script>
       // window.addEventListener("offline", () => {

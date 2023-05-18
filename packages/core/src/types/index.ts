@@ -7,6 +7,7 @@ export type WebTracing = {
   lineStatus: any
   options: Options // 配置信息
   firstScreen: any // 首屏信息
+  intersection: any // 曝光采集
 }
 
 interface Pv {
@@ -128,6 +129,13 @@ export type InitOptions = {
   beforePushEventList?: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforeSendData?: (data: any) => any // 数据上报前的 hook
   afterSendData?: (data: any) => void // 数据上报后的 hook
+}
+
+export type ElementOrList = Element | Element[]
+export interface TargetGather {
+  target: ElementOrList
+  threshold: number
+  params?: AnyObj
 }
 
 export type VoidFun = {

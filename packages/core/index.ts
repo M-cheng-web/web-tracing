@@ -17,6 +17,7 @@ import { initEventDwell } from './src/lib/event-dwell'
 import { initHttp } from './src/lib/http'
 import { initPerformance } from './src/lib/performance'
 import { initPv } from './src/lib/pv'
+import { initIntersection } from './src/lib/intersectionObserver'
 import { _global } from './src/utils/global'
 import * as exportMethods from './src/lib/exportMethods'
 
@@ -37,6 +38,7 @@ function init(options: InitOptions) {
   initHttp()
   initPerformance()
   initPv()
+  initIntersection()
 
   _global.__webTracingInit__ = true
 }

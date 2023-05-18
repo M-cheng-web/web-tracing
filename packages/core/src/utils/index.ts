@@ -334,6 +334,14 @@ export function executeFunctions(
   return result
 }
 
+/**
+ * 将未知参数转换为数组格式
+ * @param target
+ */
+export function unKnowToArray<T>(target: T[] | T): T[] {
+  return (isArray(target) ? target : [target]) as T[]
+}
+
 const arrayMap =
   Array.prototype.map ||
   function polyfillMap(this: any, fn) {
