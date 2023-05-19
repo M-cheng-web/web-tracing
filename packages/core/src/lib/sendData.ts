@@ -39,43 +39,7 @@ export class SendData {
     const sendEvents = this.events.slice(0, this.cacheMaxLength) // 需要发送的事件
     this.events = this.events.slice(this.cacheMaxLength) // 剩下待发的事件
 
-    const time = Date.now()
-    const sendParams = {
-      baseInfo: {
-        ...baseInfo.base,
-        sendTime: time,
-        userUuid: options.userUuid // 这个暂时这样，后面改成响应式就不需要在这覆盖最新值了
-      },
-      eventInfo: map(sendEvents, (e: any) => {
-        e.sendTime = time // 设置发送时间
-
-        // 补充type字段,将click、scroll、change、submit事件作为一类存储
-        if (['click', 'scroll', 'submit', 'change'].includes(e.eventType)) {
-          e.type = 'mix'
-          return e
-        }
-
-        if (e.eventType === 'performance') {
-          // 将性能进行分类,不同类型的性能数据差异较大,分开存放,资源、页面、请求
-          switch (e.eventId) {
-            case 'resource':
-              e.type = 'resourcePerformance'
-              break
-            case 'page':
-              e.type = 'pagePerformance'
-              break
-            case 'server':
-              e.type = 'serverPerformance'
-              break
-            default:
-              break
-          }
-          return e
-        }
-        e.type = e.eventType // 其他类型type同eventType
-        return e
-      })
-    }
+    const sendParams = this._getParams(sendEvents)
 
     // 本地化拦截
     if (options.localization) {
@@ -163,6 +127,45 @@ export class SendData {
         })
       }
     })
+  }
+  private _getParams(sendEvents: AnyObj[]) {
+    const time = Date.now()
+    return {
+      baseInfo: {
+        ...baseInfo.base,
+        sendTime: time,
+        userUuid: options.userUuid // 这个暂时这样，后面改成响应式就不需要在这覆盖最新值了
+      },
+      eventInfo: map(sendEvents, (e: any) => {
+        e.sendTime = time // 设置发送时间
+
+        // 补充type字段,将click、scroll、change、submit事件作为一类存储
+        if (['click', 'scroll', 'submit', 'change'].includes(e.eventType)) {
+          e.type = 'mix'
+          return e
+        }
+
+        if (e.eventType === 'performance') {
+          // 将性能进行分类,不同类型的性能数据差异较大,分开存放,资源、页面、请求
+          switch (e.eventId) {
+            case 'resource':
+              e.type = 'resourcePerformance'
+              break
+            case 'page':
+              e.type = 'pagePerformance'
+              break
+            case 'server':
+              e.type = 'serverPerformance'
+              break
+            default:
+              break
+          }
+          return e
+        }
+        e.type = e.eventType // 其他类型type同eventType
+        return e
+      })
+    }
   }
   /**
    * 验证选项的类型 - 只验证是否为 {} []
