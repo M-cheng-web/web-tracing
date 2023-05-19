@@ -296,6 +296,20 @@
 
     <br />
 
+    <!-- 手动发送缓存事件 -->
+    <div>
+      <div>手动发送缓存事件</div>
+      <button onclick="sendLocal()">点击发送</button>
+    </div>
+    <script type="module">
+      import { sendLocal } from "@web-tracing/core";
+      window.sendLocal = function () {
+        sendLocal()
+      };
+    </script>
+
+    <br />
+
     <!-- 曝光采集 -->
     <div>
       <div>曝光采集</div>

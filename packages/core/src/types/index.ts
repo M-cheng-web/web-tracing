@@ -58,6 +58,7 @@ export type Options = {
   ignoreErrors: Array<string | RegExp> // 错误类型事件过滤
   ignoreRequest: Array<string | RegExp> // 请求类型事件过滤
   scopeError: boolean // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
+  localization: boolean // 是否本地化：sdk不再主动发送事件，事件都存储在本地，由用户手动调用方法发送
   whiteScreen: boolean // 开启白屏检测
   // ------ 函数 ------
   // 这些函数一方面是可以在首次init可以用
@@ -118,6 +119,8 @@ export type InitOptions = {
   ignoreRequest?: Array<string | RegExp> // 请求类型事件过滤
 
   scopeError?: boolean // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
+
+  localization?: boolean // 是否本地化：sdk不再主动发送事件，事件都存储在本地，由用户手动调用方法发送
 
   whiteScreen?: boolean // 开启白屏检测
 

@@ -8,6 +8,9 @@ import { handleSendPerformance } from './performance'
 import { handleSendEvent } from './event'
 import { handleSendPageView } from './pv'
 import { intersection } from './intersectionObserver'
+import { sendData } from './sendData'
+import { SDK_LOCAL_KEY } from '../common/config'
+import { LocalStorageUtil } from '../utils/localStorage'
 
 /**
  * 钩子：放入事件队列之前
@@ -158,4 +161,16 @@ export function intersectionUnobserve(target: ElementOrList): void {
 export function intersectionDisconnect(): void {
   if (!validateMethods('intersectionDisconnect')) return
   intersection.disconnect()
+}
+
+/**
+ * 手动发送本地数据
+ */
+export function sendLocal(): void {
+  if (!validateMethods('sendData') && !options.localization) return
+  const localItem = LocalStorageUtil.getItem(SDK_LOCAL_KEY)
+  if (localItem) {
+    sendData.sendLocal(localItem)
+    LocalStorageUtil.removeItem(SDK_LOCAL_KEY)
+  }
 }

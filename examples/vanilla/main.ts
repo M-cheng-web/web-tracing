@@ -97,6 +97,7 @@ function start() {
     performance: true,
     error: true,
     event: true,
+    localization: true,
     cacheMaxLength: 10,
     cacheWatingTime: 1000,
     userUuid: 'init_userUuid',

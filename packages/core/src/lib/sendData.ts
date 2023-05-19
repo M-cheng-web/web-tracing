@@ -1,5 +1,6 @@
 import { _support, _global } from '../utils/global'
 import { refreshSession } from '../utils/session'
+import { LocalStorageUtil } from '../utils/localStorage'
 import {
   sendByBeacon,
   sendByImage,
@@ -13,6 +14,7 @@ import { baseInfo } from './base'
 import { options } from './options'
 import { AnyObj } from '../types'
 import { isFlase } from '../utils/is'
+import { SDK_LOCAL_KEY } from '../common/config'
 import { executeFunctions } from '../utils'
 
 export class SendData {
@@ -27,13 +29,15 @@ export class SendData {
     this.cacheMaxLength = options.cacheMaxLength
     this.cacheWatingTime = options.cacheWatingTime
   }
+  /**
+   * 发送事件集
+   */
   send() {
     if (!this.events.length) return
 
     // 选取首部的部分数据来发送,performance会一次性采集大量数据追加到events中
     const sendEvents = this.events.slice(0, this.cacheMaxLength) // 需要发送的事件
     this.events = this.events.slice(this.cacheMaxLength) // 剩下待发的事件
-    debug('send events', sendEvents, sendEvents.length)
 
     const time = Date.now()
     const sendParams = {
@@ -73,6 +77,12 @@ export class SendData {
       })
     }
 
+    // 本地化拦截
+    if (options.localization) {
+      LocalStorageUtil.setSendDataItem(SDK_LOCAL_KEY, sendParams)
+      return
+    }
+
     const afterSendParams = executeFunctions(
       options.beforeSendData,
       false,
@@ -80,6 +90,8 @@ export class SendData {
     )
     if (isFlase(afterSendParams)) return
     if (!this._validateObject(afterSendParams, 'beforeSendData')) return
+
+    debug('send events', sendParams)
 
     this._sendBeacon(this.dsn, afterSendParams).then((res: any) => {
       executeFunctions(options.afterSendData, true, {
@@ -92,6 +104,19 @@ export class SendData {
     if (this.events.length) {
       nextTime(this.send.bind(this)) // 继续传输剩余内容,在下一个时间择机传输
     }
+  }
+  /**
+   * 发送本地事件集
+   * @param e 需要发送的事件信息
+   */
+  sendLocal(e: AnyObj) {
+    const afterSendParams = executeFunctions(options.beforeSendData, false, e)
+    if (isFlase(afterSendParams)) return
+    if (!this._validateObject(afterSendParams, 'beforeSendData')) return
+
+    debug('send events', afterSendParams)
+
+    this._sendBeacon(this.dsn, afterSendParams)
   }
   /**
    * 记录需要发送的埋点数据
@@ -108,7 +133,7 @@ export class SendData {
     if (isFlase(eventList)) return
     if (!this._validateObject(eventList, 'beforePushEventList')) return
 
-    this.events = this.events.concat(eventList) // 追加到事件队列里
+    this.events = this.events.concat(eventList)
     refreshSession()
     debug('receive event, waiting to send', e)
     if (this.timeoutID) clearTimeout(this.timeoutID)
