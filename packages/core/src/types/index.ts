@@ -67,6 +67,7 @@ export type Options = {
   beforePushEventList: AnyFun[] // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforeSendData: AnyFun[] // 数据上报前的 hook
   afterSendData: AnyFun[] // 数据上报后的 hook
+  localizationOverFlow: VoidFun // 本地化存储溢出后的回调
 }
 
 /**

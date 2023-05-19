@@ -302,7 +302,13 @@
       <button onclick="sendLocal()">点击发送</button>
     </div>
     <script type="module">
-      import { sendLocal } from "@web-tracing/core";
+      import { sendLocal, setLocalizationOverFlow } from "@web-tracing/core";
+      window.setLocalizationOverFlow = function () {
+        setLocalizationOverFlow((data) => {
+          console.log('本地化存储超过最大容量，此data为最后一次数据，请及时清空本地存储空间并保存此data（可以调用sendLocal发送后再把此data数据手动存储在localstorage）', data);
+        })
+      }
+      window.setLocalizationOverFlow()
       window.sendLocal = function () {
         sendLocal()
       };

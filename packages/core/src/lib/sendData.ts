@@ -43,7 +43,11 @@ export class SendData {
 
     // 本地化拦截
     if (options.localization) {
-      LocalStorageUtil.setSendDataItem(SDK_LOCAL_KEY, sendParams)
+      const success = LocalStorageUtil.setSendDataItem(
+        SDK_LOCAL_KEY,
+        sendParams
+      )
+      if (!success) options.localizationOverFlow(sendParams)
       return
     }
 

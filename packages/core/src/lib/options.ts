@@ -75,10 +75,16 @@ export class Options {
     }
   ]
 
+  // 本地化存储溢出后的回调
+  localizationOverFlow = (data: any) => {
+    // do something
+  }
+
   constructor(initOptions: InitOptions) {
     const _options = this._transitionOptions(initOptions)
     this._initOptions(_options)
   }
+
   private _initOptions(options: Options) {
     deepAssign<Options>(this, options)
   }

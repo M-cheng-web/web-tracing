@@ -1,4 +1,4 @@
-import type { AnyFun, TargetGather, ElementOrList } from '../types'
+import type { AnyFun, TargetGather, ElementOrList, VoidFun } from '../types'
 import { options } from './options'
 import { _support } from '../utils/global'
 import { getIPs as _getIPs } from '../utils/getIps'
@@ -173,4 +173,13 @@ export function sendLocal(): void {
     sendData.sendLocal(localItem)
     LocalStorageUtil.removeItem(SDK_LOCAL_KEY)
   }
+}
+
+/**
+ * 设置本地化存储溢出后的回调
+ * @param overFlowFun 回调函数
+ */
+export function setLocalizationOverFlow(overFlowFun: VoidFun): void {
+  if (!validateMethods('localizationOverFlow') && !options.localization) return
+  options.localizationOverFlow = overFlowFun
 }

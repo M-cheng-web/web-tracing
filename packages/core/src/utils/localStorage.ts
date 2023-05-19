@@ -47,7 +47,7 @@ export class LocalStorageUtil {
    * 注意：刷新页面测试会加入卸载事件，这在控制台是看不到的
    */
   static setSendDataItem(key: string, value: SendData) {
-    if (this.getSize() >= this.maxSize) return
+    if (this.getSize() >= this.maxSize) return false
 
     const localItem = (this.getItem(key) || {
       baseInfo: {},
@@ -60,6 +60,8 @@ export class LocalStorageUtil {
     }
 
     this.setItem(key, newItem)
+
+    return true
   }
 
   private static getBytes(str: string): number {
