@@ -64,5 +64,11 @@
     "rollup-plugin-esbuild": "^5.0.0",
     "typescript": "^5.0.2",
     "vitepress": "1.0.0-alpha.61"
+  },
+  "dependencies": {
+    "@types/pako": "^2.0.0",
+    "js-base64": "^3.7.5",
+    "pako": "^2.1.0",
+    "rrweb": "2.0.0-alpha.4"
   }
 }

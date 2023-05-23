@@ -5,8 +5,10 @@ import { sendData } from './sendData'
 import { eventBus } from './eventBus'
 import { isArray, isRegExp } from '../utils/is'
 import { options } from './options'
+import { recordscreenList, zip } from './recordscreen'
 import { debug } from '../utils/debug'
 import { initBatchError, batchError } from './err-batch'
+import { RecordEventScope } from '../types/index'
 
 function parseStack(err: any) {
   const { stack = '', message = '' } = err
@@ -156,10 +158,25 @@ function isIgnoreErrors(error: any) {
   })
 }
 
+function getRecordEvent() {
+  const _recordscreenList: RecordEventScope[] = JSON.parse(
+    JSON.stringify(recordscreenList)
+  )
+  return _recordscreenList
+    .slice(-2)
+    .map(item => item.eventList)
+    .flat()
+}
+
 function emit(errorInfo: any) {
+  const recordscreen = getRecordEvent()
+  console.log('recordscreen', recordscreen)
+
   const info = {
     ...errorInfo,
     eventType: 'error',
+    recordscreen,
+    // recordscreen: zip(getRecordEvent()),
     url: getLocationHref(),
     triggerTime: Date.now()
   }

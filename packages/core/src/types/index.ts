@@ -142,6 +142,11 @@ export interface TargetGather {
   params?: AnyObj
 }
 
+export interface RecordEventScope {
+  scope: string
+  eventList: any[]
+}
+
 export type VoidFun = {
   (...args: any[]): void
 }
