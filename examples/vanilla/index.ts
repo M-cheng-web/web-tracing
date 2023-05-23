@@ -1,6 +1,5 @@
 // ---------------- Error 捕捉 ----------------
 document.getElementById('codeErr')?.addEventListener('click', () => {
-  console.log(222)
   codeError()
 })
 

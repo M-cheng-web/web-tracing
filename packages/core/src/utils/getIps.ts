@@ -1,4 +1,8 @@
 // @ts-nocheck
+/**
+ * 获取ip
+ * 注：此文件为 webrtc-ip[https://github.com/joeymalvinni/webrtc-ip] v3.0.1 离线版本
+ */
 function is_ipv4(d) {
   return regex_v4.test(d)
 }

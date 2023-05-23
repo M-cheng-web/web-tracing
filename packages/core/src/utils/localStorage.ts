@@ -1,10 +1,9 @@
 import { deepAssign } from '../utils'
+import { SendData } from '../types'
 
-interface SendData {
-  baseInfo: object
-  eventInfo: unknown[]
-}
-
+/**
+ * 操作 localstorage 的工具类
+ */
 export class LocalStorageUtil {
   static maxSize = 5 * 1024 * 1000 // 5Mb
 

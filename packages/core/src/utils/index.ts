@@ -1,6 +1,6 @@
 import { AnyFun, AnyObj } from '../types'
 import { logError } from './debug'
-import { isRegExp, isArray } from './is'
+import { isRegExp, isArray, isFunction, isNumber } from './is'
 import { isInit } from '../utils/global'
 
 /**
@@ -9,14 +9,13 @@ import { isInit } from '../utils/global'
  * @param eventName 事件名称
  * @param handler 回调函数
  * @param opitons
- * @returns void
  */
 export function on(
   target: Window,
   eventName: string,
   handler: AnyFun,
   opitons = false
-) {
+): void {
   target.addEventListener(eventName, handler, opitons)
 }
 
@@ -26,36 +25,36 @@ export function on(
  * @param name 需要被重写对象的key
  * @param replacement 以原有的函数作为参数，执行并重写原有函数
  * @param isForced 是否强制重写（可能原先没有该属性）
- * @returns void
  */
 export function replaceAop(
-  source: { [key: string]: any },
+  source: AnyObj,
   name: string,
   replacement: AnyFun,
   isForced = false
-) {
+): void {
   if (source === undefined) return
   if (name in source || isForced) {
     const original = source[name]
     const wrapped = replacement(original)
-    if (typeof wrapped === 'function') {
+    if (isFunction(wrapped)) {
       source[name] = wrapped
     }
   }
 }
 
 /**
- * 格式化对象
- * 小数位数保留最多两位
- * 空值赋 undefined
+ * 格式化对象(针对数字类型属性)
+ * 小数位数保留最多两位、空值赋 undefined
+ * @param source 源对象
  */
-export function normalizeObj(e: AnyObj) {
-  Object.keys(e).forEach(p => {
-    const v = e[p]
-    if (typeof v === 'number')
-      e[p] = v === 0 ? undefined : parseFloat(v.toFixed(2))
+export function normalizeObj(source: AnyObj) {
+  Object.keys(source).forEach(p => {
+    const v = source[p]
+    if (isNumber(v)) {
+      source[p] = v === 0 ? undefined : parseFloat(v.toFixed(2))
+    }
   })
-  return e
+  return source
 }
 
 /**
@@ -150,6 +149,8 @@ export function deepAssign<T>(target: AnyObj, ...sources: AnyObj[]) {
 
 /**
  * 验证调用sdk暴露的方法之前是否初始化
+ * @param methodsName 方法名
+ * @returns 是否通过验证
  */
 export function validateMethods(methodsName: string): boolean {
   if (!isInit()) {
@@ -160,7 +161,11 @@ export function validateMethods(methodsName: string): boolean {
 }
 
 /**
- * 验证选项的类型
+ * 验证选项的类型是否符合要求
+ * @param target 源对象
+ * @param targetName 对象名
+ * @param expectType 期望类型
+ * @returns 是否通过验证
  */
 export function validateOption(
   target: any,
@@ -178,6 +183,10 @@ export function validateOption(
 
 /**
  * 验证选项的类型 - 针对数组内容类型的验证
+ * @param target 源对象
+ * @param targetName 对象名
+ * @param expectTypes 期望类型
+ * @returns 是否通过验证
  */
 export function validateOptionArray(
   target: any[] | undefined,
@@ -201,10 +210,21 @@ export function validateOptionArray(
   return pass
 }
 
+/**
+ * 判断入参类型
+ * @param target 任意入参
+ * @returns 类型
+ */
 export function typeofAny(target: any): string {
   return Object.prototype.toString.call(target).slice(8, -1).toLowerCase()
 }
 
+/**
+ * 判断对象中是否包含该属性
+ * @param key 键
+ * @param object 对象
+ * @returns 是否包含
+ */
 export function isValidKey(
   key: string | number | symbol,
   object: object
@@ -212,6 +232,11 @@ export function isValidKey(
   return key in object
 }
 
+/**
+ * 随机概率通过
+ * @param randow 设定比例，例如 0.7 代表 70%的概率通过
+ * @returns 是否通过
+ */
 export function randomBoolean(randow: number) {
   return Math.random() <= randow
 }
@@ -223,7 +248,7 @@ export function randomBoolean(randow: number) {
  * @param {*} placeholder 补全的值
  * @returns 补全后的值
  */
-function pad(num: number, len: number, placeholder = '0') {
+export function pad(num: number, len: number, placeholder = '0') {
   const str = String(num)
   if (str.length < len) {
     let result = str
@@ -236,9 +261,9 @@ function pad(num: number, len: number, placeholder = '0') {
 }
 
 /**
- * 获取一个随机字符串(全局唯一标识符)
+ * 获取一个随机字符串
  */
-function uuid() {
+export function uuid() {
   const date = new Date()
 
   // yyyy-MM-dd的16进制表示,7位数字
@@ -276,7 +301,7 @@ function uuid() {
  * @param name cookie名
  * @returns
  */
-function getCookieByName(name: string) {
+export function getCookieByName(name: string) {
   const result = document.cookie.match(new RegExp(`${name}=([^;]+)(;|$)`))
   return result ? result[1] : undefined
 }
@@ -358,7 +383,7 @@ const arrayMap =
  * @param fn 条件函数
  * @returns
  */
-function map(arr: any[], fn: AnyFun) {
+export function map(arr: any[], fn: AnyFun) {
   return arrayMap.call(arr, fn)
 }
 
@@ -378,9 +403,8 @@ const arrayFilter =
  * filter方法
  * @param arr 源数组
  * @param fn 条件函数
- * @returns
  */
-function filter(arr: [], fn: AnyFun) {
+export function filter(arr: [], fn: AnyFun) {
   return arrayFilter.call(arr, fn)
 }
 
@@ -399,9 +423,8 @@ const arrayFind =
  * find方法
  * @param arr 源数组
  * @param fn 条件函数
- * @returns
  */
-function find(arr: [], fn: AnyFun) {
+export function find(arr: [], fn: AnyFun) {
   return arrayFind.call(arr, fn)
 }
 
@@ -410,7 +433,7 @@ function find(arr: [], fn: AnyFun) {
  * @param str 需要去除的字符串
  * @returns 去除后的字符串
  */
-function trim(str = '') {
+export function trim(str = '') {
   return str.replace(/(^\s+)|(\s+$)/, '')
 }
 
@@ -420,7 +443,7 @@ function trim(str = '') {
  * requestAnimationFrame 是浏览器必须执行的
  * 关于 requestIdleCallback 和  requestAnimationFrame 可以参考 https://www.cnblogs.com/cangqinglang/p/13877078.html
  */
-const nextTime =
+export const nextTime =
   window.requestIdleCallback ||
   window.requestAnimationFrame ||
   (callback => setTimeout(callback, 17))
@@ -428,16 +451,5 @@ const nextTime =
 /**
  * 取消异步执行
  */
-const cancelNextTime =
+export const cancelNextTime =
   window.cancelIdleCallback || window.cancelAnimationFrame || clearTimeout
-
-export {
-  uuid,
-  getCookieByName,
-  map,
-  filter,
-  find,
-  trim,
-  nextTime,
-  cancelNextTime
-}

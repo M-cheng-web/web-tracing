@@ -170,7 +170,6 @@ function getRecordEvent() {
 
 function emit(errorInfo: any) {
   const recordscreen = getRecordEvent()
-  console.log('recordscreen', recordscreen)
 
   const info = {
     ...errorInfo,

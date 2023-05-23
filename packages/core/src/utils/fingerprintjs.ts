@@ -1,5 +1,10 @@
 // @ts-nocheck
 /**
+ * 获取设备id
+ * 在用户未登录的情况下最大限度标明用户唯一身份
+ * 注：此文件为 fingerprintjs[https://github.com/fingerprintjs/fingerprintjs] v3.4.1 离线版本
+ */
+/**
  * FingerprintJS v3.4.1 - Copyright (c) FingerprintJS, Inc, 2023 (https://fingerprint.com)
  * Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.
  *

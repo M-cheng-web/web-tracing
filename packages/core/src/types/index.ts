@@ -158,3 +158,8 @@ export type AnyFun = {
 export type AnyObj<T = any> = {
   [key: string]: T
 }
+
+export interface SendData {
+  baseInfo: object
+  eventInfo: unknown[]
+}

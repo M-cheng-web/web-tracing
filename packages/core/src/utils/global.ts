@@ -11,9 +11,6 @@ export function getGlobal() {
   return {} as any
 }
 
-const _global = getGlobal()
-const _support = getGlobalSupport()
-
 /**
  * 获取全部变量 __webTracing__ 的引用地址
  */
@@ -29,5 +26,8 @@ export function getGlobalSupport(): WebTracing {
 export function isInit(): boolean {
   return !!_global.__webTracingInit__
 }
+
+const _global = getGlobal()
+const _support = getGlobalSupport()
 
 export { _global, _support }

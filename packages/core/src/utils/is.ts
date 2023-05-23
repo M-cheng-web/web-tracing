@@ -38,6 +38,9 @@ export const variableTypeDetection = {
   isWindow: isType('Window')
 }
 
+/**
+ * 判断值是否为错误对象
+ */
 export function isError(error: Error): boolean {
   switch (Object.prototype.toString.call(error)) {
     case '[object Error]':
@@ -52,18 +55,24 @@ export function isError(error: Error): boolean {
 }
 
 /**
- * 检查是否是空对象
+ * 判断值是否为空对象
  */
 export function isEmptyObject(obj: object): boolean {
   return isObject(obj) && Object.keys(obj).length === 0
 }
 
+/**
+ * 判断值是否为空 ['', undefined, null]
+ */
 export function isEmpty(wat: any): boolean {
   return (
     (isString(wat) && wat.trim() === '') || wat === undefined || wat === null
   )
 }
 
+/**
+ * 判断值与目标对象关系
+ */
 export function isExistProperty(obj: object, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(obj, key)
 }

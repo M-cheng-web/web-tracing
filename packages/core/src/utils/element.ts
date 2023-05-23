@@ -1,15 +1,15 @@
 /**
  * 判断元素是否含有目标属性
  */
-export function getElByAttr(list: Element[], key: string) {
+export function getElByAttr(list: Element[], key: string): Element | undefined {
   return list.find(item => item.hasAttribute && item.hasAttribute(key))
 }
 
 /**
  * 是否为简单的标签
- * 只包含下面的arr数组内的标签才是简单的标签
+ * 简单标签数组：['em', 'b', 'strong', 'span', 'img', 'i', 'code']
  */
-export function isSimpleEl(children: Element[]) {
+export function isSimpleEl(children: Element[]): boolean {
   if (children.length > 0) {
     const arr = ['em', 'b', 'strong', 'span', 'img', 'i', 'code']
     const a = children.filter(
