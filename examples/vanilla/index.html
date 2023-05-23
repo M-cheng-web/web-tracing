@@ -8,6 +8,7 @@
   </head>
   <body style="height: 2000px">
     <script type="module" src="/main.ts"></script>
+    <script type="module" src="/index.ts"></script>
     <div id="app"></div>
 
     <!-- Event 点击事件捕捉 -->
@@ -42,31 +43,11 @@
     <!-- Error 捕捉 -->
     <div>
       <div>Error 捕捉</div>
-      <button id="codeErr" onclick="codeError()">代码错误</button>
+      <button id="codeErr">代码错误</button>
+      <!-- <button id="codeErr" onclick="codeError()">代码错误</button> -->
       <button id="promiseError" onclick="promiseError()">promiseError</button>
       <button id="consoleErr" onclick="consoleErr()">手动输出错误</button>
     </div>
-    <script>
-      // ---------------- Error 捕捉 ----------------
-      function codeError() {
-        let a = {};
-        a.split("/");
-      }
-      function promiseError() {
-        const promiseWrap = () =>
-          new Promise((resolve, reject) => {
-            reject("promise reject");
-          });
-        promiseWrap().then((res) => {
-          console.log("res", res);
-        });
-      }
-      function consoleErr() {
-        console.error("consoleErr1", "consoleErr1.1", "consoleErr1.2");
-        // console.error(111);
-        // console.error(new Error("谢谢谢谢谢"));
-      }
-    </script>
 
     <br />
 
