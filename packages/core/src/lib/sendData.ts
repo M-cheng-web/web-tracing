@@ -7,7 +7,8 @@ import {
   nextTime,
   map,
   typeofAny,
-  randomBoolean
+  randomBoolean,
+  getTimestamp
 } from '../utils'
 import { debug, logError } from '../utils/debug'
 import { baseInfo } from './base'
@@ -133,7 +134,7 @@ export class SendData {
     })
   }
   private _getParams(sendEvents: AnyObj[]) {
-    const time = Date.now()
+    const time = getTimestamp()
     return {
       baseInfo: {
         ...baseInfo.base,

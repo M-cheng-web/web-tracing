@@ -1,7 +1,8 @@
 import { record } from 'rrweb'
 import pako from 'pako'
 import { Base64 } from 'js-base64'
-import { RecordEventScope } from '../types/index'
+import { RecordEventScope } from '../types'
+import { getTimestamp } from '../utils'
 
 /**
  * 只存储最近30s的所有录屏 (分为3段)
@@ -35,7 +36,7 @@ const MAXSCOPELENGTH = 3 // 录屏数组最长长度
 
 export class RecordScreen {
   public eventList: RecordEventScope[] = [
-    { scope: `${Date.now()}-`, eventList: [] }
+    { scope: `${getTimestamp()}-`, eventList: [] }
   ]
   constructor() {
     this.init()
@@ -46,12 +47,12 @@ export class RecordScreen {
       if (this.eventList.length > 0) {
         const lastEvents = this.eventList[this.eventList.length - 1]
         this.eventList[this.eventList.length - 1].scope =
-          lastEvents.scope + Date.now()
+          lastEvents.scope + getTimestamp()
       }
       if (this.eventList.length > MAXSCOPELENGTH) {
         this.eventList.shift()
       }
-      this.eventList.push({ scope: `${Date.now()}-`, eventList: [] })
+      this.eventList.push({ scope: `${getTimestamp()}-`, eventList: [] })
     }, MAXSCOPETIME)
 
     record({

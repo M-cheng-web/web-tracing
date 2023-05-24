@@ -1,7 +1,7 @@
 import type { AnyObj } from '../types'
 import { baseInfo } from './base'
 import { sendData } from './sendData'
-import { getLocationHref } from '../utils'
+import { getLocationHref, getTimestamp } from '../utils'
 import { _global } from '../utils/global'
 import { options } from './options'
 import { eventBus } from './eventBus'
@@ -100,7 +100,7 @@ function sendPageView(option: AnyObj = {}) {
         params,
         title: option.title || document.title,
         action,
-        triggerTime: Date.now()
+        triggerTime: getTimestamp()
       })
     },
     option.title ? 0 : 17
@@ -132,7 +132,7 @@ function handleSendPageView(options: AnyObj = {}) {
         params,
         title: options.title || document.title,
         action: actions,
-        triggerTime: Date.now()
+        triggerTime: getTimestamp()
       })
     },
     options.title ? 0 : 17

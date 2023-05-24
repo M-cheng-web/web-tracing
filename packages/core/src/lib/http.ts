@@ -1,4 +1,4 @@
-import { on, isValidKey } from '../utils'
+import { on, isValidKey, getTimestamp } from '../utils'
 import { handleSendError } from './err'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
@@ -31,7 +31,7 @@ function interceptFetch() {
       _options: Partial<Request> = {},
       res: Response
     ) => {
-      const fetchStart = Date.now()
+      const fetchStart = getTimestamp()
       const { method = 'GET' } = _options
       const { url, status, statusText } = res
 
@@ -41,7 +41,7 @@ function interceptFetch() {
         if (options.performance.server) {
           handleSendPerformance('server', {
             src: url,
-            duration: Date.now() - fetchStart,
+            duration: getTimestamp() - fetchStart,
             responseStatus: status,
             params: method.toUpperCase() === 'POST' ? _options.body : undefined
           })
@@ -88,7 +88,7 @@ function interceptXHR() {
               handleSendPerformance('server', {
                 src: responseURL || _config.src,
                 responseStatus: status,
-                duration: Date.now() - _config.triggerTime,
+                duration: getTimestamp() - _config.triggerTime,
                 params: body ? body : undefined
               })
             }
@@ -102,7 +102,7 @@ function interceptXHR() {
         }
       })
 
-      _config.triggerTime = Date.now()
+      _config.triggerTime = getTimestamp()
     }
   })
 }

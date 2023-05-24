@@ -3,13 +3,14 @@
  */
 import { getCookieByName, uuid } from './index'
 import { SURVIVIE_MILLI_SECONDS, SESSION_KEY } from '../common'
+import { getTimestamp } from '../utils'
 
 /**
  * 刷新会话存续期
  */
 function refreshSession() {
   const id = getCookieByName(SESSION_KEY) || `s_${uuid()}`
-  const expires = new Date(Date.now() + SURVIVIE_MILLI_SECONDS)
+  const expires = new Date(getTimestamp() + SURVIVIE_MILLI_SECONDS)
   document.cookie = `${SESSION_KEY}=${id};path=/;max-age=1800;expires=${expires.toUTCString()}`
   return id
 }

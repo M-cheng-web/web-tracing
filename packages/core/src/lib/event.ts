@@ -1,4 +1,4 @@
-import { isValidKey, getLocationHref } from '../utils'
+import { isValidKey, getLocationHref, getTimestamp } from '../utils'
 import { getElByAttr, isSimpleEl, getNodeXPath } from '../utils/element'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
@@ -55,7 +55,7 @@ function clickCollection() {
       const { top, left } = (e.target as HTMLElement).getBoundingClientRect() // 元素距离html的距离
       _config.x = left + scrollLeft
       _config.y = top + scrollTop
-      _config.triggerTime = Date.now() // 点击时间
+      _config.triggerTime = getTimestamp() // 点击时间
       _config.url = getLocationHref() // 当前页面的url
       _config.title = extractTitleByTarget(target) // 获取title属性
       _config.eventId = extractDataByPath(path) // 提取数据事件ID
@@ -234,7 +234,7 @@ function handleSendEvent(eventId: string, title: string, options = {}) {
     eventId,
     title,
     eventType: 'custom',
-    triggerTime: Date.now(),
+    triggerTime: getTimestamp(),
     ...options
   })
 }

@@ -6,7 +6,8 @@ import {
   getLocationHref,
   normalizeObj,
   isValidKey,
-  sendReaconImageList
+  sendReaconImageList,
+  getTimestamp
 } from '../utils'
 import { _global, _support } from '../utils/global'
 import { options } from './options'
@@ -88,7 +89,7 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
         eventType: 'performance',
         eventId: 'resource',
         src: entry.name,
-        triggerTime: Date.now(), // 非绝对精确,以拿到performance对象的时间来近似计算
+        triggerTime: getTimestamp(), // 非绝对精确,以拿到performance对象的时间来近似计算
         url: window.location.href
       })
     )
@@ -107,14 +108,14 @@ function observeSourceInsert() {
   // MutationObserver DOM3 Events规范,是个异步监听,只有在全部DOM操作完成之后才会调用callback
   const observer = new MutationObserver(mutationsList => {
     for (let i = 0; i < mutationsList.length; i += 1) {
-      const startTime = Date.now()
+      const startTime = getTimestamp()
       const { addedNodes = [] } = mutationsList[i]
       const records: any[] = []
       addedNodes.forEach((node: Node & { src?: string; href?: string }) => {
         const { nodeName } = node
         if (tags.indexOf(nodeName.toLowerCase()) !== -1) {
           node.addEventListener('load', () => {
-            const endTime = Date.now()
+            const endTime = getTimestamp()
             records.push(
               normalizeObj({
                 // 没有其他的时间属性,只记录能获取到的
@@ -122,7 +123,7 @@ function observeSourceInsert() {
                 eventId: 'resource',
                 src: node.src || node.href,
                 duration: endTime - startTime,
-                triggerTime: Date.now(),
+                triggerTime: getTimestamp(),
                 url: getLocationHref()
               })
             )
@@ -259,7 +260,7 @@ function initPerformance() {
  */
 function handleSendPerformance(eventId: string, options: AnyObj) {
   const record = {
-    triggerTime: Date.now(),
+    triggerTime: getTimestamp(),
     url: getLocationHref(),
     eventId,
     eventType: 'performance',
