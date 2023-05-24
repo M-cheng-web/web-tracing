@@ -1,5 +1,11 @@
-import type { Options as _Options, InitOptions } from '../types'
-import { validateOption, deepAssign, validateOptionArray } from '../utils'
+import type {
+  Options as _Options,
+  AnyFun,
+  InitOptions,
+  VoidFun
+} from '../types'
+import { typeofAny, deepAssign } from '../utils'
+import { isEmpty } from '../utils/is'
 import { _support } from '../utils/global'
 import { logError } from '../utils/debug'
 
@@ -29,71 +35,41 @@ export class Options {
     unload: false // 页面卸载-是否在页面卸载时采集页面状态信息
   }
 
-  // ------------- 未做 -------------
   ext = {} // 自定义全局附加参数(放在baseInfo中)
   tracesSampleRate = 1 // 抽样发送
 
-  // 事件流本地存储化(同样在发送的时候要触发钩子并且能看到类型)
-  dataStreamLocal = {
-    // 设置为 0 代表不开启本地存储化
-    deadline: 0, // 期限（ps:设为1天则一天只上传一次，但会受到接口大小影响，所以还要手动规定服务端接口内容最大承受）
-    maxCapacity: 20000 // 服务端接口最大承受(超过此范围会分为多个接口)
-  }
-
-  fullPoint = false // 是否开启全自动记录
-  delayInit = false // 是否延迟加载(需要用户后面手动加载)
   cacheMaxLength = 5 // 上报数据最大缓存数
   cacheWatingTime = 5000 // 上报数据最大等待时间
-  eventDomAttrsPerfix = 'data-warden-' // 页面埋点的前缀
   ignoreErrors = [] // 错误类型事件过滤
   ignoreRequest = [] // 请求类型事件过滤
   scopeError = false // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
   localization = false // 是否本地化：sdk不再主动发送事件，事件都存储在本地，由用户手动调用方法发送
+
   whiteScreen = false // 开启白屏检测
 
-  // ------ 函数 ------
-  // 这些函数一方面是可以在首次init可以用
-  // 后面也要做到在某个页面调这个方法就可以多次引用
-  // 比如 before 的钩子，在一个项目在多个地方引用了场景
-
   // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
-  beforePushEventList = [
-    (data: any): any => {
-      return data
-    }
-  ]
+  beforePushEventList: AnyFun[] = []
+
   // 数据上报前的 hook
-  beforeSendData = [
-    (data: any): any => {
-      return data
-    }
-  ]
+  beforeSendData: AnyFun[] = []
+
   // 数据上报后的 hook
-  afterSendData = [
-    (data: any): void => {
-      // do something
-    }
-  ]
+  afterSendData: VoidFun[] = []
 
   // 本地化存储溢出后的回调
-  localizationOverFlow = (data: any) => {
-    // do something
+  localizationOverFlow: VoidFun = () => {
+    //   do something
   }
 
   constructor(initOptions: InitOptions) {
-    const _options = this._transitionOptions(initOptions)
-    this._initOptions(_options)
-  }
-
-  private _initOptions(options: Options) {
-    deepAssign<Options>(this, options)
+    const _options = this.transitionOptions(initOptions)
+    deepAssign<Options>(this, _options)
   }
 
   /**
    * 对入参配置项进行转换
    */
-  private _transitionOptions(options: InitOptions): Options {
-    // 这里的 this 目前是包括这些私有方法的，后面看看有没有风险
+  private transitionOptions(options: InitOptions): Options {
     const _options = deepAssign<Options>({}, this, options)
     const { beforePushEventList, beforeSendData, afterSendData } = options
     const { pv, performance, error, event } = _options
@@ -161,12 +137,8 @@ function _validateInitOption(options: InitOptions) {
     eventUnload,
     ext,
     tracesSampleRate,
-    dataStreamLocal,
-    fullPoint,
-    delayInit,
     cacheMaxLength,
     cacheWatingTime,
-    eventDomAttrsPerfix,
     ignoreErrors,
     ignoreRequest,
     scopeError,
@@ -219,21 +191,6 @@ function _validateInitOption(options: InitOptions) {
     validateFunList.push(validateOption(event, 'event', 'boolean'))
   }
 
-  if (dataStreamLocal && typeof dataStreamLocal === 'object') {
-    validateFunList.push(
-      validateOption(
-        dataStreamLocal.deadline,
-        'dataStreamLocal.deadline',
-        'number'
-      ),
-      validateOption(
-        dataStreamLocal.maxCapacity,
-        'dataStreamLocal.maxCapacity',
-        'number'
-      )
-    )
-  }
-
   const validateList = [
     validateOption(dsn, 'dsn', 'string'),
     validateOption(appName, 'appName', 'string'),
@@ -261,11 +218,8 @@ function _validateInitOption(options: InitOptions) {
     validateOption(ext, 'ext', 'object'),
     validateOption(tracesSampleRate, 'tracesSampleRate', 'number'),
 
-    validateOption(fullPoint, 'fullPoint', 'boolean'),
-    validateOption(delayInit, 'delayInit', 'boolean'),
     validateOption(cacheMaxLength, 'cacheMaxLength', 'number'),
     validateOption(cacheWatingTime, 'cacheWatingTime', 'number'),
-    validateOption(eventDomAttrsPerfix, 'eventDomAttrsPerfix', 'string'),
 
     validateOption(ignoreErrors, 'ignoreErrors', 'array'),
     validateOptionArray(ignoreErrors, 'ignoreErrors', ['string', 'regexp']),
@@ -283,15 +237,90 @@ function _validateInitOption(options: InitOptions) {
   return validateList.every(res => !!res)
 }
 
+/**
+ * 验证必填项
+ * @param options 入参对象
+ */
+function _validateMustFill(options: InitOptions) {
+  const validateList = [
+    validateOptionMustFill(options.appName, 'appName'),
+    validateOptionMustFill(options.dsn, 'dsn')
+  ]
+
+  return validateList.every(res => !!res)
+}
+
+/**
+ * 验证必填项
+ * @param target 属性值
+ * @param targetName 属性名
+ * @returns 是否通过验证
+ */
+function validateOptionMustFill(target: any, targetName: string): boolean {
+  if (isEmpty(target)) {
+    logError(`【${targetName}】参数必填`)
+    return false
+  }
+  return true
+}
+
+/**
+ * 验证选项的类型是否符合要求
+ * @param target 源对象
+ * @param targetName 对象名
+ * @param expectType 期望类型
+ * @returns 是否通过验证
+ */
+function validateOption(
+  target: any,
+  targetName: string,
+  expectType: string
+): boolean | void {
+  if (!target || typeofAny(target) === expectType) return true
+  logError(
+    `TypeError:【${targetName}】期望传入${expectType}类型，目前是${typeofAny(
+      target
+    )}类型`
+  )
+  return false
+}
+
+/**
+ * 验证选项的类型 - 针对数组内容类型的验证
+ * @param target 源对象
+ * @param targetName 对象名
+ * @param expectTypes 期望类型
+ * @returns 是否通过验证
+ */
+function validateOptionArray(
+  target: any[] | undefined,
+  targetName: string,
+  expectTypes: string[]
+): boolean | void {
+  if (!target) return true
+  let pass = true
+
+  target.forEach(item => {
+    if (!expectTypes.includes(typeofAny(item))) {
+      logError(
+        `TypeError:【${targetName}】数组内的值期望传入${expectTypes.join(
+          '|'
+        )}类型，目前值${item}是${typeofAny(item)}类型`
+      )
+      pass = false
+    }
+  })
+
+  return pass
+}
+
 export let options: _Options
 
 export function initOptions(initOptions: InitOptions): _Options | undefined {
-  // 必传校验
-  if (!initOptions.appName) logError('请传入appName参数')
-  if (!initOptions.dsn) logError('请传入dsn参数')
+  // 必传校验 && 入参类型校验
+  if (!_validateMustFill(initOptions) || !_validateInitOption(initOptions))
+    return
 
-  // 入参类型校验
-  if (!_validateInitOption(initOptions)) return
   options = new Options(initOptions)
   _support.options = options
   return options

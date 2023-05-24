@@ -1,5 +1,5 @@
 import { EVENTTYPES } from '../common'
-import { map, filter, getLocationHref } from '../utils'
+import { map, filter, getLocationHref, getTimestamp } from '../utils'
 import { _global } from '../utils/global'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
@@ -177,7 +177,7 @@ function emit(errorInfo: any) {
     recordscreen,
     // recordscreen: zip(getRecordEvent()),
     url: getLocationHref(),
-    triggerTime: Date.now()
+    triggerTime: getTimestamp()
   }
 
   if (options.scopeError) {

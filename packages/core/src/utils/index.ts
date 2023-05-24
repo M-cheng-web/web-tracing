@@ -161,56 +161,6 @@ export function validateMethods(methodsName: string): boolean {
 }
 
 /**
- * 验证选项的类型是否符合要求
- * @param target 源对象
- * @param targetName 对象名
- * @param expectType 期望类型
- * @returns 是否通过验证
- */
-export function validateOption(
-  target: any,
-  targetName: string,
-  expectType: string
-): boolean | void {
-  if (!target || typeofAny(target) === expectType) return true
-  logError(
-    `TypeError: web-tracing: ${targetName}期望传入${expectType}类型，目前是${typeofAny(
-      target
-    )}类型`
-  )
-  return false
-}
-
-/**
- * 验证选项的类型 - 针对数组内容类型的验证
- * @param target 源对象
- * @param targetName 对象名
- * @param expectTypes 期望类型
- * @returns 是否通过验证
- */
-export function validateOptionArray(
-  target: any[] | undefined,
-  targetName: string,
-  expectTypes: string[]
-): boolean | void {
-  if (!target) return true
-  let pass = true
-
-  target.forEach(item => {
-    if (!expectTypes.includes(typeofAny(item))) {
-      logError(
-        `TypeError: ${targetName}数组内的值期望传入${expectTypes.join(
-          '|'
-        )}类型，目前值${item}是${typeofAny(item)}类型`
-      )
-      pass = false
-    }
-  })
-
-  return pass
-}
-
-/**
  * 判断入参类型
  * @param target 任意入参
  * @returns 类型

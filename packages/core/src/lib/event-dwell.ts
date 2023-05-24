@@ -1,4 +1,4 @@
-import { uuid, isValidKey } from '../utils'
+import { uuid, isValidKey, getTimestamp } from '../utils'
 import { eventBus } from './eventBus'
 import { EVENTTYPES } from '../common'
 import { sendData } from './sendData'
@@ -32,7 +32,7 @@ function dwellCollector() {
   eventBus.addEvent({
     type: EVENTTYPES.LOAD,
     callback: () => {
-      _config.entryTime = Date.now()
+      _config.entryTime = getTimestamp()
     }
   })
 
@@ -43,8 +43,8 @@ function dwellCollector() {
       _config.eventId = uuid()
       _config.url = window.location.href // 当前页面 url
       _config.referer = document.referrer // 上级页面 url(从哪个页面跳过来的就是上级页面)
-      _config.triggerTime = Date.now() // 卸载时间
-      _config.millisecond = Date.now() - _config.entryTime // 停留多久
+      _config.triggerTime = getTimestamp() // 卸载时间
+      _config.millisecond = getTimestamp() - _config.entryTime // 停留多久
       const mapping: Record<number, string> = {
         0: 'navigate', // 网页通过点击链接,地址栏输入,表单提交,脚本操作等方式加载
         1: 'reload', // 网页通过“重新加载”按钮或者location.reload()方法加载

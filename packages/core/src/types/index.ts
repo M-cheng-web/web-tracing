@@ -45,16 +45,8 @@ export type Options = {
   event: Event
   ext: { [key: string]: any } // 自定义全局附加参数(放在baseInfo中)
   tracesSampleRate: number // 抽样发送
-  // 事件流本地存储化(同样在发送的时候要触发钩子并且能看到类型)
-  dataStreamLocal: {
-    deadline: number // 期限（ps:设为1天则一天只上传一次，但会受到接口大小影响，所以还要手动规定服务端接口内容最大承受）
-    maxCapacity: number // 服务端接口最大承受(超过此范围会分为多个接口)
-  }
-  fullPoint: boolean // 是否开启全自动记录
-  delayInit: boolean // 是否延迟加载(需要用户后面手动加载)
   cacheMaxLength: number // 上报数据最大缓存数
   cacheWatingTime: number // 上报数据最大等待时间
-  eventDomAttrsPerfix: string // 页面埋点的前缀
   ignoreErrors: Array<string | RegExp> // 错误类型事件过滤
   ignoreRequest: Array<string | RegExp> // 请求类型事件过滤
   scopeError: boolean // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
@@ -103,18 +95,8 @@ export type InitOptions = {
 
   tracesSampleRate?: number // 抽样发送
 
-  // 事件流本地存储化(同样在发送的时候要触发钩子并且能看到类型)
-  dataStreamLocal?: {
-    deadline: number // 期限（ps:设为1天则一天只上传一次，但会受到接口大小影响，所以还要手动规定服务端接口内容最大承受）
-    maxCapacity: number // 服务端接口最大承受(超过此范围会分为多个接口)
-  }
-
-  fullPoint?: boolean // 是否开启全自动记录
-  delayInit?: boolean // 是否延迟加载(需要用户后面手动加载)
-
   cacheMaxLength?: number // 上报数据最大缓存数
   cacheWatingTime?: number // 上报数据最大等待时间
-  eventDomAttrsPerfix?: string // 页面埋点的前缀
 
   ignoreErrors?: Array<string | RegExp> // 错误类型事件过滤
   ignoreRequest?: Array<string | RegExp> // 请求类型事件过滤
