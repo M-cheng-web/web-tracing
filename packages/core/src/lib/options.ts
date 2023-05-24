@@ -316,12 +316,12 @@ function validateOptionArray(
 
 export let options: _Options
 
-export function initOptions(initOptions: InitOptions): _Options | undefined {
+export function initOptions(initOptions: InitOptions): boolean {
   // 必传校验 && 入参类型校验
   if (!_validateMustFill(initOptions) || !_validateInitOption(initOptions))
-    return
+    return false
 
   options = new Options(initOptions)
   _support.options = options
-  return options
+  return true
 }
