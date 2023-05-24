@@ -31,6 +31,7 @@
     // ]
   },
   "include": [
+    "global.d.ts",
     "packages",
     "packages/.vitepress/components/*.vue",
     "packages/.vitepress/*.ts",

@@ -5,23 +5,46 @@ import { getCookieByName, uuid } from '../utils'
 import { getSessionId } from '../utils/session'
 import { options } from './options'
 import { getIPs } from '../utils/getIps'
+import { AnyObj } from '../types'
+
+interface Device {
+  clientHeight: number
+  clientWidth: number
+  colorDepth: number
+  pixelDepth: number
+  screenWidth: number
+  screenHeight: number
+  deviceId: string
+  vendor: string
+  platform: string
+}
+interface Base extends Device {
+  userUuid: string
+  sdkUserUuid: string
+  ext: AnyObj
+  appName: string
+  appCode: string
+  pageId: string
+  sessionId: string
+  sdkVersion: string
+  ip?: string
+}
 
 export class BaseInfo {
-  base: any
-  pageId: string
-  sdkUserUuid = ''
-  private device: any
+  public base: Base | undefined
+  public pageId: string
+  private sdkUserUuid = ''
+  private device: Device | undefined
 
   constructor() {
-    // 当前应用ID,在整个页面生命周期内不变,单页应用路由变化也不会改变,加载SDK时创建,且只创建一次
-    this.pageId = uuid()
+    this.pageId = uuid() // 当前应用ID，在整个页面生命周期内不变，单页应用路由变化也不会改变；加载SDK时创建且只创建一次
 
-    this._initSdkUserUuid().then(() => {
-      this._initDevice()
-      this._initBase()
+    this.initSdkUserUuid().then(() => {
+      this.initDevice()
+      this.initBase()
     })
   }
-  private _initDevice() {
+  private initDevice() {
     const { screen } = getGlobal()
     const { clientWidth, clientHeight } = document.documentElement
     const { width, height, colorDepth, pixelDepth } = screen
@@ -42,13 +65,15 @@ export class BaseInfo {
       platform: navigator.platform // 浏览器平台的环境,不是电脑系统的x64这样的(浏览器平台的环境可能是x32)
     }
   }
-  private _initBase() {
+  /**
+   * 初始化 base 数据
+   */
+  private initBase() {
     // 与一般业务上理解的sessionId做区分,此session与业务无关,单纯就是浏览器端和后端直接的联系
     const sessionId = getSessionId()
 
     this.base = {
-      // 基础数据
-      ...this.device,
+      ...this.device!,
       userUuid: options.userUuid,
       sdkUserUuid: this.sdkUserUuid,
       ext: options.ext,
@@ -60,10 +85,13 @@ export class BaseInfo {
     }
 
     getIPs().then((res: any) => {
-      this.base.ip = res[0]
+      this.base!.ip = res[0]
     })
   }
-  private _initSdkUserUuid() {
+  /**
+   * 初始化sdk中给用户的唯一标识
+   */
+  private initSdkUserUuid() {
     return load({})
       .then((fp: any) => fp.get())
       .then((result: any) => {

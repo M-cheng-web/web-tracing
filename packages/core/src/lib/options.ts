@@ -1,15 +1,10 @@
-import type {
-  Options as _Options,
-  AnyFun,
-  InitOptions,
-  VoidFun
-} from '../types'
+import type { InternalOptions, AnyFun, InitOptions, VoidFun } from '../types'
 import { typeofAny, deepAssign } from '../utils'
 import { isEmpty } from '../utils/is'
 import { _support } from '../utils/global'
 import { logError } from '../utils/debug'
 
-export class Options {
+export class Options implements InternalOptions {
   dsn = '' // 上报地址
   appName = '' // 应用名称
   appCode = '' // 应用code
@@ -314,7 +309,7 @@ function validateOptionArray(
   return pass
 }
 
-export let options: _Options
+export let options: InternalOptions
 
 export function initOptions(initOptions: InitOptions): boolean {
   // 必传校验 && 入参类型校验

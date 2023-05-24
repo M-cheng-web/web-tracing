@@ -1,14 +1,17 @@
 import { isWindow } from './is'
 import { WebTracing } from '../types'
 
+/**
+ * 是否为浏览器环境
+ */
 export const isBrowserEnv = isWindow(typeof window !== 'undefined' ? window : 0)
 
 /**
  * 获取全局变量
  */
-export function getGlobal() {
+export function getGlobal(): Window {
   if (isBrowserEnv) return window
-  return {} as any
+  return {} as Window
 }
 
 /**

@@ -22,7 +22,7 @@ import { _global } from './src/utils/global'
 import { initRecordScreen } from './src/lib/recordscreen'
 import * as exportMethods from './src/lib/exportMethods'
 
-function init(options: InitOptions) {
+function init(options: InitOptions): void {
   if (_global.__webTracingInit__) return
   if (!initOptions(options)) return
 

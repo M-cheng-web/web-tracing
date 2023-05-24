@@ -19,11 +19,11 @@ import { SDK_LOCAL_KEY } from '../common/config'
 import { executeFunctions } from '../utils'
 
 export class SendData {
-  dsn = '' // 服务请求地址
-  events: AnyObj[] = [] // 批次队列
-  cacheMaxLength: number // 最大发送长度
-  cacheWatingTime: number // 延迟发送时间
-  timeoutID: NodeJS.Timeout | null = null // 延迟发送ID
+  private dsn = '' // 服务请求地址
+  private events: AnyObj[] = [] // 批次队列
+  private cacheMaxLength: number // 最大发送长度
+  private cacheWatingTime: number // 延迟发送时间
+  private timeoutID: NodeJS.Timeout | undefined // 延迟发送ID
 
   constructor() {
     this.dsn = options.dsn
@@ -33,14 +33,14 @@ export class SendData {
   /**
    * 发送事件集
    */
-  send() {
+  private send() {
     if (!this.events.length) return
 
     // 选取首部的部分数据来发送,performance会一次性采集大量数据追加到events中
     const sendEvents = this.events.slice(0, this.cacheMaxLength) // 需要发送的事件
     this.events = this.events.slice(this.cacheMaxLength) // 剩下待发的事件
 
-    const sendParams = this._getParams(sendEvents)
+    const sendParams = this.getParams(sendEvents)
 
     // 本地化拦截
     if (options.localization) {
@@ -58,11 +58,11 @@ export class SendData {
       sendParams
     )
     if (isFlase(afterSendParams)) return
-    if (!this._validateObject(afterSendParams, 'beforeSendData')) return
+    if (!this.validateObject(afterSendParams, 'beforeSendData')) return
 
     debug('send events', sendParams)
 
-    this._sendBeacon(this.dsn, afterSendParams).then((res: any) => {
+    this.sendBeacon(this.dsn, afterSendParams).then((res: any) => {
       executeFunctions(options.afterSendData, true, {
         ...res,
         params: afterSendParams
@@ -78,21 +78,21 @@ export class SendData {
    * 发送本地事件集
    * @param e 需要发送的事件信息
    */
-  sendLocal(e: AnyObj) {
+  public sendLocal(e: AnyObj) {
     const afterSendParams = executeFunctions(options.beforeSendData, false, e)
     if (isFlase(afterSendParams)) return
-    if (!this._validateObject(afterSendParams, 'beforeSendData')) return
+    if (!this.validateObject(afterSendParams, 'beforeSendData')) return
 
     debug('send events', afterSendParams)
 
-    this._sendBeacon(this.dsn, afterSendParams)
+    this.sendBeacon(this.dsn, afterSendParams)
   }
   /**
    * 记录需要发送的埋点数据
    * @param e 需要发送的事件信息
    * @param flush 是否立即发送
    */
-  emit(e: AnyObj, flush = false) {
+  public emit(e: AnyObj, flush = false) {
     if (!_support.lineStatus.onLine) return
 
     if (!flush && !randomBoolean(options.tracesSampleRate)) return
@@ -100,7 +100,7 @@ export class SendData {
     const eventList = executeFunctions(options.beforePushEventList, false, e)
 
     if (isFlase(eventList)) return
-    if (!this._validateObject(eventList, 'beforePushEventList')) return
+    if (!this.validateObject(eventList, 'beforePushEventList')) return
 
     this.events = this.events.concat(eventList)
     refreshSession()
@@ -119,8 +119,7 @@ export class SendData {
    * @param url 目标地址
    * @param data 附带参数
    */
-  private _sendBeacon(url: string, data: any) {
-    // const sendType: any = 2
+  private sendBeacon(url: string, data: any) {
     const sendType = _global.navigator ? 1 : 2
     return new Promise(resolve => {
       if (sendType === 1) {
@@ -133,7 +132,7 @@ export class SendData {
       }
     })
   }
-  private _getParams(sendEvents: AnyObj[]) {
+  private getParams(sendEvents: AnyObj[]) {
     const time = getTimestamp()
     return {
       baseInfo: {
@@ -176,7 +175,7 @@ export class SendData {
    * 验证选项的类型 - 只验证是否为 {} []
    * 返回 false意思是取消放入队列 / 取消发送
    */
-  private _validateObject(target: any, targetName: string): boolean | void {
+  private validateObject(target: any, targetName: string): boolean | void {
     if (target === false) return false
 
     if (!target) {
