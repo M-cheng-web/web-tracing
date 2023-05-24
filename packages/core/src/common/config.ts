@@ -6,7 +6,7 @@ export const SESSION_KEY = '_webtracing_session_id' // 会话ID Key(一个站点
 
 export const SURVIVIE_MILLI_SECONDS = 1800000 // 会话 session存活时长(30minutes) - 私有属性
 
-export const SDK_LOCAL_KEY = 'webTracing-localization' // 事件本地化的key
+export const SDK_LOCAL_KEY = '_webtracing_localization_key' // 事件本地化的key
 
 export const SDK_VERSION = version
 
