@@ -1,4 +1,4 @@
-import { EVENTTYPES } from '../common'
+import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
 import { map, filter, getLocationHref, getTimestamp } from '../utils'
 import { _global } from '../utils/global'
 import { sendData } from './sendData'
@@ -8,9 +8,25 @@ import { options } from './options'
 import { recordscreenList, zip } from './recordscreen'
 import { debug } from '../utils/debug'
 import { initBatchError, batchError } from './err-batch'
-import { RecordEventScope } from '../types/index'
+import { RecordEventScope } from '../types'
 
-function parseStack(err: any) {
+interface ErrorStack {
+  errType: string
+  errMessage: string
+  errStack: string
+}
+
+type InstabilityNature = {
+  lineNumber: string
+  fileName: string
+  columnNumber: string
+}
+
+/**
+ * 格式化错误对象信息
+ * @param err Error 错误对象
+ */
+function parseStack(err: Error): ErrorStack {
   const { stack = '', message = '' } = err
   const result = { errType: 'code', errMessage: message, errStack: stack }
 
@@ -51,10 +67,16 @@ function parseStack(err: any) {
   return result
 }
 
+/**
+ * 分析错误信息
+ * @param e 错误源信息
+ * @returns 相对标准格式的错误信息
+ */
 function parseError(e: any) {
   if (e instanceof Error) {
     // fileName: 引发此错误的文件的路径 (此属性为非标准，所以下面得区分)
-    const { message, stack, lineNumber, fileName, columnNumber } = e as any
+    const { message, stack, lineNumber, fileName, columnNumber } = e as Error &
+      InstabilityNature
     if (fileName) {
       return {
         errMessage: message,
@@ -126,14 +148,18 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
   // ie9版本,从全局的event对象中获取错误信息
   return {
     eventId: 'code',
-    line: _global.event.errorLine,
-    col: _global.event.errorCharacter,
-    errMessage: _global.event.errorMessage,
-    src: _global.event.errorUrl
+    line: (_global as any).event.errorLine,
+    col: (_global as any).event.errorCharacter,
+    errMessage: (_global as any).event.errorMessage,
+    src: (_global as any).event.errorUrl
   }
 }
 
-function isIgnoreErrors(error: any) {
+/**
+ * 判断错误源信息是否为需要拦截的
+ * @param error 错误源信息
+ */
+function isIgnoreErrors(error: any): boolean {
   if (!options.ignoreErrors.length) return false
   let errMessage = error.errMessage || error.message
   if (!errMessage) return false
@@ -158,7 +184,10 @@ function isIgnoreErrors(error: any) {
   })
 }
 
-function getRecordEvent() {
+/**
+ * 获取错误录屏数据
+ */
+function getRecordEvent(): RecordEventScope[] {
   const _recordscreenList: RecordEventScope[] = JSON.parse(
     JSON.stringify(recordscreenList)
   )
@@ -168,26 +197,29 @@ function getRecordEvent() {
     .flat()
 }
 
-function emit(errorInfo: any) {
+/**
+ * 发送错误事件信息
+ * @param errorInfo 信息源
+ */
+function emit(errorInfo: any): void {
   const recordscreen = getRecordEvent()
 
   const info = {
     ...errorInfo,
-    eventType: 'error',
+    eventType: SEDNEVENTTYPES.ERROR,
     recordscreen,
     // recordscreen: zip(getRecordEvent()),
     url: getLocationHref(),
     triggerTime: getTimestamp()
   }
 
-  if (options.scopeError) {
-    batchError.pushCacheErrorA(info)
-  } else {
-    sendData.emit(info)
-  }
+  options.scopeError ? batchError.pushCacheErrorA(info) : sendData.emit(info)
 }
 
-function initError() {
+/**
+ * 初始化错误监听
+ */
+function initError(): void {
   if (!options.error.core) return
 
   if (options.scopeError) {
@@ -233,7 +265,7 @@ function initError() {
     callback: e => {
       const errorInfo = parseError(e)
       if (isIgnoreErrors(errorInfo)) return
-      emit({ eventId: 'code', ...parseError(e) })
+      emit({ eventId: 'code', ...errorInfo })
     }
   })
 }

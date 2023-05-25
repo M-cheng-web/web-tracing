@@ -119,6 +119,9 @@ class BatchError {
 
 export let batchError: BatchError
 
+/**
+ * 初始化错误缓存
+ */
 export function initBatchError() {
   batchError = new BatchError()
 }

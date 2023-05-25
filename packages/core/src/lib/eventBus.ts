@@ -52,7 +52,7 @@ export class EventBus {
    * 获取目标类型事件所有的回调
    * @param type 事件类型
    */
-  getEvent(type: EVENTTYPES) {
+  getEvent(type: EVENTTYPES): AnyFun[] {
     return this.handlers[type] || []
   }
   /**
@@ -60,7 +60,7 @@ export class EventBus {
    * @param type 事件类型
    * @param args 额外参数
    */
-  runEvent(type: EVENTTYPES, ...args: any[]) {
+  runEvent(type: EVENTTYPES, ...args: any[]): void {
     const allEvent = this.getEvent(type)
     allEvent.forEach(fun => {
       fun(...args)

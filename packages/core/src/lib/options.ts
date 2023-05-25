@@ -4,6 +4,10 @@ import { isEmpty } from '../utils/is'
 import { _support } from '../utils/global'
 import { logError } from '../utils/debug'
 
+/**
+ * 管理全局的参数
+ * 后续会做成响应式
+ */
 export class Options implements InternalOptions {
   dsn = '' // 上报地址
   appName = '' // 应用名称
@@ -311,6 +315,11 @@ function validateOptionArray(
 
 export let options: InternalOptions
 
+/**
+ * 初始化参数
+ * @param initOptions 原始参数
+ * @returns 是否初始化成功
+ */
 export function initOptions(initOptions: InitOptions): boolean {
   // 必传校验 && 入参类型校验
   if (!_validateMustFill(initOptions) || !_validateInitOption(initOptions))

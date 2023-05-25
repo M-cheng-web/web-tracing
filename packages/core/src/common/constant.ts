@@ -20,38 +20,16 @@ export enum EVENTTYPES {
 }
 
 /**
- * 接口错误状态
+ * 触发的事件是什么类型 - eventType
  */
-export enum SpanStatus {
-  Ok = 'ok',
-  DeadlineExceeded = 'deadline_exceeded',
-  Unauthenticated = 'unauthenticated',
-  PermissionDenied = 'permission_denied',
-  NotFound = 'not_found',
-  ResourceExhausted = 'resource_exhausted',
-  InvalidArgument = 'invalid_argument',
-  Unimplemented = 'unimplemented',
-  Unavailable = 'unavailable',
-  InternalError = 'internal_error',
-  UnknownError = 'unknown_error',
-  Cancelled = 'cancelled',
-  AlreadyExists = 'already_exists',
-  FailedPrecondition = 'failed_precondition',
-  Aborted = 'aborted',
-  OutOfRange = 'out_of_range',
-  DataLoss = 'data_loss'
-}
-
-/**
- * 用户行为
- */
-export enum BREADCRUMBTYPES {
-  HTTP = 'Http',
-  CLICK = 'Click',
-  RESOURCE = 'Resource_Error',
-  CODEERROR = 'Code_Error',
-  ROUTE = 'Route',
-  CUSTOM = 'Custom'
+export enum SEDNEVENTTYPES {
+  PV = 'pv', // 路由
+  ERROR = 'error', // 错误
+  PERFORMANCE = 'performance', // 资源
+  CLICK = 'click', // 点击
+  DWELL = 'dwell', // 页面卸载
+  CUSTOM = 'custom', // 手动触发事件
+  INTERSECTION = 'intersection' // 曝光采集
 }
 
 /**

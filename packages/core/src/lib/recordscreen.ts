@@ -92,7 +92,7 @@ export function zip(data: any): string {
   const binaryString = pako.gzip(str)
   const arr = Array.from(binaryString)
   let s = ''
-  arr.forEach((item: any) => {
+  arr.forEach((item: number) => {
     s += String.fromCharCode(item)
   })
   return Base64.btoa(s)

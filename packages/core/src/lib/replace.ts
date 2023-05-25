@@ -233,7 +233,7 @@ function replaceXHRSend(type: EVENTTYPES): void {
  */
 function replaceFetch(type: EVENTTYPES): void {
   if (!('fetch' in _global)) return
-  replaceAop(_global, 'fetch', (originalFetch: any) => {
+  replaceAop(_global, 'fetch', originalFetch => {
     return function (this: any, ...args: any[]): void {
       return originalFetch.apply(_global, args).then((res: any) => {
         eventBus.runEvent(type, ...args, res)

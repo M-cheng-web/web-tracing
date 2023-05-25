@@ -11,7 +11,7 @@ import { isInit } from '../utils/global'
  * @param opitons
  */
 export function on(
-  target: Window,
+  target: Window | Document,
   eventName: string,
   handler: AnyFun,
   opitons = false
@@ -354,7 +354,7 @@ const arrayFilter =
  * @param arr 源数组
  * @param fn 条件函数
  */
-export function filter(arr: [], fn: AnyFun) {
+export function filter(arr: any[], fn: AnyFun) {
   return arrayFilter.call(arr, fn)
 }
 
@@ -374,7 +374,7 @@ const arrayFind =
  * @param arr 源数组
  * @param fn 条件函数
  */
-export function find(arr: [], fn: AnyFun) {
+export function find(arr: any[], fn: AnyFun) {
   return arrayFind.call(arr, fn)
 }
 

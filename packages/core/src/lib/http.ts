@@ -23,7 +23,7 @@ class RequestTemplate {
 /**
  * fetch请求拦截
  */
-function interceptFetch() {
+function interceptFetch(): void {
   eventBus.addEvent({
     type: EVENTTYPES.FETCH,
     callback: (
@@ -60,7 +60,7 @@ function interceptFetch() {
 /**
  * xhr 请求拦截
  */
-function interceptXHR() {
+function interceptXHR(): void {
   const _config = new RequestTemplate()
 
   eventBus.addEvent({
@@ -107,7 +107,11 @@ function interceptXHR() {
   })
 }
 
-function isIgnoreHttp(url: string) {
+/**
+ * 判断请求地址是否为需要拦截的
+ * @param url 请求地址
+ */
+function isIgnoreHttp(url: string): boolean {
   if (!options.ignoreRequest.length) return false
   if (!url) return false
 
@@ -130,7 +134,10 @@ function isIgnoreHttp(url: string) {
   })
 }
 
-function initHttp() {
+/**
+ * 初始化http监控
+ */
+function initHttp(): void {
   if (!options.performance.server && !options.error.server) return
 
   interceptXHR()

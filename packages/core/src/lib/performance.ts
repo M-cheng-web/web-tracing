@@ -1,6 +1,6 @@
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
-import { EVENTTYPES } from '../common'
+import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
 import { AnyObj } from '../types'
 import {
   getLocationHref,
@@ -86,7 +86,7 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
     records.push(
       normalizeObj({
         ...value,
-        eventType: 'performance',
+        eventType: SEDNEVENTTYPES.PERFORMANCE,
         eventId: 'resource',
         src: entry.name,
         triggerTime: getTimestamp(), // 非绝对精确,以拿到performance对象的时间来近似计算
@@ -115,11 +115,12 @@ function observeSourceInsert() {
         const { nodeName } = node
         if (tags.indexOf(nodeName.toLowerCase()) !== -1) {
           node.addEventListener('load', () => {
+            console.log(11)
             const endTime = getTimestamp()
             records.push(
               normalizeObj({
                 // 没有其他的时间属性,只记录能获取到的
-                eventType: 'performance',
+                eventType: SEDNEVENTTYPES.PERFORMANCE,
                 eventId: 'resource',
                 src: node.src || node.href,
                 duration: endTime - startTime,
@@ -148,7 +149,7 @@ function observeSourceInsert() {
 function observeNavigationTiming() {
   const times: AnyObj = {}
   const { performance } = _global
-  let t = performance.timing
+  let t: any = performance.timing
 
   times.fmp = 0 // 首屏时间 (渲染节点增量最大的时间点)
   if (supported.getEntriesByType) {
@@ -208,7 +209,7 @@ function observeNavigationTiming() {
   sendData.emit(
     normalizeObj({
       ...resultInfo,
-      eventType: 'performance',
+      eventType: SEDNEVENTTYPES.PERFORMANCE,
       eventId: 'page'
     })
   )
@@ -263,7 +264,7 @@ function handleSendPerformance(eventId: string, options: AnyObj) {
     triggerTime: getTimestamp(),
     url: getLocationHref(),
     eventId,
-    eventType: 'performance',
+    eventType: SEDNEVENTTYPES.PERFORMANCE,
     ...options
   }
   sendData.emit(normalizeObj(record))

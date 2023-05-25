@@ -2,7 +2,7 @@ import { isValidKey, getLocationHref, getTimestamp } from '../utils'
 import { getElByAttr, isSimpleEl, getNodeXPath } from '../utils/element'
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
-import { EVENTTYPES } from '../common'
+import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
 import { options } from './options'
 
 class RequestTemplateClick {
@@ -31,7 +31,9 @@ function clickCollection() {
   eventBus.addEvent({
     type: EVENTTYPES.CLICK,
     callback: (e: MouseEvent) => {
-      const _config = new RequestTemplateClick({ eventType: 'click' })
+      const _config = new RequestTemplateClick({
+        eventType: SEDNEVENTTYPES.CLICK
+      })
 
       // 获取被点击的元素到最外层元素组成的数组
       const path: HTMLElement[] = e.composedPath()
@@ -207,7 +209,7 @@ function extractParamsByPath(list: HTMLElement[] = []) {
 
   const container = list[targetIndex]
   const attrList = Array.from(container.attributes) || []
-  const params: Record<string, any> = {}
+  const params: Record<string, string | null> = {}
   const defaultKey = ['container', 'title', 'event-id']
   attrList.forEach(item => {
     if (item.nodeName.indexOf('data-warden') < 0) return // 过滤非标准命名 如 data-v-fbcf7454
@@ -233,7 +235,7 @@ function handleSendEvent(eventId: string, title: string, options = {}) {
   sendData.emit({
     eventId,
     title,
-    eventType: 'custom',
+    eventType: SEDNEVENTTYPES.CUSTOM,
     triggerTime: getTimestamp(),
     ...options
   })

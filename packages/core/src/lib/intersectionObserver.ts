@@ -2,6 +2,7 @@ import type { ElementOrList, TargetGather, AnyObj } from '../types'
 import { unKnowToArray, getTimestamp } from '../utils'
 import { sendData } from './sendData'
 import { _support } from '../utils/global'
+import { SEDNEVENTTYPES } from '../common'
 
 interface IoMap {
   [key: number]: IntersectionObserver
@@ -38,7 +39,6 @@ class Intersection {
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            console.log('目标元素已经曝光')
             const targetObj = this.targetMap.find(
               mapTarget => mapTarget.target === entry.target
             )
@@ -46,7 +46,6 @@ class Intersection {
               targetObj.showTime = getTimestamp()
             }
           } else {
-            console.log('目标元素已经离开')
             const targetObj = this.targetMap.find(
               mapTarget => mapTarget.target === entry.target
             )
@@ -68,7 +67,7 @@ class Intersection {
    */
   private sendEvent(targetObj: TargetMap) {
     sendData.emit({
-      eventType: 'intersection',
+      eventType: SEDNEVENTTYPES.INTERSECTION,
       ...targetObj
     })
   }
@@ -145,6 +144,9 @@ class Intersection {
 
 export let intersection: Intersection
 
+/**
+ * 初始化曝光监听
+ */
 export function initIntersection() {
   _support.intersection = new Intersection()
   intersection = _support.intersection

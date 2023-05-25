@@ -1,6 +1,6 @@
+import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
 import { uuid, isValidKey, getTimestamp } from '../utils'
 import { eventBus } from './eventBus'
-import { EVENTTYPES } from '../common'
 import { sendData } from './sendData'
 import { options } from './options'
 
@@ -26,7 +26,7 @@ class DwellRequestTemplate {
  * 加载 & 卸载事件
  */
 function dwellCollector() {
-  const _config = new DwellRequestTemplate({ eventType: 'dwell' })
+  const _config = new DwellRequestTemplate({ eventType: SEDNEVENTTYPES.DWELL })
 
   // 加载完成事件
   eventBus.addEvent({

@@ -5,7 +5,7 @@ import { getLocationHref, getTimestamp } from '../utils'
 import { _global } from '../utils/global'
 import { options } from './options'
 import { eventBus } from './eventBus'
-import { EVENTTYPES } from '../common'
+import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
 import { debug } from '../utils/debug'
 
 let oldURL = getLocationHref() // 最后一次的url
@@ -93,7 +93,7 @@ function sendPageView(option: AnyObj = {}) {
   setTimeout(
     () => {
       sendData.emit({
-        eventType: 'pv',
+        eventType: SEDNEVENTTYPES.PV,
         eventId: baseInfo.pageId,
         url: url || getLocationHref(),
         referer,
@@ -125,7 +125,7 @@ function handleSendPageView(options: AnyObj = {}) {
   setTimeout(
     () => {
       sendData.emit({
-        eventType: 'pv',
+        eventType: SEDNEVENTTYPES.PV,
         eventId: baseInfo.pageId,
         url,
         referer,

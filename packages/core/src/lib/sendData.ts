@@ -31,7 +31,7 @@ export class SendData {
     this.cacheWatingTime = options.cacheWatingTime
   }
   /**
-   * 发送事件集
+   * 发送事件列表
    */
   private send() {
     if (!this.events.length) return
@@ -75,7 +75,7 @@ export class SendData {
     }
   }
   /**
-   * 发送本地事件集
+   * 发送本地事件列表
    * @param e 需要发送的事件信息
    */
   public sendLocal(e: AnyObj) {
@@ -107,7 +107,7 @@ export class SendData {
     debug('receive event, waiting to send', e)
     if (this.timeoutID) clearTimeout(this.timeoutID)
 
-    // 满足最大记录数,立即发送,否则定时发送(flush为true代表立即发送)
+    // 满足最大记录数,立即发送,否则定时发送
     if (this.events.length >= this.cacheMaxLength || flush) {
       this.send()
     } else {
@@ -132,6 +132,10 @@ export class SendData {
       }
     })
   }
+  /**
+   * 重组事件列表参数
+   * @param sendEvents 事件列表
+   */
   private getParams(sendEvents: AnyObj[]) {
     const time = getTimestamp()
     return {
@@ -143,30 +147,30 @@ export class SendData {
       eventInfo: map(sendEvents, (e: any) => {
         e.sendTime = time // 设置发送时间
 
+        // 取消 type 字段
         // 补充type字段,将click、scroll、change、submit事件作为一类存储
-        if (['click', 'scroll', 'submit', 'change'].includes(e.eventType)) {
-          e.type = 'mix'
-          return e
-        }
-
-        if (e.eventType === 'performance') {
-          // 将性能进行分类,不同类型的性能数据差异较大,分开存放,资源、页面、请求
-          switch (e.eventId) {
-            case 'resource':
-              e.type = 'resourcePerformance'
-              break
-            case 'page':
-              e.type = 'pagePerformance'
-              break
-            case 'server':
-              e.type = 'serverPerformance'
-              break
-            default:
-              break
-          }
-          return e
-        }
-        e.type = e.eventType // 其他类型type同eventType
+        // if (['click', 'scroll', 'submit', 'change'].includes(e.eventType)) {
+        //   e.type = 'mix'
+        //   return e
+        // }
+        // if (e.eventType === 'performance') {
+        //   // 将性能进行分类,不同类型的性能数据差异较大,分开存放,资源、页面、请求
+        //   switch (e.eventId) {
+        //     case 'resource':
+        //       e.type = 'resourcePerformance'
+        //       break
+        //     case 'page':
+        //       e.type = 'pagePerformance'
+        //       break
+        //     case 'server':
+        //       e.type = 'serverPerformance'
+        //       break
+        //     default:
+        //       break
+        //   }
+        //   return e
+        // }
+        // e.type = e.eventType // 其他类型type同eventType
         return e
       })
     }
