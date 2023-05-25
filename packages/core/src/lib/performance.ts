@@ -235,16 +235,15 @@ function observeResource() {
 
   if (supported.performance && options.performance.core) {
     traceResourcePerformance(_global.performance)
-    observeSourceInsert()
 
-    // if (supported.PerformanceObserver) {
-    //   // 监听异步资源加载性能数据 chrome≥52
-    //   const observer = new PerformanceObserver(traceResourcePerformance)
-    //   observer.observe({ entryTypes: ['resource'] })
-    // } else if (supported.MutationObserver) {
-    //   // 监听资源、DOM更新操作记录 chrome≥26 ie≥11
-    //   observeSourceInsert()
-    // }
+    if (supported.PerformanceObserver) {
+      // 监听异步资源加载性能数据 chrome≥52
+      const observer = new PerformanceObserver(traceResourcePerformance)
+      observer.observe({ entryTypes: ['resource'] })
+    } else if (supported.MutationObserver) {
+      // 监听资源、DOM更新操作记录 chrome≥26 ie≥11
+      observeSourceInsert()
+    }
   }
 }
 
