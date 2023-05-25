@@ -1,5 +1,5 @@
 import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
-import { uuid, isValidKey, getTimestamp } from '../utils'
+import { uuid, isValidKey, getTimestamp, getLocationHref } from '../utils'
 import { eventBus } from './eventBus'
 import { sendData } from './sendData'
 import { options } from './options'
@@ -41,7 +41,7 @@ function dwellCollector() {
     type: EVENTTYPES.BEFOREUNLOAD,
     callback: () => {
       _config.eventId = uuid()
-      _config.url = window.location.href // 当前页面 url
+      _config.url = getLocationHref() // 当前页面 url
       _config.referer = document.referrer // 上级页面 url(从哪个页面跳过来的就是上级页面)
       _config.triggerTime = getTimestamp() // 卸载时间
       _config.millisecond = getTimestamp() - _config.entryTime // 停留多久

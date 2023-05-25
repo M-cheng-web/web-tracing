@@ -252,6 +252,87 @@
 
     <br />
 
+    <!-- 异步加载资源 -->
+    <div>
+      <div class="badge badge-pill badge-primary">Performance 异步加载资源</div>
+      <button onclick="performanceAddScript()">插入正确Script</button>
+      <button onclick="performanceAddScriptError()">插入错误Script</button>
+      <br />
+      <button onclick="performanceAddLink()">插入Link</button>
+      <button onclick="performanceAddImg()">插入Img</button>
+      <button onclick="performanceAddLocalImg()">
+        插入Base64图片(不涉及请求所以无需采集)
+      </button>
+      <br />
+      <button onclick="performanceAddXHR()">发送XMLHTTPRequest</button>
+      <button onclick="performanceAddErrXHR()">发送错误XMLHTTPRequest</button>
+      <div id="performance-img-div" />
+      <button onclick="performanceAddFetch()">发送fetch</button>
+      <button onclick="performanceAddFetchError()">发送错误fetch</button>
+    </div>
+    <script>
+      function performanceAddScript() {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/lodash";
+        document.head.appendChild(script);
+      }
+      function performanceAddScriptError() {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/lodash22";
+        document.head.appendChild(script);
+      }
+      function performanceAddLink() {
+        const link = document.createElement("link");
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.href = "https://ahooks.js.org/useExternal/bootstrap-badge.css";
+        document.head.appendChild(link);
+      }
+      function performanceAddImg() {
+        const img = document.createElement("img");
+        img.src = `https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/blog/Annapurna-Ranges-2560x1440.5r9m9t5vg1g0.webp`;
+        const div = document.getElementById("performance-img-div");
+        div.style = "width: 400px; height: 400px; overflow: hidden;";
+        div.appendChild(img);
+      }
+      function performanceAddLocalImg() {
+        const img = document.createElement("img");
+        img.src =
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAWCAMAAAD+dOxOAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACEFBMVEU3R09BSE3/aAD/VyIAAAA3R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R083R080R1A0R1A1R08yR1AwRlA1R081R1A1R081R081R080R1A2R082R08vRlH4ViT/Whr/Whn/Wxb/WB7/WB//VyL/Wxj/XRD/Xg//XBX/WRv/XRH/XBX/WB7/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/VyL/ViH/VR//VSD/ViD+az39pYn8qY79qI78qpD+h2H+glv71cr9mHj9lnb9l3f+fFP+dEn8w7H/WiX/Uhv/Uxz+aDj7zr/9imX+fVT+flX+cET/WCP/XCj9qI38vqr8u6f8u6b8x7f8x7b/XSr/WCT/WSX+f1f8wK3/Wib+flb+hV//VB78tqD/VB/9iWX8vqv/Ux39m3z8rJP8xbT9oIP9jWn7z8L9jmr/YzL+f1j9o4f9mHn+cUQAAABiXhJiAAAAcXRSTlMAAAAAAAoJDQgdJREGARBWhZNAlNBUd3NLmmxr0dU9Pq0L6N3DtwIvOEYaFUk+V1lMLYNbAwIJCgkLCwsJCAgJCggIAji7xcRD9C/nH9sTzAkDp5N9aFT8QfYw7iDi4wZbpdf+5a9eAhlFgNaqYycFG/l+tLAAAAABYktHRASPaNlRAAAACXBIWXMAAAB4AAAAeACd9VpgAAAAB3RJTUUH5QISCDAI1QMDnAAAAUpJREFUGNNjYGBlY+fg5OJm5+HlY2NnAAJ+AUEhYRFRMXEJSX4pkIC0jKycvIKioJKyirSqvBoDo7qGppa2DpOunr6BoZGxCYOpmbmFpZWFtY2tnb2Do5Mzg4urmzscuLm6MHh4FiIBTw8GL+/ComIoKCn09mLw8S0tK6+oBIGq6kJfHwY//+Ka2rp6EGhoLPT3YwhwLWlqbmkFgbaSQtcAhsCgovaOzq5uIOjpLQwKZGAOLuzrnzBx4sRJk6dMLQxmZmAOAdo2bfr06YUzZs4qDAEKhBaWzJ5TUlg4t3NeYWEoUCAsfP6ChX3FcxctXlIcHgYUiIgsal86c9nyJStWFkdGAAWiogsLV61eM2/tupbC6CigQExsIcjxhUCHF8bFAAXiExKTIkEeS05JTYsHCjAzp2dkZrlm5+Tm5QM5DCzMYGBdEA+mWQDainMpZaFBiAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMC0wNy0xOVQwMzozOToxNSswMDowMFrQJhgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDEtMDhUMjA6MDc6NTUrMDA6MDAY1ESzAAAAIHRFWHRzb2Z0d2FyZQBodHRwczovL2ltYWdlbWFnaWNrLm9yZ7zPHZ0AAABjdEVYdHN2Zzpjb21tZW50ACBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIM5IkAsAAAAYdEVYdFRodW1iOjpEb2N1bWVudDo6UGFnZXMAMaf/uy8AAAAYdEVYdFRodW1iOjpJbWFnZTo6SGVpZ2h0ADcwNHxxE5sAAAAXdEVYdFRodW1iOjpJbWFnZTo6V2lkdGgANTAxnG5jJwAAABl0RVh0VGh1bWI6Ok1pbWV0eXBlAGltYWdlL3BuZz+yVk4AAAAXdEVYdFRodW1iOjpNVGltZQAxNTQ2OTc4MDc1s6i/GQAAABJ0RVh0VGh1bWI6OlNpemUAMjkxNjhCM09TOQAAAFp0RVh0VGh1bWI6OlVSSQBmaWxlOi8vL2RhdGEvd3d3cm9vdC93d3cuZWFzeWljb24ubmV0L2Nkbi1pbWcuZWFzeWljb24uY24vZmlsZXMvMTIxLzEyMTAxOTAucG5no98usQAAAABJRU5ErkJggg==";
+        const div = document.getElementById("performance-img-div");
+        div.style = "width: 100px; height: 100px; overflow: hidden;";
+        div.appendChild(img);
+      }
+      function performanceAddXHR() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("get", `/index.html?t=${Date.now()}`);
+        xhr.send();
+      }
+      function performanceAddErrXHR() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("post", "/not-found");
+        xhr.send(JSON.stringify({}));
+      }
+      function performanceAddFetch() {
+        window.fetch(`/index.html?t=${Date.now()}`, {
+          method: "GET",
+          header: {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        });
+      }
+      function performanceAddFetchError() {
+        window.fetch(`/index.html22?t=${Date.now()}`, {
+          method: "GET",
+          header: {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        });
+      }
+    </script>
+
+    <br />
+
     <!-- 延迟加载sdk -->
     <div>
       <div>延迟加载sdk</div>
@@ -286,12 +367,15 @@
       import { sendLocal, setLocalizationOverFlow } from "@web-tracing/core";
       window.setLocalizationOverFlow = function () {
         setLocalizationOverFlow((data) => {
-          console.log('本地化存储超过最大容量，此data为最后一次数据，请及时清空本地存储空间并保存此data（可以调用sendLocal发送后再把此data数据手动存储在localstorage）', data);
-        })
-      }
-      window.setLocalizationOverFlow()
+          console.log(
+            "本地化存储超过最大容量，此data为最后一次数据，请及时清空本地存储空间并保存此data（可以调用sendLocal发送后再把此data数据手动存储在localstorage）",
+            data
+          );
+        });
+      };
+      window.setLocalizationOverFlow();
       window.sendLocal = function () {
-        sendLocal()
+        sendLocal();
       };
     </script>
 
@@ -336,7 +420,7 @@
         intersectionUnobserve(target);
       };
       window.intersectionDisconnect = function () {
-        intersectionDisconnect()
+        intersectionDisconnect();
       };
     </script>
     <script>

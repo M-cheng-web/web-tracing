@@ -31,28 +31,3 @@ export enum SEDNEVENTTYPES {
   CUSTOM = 'custom', // 手动触发事件
   INTERSECTION = 'intersection' // 曝光采集
 }
-
-/**
- * 状态
- */
-export enum STATUS_CODE {
-  ERROR = 'error',
-  OK = 'ok'
-}
-
-export enum HTTPTYPE {
-  XHR = 'xhr',
-  FETCH = 'fetch'
-}
-
-export enum HTTP_CODE {
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401
-}
-
-export enum EMethods {
-  Get = 'GET',
-  Post = 'POST',
-  Put = 'PUT',
-  Delete = 'DELETE'
-}

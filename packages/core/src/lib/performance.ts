@@ -52,17 +52,18 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
   // 排除xmlhttprequest类型,服务器有响应便会记录,包括404的请求,转由http-request模块负责记录请求数据,区分请求状态
   // 同时也会排除一些其他类型,比如在引入一个script后会触发一次性能监控,它的类型是beacon,这一次的要排除
   const observerTypeList = ['img', 'script', 'link', 'audio', 'video', 'css']
-  const entries = performance.getEntriesByType('resource')
+
+  const entries = performance.getEntriesByType(
+    'resource'
+  ) as PerformanceResourceTiming[]
   const records: any[] = []
 
   entries.forEach(entry => {
     // initiatorType含义：通过某种方式请求的资源,例如script,link..
-    const { initiatorType = '' } = entry as PerformanceResourceTiming
+    const { initiatorType = '' } = entry
 
     // 只记录observerTypeList中列出的资源类型请求,不在列表中则跳过
     if (observerTypeList.indexOf(initiatorType.toLowerCase()) < 0) return
-
-    // 认为只能内部维护一个对象列表了，然后每次都遍历那个列表
 
     // sdk内部 img 发送请求的错误不会记录
     if (sendReaconImageList.length) {
@@ -89,8 +90,8 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
         eventType: SEDNEVENTTYPES.PERFORMANCE,
         eventId: 'resource',
         src: entry.name,
-        triggerTime: getTimestamp(), // 非绝对精确,以拿到performance对象的时间来近似计算
-        url: window.location.href
+        triggerTime: getTimestamp(),
+        url: getLocationHref()
       })
     )
   })
@@ -110,20 +111,29 @@ function observeSourceInsert() {
     for (let i = 0; i < mutationsList.length; i += 1) {
       const startTime = getTimestamp()
       const { addedNodes = [] } = mutationsList[i]
-      const records: any[] = []
       addedNodes.forEach((node: Node & { src?: string; href?: string }) => {
         const { nodeName } = node
         if (tags.indexOf(nodeName.toLowerCase()) !== -1) {
           node.addEventListener('load', () => {
-            console.log(11)
-            const endTime = getTimestamp()
-            records.push(
+            sendData.emit(
               normalizeObj({
-                // 没有其他的时间属性,只记录能获取到的
                 eventType: SEDNEVENTTYPES.PERFORMANCE,
                 eventId: 'resource',
                 src: node.src || node.href,
-                duration: endTime - startTime,
+                duration: getTimestamp() - startTime,
+                triggerTime: getTimestamp(),
+                url: getLocationHref()
+              })
+            )
+          })
+          node.addEventListener('error', () => {
+            sendData.emit(
+              normalizeObj({
+                eventType: SEDNEVENTTYPES.PERFORMANCE,
+                eventId: 'resource',
+                src: node.src || node.href,
+                responseStatus: 'error',
+                duration: getTimestamp() - startTime,
                 triggerTime: getTimestamp(),
                 url: getLocationHref()
               })
@@ -131,16 +141,15 @@ function observeSourceInsert() {
           })
         }
       })
-      sendData.emit(records)
     }
   })
   observer.observe(_global.document, {
     subtree: true, // 目标以及目标的后代改变都会观察
     childList: true // 表示观察目标子节点的变化，比如添加或者删除目标子节点，不包括修改子节点以及子节点后代的变化
     // attributes: true, // 观察属性变动
-    // attributeFilter: ['src', 'href'], // 要观察的属性
+    // attributeFilter: ['src', 'href'] // 要观察的属性
   })
-  // observer.disconnect();
+  // observer.disconnect()
 }
 
 /**
@@ -225,6 +234,7 @@ function observeResource() {
 
   if (supported.performance && options.performance.core) {
     traceResourcePerformance(_global.performance)
+    // observeSourceInsert()
 
     if (supported.PerformanceObserver) {
       // 监听异步资源加载性能数据 chrome≥52
