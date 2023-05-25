@@ -15,6 +15,7 @@ export enum EVENTTYPES {
   HISTORYPUSHSTATE = 'history-pushState',
   HISTORYREPLACESTATE = 'history-replaceState',
   POPSTATE = 'popstate',
+  READYSTATECHANGE = 'readystatechange',
   ONLINE = 'online',
   OFFLINE = 'offline'
 }

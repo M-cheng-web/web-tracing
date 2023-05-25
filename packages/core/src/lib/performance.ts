@@ -3,6 +3,7 @@ import { eventBus } from './eventBus'
 import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
 import { AnyObj } from '../types'
 import {
+  on,
   getLocationHref,
   normalizeObj,
   isValidKey,
@@ -114,7 +115,7 @@ function observeSourceInsert() {
       addedNodes.forEach((node: Node & { src?: string; href?: string }) => {
         const { nodeName } = node
         if (tags.indexOf(nodeName.toLowerCase()) !== -1) {
-          node.addEventListener('load', () => {
+          on(node as Document, EVENTTYPES.LOAD, function () {
             sendData.emit(
               normalizeObj({
                 eventType: SEDNEVENTTYPES.PERFORMANCE,
@@ -126,7 +127,7 @@ function observeSourceInsert() {
               })
             )
           })
-          node.addEventListener('error', () => {
+          on(node as Document, EVENTTYPES.ERROR, function () {
             sendData.emit(
               normalizeObj({
                 eventType: SEDNEVENTTYPES.PERFORMANCE,
@@ -234,16 +235,16 @@ function observeResource() {
 
   if (supported.performance && options.performance.core) {
     traceResourcePerformance(_global.performance)
-    // observeSourceInsert()
+    observeSourceInsert()
 
-    if (supported.PerformanceObserver) {
-      // 监听异步资源加载性能数据 chrome≥52
-      const observer = new PerformanceObserver(traceResourcePerformance)
-      observer.observe({ entryTypes: ['resource'] })
-    } else if (supported.MutationObserver) {
-      // 监听资源、DOM更新操作记录 chrome≥26 ie≥11
-      observeSourceInsert()
-    }
+    // if (supported.PerformanceObserver) {
+    //   // 监听异步资源加载性能数据 chrome≥52
+    //   const observer = new PerformanceObserver(traceResourcePerformance)
+    //   observer.observe({ entryTypes: ['resource'] })
+    // } else if (supported.MutationObserver) {
+    //   // 监听资源、DOM更新操作记录 chrome≥26 ie≥11
+    //   observeSourceInsert()
+    // }
   }
 }
 
