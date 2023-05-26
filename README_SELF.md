@@ -62,7 +62,7 @@ nr docs
 + 更好的兼容 vue2、vue3（react以及小程序优先级靠后一些）(vue内的错误到时候要去重)
 + 支持错误信息去重(目前是做好了自动去重，注意原生和vue是否会重复，sdk这个范围要做好去重，和vue这些的后面再看看是否兼容)
 + 将所有 options 变为响应式
-+ performance模块的src url应该改名 (requestUrl triggerPageUrl)
++ performance模块的src url应该改名 (requestUrl triggerPageUrl) - 等后面改文档的时候再去改
 + ----------优先级分割线-------------
 + 首次首屏数据更精确化 - 这个放在最后研究插件化的时候再搞上去
 + demo官网示例更简单化且提供在线编写能力【例子：1.例如只想在用户打开某个页面才开始采集,不是这个页面则结束采集
