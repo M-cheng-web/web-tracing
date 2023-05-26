@@ -1,21 +1,19 @@
 import { sendData } from './sendData'
 import { AnyFun } from '../types'
-import { throttle, groupArray } from '../utils'
-import { debug } from '../utils/debug'
+import { debounce, throttle, groupArray } from '../utils'
 
-const SETTIMEA = 5000
-const SETTIMEB = 30000
+const SETTIMEA = 2000
+const SETTIMEB = 20000
+const MAXLENGTHA = 5
 
 /**
  * 判断是否为批量错误
  * 判断流程:
  * 1. 先把所有错误都放入 a栈
- * 2. 每 2s查 a栈是否有批量错误(errMessage、errType相同且发生个数大于等于5)
+ * 2. 每次发生错误后防抖 2s查 a栈是否有批量错误(批量错误: errMessage、errType相同且发生个数大于等于5)
  *     1. 如果为批量错误则合并这些错误并加入[时间区间参数、发生个数参数]后放入 b栈
  *     2. 不为批量错误则发送这些错误
- * 3. 每 30s查 b栈是否有批量错误(errMessage、errType相同且发生个数大于等于5) - b栈的批量错误可以视为持久错误了
- *     1. 如果为批量错误则合并这些错误并更新[时间区间参数、发生个数参数]，还是存放在 b栈(如果用户一直开网页并且一直报错会无限叠加这个时间,此类错误则为持久化错误)
- *     2. 不为批量错误则发送这些错误 (证明只是在某个区间报错)
+ * 3. 每次推入错误到b栈后延迟 20s查 b栈并发送这些错误
  * 4. 在这个过程中，如果用户关闭了网页，会统一把 a栈、b栈内的数据发送
  */
 class BatchError {
@@ -26,7 +24,7 @@ class BatchError {
   constructor() {
     this.cacheErrorA = []
     this.cacheErrorB = []
-    this.throttleProxyAddCacheErrorA = throttle(
+    this.throttleProxyAddCacheErrorA = debounce(
       this.proxyAddCacheErrorA,
       SETTIMEA
     )
@@ -39,8 +37,8 @@ class BatchError {
     let len = this.cacheErrorA.length
     if (!len) return
     const arr = groupArray(this.cacheErrorA, 'errMessage', 'errType')
-    const arrA = arr.filter(item => item.length < 5)
-    const arrB = arr.filter(item => item.length >= 5)
+    const arrA = arr.filter(item => item.length < MAXLENGTHA)
+    const arrB = arr.filter(item => item.length >= MAXLENGTHA)
 
     if (arrA.length) {
       sendData.emit(arrA.flat(Infinity))
@@ -66,54 +64,61 @@ class BatchError {
     let len = this.cacheErrorB.length
     if (!len) return
     const arr = groupArray(this.cacheErrorB, 'errMessage', 'errType')
-    const arrA = arr.filter(item => item.length < 5)
-    const arrB = arr.filter(item => item.length >= 5)
 
     while (len--) {
       this.cacheErrorB.shift()
     }
 
+    // 将区间报错合并
+    const emitList: any[] = []
+    arr.forEach((itemList: any[]) => {
+      const sumItem = itemList[0]
+      if (itemList.length > 1) {
+        sumItem.batchErrorLength = itemList.reduce(
+          (p, item) => (p += item.batchErrorLength),
+          0
+        )
+        sumItem.batchErrorLastHappenTime =
+          itemList[itemList.length - 1].triggerTime
+      }
+      emitList.push(sumItem)
+    })
+    sendData.emit(emitList)
+  }
+  /**
+   * 获取所有的错误
+   * 用户突然关闭页面时调用此方法集成错误
+   */
+  sendAllCacheError() {
+    const errInfoList = this.cacheErrorA.concat(this.cacheErrorB)
+    const arr = groupArray(errInfoList, 'errMessage', 'errType')
+    const arrA = arr.filter(item => item.length < MAXLENGTHA)
+    const arrB = arr.filter(item => item.length >= MAXLENGTHA)
+
     if (arrA.length) {
-      // 将区间报错合并
-      const emitList: any[] = []
-      arrA.forEach((itemList: any[]) => {
-        const sumItem = itemList[0]
-        if (itemList.length > 1) {
-          sumItem.batchErrorLength = itemList.reduce(
-            (p, item) => (p += item.batchErrorLength),
-            0
-          )
-          sumItem.batchErrorLastHappenTime =
-            itemList[itemList.length - 1].triggerTime
-        }
-        emitList.push(sumItem)
-      })
-      sendData.emit(emitList)
+      sendData.emit(arrA.flat(Infinity), true)
     }
     if (arrB.length) {
-      debug('无限错误')
-      // 在这的错误就是无限错误
       const arrBsum: any[] = []
-      arrB.forEach(itemList => {
-        const sumItem = itemList[0]
+      arrB.forEach(item => {
+        const sumItem = item[0]
         sumItem.batchError = true
-        if (itemList.length > 1) {
-          sumItem.batchErrorLength = itemList.reduce(
-            (p, item) => (p += item.batchErrorLength),
-            0
-          )
-          sumItem.batchErrorLastHappenTime =
-            itemList[itemList.length - 1].triggerTime
-        }
+        sumItem.batchErrorLength = item.length
+        sumItem.batchErrorLastHappenTime = item[item.length - 1].triggerTime
         arrBsum.push(sumItem)
       })
-      this.cacheErrorB.push(...arrBsum)
-      this.throttleProxyAddCacheErrorB()
+      sendData.emit(arrBsum, true)
     }
   }
   pushCacheErrorA(errorInfo: any) {
     this.cacheErrorA.push(errorInfo)
     this.throttleProxyAddCacheErrorA()
+
+    // 每 50 个触发一次强制发送事件
+    if (this.cacheErrorA.length >= 50) {
+      this.proxyAddCacheErrorA()
+      this.proxyAddCacheErrorB()
+    }
   }
 }
 

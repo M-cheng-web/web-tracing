@@ -8,7 +8,7 @@
   </head>
   <body style="height: 2000px">
     <script type="module" src="/main.ts"></script>
-    <script type="module" src="/index.ts"></script>
+    <!-- <script type="module" src="/index.ts"></script> -->
     <div id="app"></div>
 
     <!-- Event 点击事件捕捉 -->
@@ -48,6 +48,31 @@
       <button id="promiseError" onclick="promiseError()">promiseError</button>
       <button id="consoleErr" onclick="consoleErr()">手动输出错误</button>
     </div>
+    <script>
+      // ---------------- Error 捕捉 ----------------
+      document.getElementById("codeErr")?.addEventListener("click", () => {
+        codeError();
+      });
+
+      function codeError() {
+        const a = {};
+        a.split("/");
+      }
+      function promiseError() {
+        const promiseWrap = () =>
+          new Promise((resolve, reject) => {
+            reject("promise reject");
+          });
+        promiseWrap().then((res) => {
+          console.log("res", res);
+        });
+      }
+      function consoleErr() {
+        console.error("consoleErr1", "consoleErr1.1", "consoleErr1.2");
+        // console.error(111);
+        // console.error(new Error("谢谢谢谢谢"));
+      }
+    </script>
 
     <br />
 
@@ -58,12 +83,15 @@
       <button onclick="batchErrorA(100)">立即触发代码错误-100条</button>
       <br />
       <br />
-      <button onclick="batchErrorAT(10)">异步触发代码错误-10条</button>
+      <button onclick="batchErrorAT(20)">异步触发代码错误-20条</button>
       <button onclick="batchErrorAT(100)">异步触发代码错误-100条</button>
       <br />
       <br />
       <button onclick="batchErrorB(10)">
         立即触发[reject-10条 + 代码错误-10条 + console.error-10条]
+      </button>
+      <button onclick="batchErrorB(20)">
+        立即触发[reject-20条 + 代码错误-20条 + console.error-20条]
       </button>
       <br />
       <br />
@@ -89,9 +117,9 @@
       }
       function batchErrorB(num) {
         for (let x = 1; x <= num; x++) {
-          promiseError();
-          consoleErr();
           document.getElementById("codeErr").click();
+          consoleErr();
+          promiseError();
         }
       }
       function batchErrorC(num) {
@@ -104,7 +132,7 @@
       function batchErrorD() {
         setInterval(() => {
           document.getElementById("codeErr").click();
-        }, 80);
+        }, 200);
       }
 
       // function groupArray(arr, ...keys) {

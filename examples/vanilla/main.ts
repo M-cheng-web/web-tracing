@@ -102,7 +102,7 @@ function start() {
     cacheWatingTime: 1000,
     userUuid: 'init_userUuid',
 
-    // scopeError: true,
+    scopeError: true,
 
     // tracesSampleRate: 0.5,
 

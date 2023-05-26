@@ -101,6 +101,28 @@ export function throttle(func: AnyFun, wait: number, runFirst = false) {
 }
 
 /**
+ * 函数防抖
+ * @param func 需要防抖的函数
+ * @param wait 防抖的时间间隔
+ * @param runFirst 是否需要第一个函数立即执行
+ * @returns 返回一个包含防抖功能的函数
+ */
+export function debounce(func: AnyFun, wait: number, runFirst = false) {
+  let timer: NodeJS.Timeout | null = null
+
+  return function (this: any, ...arg: any[]) {
+    if (runFirst) {
+      func.call(this, ...arg)
+      runFirst = false
+    }
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      func.call(this, ...arg)
+    }, wait)
+  }
+}
+
+/**
  * 将数组内对象以对象内的属性分类
  * @param arr 数组源 - 格式为 [{}, {}...]
  * @param pop 是否需要在遍历后清除源数组内的数据

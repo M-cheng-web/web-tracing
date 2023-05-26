@@ -228,12 +228,7 @@ function initError(): void {
     eventBus.addEvent({
       type: EVENTTYPES.BEFOREUNLOAD,
       callback: () => {
-        const errInfoList = batchError.cacheErrorA.concat(
-          batchError.cacheErrorB
-        )
-        if (errInfoList.length) {
-          sendData.emit(errInfoList, true)
-        }
+        batchError.sendAllCacheError()
       }
     })
   }

@@ -73,7 +73,7 @@ function replace(type: EVENTTYPES): void {
   if (!isValidKey(type, EVENTTYPES)) return
 
   const value = EVENTTYPES[type]
-  debug('replace-初始化挂载事件:', value)
+  // debug('replace-初始化挂载事件:', value)
   switch (value) {
     case EVENTTYPES.ERROR:
       listenError(EVENTTYPES.ERROR)
