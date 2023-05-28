@@ -56,12 +56,12 @@ nr docs
 + 对入参和出参的ts再次统一化 - eventInfo列表中取消 type 字段
 + 针对资源的异步加载监控，sdk不做是否加载成功判断，但会暴露 responseEnd 和 responseStart，一般失败的资源加载通过这俩个字段能发现端倪 - 只针对支持 PerformanceObserver 的场景下，不支持 PerformanceObserver 会用 MutationObserver 兼容，不同的是 MutationObserver 能判断请求资源是否报错，如果报错则提供 responseStatus: 'error' 字段 (注意：通过标签加载资源如果报错除了资源本身会有错误，错误模块也会暴露一个错误信息，但如果是通过XMR请求则不会额外暴露错误信息)
 + 批量错误时应该隔一段时间就发一次，不能一直在b栈等用户关闭网页才发 - 统一完善了下
++ 将所有 options 变为响应式 - 也就是所有用到了 options 参数时，当动态去改它能实时更新(可能要将所有的变量都变为响应式了) - 也就是支持用户全局动态去改 options
 
 ### 二期未完成功能
 + 为 vue3 提供一系列个性化hooks
 + 更好的兼容 vue2、vue3（react以及小程序优先级靠后一些）(vue内的错误到时候要去重)
 + 支持错误信息去重(目前是做好了自动去重，注意原生和vue是否会重复，sdk这个范围要做好去重，和vue这些的后面再看看是否兼容)
-+ 将所有 options 变为响应式
 + performance模块的src url应该改名 (requestUrl triggerPageUrl) - 等后面改文档的时候再去改
 + ----------优先级分割线-------------
 + 首次首屏数据更精确化 - 这个放在最后研究插件化的时候再搞上去
