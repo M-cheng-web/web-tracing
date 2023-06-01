@@ -21,6 +21,7 @@ import { initIntersection } from './src/lib/intersectionObserver'
 import { _global } from './src/utils/global'
 import { initRecordScreen } from './src/lib/recordscreen'
 import * as exportMethods from './src/lib/exportMethods'
+import './src/observer/index'
 
 function init(options: InitOptions): void {
   if (_global.__webTracingInit__) return
