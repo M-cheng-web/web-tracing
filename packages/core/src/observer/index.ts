@@ -1,9 +1,37 @@
-// import { ref } from './ref'
-import { computed } from './computed'
-import { watch } from './watch'
+import { ref as _ref } from './ref'
+import { computed as _computed } from './computed'
+import { watch as _watch } from './watch'
+import { ObserverValue, AnyFun, voidFun } from './types'
 
-export * from './ref'
-export { computed, watch }
+/**
+ * 响应式
+ * 说明：与vue用法相似，但不提供多样的写法，只完成了基础用法，observer文件并不引用其他文件，为了方便移植
+ * 完成功能：ref computed watch
+ * 兼容性：需要支持proxy，如不支持则响应式无效
+ *
+ * 不支持proxy时各个函数表现：
+ * ref：返回 { value: target } 对象
+ * computed：返回 { value: fun() } 对象
+ * watch：返回空函数
+ */
+
+function hasProxy(): boolean {
+  return !!window.Proxy
+}
+
+function ref<T>(target: T) {
+  return hasProxy() ? _ref<T>(target) : { value: target }
+}
+
+function computed<T>(fun: AnyFun) {
+  return hasProxy() ? _computed<T>(fun) : { value: fun() }
+}
+
+function watch<T>(target: ObserverValue<T>, fun: voidFun<T>) {
+  return hasProxy() ? _watch<T>(target, fun) : () => ({})
+}
+
+export { ref, computed, watch }
 
 // ---------------- demo 1 ----------------
 // const data = {
