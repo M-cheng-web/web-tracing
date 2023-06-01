@@ -1,11 +1,13 @@
 import type { EventBus } from '../lib/eventBus'
+import type { BaseInfo } from '../lib/base'
+import type { ObserverValue } from '../observer/types'
 
 export type WebTracing = {
   eventBus: EventBus
-  baseInfo: any
+  baseInfo: BaseInfo
   sendData: any
   lineStatus: any
-  options: InternalOptions // 配置信息
+  options: ObserverValue<InternalOptions> // 配置信息
   firstScreen: any // 首屏信息
   intersection: any // 曝光采集
 }

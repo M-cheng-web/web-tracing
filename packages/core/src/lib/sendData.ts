@@ -17,6 +17,7 @@ import { AnyObj } from '../types'
 import { isFlase } from '../utils/is'
 import { SDK_LOCAL_KEY } from '../common/config'
 import { executeFunctions } from '../utils'
+import { computed } from '../observer'
 
 export class SendData {
   private dsn = '' // 服务请求地址
@@ -26,9 +27,9 @@ export class SendData {
   private timeoutID: NodeJS.Timeout | undefined // 延迟发送ID
 
   constructor() {
-    this.dsn = options.dsn
-    this.cacheMaxLength = options.cacheMaxLength
-    this.cacheWatingTime = options.cacheWatingTime
+    this.dsn = options.value.dsn
+    this.cacheMaxLength = options.value.cacheMaxLength
+    this.cacheWatingTime = options.value.cacheWatingTime
   }
   /**
    * 发送事件列表
@@ -40,30 +41,41 @@ export class SendData {
     const sendEvents = this.events.slice(0, this.cacheMaxLength) // 需要发送的事件
     this.events = this.events.slice(this.cacheMaxLength) // 剩下待发的事件
 
-    const sendParams = this.getParams(sendEvents)
+    const time = getTimestamp()
+    const sendParams = computed(() => ({
+      baseInfo: {
+        ...baseInfo.base?.value,
+        sendTime: time,
+        userUuid: options.value.userUuid
+      },
+      eventInfo: map(sendEvents, (e: any) => {
+        e.sendTime = time
+        return e
+      })
+    }))
 
     // 本地化拦截
-    if (options.localization) {
+    if (options.value.localization) {
       const success = LocalStorageUtil.setSendDataItem(
         SDK_LOCAL_KEY,
-        sendParams
+        sendParams.value
       )
-      if (!success) options.localizationOverFlow(sendParams)
+      if (!success) options.value.localizationOverFlow(sendParams.value)
       return
     }
 
     const afterSendParams = executeFunctions(
-      options.beforeSendData,
+      options.value.beforeSendData,
       false,
-      sendParams
+      sendParams.value
     )
     if (isFlase(afterSendParams)) return
     if (!this.validateObject(afterSendParams, 'beforeSendData')) return
 
-    debug('send events', sendParams)
+    debug('send events', sendParams.value)
 
     this.sendBeacon(this.dsn, afterSendParams).then((res: any) => {
-      executeFunctions(options.afterSendData, true, {
+      executeFunctions(options.value.afterSendData, true, {
         ...res,
         params: afterSendParams
       })
@@ -79,7 +91,11 @@ export class SendData {
    * @param e 需要发送的事件信息
    */
   public sendLocal(e: AnyObj) {
-    const afterSendParams = executeFunctions(options.beforeSendData, false, e)
+    const afterSendParams = executeFunctions(
+      options.value.beforeSendData,
+      false,
+      e
+    )
     if (isFlase(afterSendParams)) return
     if (!this.validateObject(afterSendParams, 'beforeSendData')) return
 
@@ -95,9 +111,13 @@ export class SendData {
   public emit(e: AnyObj, flush = false) {
     if (!_support.lineStatus.onLine) return
 
-    if (!flush && !randomBoolean(options.tracesSampleRate)) return
+    if (!flush && !randomBoolean(options.value.tracesSampleRate)) return
 
-    const eventList = executeFunctions(options.beforePushEventList, false, e)
+    const eventList = executeFunctions(
+      options.value.beforePushEventList,
+      false,
+      e
+    )
 
     if (isFlase(eventList)) return
     if (!this.validateObject(eventList, 'beforePushEventList')) return
@@ -131,49 +151,6 @@ export class SendData {
         })
       }
     })
-  }
-  /**
-   * 重组事件列表参数
-   * @param sendEvents 事件列表
-   */
-  private getParams(sendEvents: AnyObj[]) {
-    const time = getTimestamp()
-    return {
-      baseInfo: {
-        ...baseInfo.base,
-        sendTime: time,
-        userUuid: options.userUuid // 这个暂时这样，后面改成响应式就不需要在这覆盖最新值了
-      },
-      eventInfo: map(sendEvents, (e: any) => {
-        e.sendTime = time // 设置发送时间
-
-        // 取消 type 字段
-        // 补充type字段,将click、scroll、change、submit事件作为一类存储
-        // if (['click', 'scroll', 'submit', 'change'].includes(e.eventType)) {
-        //   e.type = 'mix'
-        //   return e
-        // }
-        // if (e.eventType === 'performance') {
-        //   // 将性能进行分类,不同类型的性能数据差异较大,分开存放,资源、页面、请求
-        //   switch (e.eventId) {
-        //     case 'resource':
-        //       e.type = 'resourcePerformance'
-        //       break
-        //     case 'page':
-        //       e.type = 'pagePerformance'
-        //       break
-        //     case 'server':
-        //       e.type = 'serverPerformance'
-        //       break
-        //     default:
-        //       break
-        //   }
-        //   return e
-        // }
-        // e.type = e.eventType // 其他类型type同eventType
-        return e
-      })
-    }
   }
   /**
    * 验证选项的类型 - 只验证是否为 {} []

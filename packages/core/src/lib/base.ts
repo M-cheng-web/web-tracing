@@ -6,6 +6,8 @@ import { getSessionId } from '../utils/session'
 import { options } from './options'
 import { getIPs } from '../utils/getIps'
 import { AnyObj } from '../types'
+import { ref } from '../observer'
+import type { ObserverValue } from '../observer/types'
 
 interface Device {
   clientHeight: number
@@ -27,11 +29,11 @@ interface Base extends Device {
   pageId: string
   sessionId: string
   sdkVersion: string
-  ip?: string
+  ip: string
 }
 
 export class BaseInfo {
-  public base: Base | undefined
+  public base: ObserverValue<Base> | undefined
   public pageId: string
   private sdkUserUuid = ''
   private device: Device | undefined
@@ -72,20 +74,21 @@ export class BaseInfo {
     // 与一般业务上理解的sessionId做区分,此session与业务无关,单纯就是浏览器端和后端直接的联系
     const sessionId = getSessionId()
 
-    this.base = {
+    this.base = ref<Base>({
       ...this.device!,
-      userUuid: options.userUuid,
+      userUuid: options.value.userUuid,
       sdkUserUuid: this.sdkUserUuid,
-      ext: options.ext,
-      appName: options.appName,
-      appCode: options.appCode,
+      ext: options.value.ext,
+      appName: options.value.appName,
+      appCode: options.value.appCode,
       pageId: this.pageId,
       sessionId,
-      sdkVersion: SDK_VERSION
-    }
+      sdkVersion: SDK_VERSION,
+      ip: ''
+    })
 
     getIPs().then((res: any) => {
-      this.base!.ip = res[0]
+      this.base!.value.ip = res[0]
     })
   }
   /**
@@ -97,7 +100,7 @@ export class BaseInfo {
       .then((result: any) => {
         const visitorId = result.visitorId
         this.sdkUserUuid = visitorId
-        options.sdkUserUuid = visitorId
+        options.value.sdkUserUuid = visitorId
       })
   }
 }

@@ -160,12 +160,12 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
  * @param error 错误源信息
  */
 function isIgnoreErrors(error: any): boolean {
-  if (!options.ignoreErrors.length) return false
+  if (!options.value.ignoreErrors.length) return false
   let errMessage = error.errMessage || error.message
   if (!errMessage) return false
   errMessage = String(errMessage)
 
-  return options.ignoreErrors.some(item => {
+  return options.value.ignoreErrors.some(item => {
     if (isRegExp(item)) {
       if ((item as RegExp).test(errMessage)) {
         debug(`ignoreErrors拦截成功 - 截条件:${item} 错误信息:${errMessage}`)
@@ -213,16 +213,18 @@ function emit(errorInfo: any): void {
     triggerTime: getTimestamp()
   }
 
-  options.scopeError ? batchError.pushCacheErrorA(info) : sendData.emit(info)
+  options.value.scopeError
+    ? batchError.pushCacheErrorA(info)
+    : sendData.emit(info)
 }
 
 /**
  * 初始化错误监听
  */
 function initError(): void {
-  if (!options.error.core) return
+  if (!options.value.error.core) return
 
-  if (options.scopeError) {
+  if (options.value.scopeError) {
     initBatchError()
     // 如果开启了检测批量错误 则要挂载卸载事件以防缓存池内的错误丢失
     eventBus.addEvent({

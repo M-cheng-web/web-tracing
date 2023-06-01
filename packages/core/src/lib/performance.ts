@@ -229,11 +229,11 @@ function observeNavigationTiming() {
  * 页面资源加载性能数据
  */
 function observeResource() {
-  if (supported.performance && options.performance.firstResource) {
+  if (supported.performance && options.value.performance.firstResource) {
     observeNavigationTiming()
   }
 
-  if (supported.performance && options.performance.core) {
+  if (supported.performance && options.value.performance.core) {
     traceResourcePerformance(_global.performance)
 
     if (supported.PerformanceObserver) {
@@ -248,7 +248,11 @@ function observeResource() {
 }
 
 function initPerformance() {
-  if (!options.performance.firstResource && !options.performance.core) return
+  if (
+    !options.value.performance.firstResource &&
+    !options.value.performance.core
+  )
+    return
 
   // 初始化方法可能在onload事件之后才执行,此时不会触发load事件了 (例如delayInit)
   // 检查document.readyState属性来判断onload事件是否会被触发

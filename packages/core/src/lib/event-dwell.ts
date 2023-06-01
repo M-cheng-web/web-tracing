@@ -59,7 +59,7 @@ function dwellCollector() {
 }
 
 function initEventDwell() {
-  options.event.unload && dwellCollector()
+  options.value.event.unload && dwellCollector()
 }
 
 export { initEventDwell }

@@ -222,7 +222,7 @@ function extractParamsByPath(list: HTMLElement[] = []) {
 }
 
 function initEvent() {
-  options.event.core && clickCollection()
+  options.value.event.core && clickCollection()
 }
 
 /**

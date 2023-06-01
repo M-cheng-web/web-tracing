@@ -38,7 +38,7 @@ function interceptFetch(): void {
       if (isIgnoreHttp(url)) return
 
       if (status === 200 || status === 304) {
-        if (options.performance.server) {
+        if (options.value.performance.server) {
           handleSendPerformance('server', {
             src: url,
             duration: getTimestamp() - fetchStart,
@@ -46,7 +46,7 @@ function interceptFetch(): void {
             params: method.toUpperCase() === 'POST' ? _options.body : undefined
           })
         }
-      } else if (options.error.server) {
+      } else if (options.value.error.server) {
         handleSendError('server', statusText, {
           src: url,
           responseStatus: status,
@@ -84,7 +84,7 @@ function interceptXHR(): void {
 
           // 请求已完成,且响应已就绪
           if (status === 200 || status === 304) {
-            if (options.performance.server) {
+            if (options.value.performance.server) {
               handleSendPerformance('server', {
                 src: responseURL || _config.src,
                 responseStatus: status,
@@ -92,7 +92,7 @@ function interceptXHR(): void {
                 params: body ? body : undefined
               })
             }
-          } else if (options.error.server) {
+          } else if (options.value.error.server) {
             handleSendError('server', responseText, {
               src: responseURL || _config.src,
               responseStatus: status,
@@ -112,10 +112,10 @@ function interceptXHR(): void {
  * @param url 请求地址
  */
 function isIgnoreHttp(url: string): boolean {
-  if (!options.ignoreRequest.length) return false
+  if (!options.value.ignoreRequest.length) return false
   if (!url) return false
 
-  return options.ignoreRequest.some(item => {
+  return options.value.ignoreRequest.some(item => {
     if (isRegExp(item)) {
       if ((item as RegExp).test(url)) {
         debug(`ignoreRequest拦截成功 - 截条件:${item} 拦截地址:${url}`)
@@ -138,7 +138,7 @@ function isIgnoreHttp(url: string): boolean {
  * 初始化http监控
  */
 function initHttp(): void {
-  if (!options.performance.server && !options.error.server) return
+  if (!options.value.performance.server && !options.value.error.server) return
 
   interceptXHR()
   interceptFetch()

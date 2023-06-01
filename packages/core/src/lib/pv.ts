@@ -15,7 +15,7 @@ let historyLength = _global.history.length
  * 路由Pv采集
  */
 function initPv() {
-  if (!options.pv.core) return
+  if (!options.value.pv.core) return
 
   const referer = document.referrer // 获取是从哪个页面跳转来的
   let lastIsPop = false // 最后一次触发路由变化是否为popState触发
@@ -47,7 +47,7 @@ function initPv() {
     callback: () => {
       debug('pv-hashchange')
       lastIsPop = false
-      if (options.pv.hashtag && !lastIsPop) sendPageView()
+      if (options.value.pv.hashtag && !lastIsPop) sendPageView()
     }
   })
 
@@ -66,7 +66,7 @@ function initPv() {
         if (
           _global.location.href.slice(0, _global.location.href.indexOf('#')) ===
             oldHost &&
-          !options.pv.hashtag
+          !options.value.pv.hashtag
         )
           return
       }

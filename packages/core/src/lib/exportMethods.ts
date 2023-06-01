@@ -18,7 +18,7 @@ import { LocalStorageUtil } from '../utils/localStorage'
  */
 export function beforePushEventList(fun: AnyFun): void {
   if (!validateMethods('beforePushEventList')) return
-  options.beforePushEventList.push(fun)
+  options.value.beforePushEventList.push(fun)
 }
 
 /**
@@ -27,7 +27,7 @@ export function beforePushEventList(fun: AnyFun): void {
  */
 export function beforeSendData(fun: AnyFun): void {
   if (!validateMethods('beforeSendData')) return
-  options.beforeSendData.push(fun)
+  options.value.beforeSendData.push(fun)
 }
 
 /**
@@ -36,7 +36,7 @@ export function beforeSendData(fun: AnyFun): void {
  */
 export function afterSendData(fun: AnyFun): void {
   if (!validateMethods('afterSendData')) return
-  options.afterSendData.push(fun)
+  options.value.afterSendData.push(fun)
 }
 
 /**
@@ -45,7 +45,7 @@ export function afterSendData(fun: AnyFun): void {
  */
 export function setUserUuid(id: string): void {
   if (!validateMethods('setUserUuid')) return
-  options.userUuid = id
+  options.value.userUuid = id
 }
 
 /**
@@ -53,7 +53,7 @@ export function setUserUuid(id: string): void {
  */
 export function getUserUuid(): string | void {
   if (!validateMethods('getUserUuid')) return
-  return options.userUuid
+  return options.value.userUuid
 }
 
 /**
@@ -62,7 +62,7 @@ export function getUserUuid(): string | void {
 export function getSDKUserUuid(): string | void {
   if (!validateMethods('getSDKUserUuid')) return
 
-  return options.sdkUserUuid
+  return options.value.sdkUserUuid
 }
 
 /**
@@ -73,7 +73,7 @@ export function getBaseInfo(): object | void {
 
   return {
     ..._support.baseInfo.base,
-    userUuid: options.userUuid
+    userUuid: options.value.userUuid
   }
 }
 
@@ -167,7 +167,7 @@ export function intersectionDisconnect(): void {
  * 手动发送本地数据
  */
 export function sendLocal(): void {
-  if (!validateMethods('sendData') && !options.localization) return
+  if (!validateMethods('sendData') && !options.value.localization) return
   const localItem = LocalStorageUtil.getItem(SDK_LOCAL_KEY)
   if (localItem) {
     sendData.sendLocal(localItem)
@@ -180,6 +180,7 @@ export function sendLocal(): void {
  * @param overFlowFun 回调函数
  */
 export function setLocalizationOverFlow(overFlowFun: VoidFun): void {
-  if (!validateMethods('localizationOverFlow') && !options.localization) return
-  options.localizationOverFlow = overFlowFun
+  if (!validateMethods('localizationOverFlow') && !options.value.localization)
+    return
+  options.value.localizationOverFlow = overFlowFun
 }

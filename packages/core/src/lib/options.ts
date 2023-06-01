@@ -3,10 +3,11 @@ import { typeofAny, deepAssign } from '../utils'
 import { isEmpty } from '../utils/is'
 import { _support } from '../utils/global'
 import { logError } from '../utils/debug'
+import { ref } from '../observer'
+import type { ObserverValue } from '../observer/types'
 
 /**
  * 管理全局的参数
- * 后续会做成响应式
  */
 export class Options implements InternalOptions {
   dsn = '' // 上报地址
@@ -313,7 +314,7 @@ function validateOptionArray(
   return pass
 }
 
-export let options: InternalOptions
+export let options: ObserverValue<InternalOptions>
 
 /**
  * 初始化参数
@@ -325,7 +326,7 @@ export function initOptions(initOptions: InitOptions): boolean {
   if (!_validateMustFill(initOptions) || !_validateInitOption(initOptions))
     return false
 
-  options = new Options(initOptions)
+  options = ref(new Options(initOptions))
   _support.options = options
   return true
 }
