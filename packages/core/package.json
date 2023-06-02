@@ -17,7 +17,14 @@
   "dependencies": {
     "@web-tracing/types": "workspace:*",
     "@web-tracing/utils": "workspace:*",
-    "ua-parser-js": "2.0.0-alpha.1"
+    "ua-parser-js": "2.0.0-alpha.1",
+    "@types/pako": "^2.0.0",
+    "pako": "^2.1.0",
+    "js-base64": "^3.7.5",
+    "rrweb": "2.0.0-alpha.4"
+  },
+  "devDependencies": {
+    "@types/ua-parser-js": "^0.7.36"
   },
   "keywords": [
     "埋点",
@@ -42,8 +49,5 @@
   "bugs": {
     "url": "https://github.com/FastUse/morehook/issues"
   },
-  "unpkg": "./dist/index.iife.min.js",
-  "devDependencies": {
-    "@types/ua-parser-js": "^0.7.36"
-  }
+  "unpkg": "./dist/index.iife.min.js"
 }
