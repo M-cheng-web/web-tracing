@@ -73,6 +73,7 @@ importers:
     specifiers:
       '@web-tracing/core': workspace:*
       '@web-tracing/utils': workspace:*
+      '@web-tracing/vue2': workspace:*
       element-ui: ^2.15.13
       eslint: ^8.23.1
       eslint-config-prettier: ^8.5.0
@@ -92,6 +93,7 @@ importers:
     dependencies:
       '@web-tracing/core': link:../../packages/core
       '@web-tracing/utils': link:../../packages/utils
+      '@web-tracing/vue2': link:../../packages/vue2
       element-ui: 2.15.13_vue@2.6.10
       sass: 1.62.1
       sass-loader: 13.3.1_sass@1.62.1

@@ -19,6 +19,7 @@ import { initPerformance } from './src/lib/performance'
 import { initPv } from './src/lib/pv'
 import { initIntersection } from './src/lib/intersectionObserver'
 import { _global } from './src/utils/global'
+import { logError } from './src/utils/debug'
 import { initRecordScreen } from './src/lib/recordscreen'
 import * as exportMethods from './src/lib/exportMethods'
 import './src/observer/index'
@@ -46,6 +47,6 @@ function init(options: InitOptions): void {
   _global.__webTracingInit__ = true
 }
 
-export { init }
+export { init, InitOptions, logError }
 export * from './src/lib/exportMethods'
 export default { init, ...exportMethods }

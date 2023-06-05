@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import { init } from '@web-tracing/core'
+import WebTracing from '@web-tracing/vue2'
 import './assets/global.scss'
 import { setupComponent } from './components/index'
 
@@ -11,7 +11,7 @@ setupComponent()
 
 Vue.use(ElementUI)
 
-init({
+Vue.use(WebTracing, {
   // dsn: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/blog/Annapurna-Ranges-2560x1440.5r9m9t5vg1g0.webp',
   dsn: 'http://1.15.224.10:22/trackweb/tra',
   appName: 'cxh',

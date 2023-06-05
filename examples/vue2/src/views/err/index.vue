@@ -13,6 +13,7 @@
       </el-button>
     </div>
     <div class="err-btns">
+      <!-- 资源的错误加载没有明确字段表示，但会在err模块被监听捕获，所以要在管理端筛选 -->
       <div class="scope">
         <el-button type="danger" plain @click="showImg = true">
           加载错误图片
