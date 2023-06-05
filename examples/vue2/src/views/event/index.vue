@@ -7,13 +7,12 @@
     sdfasd
   >
     <div
-      style="border: 1px solid red"
+      style="border: 1px solid red; height: 100px"
       data-warden-test="test"
       data-warden-title="titletitle"
       data-warden-bing="bing"
       data-warden-event-id="ddd"
     >
-      <!-- <img src="../../public/face.jpg" alt="" /> -->
       <div class="asd">asdasdasd</div>
     </div>
     <div data-warden-id="我是ID">
@@ -25,11 +24,7 @@
 <script>
 export default {
   name: 'app.vue',
-  created() {
-    console.log('this.$trace', this.$trace)
-  },
   mounted() {
-    // console.log('bun', this.$refs.bun);
     // console.log('bun', this.$refs.bun.hasChildNodes());
   },
   methods: {}
@@ -44,5 +39,6 @@ export default {
 }
 .asd {
   border: 1px solid rgb(71, 1, 236);
+  height: 50px;
 }
 </style>
