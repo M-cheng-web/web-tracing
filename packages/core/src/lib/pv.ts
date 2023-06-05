@@ -27,7 +27,6 @@ function initPv() {
   eventBus.addEvent({
     type: EVENTTYPES.HISTORYPUSHSTATE,
     callback: () => {
-      debug('pv-pushState')
       lastIsPop = false
       sendPageView({ actions: 'navigation' })
     }
@@ -36,7 +35,6 @@ function initPv() {
   eventBus.addEvent({
     type: EVENTTYPES.HISTORYREPLACESTATE,
     callback: () => {
-      debug('pv-replaceState')
       lastIsPop = false
       sendPageView({ actions: 'navigation' })
     }
@@ -45,7 +43,6 @@ function initPv() {
   eventBus.addEvent({
     type: EVENTTYPES.HASHCHANGE,
     callback: () => {
-      debug('pv-hashchange')
       lastIsPop = false
       if (options.value.pv.hashtag && !lastIsPop) sendPageView()
     }
