@@ -1,11 +1,19 @@
 <template>
-  <div class="home">123</div>
+  <div class="home"></div>
 </template>
 
 <script>
 export default {
   data() {
     return {}
+  },
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath)
+    }
   }
 }
 </script>

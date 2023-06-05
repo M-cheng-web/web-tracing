@@ -1,8 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import { init } from '@web-tracing/core'
+import './assets/global.scss'
+import { setupComponent } from './components/index'
+
+setupComponent()
+
+Vue.use(ElementUI)
 
 init({
   // dsn: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/blog/Annapurna-Ranges-2560x1440.5r9m9t5vg1g0.webp',
@@ -36,8 +43,8 @@ init({
     // return false
     return data
   },
-  afterSendData(data) {
-    console.log('afterSendData-data', data)
+  afterSendData() {
+    // console.log('afterSendData-data', data)
   }
 })
 
