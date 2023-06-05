@@ -7,7 +7,6 @@ import Vue from 'vue'
 export function setupComponent() {
   const modulesFiles = import.meta.globEager('./*.vue')
 
-  console.log('modulesFiles', modulesFiles)
   for (const path in modulesFiles) {
     const componentName = modulesFiles[path].default.name
     Vue.component(componentName, modulesFiles[path].default)

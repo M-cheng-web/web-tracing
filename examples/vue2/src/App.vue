@@ -12,6 +12,9 @@
 <script>
 import { dynamicRouterMap } from './router/router.dynamic'
 
+// 视频资源地址
+// https://blog.csdn.net/qq_17497931/article/details/80824328
+
 export default {
   data() {
     return {
@@ -40,6 +43,9 @@ export default {
   }
   .right-body {
     flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 20px;
   }
 }
 </style>

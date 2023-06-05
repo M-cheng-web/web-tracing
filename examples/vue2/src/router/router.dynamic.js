@@ -26,7 +26,7 @@ export const dynamicRouterMap = [
     name: 'Event',
     component: () => import('@/views/event/index.vue'),
     meta: {
-      title: '监控 - 事件',
+      title: '监控 - 点击事件',
       icon: 'el-icon-setting'
     }
   },

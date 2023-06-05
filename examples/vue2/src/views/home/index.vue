@@ -1,5 +1,5 @@
 <template>
-  <div class="home"></div>
+  <div class="home">我是首页</div>
 </template>
 
 <script>
@@ -7,14 +7,7 @@ export default {
   data() {
     return {}
   },
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
-    }
-  }
+  methods: {}
 }
 </script>
 
