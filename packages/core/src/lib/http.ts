@@ -29,9 +29,9 @@ function interceptFetch(): void {
     callback: (
       reqUrl: string,
       _options: Partial<Request> = {},
-      res: Response
+      res: Response,
+      fetchStart: number
     ) => {
-      const fetchStart = getTimestamp()
       const { method = 'GET' } = _options
       const { url, status, statusText } = res
 
@@ -41,7 +41,7 @@ function interceptFetch(): void {
         if (options.value.performance.server) {
           handleSendPerformance('server', {
             src: url,
-            duration: getTimestamp() - fetchStart,
+            duration: getTimestamp() - fetchStart, // 这里注定等于0  要改下
             responseStatus: status,
             params: method.toUpperCase() === 'POST' ? _options.body : undefined
           })
@@ -78,7 +78,8 @@ function interceptXHR(): void {
       // readyState发生改变时触发,也就是请求状态改变时
       // readyState 会依次变为 2,3,4 也就是会触发三次这里
       on(that, EVENTTYPES.READYSTATECHANGE, function () {
-        const { readyState, status, responseURL, responseText } = that
+        const { readyState, status, responseURL, responseText, statusText } =
+          that
         if (readyState === 4) {
           if (isIgnoreHttp(responseURL || _config.src)) return
 
@@ -93,7 +94,7 @@ function interceptXHR(): void {
               })
             }
           } else if (options.value.error.server) {
-            handleSendError('server', responseText, {
+            handleSendError('server', statusText || responseText, {
               src: responseURL || _config.src,
               responseStatus: status,
               params: body ? body : undefined

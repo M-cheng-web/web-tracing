@@ -1,6 +1,6 @@
 import type { VoidFun } from '../types'
 import { _global } from '../utils/global'
-import { on, replaceAop, throttle, isValidKey } from '../utils'
+import { on, replaceAop, throttle, isValidKey, getTimestamp } from '../utils'
 import { EVENTTYPES } from '../common'
 import { eventBus } from './eventBus'
 
@@ -189,8 +189,9 @@ function replaceFetch(type: EVENTTYPES): void {
   if (!('fetch' in _global)) return
   replaceAop(_global, 'fetch', originalFetch => {
     return function (this: any, ...args: any[]): void {
+      const fetchStart = getTimestamp()
       return originalFetch.apply(_global, args).then((res: any) => {
-        eventBus.runEvent(type, ...args, res)
+        eventBus.runEvent(type, ...args, res, fetchStart)
       })
     }
   })

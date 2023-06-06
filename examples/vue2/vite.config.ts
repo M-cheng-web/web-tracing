@@ -4,6 +4,12 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [createVuePlugin()],
+  server: {
+    https: false,
+    host: '0.0.0.0',
+    port: 6656,
+    proxy: {}
+  },
   resolve: {
     alias: [
       {

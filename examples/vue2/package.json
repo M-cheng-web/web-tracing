@@ -12,6 +12,7 @@
     "@web-tracing/core": "workspace:*",
     "@web-tracing/utils": "workspace:*",
     "@web-tracing/vue2": "workspace:*",
+    "axios": "^1.4.0",
     "element-ui": "^2.15.13",
     "sass": "^1.62.1",
     "sass-loader": "^13.3.1",
