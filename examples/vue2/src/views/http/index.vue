@@ -7,6 +7,10 @@
       <el-button type="danger" plain @click="onClickAxiosError">
         axios异常请求
       </el-button>
+      <div>
+        axios的错误请求需要手动加上
+        cache，否则错误会暴露导致错误模块会监听到此错误，从而造成错误的重复
+      </div>
     </div>
     <div class="group">
       <el-button type="primary" plain @click="onClickXhr">
@@ -34,83 +38,67 @@ export default {
   name: 'app.vue',
   methods: {
     onClickAxios() {
-      axios.get('/reportData/123')
+      axios.get('/getList').then(res => {
+        console.log('axios-res', res)
+      })
     },
     onClickAxiosError() {
-      axios.post('http://localhost:13132/blackAccountCustScanCaseStatus', {
-        body: { id: 11 }
-      })
+      axios
+        .get('/getList2')
+        .then(res => {
+          console.log('axios-res', res)
+        })
+        .catch(err => {
+          console.log('axios-err', err)
+        })
     },
     onClickXhr() {
       const xhr = new XMLHttpRequest()
-      xhr.open('get', '/normal')
+      xhr.open('get', '/getList')
       xhr.setRequestHeader('content-type', 'application/json')
       xhr.send()
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-          // console.log('请求成功', xhr.responseText.slice(0, 10))
+          console.log('xhr-res', xhr.responseText)
         }
       }
     },
     onClickXhrError() {
       const xhr = new XMLHttpRequest()
-      xhr.open('post', '/api/order')
+      xhr.open('get', '/getList2')
       xhr.setRequestHeader('content-type', 'application/json')
       xhr.send()
       xhr.onreadystatechange = function () {
-        //
+        if (xhr.readyState === 4) {
+          console.log('xhr-res', xhr.responseText)
+        }
       }
     },
     onClickFetch() {
-      // fetch('/api/order', {
-      //   method: 'post',
-      //   body: JSON.stringify({ id: 123 })
-      // })
-      fetch(`/index.html?t=${Date.now()}`, {
+      fetch('/setList', {
         method: 'POST',
         body: JSON.stringify({ test: '测试请求体' }),
-        mode: 'cors',
         headers: {
           'Content-Type': 'application/json'
         }
       })
         .then(res => res)
-        .then(() => {
-          // console.log('res----res', res)
+        .then(res => {
+          console.log('featch-res', res)
         })
-
-      // fetch('/normal/post', {
-      //   method: 'POST',
-      //   body: JSON.stringify({ test: '测试请求体' }),
-      //   mode: 'cors',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // })
-      //   .then(res => res.text())
-      //   .then(res => {
-      //     console.log('res----res', res)
-      //   })
-      // .catch(err => console.log('err----err', err))
     },
     onClickFetchError() {
-      fetch('/exception/post', {
+      fetch('/setList2', {
         method: 'POST',
         body: JSON.stringify({ test: '测试请求体' }),
-        mode: 'cors',
         headers: {
           'Content-Type': 'application/json'
         }
       })
-        .then(res => res.text())
-        .then(
-          res => {
-            console.log('res', res)
-          },
-          err => {
-            console.log('err', err)
-          }
-        )
+        .then(res => res)
+        .then(res => {
+          console.log('featch-res', res)
+        })
     }
   }
 }
