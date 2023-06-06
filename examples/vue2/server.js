@@ -36,6 +36,12 @@ app.post('/setList', (req, res) => {
     meaage: '设置成功'
   })
 })
+app.post('/trackweb', (req, res) => {
+  res.send({
+    code: 200,
+    meaage: '设置成功'
+  })
+})
 
 app.listen(3351, () => {
   console.log('Server is running at http://localhost:3351')

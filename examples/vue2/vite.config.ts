@@ -8,7 +8,11 @@ export default defineConfig({
     https: false,
     host: '0.0.0.0',
     port: 6656,
+    cors: true,
     proxy: {
+      '/trackweb': {
+        target: 'http://localhost:3351'
+      },
       '/getList': {
         target: 'http://localhost:3351/',
         changeOrigin: false, //  target是域名的话，需要这个参数，

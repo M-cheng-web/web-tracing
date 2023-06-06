@@ -12,8 +12,8 @@ setupComponent()
 Vue.use(ElementUI)
 
 Vue.use(WebTracing, {
-  // dsn: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/blog/Annapurna-Ranges-2560x1440.5r9m9t5vg1g0.webp',
-  dsn: 'http://1.15.224.10:22/trackweb/tra',
+  dsn: '/trackweb',
+  // dsn: 'http://localhost:3351/trackweb',
   appName: 'cxh',
   debug: true,
   pv: false,
