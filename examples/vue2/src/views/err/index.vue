@@ -105,10 +105,33 @@
         异步触发无限错误
       </el-button>
     </div>
+
+    <br />
+    <div>------------- 查看错误 -------------</div>
+    <el-button type="primary" @click="getAllTracingList">
+      获取最新采集数据
+    </el-button>
+    <c-table
+      :data="tracingInfo.data"
+      tableHeight="400"
+      :config="tracingInfo.table.config"
+      :pagination="tracingInfo.pagination"
+    >
+      <template v-slot:index="{ scope }">
+        {{ `${scope.index + 1}` }}
+      </template>
+      <template v-slot:sendTime="{ scope }">
+        {{ `${formatDate(scope.row.sendTime)}` }}
+      </template>
+      <template v-slot:triggerTime="{ scope }">
+        {{ `${formatDate(scope.row.triggerTime)}` }}
+      </template>
+    </c-table>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import { traceError } from '@web-tracing/core'
 
 export default {
@@ -116,7 +139,30 @@ export default {
     return {
       showImg: false,
       showAudio: false,
-      showVideo: false
+      showVideo: false,
+      tracingInfo: {
+        data: [],
+        table: {
+          config: [
+            { label: '序号', prop: 'index', width: '50', isTemplate: true },
+            { label: '事件ID', prop: 'eventId' },
+            { label: '事件类型', prop: 'eventType', width: '100' },
+            { label: '当前页面URL', prop: 'url', width: '200' },
+            { label: '发送时间', prop: 'sendTime', isTemplate: true },
+            { label: '事件发生时间', prop: 'triggerTime', isTemplate: true },
+            { label: '错误信息', prop: 'errMessage' },
+            { label: '完整错误信息', prop: 'errStack' },
+            { label: '崔武行', prop: 'line' },
+            { label: '错误列', prop: 'col' },
+            { label: '参数', prop: 'params' }
+          ]
+        },
+        pagination: {
+          page: 1,
+          pageSize: 5,
+          total: 0
+        }
+      }
     }
   },
   methods: {
@@ -178,6 +224,15 @@ export default {
       setInterval(() => {
         document.getElementById('codeErr').click()
       }, 200)
+    },
+
+    // ------- 查看错误 -------
+    getAllTracingList() {
+      axios
+        .get('/getAllTracingList', { params: { eventType: 'error' } })
+        .then(res => {
+          this.tracingInfo.data = res.data.data
+        })
     }
   }
 }
