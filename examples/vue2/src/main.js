@@ -16,7 +16,7 @@ Vue.use(WebTracing, {
   // dsn: 'http://localhost:3351/trackweb',
   appName: 'cxh',
   debug: true,
-  pv: false,
+  pv: true,
   performance: true,
   error: true,
   event: true,
