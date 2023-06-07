@@ -10,6 +10,12 @@ export default defineConfig({
     port: 6656,
     cors: true,
     proxy: {
+      '/getBaseInfo': {
+        target: 'http://localhost:3351'
+      },
+      '/getAllTracingList': {
+        target: 'http://localhost:3351'
+      },
       '/trackweb': {
         target: 'http://localhost:3351'
       },

@@ -3,7 +3,7 @@ const app = express()
 // import { join } from 'path'
 // import { readFile } from 'fs'
 import pkg from 'body-parser'
-// import { json as _json } from 'co-body'
+import coBody from 'co-body'
 
 const { json, urlencoded } = pkg
 
@@ -36,11 +36,57 @@ app.post('/setList', (req, res) => {
     meaage: '设置成功'
   })
 })
-app.post('/trackweb', (req, res) => {
+
+const allTracingList = []
+let baseInfo = {}
+app.get('/getBaseInfo', (req, res) => {
   res.send({
     code: 200,
-    meaage: '设置成功'
+    data: baseInfo
   })
+})
+app.get('/getAllTracingList', (req, res) => {
+  res.send({
+    code: 200,
+    data: allTracingList
+  })
+})
+app.post('/trackweb', async (req, res) => {
+  try {
+    const data = await coBody.json(req)
+    if (!data) return
+    allTracingList.push(...data.eventInfo)
+    baseInfo = data.baseInfo
+
+    let length = Object.keys(req.body).length
+    // tracingList.push(req)
+    if (length) {
+      // tracingList.push(req.body);
+    } else {
+      // 使用 web beacon 上报数据
+      // let data = await coBody.json(req);
+      // if (!data) return;
+      // if (data.type == 'performance') {
+      //   performanceList.push(data);
+      // } else if (data.type == 'recordScreen') {
+      //   recordScreenList.push(data);
+      // } else if (data.type == 'whiteScreen') {
+      //   whiteScreenList.push(data);
+      // } else {
+      //   errorList.push(data);
+      // }
+    }
+    res.send({
+      code: 200,
+      meaage: '上报成功！'
+    })
+  } catch (err) {
+    res.send({
+      code: 203,
+      meaage: '上报失败！',
+      err
+    })
+  }
 })
 
 app.listen(3351, () => {
