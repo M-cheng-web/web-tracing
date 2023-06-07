@@ -1,10 +1,3 @@
-/**
- * index 入口文件应该只负责以下几个功能
- * 1. 调用初始化方法（入参的转换交给内部函数）
- * 2. 暴露一系列方法（主动上报方法等等）
- * 3. 兼容 vue2 和 vue3 的定制化api暴露
- * 4. 要对入参有校验
- */
 import type { InitOptions } from './src/types'
 import { initReplace } from './src/lib/replace'
 import { initOptions } from './src/lib/options'
