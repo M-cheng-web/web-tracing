@@ -115,7 +115,6 @@
       :data="tracingInfo.data"
       tableHeight="400"
       :config="tracingInfo.table.config"
-      :pagination="tracingInfo.pagination"
     >
       <template v-slot:index="{ scope }">
         {{ `${scope.index + 1}` }}
@@ -152,15 +151,10 @@ export default {
             { label: '事件发生时间', prop: 'triggerTime', isTemplate: true },
             { label: '错误信息', prop: 'errMessage' },
             { label: '完整错误信息', prop: 'errStack' },
-            { label: '崔武行', prop: 'line' },
+            { label: '错误行', prop: 'line' },
             { label: '错误列', prop: 'col' },
             { label: '参数', prop: 'params' }
           ]
-        },
-        pagination: {
-          page: 1,
-          pageSize: 5,
-          total: 0
         }
       }
     }
