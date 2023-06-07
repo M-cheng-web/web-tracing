@@ -10,8 +10,23 @@
       <el-button type="danger" plain @click="performanceAddScriptError">
         插入错误Script
       </el-button>
-      <div>
+      <div class="group">
         tip: 加载错误的资源会产生两个事件【1.资源本身的加载情况 2.报错情况】
+      </div>
+      <div class="group">
+        tip: sdk监听资源加载情况采用的是【 PerformanceObserver >
+        MutationObserver 】的降级策略
+        <br />
+        通过PerformanceObserver拿不到资源是否加载成功，但其加载失败会在控制台报错，所以能被错误监听模块捕获
+        <br />
+        如果只想从资源监听模块获取是否加载成功，可通过以下四个属性是否等于0来判断，但因为各种情况它们是不准确的，
+        <br />
+        仅供参考【duration，responseEnd，transferSize，decodedBodySize】
+      </div>
+      <div>
+        MutationObserver
+        的情况下，因为能拿到具体dom，可以通过监听dom的error事件来判断是否失败，当失败的情况下会给出
+        responseStatus = 'error' 字段来表示
       </div>
     </div>
     <el-button class="group" type="primary" plain @click="performanceAddLink">
