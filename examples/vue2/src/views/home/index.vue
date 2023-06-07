@@ -100,11 +100,6 @@ export default {
     }
   },
   mounted() {
-    // setTimeout(() => {
-    //   axios.get('/getAllTracingList').then(res => {
-    //     console.log('res', res.data.data)
-    //   })
-    // }, 3000)
     this.getBaseInfo()
   },
   methods: {
@@ -114,15 +109,11 @@ export default {
       })
     },
     getAllTracingList() {
-      axios.get('/getAllTracingList').then(res => {
-        const data = res.data.data.reverse()
-        let pvList = []
-        if (data && data.length) {
-          pvList = data.filter(item => item.eventType === 'pv')
-        }
-
-        this.pvConfig.data = pvList
-      })
+      axios
+        .get('/getAllTracingList', { params: { eventType: 'pv' } })
+        .then(res => {
+          this.pvConfig.data = res.data.data
+        })
     },
     showBaseInfo() {
       if (this.baseInfo) {

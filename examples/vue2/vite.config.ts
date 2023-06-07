@@ -10,15 +10,6 @@ export default defineConfig({
     port: 6656,
     cors: true,
     proxy: {
-      '/getBaseInfo': {
-        target: 'http://localhost:3351'
-      },
-      '/getAllTracingList': {
-        target: 'http://localhost:3351'
-      },
-      '/trackweb': {
-        target: 'http://localhost:3351'
-      },
       '/getList': {
         target: 'http://localhost:3351/',
         changeOrigin: false, //  target是域名的话，需要这个参数，
@@ -28,6 +19,15 @@ export default defineConfig({
         target: 'http://localhost:3351/',
         changeOrigin: false, //  target是域名的话，需要这个参数，
         secure: false //  设置支持https协议的代理,
+      },
+      '/getBaseInfo': {
+        target: 'http://localhost:3351'
+      },
+      '/getAllTracingList': {
+        target: 'http://localhost:3351'
+      },
+      '/trackweb': {
+        target: 'http://localhost:3351'
       }
     }
   },

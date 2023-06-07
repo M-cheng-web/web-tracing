@@ -39,6 +39,18 @@ app.post('/setList', (req, res) => {
 
 const allTracingList = []
 let baseInfo = {}
+
+// 所有的 eventType
+// export enum SEDNEVENTTYPES {
+//   PV = 'pv', // 路由
+//   ERROR = 'error', // 错误
+//   PERFORMANCE = 'performance', // 资源
+//   CLICK = 'click', // 点击
+//   DWELL = 'dwell', // 页面卸载
+//   CUSTOM = 'custom', // 手动触发事件
+//   INTERSECTION = 'intersection' // 曝光采集
+// }
+
 app.get('/getBaseInfo', (req, res) => {
   res.send({
     code: 200,
@@ -46,10 +58,19 @@ app.get('/getBaseInfo', (req, res) => {
   })
 })
 app.get('/getAllTracingList', (req, res) => {
-  res.send({
-    code: 200,
-    data: allTracingList
-  })
+  const eventType = req.query.eventType
+  if (eventType) {
+    const data = allTracingList.reverse()
+    res.send({
+      code: 200,
+      data: data.filter(item => item.eventType === eventType)
+    })
+  } else {
+    res.send({
+      code: 200,
+      data: allTracingList
+    })
+  }
 })
 app.post('/trackweb', async (req, res) => {
   try {
