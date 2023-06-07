@@ -1,7 +1,9 @@
 <template>
   <div class="err">
     <div class="err-btns">
-      <el-button type="danger" plain @click="codeError">代码错误</el-button>
+      <el-button id="codeErr" type="danger" plain @click="codeError">
+        代码错误
+      </el-button>
       <el-button type="danger" plain @click="promiseError">
         Promise-错误
       </el-button>
@@ -39,6 +41,69 @@
         ></video>
         <!-- https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4 -->
       </div>
+    </div>
+
+    <div>------------- 批量错误 -------------</div>
+    <div style="margin-bottom: 20px">
+      tip: 开启了批量错误【scopeError:
+      true】会导致所有错误有2s延迟，针对批量错误还会有20s的轮询
+    </div>
+    <div style="margin-bottom: 20px">
+      判断是否为批量错误:
+      <br />
+      1. 先把所有错误都放入 a栈
+      <br />
+      2. 每次发生错误后防抖 2s查 a栈是否有批量错误(批量错误:
+      errMessage、errType相同且发生个数大于等于5)
+      <br />
+      <div style="padding-left: 20px">
+        1. 如果为批量错误则合并这些错误并加入[时间区间参数、发生个数参数]后放入
+        b栈
+      </div>
+      <br />
+      <div style="padding-left: 20px">2. 不为批量错误则发送这些错误</div>
+      <br />
+      3. 每次推入错误到b栈后延迟 20s查 b栈并发送这些错误
+      <br />
+      4. 在这个过程中，如果用户关闭了网页，会统一把 a栈、b栈内的数据发送
+      <br />
+      5.
+      在这个过程中，a栈每满50个错误也会强制触发a栈和b栈的错误处理（处理结果为直接发送批量错误）
+    </div>
+    <div>
+      <el-button type="danger" plain @click="batchErrorA(10)">
+        立即触发代码错误-10条
+      </el-button>
+      <el-button type="danger" plain @click="batchErrorA(100)">
+        立即触发代码错误-100条
+      </el-button>
+      <br />
+      <br />
+      <el-button type="danger" plain @click="batchErrorAT(20)">
+        异步触发代码错误-20条
+      </el-button>
+      <el-button type="danger" plain @click="batchErrorAT(100)">
+        异步触发代码错误-100条
+      </el-button>
+      <br />
+      <br />
+      <el-button type="danger" plain @click="batchErrorB(10)">
+        立即触发[reject-10条 + 代码错误-10条 + console.error-10条]
+      </el-button>
+      <br />
+      <el-button type="danger" plain @click="batchErrorB(20)">
+        立即触发[reject-20条 + 代码错误-20条 + console.error-20条]
+      </el-button>
+      <br />
+      <br />
+      <el-button type="danger" plain @click="batchErrorC(10)">
+        异步触发[reject-10条 + 代码错误-10条 + console.error-10条]
+      </el-button>
+      <br />
+      <br />
+      <el-button type="danger" plain @click="batchErrorD()">
+        异步触发无限错误
+      </el-button>
     </div>
   </div>
 </template>
@@ -80,6 +145,39 @@ export default {
           id: '12121'
         }
       })
+    },
+
+    // ------- 批量错误 -------
+    batchErrorA(num) {
+      for (let x = 1; x <= num; x++) {
+        document.getElementById('codeErr').click()
+      }
+    },
+    batchErrorAT(num) {
+      for (let x = 1; x <= num; x++) {
+        setTimeout(() => {
+          document.getElementById('codeErr').click()
+        }, x * 300)
+      }
+    },
+    batchErrorB(num) {
+      for (let x = 1; x <= num; x++) {
+        document.getElementById('codeErr').click()
+        this.consoleErr()
+        this.promiseError()
+      }
+    },
+    batchErrorC(num) {
+      for (let x = 1; x <= num; x++) {
+        setTimeout(() => {
+          this.batchErrorB(1)
+        }, x * 300)
+      }
+    },
+    batchErrorD() {
+      setInterval(() => {
+        document.getElementById('codeErr').click()
+      }, 200)
     }
   }
 }
