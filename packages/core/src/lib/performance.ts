@@ -90,9 +90,9 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
         ...value,
         eventType: SEDNEVENTTYPES.PERFORMANCE,
         eventId: 'resource',
-        src: entry.name,
+        requestUrl: entry.name,
         triggerTime: getTimestamp(),
-        url: getLocationHref()
+        triggerPageUrl: getLocationHref()
       })
     )
   })
@@ -120,10 +120,10 @@ function observeSourceInsert() {
               normalizeObj({
                 eventType: SEDNEVENTTYPES.PERFORMANCE,
                 eventId: 'resource',
-                src: node.src || node.href,
+                requestUrl: node.src || node.href,
                 duration: getTimestamp() - startTime,
                 triggerTime: getTimestamp(),
-                url: getLocationHref()
+                triggerPageUrl: getLocationHref()
               })
             )
           })
@@ -132,11 +132,11 @@ function observeSourceInsert() {
               normalizeObj({
                 eventType: SEDNEVENTTYPES.PERFORMANCE,
                 eventId: 'resource',
-                src: node.src || node.href,
+                requestUrl: node.src || node.href,
                 responseStatus: 'error',
                 duration: getTimestamp() - startTime,
                 triggerTime: getTimestamp(),
-                url: getLocationHref()
+                triggerPageUrl: getLocationHref()
               })
             )
           })
@@ -212,7 +212,7 @@ function observeNavigationTiming() {
 
   times.unloadTime = t.unloadEventEnd - t.unloadEventStart // 上一个页面的卸载耗时
 
-  const resultInfo = { ...times, url: getLocationHref() }
+  const resultInfo = { ...times, triggerPageUrl: getLocationHref() }
 
   _support.firstScreen = { ...resultInfo }
 
@@ -276,7 +276,7 @@ function initPerformance() {
 function handleSendPerformance(eventId: string, options: AnyObj) {
   const record = {
     triggerTime: getTimestamp(),
-    url: getLocationHref(),
+    triggerPageUrl: getLocationHref(),
     eventId,
     eventType: SEDNEVENTTYPES.PERFORMANCE,
     ...options
