@@ -122,7 +122,7 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
     // 为1代表节点是元素节点
     if (target.nodeType === 1) {
       const result = {
-        elementName: target.nodeName,
+        initiatorType: target.nodeName.toLowerCase(),
         eventId: SENDID.RESOURCE,
         requestUrl: ''
       }
