@@ -80,6 +80,7 @@ export default {
               isTemplate: true,
               width: '180'
             },
+            { label: '错误信息', prop: 'errMessage' },
             { label: '事件参数', prop: 'params' }
           ]
         }
@@ -154,9 +155,17 @@ export default {
       axios
         .get('/getAllTracingList', { params: { eventType: 'performance' } })
         .then(res => {
-          const data = res.data.data.filter(item => item.eventId === 'server')
-          console.log('data', data)
-          this.tracingInfo.data = data
+          const successList = res.data.data.filter(
+            item => item.eventId === 'server'
+          )
+          axios
+            .get('/getAllTracingList', { params: { eventType: 'error' } })
+            .then(res => {
+              const errorList = res.data.data.filter(
+                item => item.eventId === 'server'
+              )
+              this.tracingInfo.data = errorList.concat(successList)
+            })
         })
     }
   }
