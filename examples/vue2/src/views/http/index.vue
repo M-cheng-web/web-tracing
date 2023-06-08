@@ -28,6 +28,26 @@
         Fetch异常请求
       </el-button>
     </div>
+
+    <br />
+    <el-button type="primary" @click="getAllTracingList">
+      获取最新采集数据
+    </el-button>
+    <c-table
+      :data="tracingInfo.data"
+      tableHeight="400"
+      :config="tracingInfo.table.config"
+    >
+      <template v-slot:index="{ scope }">
+        {{ `${scope.index + 1}` }}
+      </template>
+      <template v-slot:sendTime="{ scope }">
+        {{ `${formatDate(scope.row.sendTime)}` }}
+      </template>
+      <template v-slot:triggerTime="{ scope }">
+        {{ `${formatDate(scope.row.triggerTime)}` }}
+      </template>
+    </c-table>
   </div>
 </template>
 
@@ -35,7 +55,28 @@
 import axios from 'axios'
 
 export default {
-  name: 'app.vue',
+  data() {
+    return {
+      tracingInfo: {
+        data: [],
+        table: {
+          config: [
+            { label: '序号', prop: 'index', width: '50', isTemplate: true },
+            { label: '事件ID', prop: 'eventId' },
+            { label: '事件类型', prop: 'eventType', width: '100' },
+            { label: '事件名', prop: 'title' },
+            { label: '当前页面URL', prop: 'url', width: '200' },
+            { label: '发送时间', prop: 'sendTime', isTemplate: true },
+            { label: '事件发生时间', prop: 'triggerTime', isTemplate: true },
+            { label: '事件参数', prop: 'params' },
+            { label: '被点击元素的层级', prop: 'elementPath' },
+            { label: '被点击元素与屏幕左边距离', prop: 'x' },
+            { label: '被点击元素与屏幕上边距离', prop: 'y' }
+          ]
+        }
+      }
+    }
+  },
   methods: {
     onClickAxios() {
       axios.get('/getList').then(res => {
@@ -98,6 +139,13 @@ export default {
         .then(res => res)
         .then(res => {
           console.log('featch-res', res)
+        })
+    },
+    getAllTracingList() {
+      axios
+        .get('/getAllTracingList', { params: { eventType: 'performance' } })
+        .then(res => {
+          this.tracingInfo.data = res.data.data
         })
     }
   }
