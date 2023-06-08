@@ -63,6 +63,7 @@ nr docs
 + event模块 url 改名为 triggerPageUrl - 改文档的时候注意
 + event-dwell模块 url 改名为 triggerPageUrl - 改文档的时候注意
 + pv模块 url 改名为 triggerPageUrl - 改文档的时候注意
++ sdk内部所有主动方法都改为只传 options 一个参数，但所有的属性优先级是低于内部定义的
 
 ### 二期未完成功能
 + 为 vue3 提供一系列个性化hooks
