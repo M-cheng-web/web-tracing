@@ -111,25 +111,16 @@ function sendPageView(option: AnyObj = {}) {
  * @param options 自定义配置信息
  */
 function handleSendPageView(options: AnyObj = {}) {
-  const {
-    triggerPageUrl = getLocationHref(),
-    referer = oldURL,
-    actions = '',
-    params
-  } = options
-  // 如果option.title为空,则等待框架处理document.title,延迟17ms
-  // 为什么是17ms?  一秒60Hz是基准,平均1Hz是17毫秒,只要出来了页面那就有 document.title
   setTimeout(
     () => {
       sendData.emit({
+        ...options,
         eventType: SEDNEVENTTYPES.PV,
         eventId: baseInfo.pageId,
-        triggerPageUrl,
-        referer,
-        params,
+        triggerPageUrl: getLocationHref(),
+        triggerTime: getTimestamp(),
         title: options.title || document.title,
-        action: actions,
-        triggerTime: getTimestamp()
+        referer: oldURL
       })
     },
     options.title ? 0 : 17
