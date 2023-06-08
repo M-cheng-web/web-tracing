@@ -7,7 +7,7 @@ import { options } from './options'
 class DwellRequestTemplate {
   eventId = '' // 事件ID
   eventType = '' // 事件类型
-  url = '' // 当前页面URL
+  triggerPageUrl = '' // 当前页面URL
   referer = '' // 上级页面URL
   entryTime = -1 // 加载完成时间
   triggerTime = -1 // 卸载时间
@@ -41,7 +41,7 @@ function dwellCollector() {
     type: EVENTTYPES.BEFOREUNLOAD,
     callback: () => {
       _config.eventId = uuid()
-      _config.url = getLocationHref() // 当前页面 url
+      _config.triggerPageUrl = getLocationHref() // 当前页面 url
       _config.referer = document.referrer // 上级页面 url(从哪个页面跳过来的就是上级页面)
       _config.triggerTime = getTimestamp() // 卸载时间
       _config.millisecond = getTimestamp() - _config.entryTime // 停留多久
