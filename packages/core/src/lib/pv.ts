@@ -92,7 +92,7 @@ function sendPageView(option: AnyObj = {}) {
       sendData.emit({
         eventType: SEDNEVENTTYPES.PV,
         eventId: baseInfo.pageId,
-        url: url || getLocationHref(),
+        triggerPageUrl: url || getLocationHref(),
         referer,
         params,
         title: option.title || document.title,
@@ -112,7 +112,7 @@ function sendPageView(option: AnyObj = {}) {
  */
 function handleSendPageView(options: AnyObj = {}) {
   const {
-    url = getLocationHref(),
+    triggerPageUrl = getLocationHref(),
     referer = oldURL,
     actions = '',
     params
@@ -124,7 +124,7 @@ function handleSendPageView(options: AnyObj = {}) {
       sendData.emit({
         eventType: SEDNEVENTTYPES.PV,
         eventId: baseInfo.pageId,
-        url,
+        triggerPageUrl,
         referer,
         params,
         title: options.title || document.title,
