@@ -8,7 +8,7 @@ import { debug } from '../utils/debug'
 import { isRegExp } from '../utils/is'
 
 class RequestTemplate {
-  src = '' // 请求地址
+  requestUrl = '' // 请求地址
   requestMethod = '' // 请求类型 GET POST
   triggerTime = -1 // 请求发生时间
   constructor(config = {}) {
@@ -40,7 +40,7 @@ function interceptFetch(): void {
       if (status === 200 || status === 304) {
         if (options.value.performance.server) {
           handleSendPerformance('server', {
-            src: url,
+            requestUrl: url,
             duration: getTimestamp() - fetchStart, // 这里注定等于0  要改下
             responseStatus: status,
             params: method.toUpperCase() === 'POST' ? _options.body : undefined
@@ -48,7 +48,7 @@ function interceptFetch(): void {
         }
       } else if (options.value.error.server) {
         handleSendError('server', statusText, {
-          src: url,
+          requestUrl: url,
           responseStatus: status,
           params: method.toUpperCase() === 'POST' ? _options.body : undefined
         })
@@ -67,7 +67,7 @@ function interceptXHR(): void {
     type: EVENTTYPES.XHROPEN,
     callback: (method, url) => {
       _config.requestMethod = method
-      _config.src = url
+      _config.requestUrl = url
     }
   })
 
@@ -81,13 +81,13 @@ function interceptXHR(): void {
         const { readyState, status, responseURL, responseText, statusText } =
           that
         if (readyState === 4) {
-          if (isIgnoreHttp(responseURL || _config.src)) return
+          if (isIgnoreHttp(responseURL || _config.requestUrl)) return
 
           // 请求已完成,且响应已就绪
           if (status === 200 || status === 304) {
             if (options.value.performance.server) {
               handleSendPerformance('server', {
-                src: responseURL || _config.src,
+                requestUrl: responseURL || _config.requestUrl,
                 responseStatus: status,
                 duration: getTimestamp() - _config.triggerTime,
                 params: body ? body : undefined
@@ -95,7 +95,7 @@ function interceptXHR(): void {
             }
           } else if (options.value.error.server) {
             handleSendError('server', statusText || responseText, {
-              src: responseURL || _config.src,
+              requestUrl: responseURL || _config.requestUrl,
               responseStatus: status,
               params: body ? body : undefined
             })
