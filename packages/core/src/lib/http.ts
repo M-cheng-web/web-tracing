@@ -1,7 +1,7 @@
 import { on, isValidKey, getTimestamp } from '../utils'
 import { handleSendError } from './err'
 import { eventBus } from './eventBus'
-import { EVENTTYPES } from '../common'
+import { EVENTTYPES, SENDID } from '../common'
 import { options } from './options'
 import { handleSendPerformance } from './performance'
 import { debug } from '../utils/debug'
@@ -47,7 +47,9 @@ function interceptFetch(): void {
           })
         }
       } else if (options.value.error.server) {
-        handleSendError('server', statusText, {
+        handleSendError({
+          eventId: SENDID.SERVER,
+          errMessage: statusText,
           requestUrl: url,
           responseStatus: status,
           params: method.toUpperCase() === 'POST' ? _options.body : undefined
@@ -94,7 +96,9 @@ function interceptXHR(): void {
               })
             }
           } else if (options.value.error.server) {
-            handleSendError('server', statusText || responseText, {
+            handleSendError({
+              eventId: SENDID.SERVER,
+              errMessage: statusText || responseText,
               requestUrl: responseURL || _config.requestUrl,
               responseStatus: status,
               params: body ? body : undefined

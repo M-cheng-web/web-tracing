@@ -278,9 +278,8 @@ function initError(): void {
  * @param message 错误信息
  * @param options 自定义配置信息
  */
-function handleSendError(eventId: string, message: string, options = {}): void {
-  const customErrorRecord = { eventId, errMessage: message, ...options }
-  emit(customErrorRecord)
+function handleSendError(options = {}): void {
+  emit(options)
 }
 
 export { initError, handleSendError }

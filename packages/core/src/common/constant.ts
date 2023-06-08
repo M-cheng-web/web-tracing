@@ -39,6 +39,7 @@ export enum SEDNEVENTTYPES {
 export enum SENDID {
   PAGE = 'page', // 页面
   RESOURCE = 'resource', // 资源
+  SERVER = 'server', // 请求
   CODE = 'code', // code
   REJECT = 'reject', // reject
   CONSOLEERROR = 'console.error' // console.error

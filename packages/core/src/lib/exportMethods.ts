@@ -88,14 +88,12 @@ export function getFirstScreen(): object | void {
 
 /**
  * 主动触发error类型事件
- * @param eventId 事件ID
- * @param message 错误信息
  * @param options 自定义配置信息
  */
-export function traceError(eventId: string, message: string, options = {}) {
+export function traceError(options = {}) {
   if (!validateMethods('traceError')) return
 
-  return handleSendError(eventId, message, options)
+  return handleSendError(options)
 }
 
 /**

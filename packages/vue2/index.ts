@@ -10,7 +10,9 @@ function install(Vue: any, options: InitOptions) {
     const col = position.split(':')[2] // 列
 
     logError(err)
-    traceError(err.name, err.message, {
+    traceError({
+      eventId: err.name,
+      errMessage: err.message,
       line,
       col
     })
