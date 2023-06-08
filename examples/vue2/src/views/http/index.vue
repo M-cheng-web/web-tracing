@@ -63,15 +63,24 @@ export default {
           config: [
             { label: '序号', prop: 'index', width: '50', isTemplate: true },
             { label: '事件ID', prop: 'eventId' },
-            { label: '事件类型', prop: 'eventType', width: '100' },
-            { label: '事件名', prop: 'title' },
-            { label: '当前页面URL', prop: 'url', width: '200' },
-            { label: '发送时间', prop: 'sendTime', isTemplate: true },
-            { label: '事件发生时间', prop: 'triggerTime', isTemplate: true },
-            { label: '事件参数', prop: 'params' },
-            { label: '被点击元素的层级', prop: 'elementPath' },
-            { label: '被点击元素与屏幕左边距离', prop: 'x' },
-            { label: '被点击元素与屏幕上边距离', prop: 'y' }
+            { label: '事件类型', prop: 'eventType' },
+            { label: '请求地址', prop: 'requestUrl', width: '200' },
+            { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
+            { label: '请求返回代码', prop: 'responseStatus' },
+            { label: '请求消耗时间', prop: 'duration' },
+            {
+              label: '发送时间',
+              prop: 'sendTime',
+              isTemplate: true,
+              width: '180'
+            },
+            {
+              label: '事件发生时间',
+              prop: 'triggerTime',
+              isTemplate: true,
+              width: '180'
+            },
+            { label: '事件参数', prop: 'params' }
           ]
         }
       }
@@ -145,7 +154,9 @@ export default {
       axios
         .get('/getAllTracingList', { params: { eventType: 'performance' } })
         .then(res => {
-          this.tracingInfo.data = res.data.data
+          const data = res.data.data.filter(item => item.eventId === 'server')
+          console.log('data', data)
+          this.tracingInfo.data = data
         })
     }
   }
