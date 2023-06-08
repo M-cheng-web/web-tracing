@@ -98,13 +98,12 @@ export function traceError(options = {}) {
 
 /**
  * 主动触发性能事件上报
- * @param eventId 事件ID
  * @param options 自定义配置信息
  */
-export function tracePerformance(eventId: string, options = {}) {
+export function tracePerformance(options = {}) {
   if (!validateMethods('tracePerformance')) return
 
-  return handleSendPerformance(eventId, options)
+  return handleSendPerformance(options)
 }
 
 /**

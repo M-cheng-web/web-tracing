@@ -39,9 +39,10 @@ function interceptFetch(): void {
 
       if (status === 200 || status === 304) {
         if (options.value.performance.server) {
-          handleSendPerformance('server', {
+          handleSendPerformance({
+            eventId: SENDID.SERVER,
             requestUrl: url,
-            duration: getTimestamp() - fetchStart, // 这里注定等于0  要改下
+            duration: getTimestamp() - fetchStart,
             responseStatus: status,
             params: method.toUpperCase() === 'POST' ? _options.body : undefined
           })
@@ -88,7 +89,8 @@ function interceptXHR(): void {
           // 请求已完成,且响应已就绪
           if (status === 200 || status === 304) {
             if (options.value.performance.server) {
-              handleSendPerformance('server', {
+              handleSendPerformance({
+                eventId: SENDID.SERVER,
                 requestUrl: responseURL || _config.requestUrl,
                 responseStatus: status,
                 duration: getTimestamp() - _config.triggerTime,

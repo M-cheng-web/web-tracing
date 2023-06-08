@@ -270,16 +270,14 @@ function initPerformance() {
 
 /**
  * 主动触发性能事件上报
- * @param eventId 事件ID
  * @param options 自定义配置信息
  */
-function handleSendPerformance(eventId: string, options: AnyObj) {
+function handleSendPerformance(options: AnyObj) {
   const record = {
+    ...options,
     triggerTime: getTimestamp(),
     triggerPageUrl: getLocationHref(),
-    eventId,
-    eventType: SEDNEVENTTYPES.PERFORMANCE,
-    ...options
+    eventType: SEDNEVENTTYPES.PERFORMANCE
   }
   sendData.emit(normalizeObj(record))
 }
