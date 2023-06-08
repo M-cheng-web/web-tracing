@@ -1,4 +1,4 @@
-import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
+import { EVENTTYPES, SEDNEVENTTYPES, SENDID } from '../common'
 import { map, filter, getLocationHref, getTimestamp } from '../utils'
 import { _global } from '../utils/global'
 import { sendData } from './sendData'
@@ -12,7 +12,6 @@ import { initBatchError, batchError } from './err-batch'
 import { RecordEventScope } from '../types'
 
 interface ErrorStack {
-  errType: string
   errMessage: string
   errStack: string
 }
@@ -29,7 +28,7 @@ type InstabilityNature = {
  */
 function parseStack(err: Error): ErrorStack {
   const { stack = '', message = '' } = err
-  const result = { errType: 'code', errMessage: message, errStack: stack }
+  const result = { eventId: SENDID.CODE, errMessage: message, errStack: stack }
 
   if (stack) {
     const rChromeCallStack = /^\s*at\s*([^(]+)\s*\((.+?):(\d+):(\d+)\)$/
@@ -45,7 +44,7 @@ function parseStack(err: Error): ErrorStack {
         const chromeErrResult = str.match(rChromeCallStack)
         if (chromeErrResult) {
           return {
-            src: chromeErrResult[2],
+            triggerPageUrl: chromeErrResult[2],
             line: chromeErrResult[3], // 错误发生位置的行数
             col: chromeErrResult[4] // 错误发生位置的列数
           }
@@ -54,7 +53,7 @@ function parseStack(err: Error): ErrorStack {
         const mozlliaErrResult = str.match(rMozlliaCallStack)
         if (mozlliaErrResult) {
           return {
-            src: mozlliaErrResult[2],
+            triggerPageUrl: mozlliaErrResult[2],
             line: mozlliaErrResult[3],
             col: mozlliaErrResult[4]
           }
@@ -82,10 +81,10 @@ function parseError(e: any) {
       return {
         errMessage: message,
         errStack: stack,
-        errType: 'code',
+        eventId: SENDID.CODE,
         line: lineNumber, // 不稳定属性 - 在某些浏览器可能是undefined，被废弃了
         col: columnNumber, // 不稳定属性 - 非标准，有些浏览器可能不支持
-        src: fileName // 不稳定属性 - 非标准，有些浏览器可能不支持
+        triggerPageUrl: fileName // 不稳定属性 - 非标准，有些浏览器可能不支持
       }
     }
     return parseStack(e)
@@ -93,10 +92,11 @@ function parseError(e: any) {
   if (e.message) return parseStack(e)
 
   // reject 错误
-  if (typeof e === 'string') return { errType: 'reject', errMessage: e }
+  if (typeof e === 'string') return { eventId: SENDID.REJECT, errMessage: e }
 
   // console.error 暴露的错误
-  if (isArray(e)) return { errType: 'console.error', errMessage: e.join(';') }
+  if (isArray(e))
+    return { eventId: SENDID.CONSOLEERROR, errMessage: e.join(';') }
 
   return {}
 }
@@ -113,7 +113,7 @@ function isPromiseRejectedResult(
 function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
   // promise reject 错误
   if (isPromiseRejectedResult(event)) {
-    return { eventId: 'code', ...parseError(event.reason) }
+    return { eventId: SENDID.CODE, ...parseError(event.reason) }
   }
 
   // html元素上发生的异常错误
@@ -121,13 +121,17 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
   if (target instanceof HTMLElement) {
     // 为1代表节点是元素节点
     if (target.nodeType === 1) {
-      const result = { eventId: target.nodeName, src: '' }
+      const result = {
+        elementName: target.nodeName,
+        eventId: SENDID.RESOURCE,
+        requestUrl: ''
+      }
       switch (target.nodeName.toLowerCase()) {
         case 'link':
-          result.src = (target as HTMLLinkElement).href
+          result.requestUrl = (target as HTMLLinkElement).href
           break
         default:
-          result.src =
+          result.requestUrl =
             (target as HTMLImageElement).currentSrc ||
             (target as HTMLScriptElement).src
       }
@@ -142,17 +146,17 @@ function parseErrorEvent(event: ErrorEvent | PromiseRejectedResult) {
     e.fileName = e.filename || event.filename
     e.columnNumber = e.colno || event.colno
     e.lineNumber = e.lineno || event.lineno
-    return { eventId: 'code', ...parseError(e) }
+    return { eventId: SENDID.CODE, ...parseError(e) }
   }
 
   // 兜底
   // ie9版本,从全局的event对象中获取错误信息
   return {
-    eventId: 'code',
+    eventId: SENDID.CODE,
     line: (_global as any).event.errorLine,
     col: (_global as any).event.errorCharacter,
     errMessage: (_global as any).event.errorMessage,
-    src: (_global as any).event.errorUrl
+    triggerPageUrl: (_global as any).event.errorUrl
   }
 }
 
@@ -263,7 +267,7 @@ function initError(): void {
     callback: e => {
       const errorInfo = parseError(e)
       if (isIgnoreErrors(errorInfo)) return
-      emit({ eventId: 'code', ...errorInfo })
+      emit({ eventId: SENDID.CODE, ...errorInfo })
     }
   })
 }

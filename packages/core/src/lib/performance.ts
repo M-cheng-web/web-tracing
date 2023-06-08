@@ -1,6 +1,6 @@
 import { sendData } from './sendData'
 import { eventBus } from './eventBus'
-import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
+import { EVENTTYPES, SEDNEVENTTYPES, SENDID } from '../common'
 import { AnyObj } from '../types'
 import {
   on,
@@ -89,7 +89,7 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
       normalizeObj({
         ...value,
         eventType: SEDNEVENTTYPES.PERFORMANCE,
-        eventId: 'resource',
+        eventId: SENDID.RESOURCE,
         requestUrl: entry.name,
         triggerTime: getTimestamp(),
         triggerPageUrl: getLocationHref()
@@ -119,7 +119,7 @@ function observeSourceInsert() {
             sendData.emit(
               normalizeObj({
                 eventType: SEDNEVENTTYPES.PERFORMANCE,
-                eventId: 'resource',
+                eventId: SENDID.RESOURCE,
                 requestUrl: node.src || node.href,
                 duration: getTimestamp() - startTime,
                 triggerTime: getTimestamp(),
@@ -131,7 +131,7 @@ function observeSourceInsert() {
             sendData.emit(
               normalizeObj({
                 eventType: SEDNEVENTTYPES.PERFORMANCE,
-                eventId: 'resource',
+                eventId: SENDID.RESOURCE,
                 requestUrl: node.src || node.href,
                 responseStatus: 'error',
                 duration: getTimestamp() - startTime,
@@ -220,7 +220,7 @@ function observeNavigationTiming() {
     normalizeObj({
       ...resultInfo,
       eventType: SEDNEVENTTYPES.PERFORMANCE,
-      eventId: 'page'
+      eventId: SENDID.PAGE
     })
   )
 }

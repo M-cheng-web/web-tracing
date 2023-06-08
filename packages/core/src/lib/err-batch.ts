@@ -37,7 +37,7 @@ class BatchError {
   proxyAddCacheErrorA() {
     let len = this.cacheErrorA.length
     if (!len) return
-    const arr = groupArray(this.cacheErrorA, 'errMessage', 'errType')
+    const arr = groupArray(this.cacheErrorA, 'errMessage', 'eventId')
     const arrA = arr.filter(item => item.length < MAXLENGTHA)
     const arrB = arr.filter(item => item.length >= MAXLENGTHA)
 
@@ -64,7 +64,7 @@ class BatchError {
   proxyAddCacheErrorB() {
     let len = this.cacheErrorB.length
     if (!len) return
-    const arr = groupArray(this.cacheErrorB, 'errMessage', 'errType')
+    const arr = groupArray(this.cacheErrorB, 'errMessage', 'eventId')
 
     while (len--) {
       this.cacheErrorB.shift()
@@ -92,7 +92,7 @@ class BatchError {
    */
   sendAllCacheError() {
     const errInfoList = this.cacheErrorA.concat(this.cacheErrorB)
-    const arr = groupArray(errInfoList, 'errMessage', 'errType')
+    const arr = groupArray(errInfoList, 'errMessage', 'eventId')
     const arrA = arr.filter(item => item.length < MAXLENGTHA)
     const arrB = arr.filter(item => item.length >= MAXLENGTHA)
 
