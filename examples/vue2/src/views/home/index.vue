@@ -77,7 +77,7 @@ export default {
             { label: '序号', prop: 'index', width: '50', isTemplate: true },
             { label: '事件ID', prop: 'eventId' },
             { label: '事件类型', prop: 'eventType', width: '100' },
-            { label: '当前页面URL', prop: 'url', width: '200' },
+            { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
             { label: '上级页面URL', prop: 'referer', width: '200' },
             { label: '页面标题', prop: 'title' },
             { label: '发送时间', prop: 'sendTime', isTemplate: true },
