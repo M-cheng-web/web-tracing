@@ -227,17 +227,14 @@ function initEvent() {
 
 /**
  * 主动触发事件上报
- * @param eventId 事件ID
- * @param title 事件标题
  * @param options 自定义配置信息
  */
-function handleSendEvent(eventId: string, title: string, options = {}) {
+function handleSendEvent(options = {}) {
   sendData.emit({
-    eventId,
-    title,
+    ...options,
     eventType: SEDNEVENTTYPES.CUSTOM,
     triggerTime: getTimestamp(),
-    ...options
+    triggerPageUrl: getLocationHref()
   })
 }
 
