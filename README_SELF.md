@@ -60,6 +60,7 @@ nr docs
 + performance模块的src url应该改名 (requestUrl triggerPageUrl) - 改文档的时候注意
 + http模块 src 改名为 requestUrl - 改文档的时候注意
 + err模块 url 改名为 triggerPageUrl - 改文档的时候注意
++ event模块 url 改名为 triggerPageUrl - 改文档的时候注意
 
 ### 二期未完成功能
 + 为 vue3 提供一系列个性化hooks

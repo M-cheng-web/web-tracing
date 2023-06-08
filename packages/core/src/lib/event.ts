@@ -9,7 +9,7 @@ class RequestTemplateClick {
   eventId = '' // 事件ID
   eventType = '' // 事件类型
   title = '' // 事件名
-  url = '' // 当前页面URL
+  triggerPageUrl = '' // 当前页面URL
   x = -1 // 被点击元素与屏幕左边距离
   y = -1 // 被点击元素与屏幕上边距离
   params = {} // 事件参数
@@ -58,7 +58,7 @@ function clickCollection() {
       _config.x = left + scrollLeft
       _config.y = top + scrollTop
       _config.triggerTime = getTimestamp() // 点击时间
-      _config.url = getLocationHref() // 当前页面的url
+      _config.triggerPageUrl = getLocationHref() // 当前页面的url
       _config.title = extractTitleByTarget(target) // 获取title属性
       _config.eventId = extractDataByPath(path) // 提取数据事件ID
       _config.params = extractParamsByPath(path) // 提取数据参数
