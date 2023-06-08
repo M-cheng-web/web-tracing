@@ -1,5 +1,14 @@
 <template>
   <div class="pv">
+    <div>
+      <div>action 字段解释</div>
+      <div>
+        navigate - 网页通过点击链接,地址栏输入,表单提交,脚本操作等方式加载
+      </div>
+      <div>reload - 网页通过“重新加载”按钮或者location.reload()方法加载</div>
+      <div>back_forward - 网页通过“前进”或“后退”按钮加载</div>
+      <div>reserved - 任何其他来源的加载</div>
+    </div>
     <br />
     <el-button type="primary" @click="getAllTracingList">
       获取最新采集数据

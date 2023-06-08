@@ -3,50 +3,6 @@
     <el-button type="primary" @click="showBaseInfo">
       查看核心基础信息
     </el-button>
-    <el-button type="primary" @click="getAllTracingList">
-      获取最新采集数据
-    </el-button>
-
-    <div class="content">
-      <div>
-        <div>action 字段解释</div>
-        <div>
-          navigate - 网页通过点击链接,地址栏输入,表单提交,脚本操作等方式加载
-        </div>
-        <div>reload - 网页通过“重新加载”按钮或者location.reload()方法加载</div>
-        <div>back_forward - 网页通过“前进”或“后退”按钮加载</div>
-        <div>reserved - 任何其他来源的加载</div>
-      </div>
-      <c-table
-        :data="pvConfig.data"
-        tableHeight="400"
-        :config="pvConfig.table.config"
-        :pagination="pvConfig.pagination"
-        @pageChange="pageChange"
-      >
-        <template v-slot:index="{ scope }">
-          {{ `${scope.index + 1}` }}
-        </template>
-        <template v-slot:sendTime="{ scope }">
-          {{ `${formatDate(scope.row.sendTime)}` }}
-        </template>
-        <template v-slot:triggerTime="{ scope }">
-          {{ `${formatDate(scope.row.triggerTime)}` }}
-        </template>
-        <!-- <template v-slot:operate="{ scope }">
-          <div class="table-operate">
-            <el-button
-              link
-              type="primary"
-              size="small"
-              @click="handlerMore(scope.row)"
-            >
-              查看
-            </el-button>
-          </div>
-        </template> -->
-      </c-table>
-    </div>
   </div>
 </template>
 
@@ -68,35 +24,7 @@ export default {
   data() {
     return {
       baseInfo: {},
-      tracingList: [],
-
-      pvConfig: {
-        data: [],
-        table: {
-          config: [
-            { label: '序号', prop: 'index', width: '50', isTemplate: true },
-            { label: '事件ID', prop: 'eventId' },
-            { label: '事件类型', prop: 'eventType', width: '100' },
-            { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
-            { label: '上级页面URL', prop: 'referer', width: '200' },
-            { label: '页面标题', prop: 'title' },
-            { label: '发送时间', prop: 'sendTime', isTemplate: true },
-            { label: '事件发生时间', prop: 'triggerTime', isTemplate: true },
-            { label: '页面加载来源', prop: 'action' }
-            // {
-            //   prop: 'operate',
-            //   width: '100',
-            //   label: '操作',
-            //   isTemplate: true
-            // }
-          ]
-        },
-        pagination: {
-          page: 1,
-          pageSize: 5,
-          total: 0
-        }
-      }
+      tracingList: []
     }
   },
   mounted() {
@@ -107,13 +35,6 @@ export default {
       axios.get('/getBaseInfo').then(res => {
         this.baseInfo = res.data.data
       })
-    },
-    getAllTracingList() {
-      axios
-        .get('/getAllTracingList', { params: { eventType: 'pv' } })
-        .then(res => {
-          this.pvConfig.data = res.data.data
-        })
     },
     showBaseInfo() {
       if (this.baseInfo) {
@@ -128,10 +49,6 @@ export default {
           closeOnClickModal: true
         })
       }
-    },
-    pageChange(val) {
-      this.pagination.page = val
-      this.getAllTracingList()
     }
   }
 }
