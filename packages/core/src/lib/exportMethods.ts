@@ -87,7 +87,7 @@ export function getFirstScreen(): object | void {
 }
 
 /**
- * 主动触发error类型事件
+ * 主动触发error事件上报
  * @param options 自定义配置信息
  */
 export function traceError(options = {}) {
@@ -117,7 +117,7 @@ export function traceCustomEvent(options = {}) {
 }
 
 /**
- * 主动触发一条pv事件
+ * 主动触发pv事件上报
  * @param options 自定义配置信息
  */
 export function tracePageView(option = {}) {
