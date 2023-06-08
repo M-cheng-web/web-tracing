@@ -59,6 +59,7 @@ nr docs
 + 将所有 options 变为响应式 - 也就是所有用到了 options 参数时，当动态去改它能实时更新(可能要将所有的变量都变为响应式了) - 也就是支持用户全局动态去改 options - 采用 proxy，如果不兼容则此功能无效
 + performance模块的src url应该改名 (requestUrl triggerPageUrl) - 改文档的时候注意
 + http模块 src 改名为 requestUrl - 改文档的时候注意
++ err模块 url 改名为 triggerPageUrl - 改文档的时候注意
 
 ### 二期未完成功能
 + 为 vue3 提供一系列个性化hooks

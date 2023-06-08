@@ -210,7 +210,7 @@ function emit(errorInfo: any): void {
     eventType: SEDNEVENTTYPES.ERROR,
     recordscreen,
     // recordscreen: zip(getRecordEvent()),
-    url: getLocationHref(),
+    triggerPageUrl: getLocationHref(),
     triggerTime: getTimestamp()
   }
 
