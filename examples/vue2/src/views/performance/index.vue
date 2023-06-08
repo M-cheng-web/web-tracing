@@ -41,12 +41,68 @@
       </el-button>
       <div id="performance-img-div" />
     </div>
+
+    <br />
+    <el-button type="primary" @click="getAllTracingList">
+      获取最新采集数据
+    </el-button>
+    <c-table
+      :data="tracingInfo.data"
+      tableHeight="400"
+      :config="tracingInfo.table.config"
+    >
+      <template v-slot:index="{ scope }">
+        {{ `${scope.index + 1}` }}
+      </template>
+      <template v-slot:sendTime="{ scope }">
+        {{ `${formatDate(scope.row.sendTime)}` }}
+      </template>
+      <template v-slot:triggerTime="{ scope }">
+        {{ `${formatDate(scope.row.triggerTime)}` }}
+      </template>
+    </c-table>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'bar',
+  data() {
+    return {
+      tracingInfo: {
+        data: [],
+        table: {
+          config: [
+            { label: '序号', prop: 'index', width: '50', isTemplate: true },
+            { label: '事件ID', prop: 'eventId' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '请求地址', prop: 'requestUrl', width: '200' },
+            { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
+            // { label: '是否错误状态', prop: 'responseStatus' },
+            { label: '发送时间', prop: 'sendTime', isTemplate: true },
+            { label: '事件触发时间', prop: 'triggerTime', isTemplate: true },
+            { label: '请求方式', prop: 'initiatorType' },
+            { label: '传输的数据包大小', prop: 'transferSize' },
+            { label: '数据包压缩后大小', prop: 'encodedBodySize' },
+            { label: '数据包解压后大小', prop: 'decodedBodySize' },
+            { label: '加载时长', prop: 'duration' },
+            { label: '重定向开始时间', prop: 'redirectStart' },
+            { label: '重定向结束时间', prop: 'redirectEnd' },
+            { label: '开始时间', prop: 'startTime' },
+            { label: '开始发起请求时间', prop: 'fetchStart' },
+            { label: 'DNS开始解析时间', prop: 'domainLookupStart' },
+            { label: 'DNS结束解析时间', prop: 'domainLookupEnd' },
+            { label: '开始建立连接时间', prop: 'connectStart' },
+            { label: '连接建立完成时间', prop: 'connectEnd' },
+            { label: '开始发送数据包时间', prop: 'requestStart' },
+            { label: '开始接收数据包时间', prop: 'responseStart' },
+            { label: '数据包接收完成时间', prop: 'responseEnd' }
+          ]
+        }
+      }
+    }
+  },
   methods: {
     performanceAddScript() {
       const script = document.createElement('script')
@@ -81,6 +137,24 @@ export default {
       div.style =
         'width: 100px; height: 100px; overflow: hidden; margin-top: 20px'
       div.appendChild(img)
+    },
+    getAllTracingList() {
+      // 资源和请求，每触发一次就要发一个事件，当错误时，应该再发个error事件，或者其他？等想法方案统一一下
+      axios
+        .get('/getAllTracingList', { params: { eventType: 'performance' } })
+        .then(res => {
+          const successList = res.data.data.filter(
+            item => item.eventId === 'resource'
+          )
+          axios
+            .get('/getAllTracingList', { params: { eventType: 'error' } })
+            .then(res => {
+              const errorList = res.data.data.filter(
+                item => item.eventId === 'resource'
+              )
+              this.tracingInfo.data = errorList.concat(successList)
+            })
+        })
     }
   }
 }
