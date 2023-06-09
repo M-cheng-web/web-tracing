@@ -3,28 +3,29 @@
     <el-button type="primary" @click="showBaseInfo">
       查看核心基础信息
     </el-button>
+    <div>
+      所有的事件类型:
+      <div v-for="(value, key) in sendEventType">{{ `${key}: ${value}` }}</div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 
-// 所有的 eventType
-// export enum SEDNEVENTTYPES {
-//   PV = 'pv', // 路由
-//   ERROR = 'error', // 错误
-//   PERFORMANCE = 'performance', // 资源
-//   CLICK = 'click', // 点击
-//   DWELL = 'dwell', // 页面卸载
-//   CUSTOM = 'custom', // 手动触发事件
-//   INTERSECTION = 'intersection' // 曝光采集
-// }
-
 export default {
   data() {
     return {
       baseInfo: {},
-      tracingList: []
+      tracingList: [],
+      sendEventType: {
+        pv: '路由',
+        error: '错误',
+        performance: '资源',
+        click: '点击',
+        dwell: '页面卸载',
+        intersection: '曝光采集'
+      }
     }
   },
   mounted() {

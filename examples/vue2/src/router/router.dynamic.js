@@ -56,5 +56,14 @@ export const dynamicRouterMap = [
       title: '监控 - 页面跳转',
       icon: 'el-icon-setting'
     }
+  },
+  {
+    path: '/intersection',
+    name: 'intersection',
+    component: () => import('@/views/intersection/index.vue'),
+    meta: {
+      title: '监控 - 曝光采集',
+      icon: 'el-icon-setting'
+    }
   }
 ]
