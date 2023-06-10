@@ -1,5 +1,5 @@
 import type { ElementOrList, TargetGather, AnyObj } from '../types'
-import { unKnowToArray, getTimestamp } from '../utils'
+import { unKnowToArray, getTimestamp, getLocationHref } from '../utils'
 import { sendData } from './sendData'
 import { _support } from '../utils/global'
 import { SEDNEVENTTYPES } from '../common'
@@ -68,6 +68,7 @@ class Intersection {
   private sendEvent(targetObj: TargetMap) {
     sendData.emit({
       eventType: SEDNEVENTTYPES.INTERSECTION,
+      triggerPageUrl: getLocationHref(),
       ...targetObj
     })
   }
