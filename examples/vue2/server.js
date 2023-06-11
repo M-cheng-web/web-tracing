@@ -79,6 +79,16 @@ app.post('/trackweb', async (req, res) => {
     allTracingList.push(...data.eventInfo)
     baseInfo = data.baseInfo
 
+    // 这里要实验其他的发送方式
+    // 1. sendBeacon
+    // 2. img
+    // 3. 自拦截的方式
+
+    // 后面对所有的数据格式再回测一下
+
+    // 后面对vue3的兼容做一些，提炼一些hook方便实用
+    // 后面再做vue3的测试框架
+
     let length = Object.keys(req.body).length
     // tracingList.push(req)
     if (length) {
