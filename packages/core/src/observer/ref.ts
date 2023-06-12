@@ -2,6 +2,10 @@ import { Dep } from './dep'
 import { ObserverValue, AnyFun } from './types'
 import { OBSERVERSIGNBOARD } from './config'
 
+function isRegExp(value: any) {
+  return Object.prototype.toString.call(value) === `[object RegExp]`
+}
+
 class Observer<T> {
   target: ObserverValue<T>
   constructor(target: ObserverValue<T>) {
@@ -31,7 +35,7 @@ function getHandlers(
       // console.log(`读取属性：${key}`)
       const value = Reflect.get(target, key, receiver)
       getCallBack && getCallBack()
-      if (typeof value === 'object' && value !== null) {
+      if (typeof value === 'object' && value !== null && !isRegExp(value)) {
         let proxy = proxyCache.get(value)
         if (!proxy) {
           proxy = new Proxy(value, handlers)
