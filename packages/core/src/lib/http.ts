@@ -69,7 +69,7 @@ function interceptXHR(): void {
   eventBus.addEvent({
     type: EVENTTYPES.XHROPEN,
     callback: (method, url) => {
-      _config.requestMethod = method
+      _config.requestMethod = String(method).toLocaleLowerCase()
       _config.requestUrl = url
     }
   })
@@ -84,14 +84,19 @@ function interceptXHR(): void {
         const { readyState, status, responseURL, responseText, statusText } =
           that
         if (readyState === 4) {
-          if (isIgnoreHttp(responseURL || _config.requestUrl)) return
+          console.log('that', that)
+          const headers = that.getAllResponseHeaders()
+          console.log('headers', headers)
+          const requestUrl = responseURL || _config.requestUrl
+          if (isIgnoreHttp(requestUrl)) return
 
           // 请求已完成,且响应已就绪
           if (status === 200 || status === 304) {
             if (options.value.performance.server) {
               handleSendPerformance({
                 eventId: SENDID.SERVER,
-                requestUrl: responseURL || _config.requestUrl,
+                requestUrl,
+                requestMethod: _config.requestMethod,
                 responseStatus: status,
                 duration: getTimestamp() - _config.triggerTime,
                 params: body ? body : undefined
@@ -101,7 +106,8 @@ function interceptXHR(): void {
             handleSendError({
               eventId: SENDID.SERVER,
               errMessage: statusText || responseText,
-              requestUrl: responseURL || _config.requestUrl,
+              requestUrl,
+              requestMethod: _config.requestMethod,
               responseStatus: status,
               params: body ? body : undefined
             })

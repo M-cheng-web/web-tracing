@@ -65,6 +65,7 @@ export default {
             { label: '事件ID', prop: 'eventId' },
             { label: '事件类型', prop: 'eventType' },
             { label: '请求地址', prop: 'requestUrl', width: '200' },
+            { label: '请求方式', prop: 'requestMethod', width: '200' },
             { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
             { label: '请求返回代码', prop: 'responseStatus' },
             { label: '请求消耗时间', prop: 'duration' },
@@ -89,9 +90,15 @@ export default {
   },
   methods: {
     onClickAxios() {
-      axios.get('/getList').then(res => {
-        console.log('axios-res', res)
-      })
+      axios
+        .get('/getList', {
+          headers: {
+            WebTracing: 'no-tracing'
+          }
+        })
+        .then(res => {
+          console.log('axios-res', res)
+        })
     },
     onClickAxiosError() {
       axios
