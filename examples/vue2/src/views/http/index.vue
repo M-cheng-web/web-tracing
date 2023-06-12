@@ -2,10 +2,16 @@
   <div>
     <div class="group">
       <el-button type="primary" plain @click="onClickAxios">
-        axios正常请求
+        axios正常请求-get
+      </el-button>
+      <el-button type="primary" plain @click="onClickAxiosPost">
+        axios正常请求-post
       </el-button>
       <el-button type="danger" plain @click="onClickAxiosError">
-        axios异常请求
+        axios异常请求-get
+      </el-button>
+      <el-button type="danger" plain @click="onClickAxiosPostError">
+        axios异常请求-post
       </el-button>
       <div>
         axios的错误请求需要手动加上
@@ -13,19 +19,31 @@
       </div>
     </div>
     <div class="group">
-      <el-button type="primary" plain @click="onClickXhr">
-        xhr正常请求
+      <el-button type="primary" plain @click="onClickXhrGet">
+        xhr正常请求-get
       </el-button>
-      <el-button type="danger" plain @click="onClickXhrError">
-        xhr异常请求
+      <el-button type="primary" plain @click="onClickXhrPost">
+        xhr正常请求-post
+      </el-button>
+      <el-button type="danger" plain @click="onClickXhrGetError">
+        xhr异常请求-get
+      </el-button>
+      <el-button type="danger" plain @click="onClickXhrPostError">
+        xhr异常请求-post
       </el-button>
     </div>
     <div class="group">
-      <el-button type="primary" plain @click="onClickFetch">
-        Fetch正常请求
+      <el-button type="primary" plain @click="onClickFetchGet">
+        Fetch正常请求-get
       </el-button>
-      <el-button type="danger" plain @click="onClickFetchError">
-        Fetch异常请求
+      <el-button type="primary" plain @click="onClickFetchPost">
+        Fetch正常请求-post
+      </el-button>
+      <el-button type="danger" plain @click="onClickFetchGetError">
+        Fetch异常请求-get
+      </el-button>
+      <el-button type="danger" plain @click="onClickFetchPostError">
+        Fetch异常请求-post
       </el-button>
     </div>
 
@@ -90,13 +108,18 @@ export default {
   },
   methods: {
     onClickAxios() {
-      axios.get('/getList').then(res => {
+      axios.get('/getList', { params: { test: 123 } }).then(res => {
+        console.log('axios-res', res)
+      })
+    },
+    onClickAxiosPost() {
+      axios.post('/setList', { body: { test: 123 } }).then(res => {
         console.log('axios-res', res)
       })
     },
     onClickAxiosError() {
       axios
-        .get('/getList2')
+        .get('/getList2', { params: { test: 123 } })
         .then(res => {
           console.log('axios-res', res)
         })
@@ -104,9 +127,43 @@ export default {
           console.log('axios-err', err)
         })
     },
-    onClickXhr() {
+    onClickAxiosPostError() {
+      axios
+        .post('/setList2', { test: 123 })
+        .then(res => {
+          console.log('axios-res', res)
+        })
+        .catch(err => {
+          console.log('axios-err', err)
+        })
+    },
+    onClickXhrGet() {
       const xhr = new XMLHttpRequest()
-      xhr.open('get', '/getList')
+      const params = { username: 'example', password: '123456' }
+      xhr.open('get', '/getList?test=123')
+      xhr.setRequestHeader('content-type', 'application/json')
+      xhr.send(JSON.stringify(params))
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          console.log('xhr-res', xhr.responseText)
+        }
+      }
+    },
+    onClickXhrPost() {
+      const xhr = new XMLHttpRequest()
+      const params = { username: 'example', password: '123456' }
+      xhr.open('post', '/setList')
+      xhr.setRequestHeader('content-type', 'application/json')
+      xhr.send(JSON.stringify(params))
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          console.log('xhr-res', xhr.responseText)
+        }
+      }
+    },
+    onClickXhrGetError() {
+      const xhr = new XMLHttpRequest()
+      xhr.open('get', '/getList2?test=123')
       xhr.setRequestHeader('content-type', 'application/json')
       xhr.send()
       xhr.onreadystatechange = function () {
@@ -115,18 +172,31 @@ export default {
         }
       }
     },
-    onClickXhrError() {
+    onClickXhrPostError() {
+      const params = { username: 'example', password: '123456' }
       const xhr = new XMLHttpRequest()
-      xhr.open('get', '/getList2')
+      xhr.open('post', '/setList2')
       xhr.setRequestHeader('content-type', 'application/json')
-      xhr.send()
+      xhr.send(JSON.stringify(params))
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           console.log('xhr-res', xhr.responseText)
         }
       }
     },
-    onClickFetch() {
+    onClickFetchGet() {
+      fetch(`/getList?test=123`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => res)
+        .then(res => {
+          console.log('featch-res', res)
+        })
+    },
+    onClickFetchPost() {
       fetch('/setList', {
         method: 'POST',
         body: JSON.stringify({ test: '测试请求体' }),
@@ -139,7 +209,23 @@ export default {
           console.log('featch-res', res)
         })
     },
-    onClickFetchError() {
+    onClickFetchGetError() {
+      const params = new URLSearchParams()
+      params.append('page', '1')
+      params.append('limit', '10')
+
+      fetch(`/getList2?${params}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => res)
+        .then(res => {
+          console.log('featch-res', res)
+        })
+    },
+    onClickFetchPostError() {
       fetch('/setList2', {
         method: 'POST',
         body: JSON.stringify({ test: '测试请求体' }),
