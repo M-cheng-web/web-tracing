@@ -4,7 +4,7 @@ import { eventBus } from './eventBus'
 import { EVENTTYPES, SENDID } from '../common'
 import { options } from './options'
 import { handleSendPerformance } from './performance'
-import { debug } from '../utils/debug'
+// import { debug } from '../utils/debug'
 import { isRegExp } from '../utils/is'
 
 class RequestTemplate {
@@ -128,14 +128,14 @@ function isIgnoreHttp(url: string): boolean {
   return options.value.ignoreRequest.some(item => {
     if (isRegExp(item)) {
       if ((item as RegExp).test(url)) {
-        debug(`ignoreRequest拦截成功 - 截条件:${item} 拦截地址:${url}`)
+        // debug(`ignoreRequest拦截成功 - 截条件:${item} 拦截地址:${url}`)
         return true
       } else {
         return false
       }
     } else {
       if (url === item) {
-        debug(`ignoreRequest拦截成功 - 截条件:${item} 拦截地址:${url}`)
+        // debug(`ignoreRequest拦截成功 - 截条件:${item} 拦截地址:${url}`)
         return true
       } else {
         return false
