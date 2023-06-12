@@ -6,6 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import WebTracing from '@web-tracing/vue2'
 import './assets/global.scss'
 import { setupComponent } from './components/index'
+import axios from 'axios'
 
 setupComponent()
 
@@ -30,18 +31,29 @@ Vue.use(WebTracing, {
   // tracesSampleRate: 0.5,
 
   // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
-  // ignoreRequest: ['111', /normal/],
+  ignoreRequest: [/getAllTracingList/],
 
   beforePushEventList(data) {
-    // console.log('beforePushEventList-data', data)
-    return data
+    if (Array.isArray(data)) {
+      const _data = data.filter(item => {
+        return !(
+          item.eventId === 'server' && item.requestUrl.includes('trackweb')
+        )
+      })
+      return _data
+    } else {
+      if (data.eventId === 'server' && data.requestUrl.includes('trackweb')) {
+        return false
+      }
+      return data
+    }
+    // return data
   },
   beforeSendData(data) {
-    // console.log('beforeSendData-data', data)
-    // return { xx: 2123 }
     // 返回false代表sdk不再发送
-    // return false
-    return data
+    axios.post('/trackweb', data)
+    return false
+    // return data
   },
   afterSendData() {
     // console.log('afterSendData-data', data)

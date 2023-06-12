@@ -74,11 +74,15 @@ app.get('/getAllTracingList', (req, res) => {
 })
 app.post('/trackweb', async (req, res) => {
   try {
-    const data = await coBody.json(req)
-    if (!data) return
-    allTracingList.push(...data.eventInfo)
-    baseInfo = data.baseInfo
-
+    let length = Object.keys(req.body).length
+    if (length) {
+      allTracingList.push(...req.body.eventInfo)
+    } else {
+      const data = await coBody.json(req)
+      if (!data) return
+      allTracingList.push(...data.eventInfo)
+      baseInfo = data.baseInfo
+    }
     // 这里要实验其他的发送方式
     // 1. sendBeacon
     // 2. img
