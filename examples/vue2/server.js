@@ -60,7 +60,7 @@ app.get('/getBaseInfo', (req, res) => {
 app.get('/getAllTracingList', (req, res) => {
   const eventType = req.query.eventType
   if (eventType) {
-    const data = allTracingList.reverse()
+    const data = JSON.parse(JSON.stringify(allTracingList)).reverse()
     res.send({
       code: 200,
       data: data.filter(item => item.eventType === eventType)
@@ -89,27 +89,30 @@ app.post('/trackweb', async (req, res) => {
     // 后面对vue3的兼容做一些，提炼一些hook方便实用
     // 后面再做vue3的测试框架
 
-    let length = Object.keys(req.body).length
-    // tracingList.push(req)
-    if (length) {
-      // tracingList.push(req.body);
-    } else {
-      // 使用 web beacon 上报数据
-      // let data = await coBody.json(req);
-      // if (!data) return;
-      // if (data.type == 'performance') {
-      //   performanceList.push(data);
-      // } else if (data.type == 'recordScreen') {
-      //   recordScreenList.push(data);
-      // } else if (data.type == 'whiteScreen') {
-      //   whiteScreenList.push(data);
-      // } else {
-      //   errorList.push(data);
-      // }
-    }
     res.send({
       code: 200,
       meaage: '上报成功！'
+    })
+  } catch (err) {
+    res.send({
+      code: 203,
+      meaage: '上报失败！',
+      err
+    })
+  }
+})
+
+// 图片上传的方式
+app.get('/trackweb', async (req, res) => {
+  try {
+    let data = req.query.v
+    if (!data) return
+    data = JSON.parse(data)
+    allTracingList.push(...data.eventInfo)
+    baseInfo = data.baseInfo
+    res.send({
+      code: 200,
+      data: '上报成功'
     })
   } catch (err) {
     res.send({
