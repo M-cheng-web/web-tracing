@@ -84,9 +84,6 @@ function interceptXHR(): void {
         const { readyState, status, responseURL, responseText, statusText } =
           that
         if (readyState === 4) {
-          console.log('that', that)
-          const headers = that.getAllResponseHeaders()
-          console.log('headers', headers)
           const requestUrl = responseURL || _config.requestUrl
           if (isIgnoreHttp(requestUrl)) return
 

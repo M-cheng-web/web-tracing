@@ -90,15 +90,9 @@ export default {
   },
   methods: {
     onClickAxios() {
-      axios
-        .get('/getList', {
-          headers: {
-            WebTracing: 'no-tracing'
-          }
-        })
-        .then(res => {
-          console.log('axios-res', res)
-        })
+      axios.get('/getList').then(res => {
+        console.log('axios-res', res)
+      })
     },
     onClickAxiosError() {
       axios
