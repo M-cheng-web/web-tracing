@@ -20,7 +20,7 @@
         <el-button type="danger" plain @click="showImg = true">
           加载错误图片
         </el-button>
-        <img v-if="showImg" src="https://m9t5vg1g0.webp" />
+        <img v-if="showImg" src="https://www.baidu.com/as.webp" />
         <!-- src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/Annapurna-Ranges-2560x1440.tq4fx9hd9gg.webp" -->
       </div>
       <div class="scope">
@@ -153,6 +153,7 @@ export default {
             { label: '完整错误信息', prop: 'errStack' },
             { label: '错误行', prop: 'line' },
             { label: '错误列', prop: 'col' },
+            { label: '资源请求链接', prop: 'requestUrl' },
             { label: '参数', prop: 'params' }
           ]
         }
