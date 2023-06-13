@@ -37,7 +37,7 @@ app.post('/setList', (req, res) => {
   })
 })
 
-const allTracingList = []
+let allTracingList = []
 let baseInfo = {}
 
 // 所有的 eventType
@@ -55,6 +55,13 @@ app.get('/getBaseInfo', (req, res) => {
   res.send({
     code: 200,
     data: baseInfo
+  })
+})
+app.post('/cleanTracingList', (req, res) => {
+  allTracingList = []
+  res.send({
+    code: 200,
+    meaage: '清除成功！'
   })
 })
 app.get('/getAllTracingList', (req, res) => {

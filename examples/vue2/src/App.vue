@@ -6,11 +6,15 @@
     <div class="right-body">
       <router-view></router-view>
     </div>
+    <el-button class="clean" type="primary" @click="cleanTracingList">
+      清除所有事件信息
+    </el-button>
   </div>
 </template>
 
 <script>
 import { dynamicRouterMap } from './router/router.dynamic'
+import axios from 'axios'
 
 // 视频资源地址
 // https://blog.csdn.net/qq_17497931/article/details/80824328
@@ -25,6 +29,9 @@ export default {
     this.items = dynamicRouterMap.filter(item => item.path !== '/')
   },
   methods: {
+    cleanTracingList() {
+      axios.post('/cleanTracingList')
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath)
     },
@@ -46,6 +53,13 @@ export default {
     height: 100vh;
     overflow-y: auto;
     padding: 20px;
+  }
+  .clean {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 220px;
+    height: 40px;
   }
 }
 </style>
