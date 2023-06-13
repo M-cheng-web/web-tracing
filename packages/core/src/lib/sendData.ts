@@ -124,7 +124,7 @@ export class SendData {
 
     this.events = this.events.concat(eventList)
     refreshSession()
-    debug('receive event, waiting to send', e)
+    // debug('receive event, waiting to send', e)
     if (this.timeoutID) clearTimeout(this.timeoutID)
 
     // 满足最大记录数,立即发送,否则定时发送

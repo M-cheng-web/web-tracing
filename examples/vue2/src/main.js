@@ -34,26 +34,26 @@ Vue.use(WebTracing, {
   ignoreRequest: [/getAllTracingList/, /cleanTracingList/],
 
   beforePushEventList(data) {
-    if (Array.isArray(data)) {
-      const _data = data.filter(item => {
-        return !(
-          item.eventId === 'server' && item.requestUrl.includes('trackweb')
-        )
-      })
-      return _data
-    } else {
-      if (data.eventId === 'server' && data.requestUrl.includes('trackweb')) {
-        return false
-      }
-      return data
-    }
-    // return data
+    // if (Array.isArray(data)) {
+    //   const _data = data.filter(item => {
+    //     return !(
+    //       item.eventId === 'server' && item.requestUrl.includes('trackweb')
+    //     )
+    //   })
+    //   return _data
+    // } else {
+    //   if (data.eventId === 'server' && data.requestUrl.includes('trackweb')) {
+    //     return false
+    //   }
+    //   return data
+    // }
+    return data
   },
   beforeSendData(data) {
     // 返回false代表sdk不再发送
-    axios.post('/trackweb', data)
-    return false
-    // return data
+    // axios.post('/trackweb', data)
+    // return false
+    return data
   },
   afterSendData() {
     // console.log('afterSendData-data', data)
