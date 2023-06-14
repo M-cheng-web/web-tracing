@@ -47,7 +47,10 @@ export default {
         this.$alert(displayInfo, '核心基础信息', {
           dangerouslyUseHTMLString: true,
           showConfirmButton: false,
-          closeOnClickModal: true
+          closeOnClickModal: true,
+          callback: () => {
+            // action
+          }
         })
       }
     }

@@ -30,7 +30,9 @@ export default {
   },
   methods: {
     cleanTracingList() {
-      axios.post('/cleanTracingList')
+      axios.post('/cleanTracingList').then(() => {
+        this.$message.success('清除成功')
+      })
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath)

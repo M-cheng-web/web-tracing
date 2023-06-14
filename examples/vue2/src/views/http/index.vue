@@ -1,10 +1,17 @@
 <template>
   <div>
-    <div class="group">
-      <el-button type="primary" plain @click="onClickAxios">
+    <div class="mb">
+      <el-alert type="warning" title="注意" :closable="false" class="mb">
+        <template slot>
+          <div>
+            axios的错误请求需要手动加上cache，否则错误会暴露导致错误模块会监听到此错误，从而造成错误的重复
+          </div>
+        </template>
+      </el-alert>
+      <el-button type="success" plain @click="onClickAxios">
         axios正常请求-get
       </el-button>
-      <el-button type="primary" plain @click="onClickAxiosPost">
+      <el-button type="success" plain @click="onClickAxiosPost">
         axios正常请求-post
       </el-button>
       <el-button type="danger" plain @click="onClickAxiosError">
@@ -13,16 +20,12 @@
       <el-button type="danger" plain @click="onClickAxiosPostError">
         axios异常请求-post
       </el-button>
-      <div>
-        axios的错误请求需要手动加上
-        cache，否则错误会暴露导致错误模块会监听到此错误，从而造成错误的重复
-      </div>
     </div>
-    <div class="group">
-      <el-button type="primary" plain @click="onClickXhrGet">
+    <div class="mb">
+      <el-button type="success" plain @click="onClickXhrGet">
         xhr正常请求-get
       </el-button>
-      <el-button type="primary" plain @click="onClickXhrPost">
+      <el-button type="success" plain @click="onClickXhrPost">
         xhr正常请求-post
       </el-button>
       <el-button type="danger" plain @click="onClickXhrGetError">
@@ -32,11 +35,11 @@
         xhr异常请求-post
       </el-button>
     </div>
-    <div class="group">
-      <el-button type="primary" plain @click="onClickFetchGet">
+    <div class="mb">
+      <el-button type="success" plain @click="onClickFetchGet">
         Fetch正常请求-get
       </el-button>
-      <el-button type="primary" plain @click="onClickFetchPost">
+      <el-button type="success" plain @click="onClickFetchPost">
         Fetch正常请求-post
       </el-button>
       <el-button type="danger" plain @click="onClickFetchGetError">
@@ -47,7 +50,6 @@
       </el-button>
     </div>
 
-    <br />
     <el-button type="primary" @click="getAllTracingList">
       获取最新采集数据
     </el-button>
@@ -83,21 +85,21 @@ export default {
             { label: '事件ID', prop: 'eventId' },
             { label: '事件类型', prop: 'eventType' },
             { label: '请求地址', prop: 'requestUrl', width: '200' },
-            { label: '请求方式', prop: 'requestMethod', width: '200' },
+            { label: '请求方式', prop: 'requestMethod' },
             { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
-            { label: '请求返回代码', prop: 'responseStatus' },
-            { label: '请求消耗时间', prop: 'duration' },
+            { label: '请求返回代码', prop: 'responseStatus', width: '100' },
+            { label: '请求消耗时间', prop: 'duration', width: '100' },
             {
               label: '发送时间',
               prop: 'sendTime',
               isTemplate: true,
-              width: '180'
+              width: '140'
             },
             {
               label: '事件发生时间',
               prop: 'triggerTime',
               isTemplate: true,
-              width: '180'
+              width: '140'
             },
             { label: '错误信息', prop: 'errMessage' },
             { label: '事件参数', prop: 'params' }
@@ -105,6 +107,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    this.getAllTracingList()
   },
   methods: {
     onClickAxios() {
@@ -252,6 +257,11 @@ export default {
                 item => item.eventId === 'server'
               )
               this.tracingInfo.data = errorList.concat(successList)
+              this.$message({
+                message: '成功查询最新数据 - 请求事件',
+                type: 'success',
+                duration: 1000
+              })
             })
         })
     }
@@ -259,8 +269,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.group {
-  margin-bottom: 30px;
-}
-</style>
+<style lang="scss"></style>

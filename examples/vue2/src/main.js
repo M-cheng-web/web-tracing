@@ -10,7 +10,8 @@ import axios from 'axios'
 
 setupComponent()
 
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
+Vue.use(ElementUI, { size: 'small' })
 
 Vue.use(WebTracing, {
   dsn: '/trackweb',

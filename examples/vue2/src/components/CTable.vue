@@ -53,7 +53,7 @@
     </el-table>
 
     <!-- 分页 -->
-    <div class="pagination">
+    <!-- <div class="pagination">
       <el-pagination
         background
         :current-page="pagination.page"
@@ -65,7 +65,7 @@
         @current-change="pageChange"
       >
       </el-pagination>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -114,7 +114,7 @@ export default {
 <style lang="scss" scoped>
 .c-table {
   background-color: #fff;
-  padding-bottom: 24px;
+  // padding-bottom: 24px;
 
   :deep(.table-header th) {
     height: 54px;
