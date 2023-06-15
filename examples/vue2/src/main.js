@@ -32,7 +32,7 @@ Vue.use(WebTracing, {
   // tracesSampleRate: 0.5,
 
   // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
-  ignoreRequest: [/getAllTracingList/, /cleanTracingList/, /trackweb/],
+  ignoreRequest: [/getAllTracingList/, /cleanTracingList/],
 
   beforePushEventList(data) {
     // if (Array.isArray(data)) {

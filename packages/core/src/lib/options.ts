@@ -41,7 +41,7 @@ export class Options implements InternalOptions {
   cacheMaxLength = 5 // 上报数据最大缓存数
   cacheWatingTime = 5000 // 上报数据最大等待时间
   ignoreErrors = [] // 错误类型事件过滤
-  ignoreRequest = [] // 请求类型事件过滤
+  ignoreRequest: Array<string | RegExp> = [] // 请求类型事件过滤
   scopeError = false // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
   localization = false // 是否本地化：sdk不再主动发送事件，事件都存储在本地，由用户手动调用方法发送
 
@@ -63,6 +63,7 @@ export class Options implements InternalOptions {
 
   constructor(initOptions: InitOptions) {
     const _options = this.transitionOptions(initOptions)
+    _options.ignoreRequest.push(new RegExp(_options.dsn))
     deepAssign<Options>(this, _options)
   }
 
