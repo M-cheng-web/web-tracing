@@ -3,6 +3,14 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="普通错误事件" name="first">
         <div class="mb">
+          <el-alert
+            type="warning"
+            title="错误事件的捕获会有延迟，特别是在开启了批量错误的情况下，一般会有2s延迟"
+            :closable="false"
+            class="mb"
+          >
+          </el-alert>
+
           <el-button id="codeErr" type="danger" plain @click="codeError">
             代码错误
           </el-button>
@@ -247,12 +255,15 @@ export default {
       // console.error(new Error("谢谢谢谢谢"));
     },
     sendBizErr() {
-      traceError('自定义错误ID', '自定义错误message', {
+      traceError({
+        eventId: '自定义错误ID',
+        errMessage: '自定义错误message',
         src: '/interface/order',
         params: {
           id: '12121'
         }
       })
+      this.emitMessage()
     },
 
     // ------- 批量错误 -------

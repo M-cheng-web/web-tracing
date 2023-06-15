@@ -10,7 +10,7 @@
       查看核心基础信息
     </el-button>
     <div>
-      <el-button class="clean-2" type="primary" @click="cleanTracingList">
+      <el-button class="clean-2" type="danger" @click="cleanTracingList">
         清除所有事件信息
       </el-button>
     </div>

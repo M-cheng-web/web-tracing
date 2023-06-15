@@ -32,7 +32,7 @@ Vue.use(WebTracing, {
   // tracesSampleRate: 0.5,
 
   // ignoreErrors: ['111', /^promise/, /.*split is not .* function/],
-  ignoreRequest: [/getAllTracingList/, /cleanTracingList/],
+  ignoreRequest: [/getAllTracingList/, /cleanTracingList/, /trackweb/],
 
   beforePushEventList(data) {
     // if (Array.isArray(data)) {
@@ -64,7 +64,6 @@ Vue.use(WebTracing, {
 Vue.config.productionTip = false
 
 Vue.prototype.formatDate = formatDate
-
 function formatDate(timestamp) {
   const date = new Date(timestamp)
   const year = date.getFullYear()
@@ -74,6 +73,11 @@ function formatDate(timestamp) {
   const minute = padZero(date.getMinutes())
   const second = padZero(date.getSeconds())
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+}
+
+Vue.prototype.emitMessage = emitMessage
+function emitMessage(text = '成功收集') {
+  this.$message(text)
 }
 
 function padZero(num) {
