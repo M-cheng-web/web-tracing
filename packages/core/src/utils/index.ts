@@ -290,19 +290,35 @@ export const sendReaconImageList: any[] = []
 /**
  * 发送数据方式 - image
  */
-export function sendByImage(url: string, data: any): Promise<any> {
+export function sendByImage(url: string, data: any): Promise<void> {
   return new Promise(resolve => {
     const beacon = new Image()
     beacon.src = `${url}?v=${encodeURIComponent(JSON.stringify(data))}`
     sendReaconImageList.push(beacon)
-    beacon.onload = e => {
+    beacon.onload = () => {
       console.log('发送成功')
-      resolve({ success: true, msg: e })
+      resolve()
     }
-    beacon.onerror = function (e) {
+    beacon.onerror = function () {
       console.log('发送失败')
-      resolve({ success: false, msg: e })
-      // console.log('e', e)
+      resolve()
+    }
+  })
+}
+
+/**
+ * 发送数据方式 - xml
+ */
+export function sendByXML(url: string, data: any): Promise<void> {
+  return new Promise(resolve => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('post', url)
+    xhr.setRequestHeader('content-type', 'application/json')
+    xhr.send(JSON.stringify(data))
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        resolve()
+      }
     }
   })
 }
@@ -425,3 +441,18 @@ export const nextTime =
  */
 export const cancelNextTime =
   window.cancelIdleCallback || window.cancelAnimationFrame || clearTimeout
+
+/**
+ * 判断对象是否超过指定kb大小
+ * @param object 源对象
+ * @param limitInKB 最大kb
+ */
+export function isObjectOverSizeLimit(
+  object: object,
+  limitInKB: number
+): boolean {
+  const serializedObject = JSON.stringify(object)
+  const sizeInBytes = new TextEncoder().encode(serializedObject).length
+  const sizeInKB = sizeInBytes / 1024
+  return sizeInKB > limitInKB
+}

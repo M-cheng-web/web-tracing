@@ -4,11 +4,13 @@ import { LocalStorageUtil } from '../utils/localStorage'
 import {
   sendByBeacon,
   sendByImage,
+  sendByXML,
   nextTime,
   map,
   typeofAny,
   randomBoolean,
-  getTimestamp
+  getTimestamp,
+  isObjectOverSizeLimit
 } from '../utils'
 import { debug, logError } from '../utils/debug'
 import { baseInfo } from './base'
@@ -140,15 +142,29 @@ export class SendData {
    * @param data 附带参数
    */
   private sendBeacon(url: string, data: any) {
-    const sendType = _global.navigator ? 1 : 2
+    let sendType = 1
+    if (_global.navigator) {
+      // sendBeacon 最大64kb
+      sendType = isObjectOverSizeLimit(data, 60) ? 3 : 1
+    } else {
+      // img 限制在 2kb
+      sendType = isObjectOverSizeLimit(data, 2) ? 3 : 2
+    }
     return new Promise(resolve => {
-      if (sendType === 1) {
-        const res = sendByBeacon(url, data)
-        resolve({ sendType: 'sendBeacon', success: res })
-      } else {
-        sendByImage(url, data).then(res => {
-          resolve({ sendType: 'image', ...res })
-        })
+      switch (sendType) {
+        case 1:
+          resolve({ sendType: 'sendBeacon', success: sendByBeacon(url, data) })
+          break
+        case 2:
+          sendByImage(url, data).then(() => {
+            resolve({ sendType: 'image', success: true })
+          })
+          break
+        case 3:
+          sendByXML(url, data).then(() => {
+            resolve({ sendType: 'xml', success: true })
+          })
+          break
       }
     })
   }
