@@ -76,7 +76,7 @@ export class SendData {
 
     debug('send events', sendParams.value)
 
-    this.sendBeacon(this.dsn, afterSendParams).then((res: any) => {
+    this.executeSend(this.dsn, afterSendParams).then((res: any) => {
       executeFunctions(options.value.afterSendData, true, {
         ...res,
         params: afterSendParams
@@ -103,7 +103,7 @@ export class SendData {
 
     debug('send events', afterSendParams)
 
-    this.sendBeacon(this.dsn, afterSendParams)
+    this.executeSend(this.dsn, afterSendParams)
   }
   /**
    * 记录需要发送的埋点数据
@@ -141,7 +141,7 @@ export class SendData {
    * @param url 目标地址
    * @param data 附带参数
    */
-  private sendBeacon(url: string, data: any) {
+  private executeSend(url: string, data: any) {
     let sendType = 1
     if (_global.navigator) {
       // sendBeacon 最大64kb
