@@ -1,30 +1,38 @@
 <template>
   <div class="intersection">
-    <el-button @click="_intersectionDisconnect">取消所有采集曝光</el-button>
-    <el-button @click="_intersectionObserver('target')">
-      采集图片的曝光
+    <div>
+      <el-button
+        class="mb"
+        type="danger"
+        plain
+        @click="_intersectionDisconnect"
+      >
+        取消所有采集曝光
+      </el-button>
+    </div>
+    <el-button type="success" plain @click="_intersectionObserver('target')">
+      采集此图片的曝光
     </el-button>
-    <el-button @click="_intersectionUnobserve('target')">
-      取消采集曝光
+    <el-button type="danger" plain @click="_intersectionUnobserve('target')">
+      取消此图片的曝光采集
     </el-button>
-    <div id="target">
+    <div id="target" class="mb">
       <img
         src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
       />
     </div>
-    <br />
-    <el-button @click="_intersectionObserver('target2')">
-      采集图片的曝光
+    <el-button type="success" plain @click="_intersectionObserver('target2')">
+      采集此图片的曝光
     </el-button>
-    <el-button @click="_intersectionUnobserve('target2')">
-      取消采集曝光
+    <el-button type="danger" plain @click="_intersectionUnobserve('target2')">
+      取消此图片的曝光采集
     </el-button>
-    <div id="target2">
+    <div id="target2" class="mb">
       <img
         src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
       />
     </div>
-    <br />
+
     <el-button type="primary" @click="getAllTracingList">
       获取最新采集数据
     </el-button>
@@ -60,13 +68,6 @@ import {
 export default {
   data() {
     return {
-      //     target: Element
-      // threshold: number
-      // observeTime: number // sdk开始监视的时间
-      // showTime?: number // sdk检测到的开始时间
-      // showEndTime?: number // sdk检测到的结束时间
-      // params?: AnyObj
-
       tracingInfo: {
         data: [],
         table: {
