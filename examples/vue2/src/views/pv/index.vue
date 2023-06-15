@@ -71,6 +71,9 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getAllTracingList()
+  },
   methods: {
     getAllTracingList() {
       // 资源和请求，每触发一次就要发一个事件，当错误时，应该再发个error事件，或者其他？等想法方案统一一下
@@ -79,6 +82,11 @@ export default {
         .then(res => {
           const successList = res.data.data
           this.tracingInfo.data = successList
+          this.$message({
+            message: '成功查询最新数据 - 页面跳转事件',
+            type: 'success',
+            duration: 1000
+          })
         })
     }
   }
