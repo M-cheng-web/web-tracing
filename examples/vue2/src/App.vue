@@ -101,3 +101,16 @@ export default {
   }
 }
 </style>
+
+<style lang="scss">
+.pop-line {
+  display: flex;
+  align-items: center;
+  & > div {
+    width: 100px;
+  }
+  & > span {
+    flex: 1;
+  }
+}
+</style>
