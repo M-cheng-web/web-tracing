@@ -8,7 +8,7 @@ export const dynamicRouterMap = [
     name: 'Home',
     component: () => import('@/views/home/index.vue'),
     meta: {
-      title: '监控',
+      title: '首页',
       icon: 'el-icon-setting'
     }
   },
