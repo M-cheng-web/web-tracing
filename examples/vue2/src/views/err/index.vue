@@ -59,12 +59,17 @@
           <el-button type="danger" plain @click="showAudioTrue = true">
             加载错误音频
           </el-button>
-          <audio v-if="showAudioTrue" src="https://someaudio.wav"></audio>
+          <audio
+            v-if="showAudioTrue"
+            src="https://someaudio.wav"
+            controls
+          ></audio>
           <el-button type="success" plain @click="showAudioFalse = true">
             加载正常音频
           </el-button>
           <audio
             v-if="showAudioFalse"
+            controls
             src="https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3"
           ></audio>
         </div>
@@ -91,6 +96,12 @@
         <el-alert
           type="warning"
           title="开启了批量错误【scopeError：true】会导致所有错误有2s延迟，针对批量错误还会有20s的轮询"
+          :closable="false"
+          style="margin-bottom: 20px"
+        />
+        <el-alert
+          type="warning"
+          title="具体要查看是否发送了错误可以打开控制台的打印信息"
           :closable="false"
           style="margin-bottom: 20px"
         />
@@ -183,6 +194,9 @@
       <template v-slot:triggerTime="{ scope }">
         {{ `${formatDate(scope.row.triggerTime)}` }}
       </template>
+      <template v-slot:batchErrorLastHappenTime="{ scope }">
+        {{ `${formatDate(scope.row.batchErrorLastHappenTime)}` }}
+      </template>
     </c-table>
   </div>
 </template>
@@ -225,6 +239,14 @@ export default {
             { label: '完整错误信息', prop: 'errStack', width: '140' },
             { label: '错误行', prop: 'line' },
             { label: '错误列', prop: 'col' },
+            { label: '是否为批量错误', prop: 'batchError' },
+            {
+              label: '批量错误最后发生时间',
+              prop: 'batchErrorLastHappenTime',
+              width: '140',
+              isTemplate: true
+            },
+            { label: '批量错误-错误个数', prop: 'batchErrorLength' },
             { label: '资源请求链接', prop: 'requestUrl', width: '100' },
             { label: '参数', prop: 'params' }
           ]
@@ -336,8 +358,15 @@ export default {
     }
     video {
       display: block;
-      width: 500px;
-      height: 500px;
+      width: 200px;
+      height: 200px;
+      margin-right: 20px;
+    }
+    audio {
+      display: block;
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
       margin-right: 20px;
     }
   }
