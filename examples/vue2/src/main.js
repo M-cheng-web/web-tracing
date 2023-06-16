@@ -69,6 +69,7 @@ Vue.use(WebTracing, {
     const { sendType, success, params } = data
     const message = `
       <div class='event-pop'>
+        <div class='warning-text'>打开控制台可查看更多详细信息</div>
         <div>发送是否成功: ${success}</div>
         <div>发送方式: ${sendType}</div>
         <div>发送内容(只概括 eventType、eventId)
@@ -92,7 +93,7 @@ Vue.use(WebTracing, {
     `
     window.vm &&
       window.vm.$notify({
-        title: '发送一次数据',
+        title: '发送一批数据到服务端',
         message,
         position: 'top-right',
         dangerouslyUseHTMLString: true,

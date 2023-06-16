@@ -24,6 +24,11 @@ html {
   .pop-line:first-child {
     border-bottom: 1px solid #0984e3;
   }
+  .pop-line:not(:first-child) {
+    & > div {
+      color: #0984e3;
+    }
+  }
   .pop-line {
     position: relative;
     display: flex;
@@ -38,6 +43,9 @@ html {
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+  .warning-text {
+    color: red;
   }
 }
 
