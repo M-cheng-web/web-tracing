@@ -20,6 +20,27 @@ html {
   margin-bottom: 20px;
 }
 
+.event-pop {
+  .pop-line:first-child {
+    border-bottom: 1px solid #0984e3;
+  }
+  .pop-line {
+    position: relative;
+    display: flex;
+    align-items: center;
+    & > span {
+      position: absolute;
+      left: -16px;
+    }
+    & > div {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
 #app {
   height: 100%;
 }

@@ -6,12 +6,21 @@ import 'element-ui/lib/theme-chalk/index.css'
 import WebTracing from '@web-tracing/vue2'
 import './assets/global.scss'
 import { setupComponent } from './components/index'
-import axios from 'axios'
+// import axios from 'axios'
 
 setupComponent()
 
 // Vue.use(ElementUI)
 Vue.use(ElementUI, { size: 'small' })
+
+const sendEventType = {
+  pv: '路由',
+  error: '错误',
+  performance: '资源',
+  click: '点击',
+  dwell: '页面卸载',
+  intersection: '曝光采集'
+}
 
 Vue.use(WebTracing, {
   dsn: '/trackweb',
@@ -56,8 +65,39 @@ Vue.use(WebTracing, {
     // return false
     return data
   },
-  afterSendData() {
-    // console.log('afterSendData-data', data)
+  afterSendData(data) {
+    const { sendType, success, params } = data
+    const message = `
+      <div class='event-pop'>
+        <div>发送是否成功: ${success}</div>
+        <div>发送方式: ${sendType}</div>
+        <div>发送内容(只概括 eventType、eventId)
+          ${params.eventInfo.reduce(
+            (pre, item, index) => {
+              pre += `
+              <div class='pop-line'>
+                <span>${index + 1}</span>
+                <div>${item.eventType}(${sendEventType[item.eventType]})</div>
+                <div>${item.eventId}</div>
+              </div>`
+              return pre
+            },
+            `<div class='pop-line'>
+              <div>eventType</div>
+              <div>eventId</div>
+            </div>`
+          )}
+        </div>
+      </div>
+    `
+    window.vm &&
+      window.vm.$notify({
+        title: '发送一次数据',
+        message,
+        position: 'top-right',
+        dangerouslyUseHTMLString: true,
+        duration: 1500
+      })
   }
 })
 
@@ -84,7 +124,7 @@ function padZero(num) {
   return num.toString().padStart(2, '0')
 }
 
-new Vue({
+window.vm = new Vue({
   el: '#app',
   router,
   render: h => h(App)
