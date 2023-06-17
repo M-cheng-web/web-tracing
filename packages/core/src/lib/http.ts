@@ -6,6 +6,7 @@ import { options } from './options'
 import { handleSendPerformance } from './performance'
 // import { debug } from '../utils/debug'
 import { isRegExp } from '../utils/is'
+import { AnyObj } from '../types'
 
 class RequestTemplate {
   requestUrl = '' // 请求地址
@@ -28,7 +29,7 @@ function interceptFetch(): void {
     type: EVENTTYPES.FETCH,
     callback: (
       reqUrl: string,
-      _options: Partial<Request> = {},
+      _options: AnyObj = {},
       res: Response,
       fetchStart: number
     ) => {
@@ -47,7 +48,8 @@ function interceptFetch(): void {
             responseStatus: status,
             requestMethod,
             requestType: 'fetch',
-            params: method.toUpperCase() === 'POST' ? _options.body : undefined
+            params:
+              method.toUpperCase() === 'POST' ? _options.body : _options.params
           })
         }
       } else if (options.value.error.server) {
@@ -58,7 +60,8 @@ function interceptFetch(): void {
           responseStatus: status,
           requestMethod,
           requestType: 'fetch',
-          params: method.toUpperCase() === 'POST' ? _options.body : undefined
+          params:
+            method.toUpperCase() === 'POST' ? _options.body : _options.params
         })
       }
     }
