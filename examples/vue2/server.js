@@ -67,7 +67,8 @@ app.post('/cleanTracingList', (req, res) => {
 app.get('/getAllTracingList', (req, res) => {
   const eventType = req.query.eventType
   if (eventType) {
-    const data = JSON.parse(JSON.stringify(allTracingList)).reverse()
+    // const data = JSON.parse(JSON.stringify(allTracingList)).reverse()
+    const data = JSON.parse(JSON.stringify(allTracingList))
     res.send({
       code: 200,
       data: data.filter(item => item.eventType === eventType)
