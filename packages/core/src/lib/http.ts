@@ -46,6 +46,7 @@ function interceptFetch(): void {
             duration: getTimestamp() - fetchStart,
             responseStatus: status,
             requestMethod,
+            requestType: 'fetch',
             params: method.toUpperCase() === 'POST' ? _options.body : undefined
           })
         }
@@ -56,6 +57,7 @@ function interceptFetch(): void {
           requestUrl: url,
           responseStatus: status,
           requestMethod,
+          requestType: 'fetch',
           params: method.toUpperCase() === 'POST' ? _options.body : undefined
         })
       }
@@ -97,6 +99,7 @@ function interceptXHR(): void {
                 eventId: SENDID.SERVER,
                 requestUrl,
                 requestMethod: _config.requestMethod,
+                requestType: 'xhr',
                 responseStatus: status,
                 duration: getTimestamp() - _config.triggerTime,
                 params: body ? body : undefined
@@ -108,6 +111,7 @@ function interceptXHR(): void {
               errMessage: statusText || responseText,
               requestUrl,
               requestMethod: _config.requestMethod,
+              requestType: 'xhr',
               responseStatus: status,
               params: body ? body : undefined
             })
