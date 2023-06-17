@@ -5,6 +5,7 @@ import { debounce, throttle, groupArray } from '../utils'
 const SETTIMEA = 2000
 const SETTIMEB = 20000
 const MAXLENGTHA = 5
+const GROUPARRAYKEY = ['errMessage', 'eventId', 'requestUrl']
 
 /**
  * 判断是否为批量错误
@@ -37,7 +38,7 @@ class BatchError {
   proxyAddCacheErrorA() {
     let len = this.cacheErrorA.length
     if (!len) return
-    const arr = groupArray(this.cacheErrorA, 'errMessage', 'eventId')
+    const arr = groupArray(this.cacheErrorA, ...GROUPARRAYKEY)
     const arrA = arr.filter(item => item.length < MAXLENGTHA)
     const arrB = arr.filter(item => item.length >= MAXLENGTHA)
 
@@ -64,7 +65,7 @@ class BatchError {
   proxyAddCacheErrorB() {
     let len = this.cacheErrorB.length
     if (!len) return
-    const arr = groupArray(this.cacheErrorB, 'errMessage', 'eventId')
+    const arr = groupArray(this.cacheErrorB, ...GROUPARRAYKEY)
 
     while (len--) {
       this.cacheErrorB.shift()
@@ -92,7 +93,7 @@ class BatchError {
    */
   sendAllCacheError() {
     const errInfoList = this.cacheErrorA.concat(this.cacheErrorB)
-    const arr = groupArray(errInfoList, 'errMessage', 'eventId')
+    const arr = groupArray(errInfoList, ...GROUPARRAYKEY)
     const arrA = arr.filter(item => item.length < MAXLENGTHA)
     const arrB = arr.filter(item => item.length >= MAXLENGTHA)
 
