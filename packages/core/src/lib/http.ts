@@ -34,6 +34,7 @@ function interceptFetch(): void {
     ) => {
       const { method = 'GET' } = _options
       const { url, status, statusText } = res
+      const requestMethod = String(method).toLocaleLowerCase()
 
       if (isIgnoreHttp(url)) return
 
@@ -44,6 +45,7 @@ function interceptFetch(): void {
             requestUrl: url,
             duration: getTimestamp() - fetchStart,
             responseStatus: status,
+            requestMethod,
             params: method.toUpperCase() === 'POST' ? _options.body : undefined
           })
         }
@@ -53,6 +55,7 @@ function interceptFetch(): void {
           errMessage: statusText,
           requestUrl: url,
           responseStatus: status,
+          requestMethod,
           params: method.toUpperCase() === 'POST' ? _options.body : undefined
         })
       }

@@ -88,7 +88,7 @@ export default {
             { label: '请求方式', prop: 'requestMethod' },
             { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
             { label: '请求返回代码', prop: 'responseStatus', width: '100' },
-            { label: '请求消耗时间', prop: 'duration', width: '100' },
+            { label: '请求消耗时间(ms)', prop: 'duration', width: '120' },
             {
               label: '发送时间',
               prop: 'sendTime',
@@ -102,7 +102,7 @@ export default {
               width: '140'
             },
             { label: '错误信息', prop: 'errMessage' },
-            { label: '事件参数', prop: 'params' }
+            { label: '事件参数', prop: 'params', width: '180' }
           ]
         }
       }

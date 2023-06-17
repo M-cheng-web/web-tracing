@@ -98,6 +98,8 @@ app.post('/trackweb', async (req, res) => {
 
     // 后面对所有的数据格式再回测一下
 
+    // 后面得在首页说明一下调试方法
+
     // 错误录屏
 
     // sendBeacon 有64kb限制
