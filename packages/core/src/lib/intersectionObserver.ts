@@ -50,6 +50,9 @@ class Intersection {
               mapTarget => mapTarget.target === entry.target
             )
             if (targetObj) {
+              // 在进入页面时指定了没有在屏幕可视界面的dom，会立即触发这里
+              // 此时需要根据有无 showTime 区分是否为一个完整事件再去发送
+              if (!targetObj.showTime) return
               targetObj.showEndTime = getTimestamp()
               this.sendEvent(targetObj)
             }
