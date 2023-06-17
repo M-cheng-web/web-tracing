@@ -1,5 +1,14 @@
 <template>
   <div class="intersection">
+    <el-alert type="warning" title="注意" :closable="false" class="mb">
+      <template slot>
+        <div>
+          监听阈值(threshold)解释：阀值默认为0.5，当为0.5时代表滚动超过图片达到一半时即为曝光结束
+        </div>
+        <div>同理当为0.5时，代表滚动视图能看到图片一半时即为曝光开始</div>
+      </template>
+    </el-alert>
+
     <div>
       <el-button
         class="mb"
@@ -20,6 +29,20 @@
       <img
         src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
       />
+    </div>
+    <div class="mb">
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
     </div>
     <el-button type="success" plain @click="_intersectionObserver('target2')">
       采集此图片的曝光
@@ -53,6 +76,9 @@
       <template v-slot:showEndTime="{ scope }">
         {{ `${formatDate(scope.row.showEndTime)}` }}
       </template>
+      <template v-slot:sendTime="{ scope }">
+        {{ `${formatDate(scope.row.sendTime)}` }}
+      </template>
     </c-table>
   </div>
 </template>
@@ -75,25 +101,31 @@ export default {
             { label: '序号', prop: 'index', width: '50', isTemplate: true },
             { label: '事件类型', prop: 'eventType' },
             { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
-            { label: '元素', prop: 'target' },
+            // { label: '元素', prop: 'target' },
             { label: '监听阈值', prop: 'threshold' }, // 阀值默认为0.5，当只有比例达到一半时才触发回调函数
             {
               label: '开始监视时间',
               prop: 'observeTime',
               isTemplate: true,
-              width: '200'
+              width: '140'
             },
             {
               label: '开始暴露时间',
               prop: 'showTime',
               isTemplate: true,
-              width: '200'
+              width: '140'
             },
             {
               label: '结束暴露时间',
               prop: 'showEndTime',
               isTemplate: true,
-              width: '200'
+              width: '140'
+            },
+            {
+              label: '事件发送时间',
+              prop: 'sendTime',
+              isTemplate: true,
+              width: '140'
             },
             { label: '参数', prop: 'params', width: '300' }
           ]
