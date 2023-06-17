@@ -177,7 +177,7 @@ function replaceXHRSend(type: EVENTTYPES): void {
   if (!('XMLHttpRequest' in _global)) return
   replaceAop(XMLHttpRequest.prototype, 'send', (originalSend: VoidFun) => {
     return function (this: any, ...args: any[]): void {
-      eventBus.runEvent(type, this, args)
+      eventBus.runEvent(type, this, ...args)
       originalSend.apply(this, args)
     }
   })

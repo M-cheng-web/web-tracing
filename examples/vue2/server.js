@@ -25,6 +25,7 @@ app.all('*', function (res, req, next) {
 })
 
 app.get('/getList', (req, res) => {
+  console.log('req.query', req.query)
   res.send({
     code: 200,
     data: [1, 2, 3]

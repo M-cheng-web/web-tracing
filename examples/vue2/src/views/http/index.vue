@@ -8,7 +8,7 @@
           </div>
         </template>
       </el-alert>
-      <el-button type="success" plain @click="onClickAxios">
+      <el-button type="success" plain @click="onClickAxiosGet">
         axios正常请求-get
       </el-button>
       <el-button type="success" plain @click="onClickAxiosPost">
@@ -85,7 +85,9 @@ export default {
             { label: '事件ID', prop: 'eventId' },
             { label: '事件类型', prop: 'eventType' },
             { label: '请求地址', prop: 'requestUrl', width: '200' },
+            { label: '请求类型', prop: 'requestType' },
             { label: '请求方式', prop: 'requestMethod' },
+            { label: '事件参数', prop: 'params', width: '180' },
             { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
             { label: '请求返回代码', prop: 'responseStatus', width: '100' },
             { label: '请求消耗时间(ms)', prop: 'duration', width: '120' },
@@ -101,8 +103,7 @@ export default {
               isTemplate: true,
               width: '140'
             },
-            { label: '错误信息', prop: 'errMessage' },
-            { label: '事件参数', prop: 'params', width: '180' }
+            { label: '错误信息', prop: 'errMessage' }
           ]
         }
       }
@@ -112,13 +113,13 @@ export default {
     this.getAllTracingList()
   },
   methods: {
-    onClickAxios() {
+    onClickAxiosGet() {
       axios.get('/getList', { params: { test: 123 } }).then(res => {
         console.log('axios-res', res)
       })
     },
     onClickAxiosPost() {
-      axios.post('/setList', { body: { test: 123 } }).then(res => {
+      axios.post('/setList', { test: 123 }).then(res => {
         console.log('axios-res', res)
       })
     },
@@ -144,10 +145,9 @@ export default {
     },
     onClickXhrGet() {
       const xhr = new XMLHttpRequest()
-      const params = { username: 'example', password: '123456' }
       xhr.open('get', '/getList?test=123')
       xhr.setRequestHeader('content-type', 'application/json')
-      xhr.send(JSON.stringify(params))
+      xhr.send()
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           console.log('xhr-res', xhr.responseText)
@@ -156,10 +156,10 @@ export default {
     },
     onClickXhrPost() {
       const xhr = new XMLHttpRequest()
-      const params = { username: 'example', password: '123456' }
+      const body = { username: 'example', password: '123456' }
       xhr.open('post', '/setList')
       xhr.setRequestHeader('content-type', 'application/json')
-      xhr.send(JSON.stringify(params))
+      xhr.send(JSON.stringify(body))
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           console.log('xhr-res', xhr.responseText)
@@ -178,11 +178,11 @@ export default {
       }
     },
     onClickXhrPostError() {
-      const params = { username: 'example', password: '123456' }
+      const body = { username: 'example', password: '123456' }
       const xhr = new XMLHttpRequest()
       xhr.open('post', '/setList2')
       xhr.setRequestHeader('content-type', 'application/json')
-      xhr.send(JSON.stringify(params))
+      xhr.send(JSON.stringify(body))
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           console.log('xhr-res', xhr.responseText)

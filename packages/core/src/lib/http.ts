@@ -1,4 +1,4 @@
-import { on, isValidKey, getTimestamp } from '../utils'
+import { on, isValidKey, getTimestamp, parseGetParams } from '../utils'
 import { handleSendError } from './err'
 import { eventBus } from './eventBus'
 import { EVENTTYPES, SENDID } from '../common'
@@ -6,20 +6,6 @@ import { options } from './options'
 import { handleSendPerformance } from './performance'
 // import { debug } from '../utils/debug'
 import { isRegExp } from '../utils/is'
-import { AnyObj } from '../types'
-
-class RequestTemplate {
-  requestUrl = '' // 请求地址
-  requestMethod = '' // 请求类型 GET POST
-  triggerTime = -1 // 请求发生时间
-  constructor(config = {}) {
-    Object.keys(config).forEach(key => {
-      if (isValidKey(key, config)) {
-        this[key] = config[key] || null
-      }
-    })
-  }
-}
 
 /**
  * fetch请求拦截
@@ -29,11 +15,11 @@ function interceptFetch(): void {
     type: EVENTTYPES.FETCH,
     callback: (
       reqUrl: string,
-      _options: AnyObj = {},
+      _options: Partial<Request> = {},
       res: Response,
       fetchStart: number
     ) => {
-      const { method = 'GET' } = _options
+      const { method = 'GET', body } = _options
       const { url, status, statusText } = res
       const requestMethod = String(method).toLocaleLowerCase()
 
@@ -48,8 +34,7 @@ function interceptFetch(): void {
             responseStatus: status,
             requestMethod,
             requestType: 'fetch',
-            params:
-              method.toUpperCase() === 'POST' ? _options.body : _options.params
+            params: method.toUpperCase() === 'POST' ? body : parseGetParams(url)
           })
         }
       } else if (options.value.error.server) {
@@ -60,12 +45,25 @@ function interceptFetch(): void {
           responseStatus: status,
           requestMethod,
           requestType: 'fetch',
-          params:
-            method.toUpperCase() === 'POST' ? _options.body : _options.params
+          params: method.toUpperCase() === 'POST' ? body : parseGetParams(url)
         })
       }
     }
   })
+}
+
+class RequestTemplate {
+  requestUrl = '' // 请求地址
+  requestMethod = '' // 请求类型 GET POST
+  requestParams = {} // get请求的参数
+  triggerTime = -1 // 请求发生时间
+  constructor(config = {}) {
+    Object.keys(config).forEach(key => {
+      if (isValidKey(key, config)) {
+        this[key] = config[key] || null
+      }
+    })
+  }
 }
 
 /**
@@ -79,12 +77,12 @@ function interceptXHR(): void {
     callback: (method, url) => {
       _config.requestMethod = String(method).toLocaleLowerCase()
       _config.requestUrl = url
+      _config.requestParams = parseGetParams(url)
     }
   })
 
   eventBus.addEvent({
     type: EVENTTYPES.XHRSEND,
-    // body 就是post方法携带的参数
     callback: (that: XMLHttpRequest & any, body) => {
       // readyState发生改变时触发,也就是请求状态改变时
       // readyState 会依次变为 2,3,4 也就是会触发三次这里
@@ -105,7 +103,10 @@ function interceptXHR(): void {
                 requestType: 'xhr',
                 responseStatus: status,
                 duration: getTimestamp() - _config.triggerTime,
-                params: body ? body : undefined
+                params:
+                  _config.requestMethod === 'post'
+                    ? body
+                    : _config.requestParams
               })
             }
           } else if (options.value.error.server) {
@@ -116,7 +117,8 @@ function interceptXHR(): void {
               requestMethod: _config.requestMethod,
               requestType: 'xhr',
               responseStatus: status,
-              params: body ? body : undefined
+              params:
+                _config.requestMethod === 'post' ? body : _config.requestParams
             })
           }
         }
