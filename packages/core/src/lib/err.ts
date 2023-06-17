@@ -74,7 +74,6 @@ function parseStack(err: Error): ErrorStack {
  */
 function parseError(e: any) {
   if (e instanceof Error) {
-    console.log(111)
     // fileName: 引发此错误的文件的路径 (此属性为非标准，所以下面得区分)
     const { message, stack, lineNumber, fileName, columnNumber } = e as Error &
       InstabilityNature
