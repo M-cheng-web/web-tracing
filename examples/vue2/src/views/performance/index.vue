@@ -98,9 +98,18 @@ export default {
             { label: '事件类型', prop: 'eventType' },
             { label: '请求地址', prop: 'requestUrl', width: '200' },
             { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
-            // { label: '是否错误状态', prop: 'responseStatus' },
-            { label: '发送时间', prop: 'sendTime', isTemplate: true },
-            { label: '事件触发时间', prop: 'triggerTime', isTemplate: true },
+            {
+              label: '发送时间',
+              prop: 'sendTime',
+              isTemplate: true,
+              width: '140'
+            },
+            {
+              label: '事件触发时间',
+              prop: 'triggerTime',
+              isTemplate: true,
+              width: '140'
+            },
             { label: '请求方式', prop: 'initiatorType' },
             { label: '传输的数据包大小', prop: 'transferSize' },
             { label: '数据包压缩后大小', prop: 'encodedBodySize' },
@@ -116,11 +125,19 @@ export default {
             { label: '连接建立完成时间', prop: 'connectEnd' },
             { label: '开始发送数据包时间', prop: 'requestStart' },
             { label: '开始接收数据包时间', prop: 'responseStart' },
-            { label: '数据包接收完成时间', prop: 'responseEnd' }
+            { label: '数据包接收完成时间', prop: 'responseEnd' },
+            {
+              label: '是否错误状态(仅MutationObserver情况下支持)',
+              prop: 'responseStatus',
+              width: '160'
+            }
           ]
         }
       }
     }
+  },
+  mounted() {
+    this.getAllTracingList()
   },
   methods: {
     performanceAddScript() {
@@ -172,6 +189,11 @@ export default {
                 item => item.eventId === 'resource'
               )
               this.tracingInfo.data = errorList.concat(successList)
+              this.$message({
+                message: '成功查询最新数据 - 资源事件',
+                type: 'success',
+                duration: 1000
+              })
             })
         })
     }
