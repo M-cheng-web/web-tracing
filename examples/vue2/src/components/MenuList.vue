@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      defaultActive: '/home'
+      defaultActive: ''
     }
   },
   watch: {
