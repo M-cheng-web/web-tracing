@@ -4,7 +4,7 @@
       <menu-list :items="items" />
     </div>
     <div class="right-body">
-      <router-view></router-view>
+      <router-view ref="myComponent"></router-view>
     </div>
     <el-button class="clean-1" type="primary" @click="showBaseInfo">
       查看核心基础信息
@@ -21,23 +21,31 @@
 import { dynamicRouterMap } from './router/router.dynamic'
 import axios from 'axios'
 
-// 视频资源地址
-// https://blog.csdn.net/qq_17497931/article/details/80824328
-
 export default {
   data() {
     return {
       items: [],
-      baseInfo: {}
+      baseInfo: {},
+      myComponent: null
     }
   },
   created() {
     this.items = dynamicRouterMap.filter(item => item.path !== '/')
   },
   methods: {
+    getMyComponent() {
+      return this.$refs.myComponent
+    },
     cleanTracingList() {
       axios.post('/cleanTracingList').then(() => {
-        this.$message.success('清除成功')
+        this.$message({
+          message: '清除成功',
+          type: 'success',
+          duration: 1000
+        })
+        if (window.vm.$children[0].getMyComponent().getAllTracingList) {
+          window.vm.$children[0].getMyComponent().getAllTracingList()
+        }
       })
     },
     handleOpen(key, keyPath) {

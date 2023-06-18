@@ -10,7 +10,6 @@ import { setupComponent } from './components/index'
 
 setupComponent()
 
-// Vue.use(ElementUI)
 Vue.use(ElementUI, { size: 'small' })
 
 const sendEventType = {
@@ -91,7 +90,7 @@ Vue.use(WebTracing, {
         </div>
       </div>
     `
-    window.vm &&
+    if (window.vm) {
       window.vm.$notify({
         title: '发送一批数据到服务端',
         message,
@@ -99,6 +98,10 @@ Vue.use(WebTracing, {
         dangerouslyUseHTMLString: true,
         duration: 1500
       })
+      if (window.vm.$children[0].getMyComponent().getAllTracingList) {
+        window.vm.$children[0].getMyComponent().getAllTracingList()
+      }
+    }
   }
 })
 

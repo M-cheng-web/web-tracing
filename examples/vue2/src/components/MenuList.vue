@@ -1,7 +1,7 @@
 <template>
   <div class="menu-list">
     <el-menu
-      default-active=""
+      :default-active="defaultActive"
       @open="handleOpen"
       @close="handleClose"
       router
@@ -44,6 +44,17 @@ export default {
   name: 'MenuList',
   props: {
     items: Array
+  },
+  data() {
+    return {
+      defaultActive: '/home'
+    }
+  },
+  watch: {
+    $route(to) {
+      // console.log(`路由变化：从 ${from.path} 导航到 ${to.path}`)
+      this.defaultActive = to.path
+    }
   },
   methods: {
     handleOpen(key, keyPath) {
