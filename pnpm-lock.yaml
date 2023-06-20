@@ -86,6 +86,7 @@ importers:
       express: ^4.18.2
       nodemon: ^2.0.22
       prettier: ^2.7.1
+      rrweb-player: 1.0.0-alpha.4
       sass: ^1.62.1
       sass-loader: ^13.3.1
       typescript: ^4.9.3
@@ -107,6 +108,7 @@ importers:
       element-ui: 2.15.13_vue@2.6.10
       express: 4.18.2
       nodemon: 2.0.22
+      rrweb-player: 1.0.0-alpha.4
       sass: 1.62.1
       sass-loader: 13.3.1_sass@1.62.1
       vue: 2.6.10
@@ -1209,6 +1211,10 @@ packages:
     resolution: {integrity: sha512-yAr6ZQrgmr7+qZU5DMGqYXnVsolC5epftmZtkOtgFD/bbvCWflNnl09M32hUjttlKCV1ohhmQGioXkCQ37IF7A==}
     dependencies:
       rrweb-snapshot: 2.0.0-alpha.8
+    dev: false
+
+  /@tsconfig/svelte/1.0.13:
+    resolution: {integrity: sha512-5lYJP45Xllo4yE/RUBccBT32eBlRDbqN8r1/MIvQbKxW3aFqaYPCNgm8D5V20X4ShHcwvYWNlKg3liDh1MlBoA==}
     dev: false
 
   /@types/css-font-loading-module/0.0.7:
@@ -3937,6 +3943,13 @@ packages:
     resolution: {integrity: sha512-ZLd8f14z9pUy2Hk9y636cNv5Y2BMnNEY99wxzW9tD2BLDfe1xFxtLjB4q/xCBYo6HRe0wofzKzjm4JojmpBfFw==}
     dependencies:
       rrweb-snapshot: 2.0.0-alpha.4
+    dev: false
+
+  /rrweb-player/1.0.0-alpha.4:
+    resolution: {integrity: sha512-Wlmn9GZ5Fdqa37vd3TzsYdLl/JWEvXNUrLCrYpnOwEgmY409HwVIvvA5aIo7k582LoKgdRCsB87N+f0oWAR0Kg==}
+    dependencies:
+      '@tsconfig/svelte': 1.0.13
+      rrweb: 2.0.0-alpha.4
     dev: false
 
   /rrweb-snapshot/2.0.0-alpha.4:

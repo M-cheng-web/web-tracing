@@ -197,13 +197,29 @@
       <template v-slot:batchErrorLastHappenTime="{ scope }">
         {{ `${formatDate(scope.row.batchErrorLastHappenTime)}` }}
       </template>
+      <template v-slot:actions="{ scope }">
+        <el-button type="primary" @click="lookRecordscreen(scope.row)">
+          查看错误录屏
+        </el-button>
+      </template>
     </c-table>
+
+    <el-dialog
+      :visible.sync="errDialogVisible"
+      width="1024px"
+      top="10vh"
+      :show-close="false"
+    >
+      <div id="recordscreen" v-if="errDialogVisible"></div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import { traceError } from '@web-tracing/core'
+import rrwebPlayer from 'rrweb-player'
+import 'rrweb-player/dist/style.css'
 
 export default {
   data() {
@@ -248,10 +264,17 @@ export default {
             },
             { label: '批量错误-错误个数', prop: 'batchErrorLength' },
             { label: '资源请求链接', prop: 'requestUrl', width: '100' },
-            { label: '参数', prop: 'params' }
+            { label: '参数', prop: 'params' },
+            {
+              label: '操作',
+              prop: 'actions',
+              width: '140',
+              isTemplate: true
+            }
           ]
         }
-      }
+      },
+      errDialogVisible: false
     }
   },
   mounted() {
@@ -321,6 +344,21 @@ export default {
       }, 200)
     },
 
+    lookRecordscreen(row) {
+      this.errDialogVisible = true
+      // row.recordscreen = row.recordscreen.slice(10)
+      console.log('row.recordscreen', row.recordscreen)
+      this.$nextTick(() => {
+        new rrwebPlayer({
+          target: document.getElementById('recordscreen'),
+          props: {
+            events: row.recordscreen,
+            UNSAFE_replayCanvas: true
+          }
+        })
+      })
+    },
+
     // ------- 查看错误 -------
     getAllTracingList() {
       axios
@@ -340,6 +378,10 @@ export default {
 
 <style scoped lang="scss">
 .err {
+  ::v-deep .el-dialog__header,
+  ::v-deep .el-dialog__body {
+    padding: 0;
+  }
   .el-tab-pane {
     min-height: 300px;
   }
