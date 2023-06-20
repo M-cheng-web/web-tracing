@@ -29,10 +29,15 @@ import { getTimestamp } from '../utils'
  * 注意：如果拼接发现 eventList 长度为0或者很少，很大可能是用户没有手动操作且系统自动报错
  *
  * 而真正的录屏数组在填满 30-40 的 eventList 时则删除数组第一位数据
+ *
+ * 真实效果：
+ * MAXSCOPETIME 我这边设置为 5s，所以最终录制的时长为 5s-10s
+ * 但是会有这样一个特殊场景：因为录制的插件只会在用户操作网页时运作，当用户停止操作页面或者页面处于休眠状态则会停止记录
+ *  直到用户重新操作页面，所以会出现用户停止操作1分钟后2s后触发了一个错误，此时sdk只会记录这个2s的操作
  */
 
-const MAXSCOPETIME = 5000 // 每10s记录一个区间
-const MAXSCOPELENGTH = 3 // 录屏数组最长长度
+const MAXSCOPETIME = 5000 // 每5s记录一个区间
+const MAXSCOPELENGTH = 3 // 录屏数组最长长度 - 不要小于3
 
 export class RecordScreen {
   public eventList: RecordEventScope[] = [
@@ -42,28 +47,23 @@ export class RecordScreen {
     this.init()
   }
   private init() {
-    setInterval(() => {
-      // console.log('发生', this.eventList)
-      if (this.eventList.length > 0) {
-        const lastEvents = this.eventList[this.eventList.length - 1]
-        this.eventList[this.eventList.length - 1].scope =
-          lastEvents.scope + getTimestamp()
-      }
-      if (this.eventList.length > MAXSCOPELENGTH) {
-        this.eventList.shift()
-      }
-      this.eventList.push({ scope: `${getTimestamp()}-`, eventList: [] })
-    }, MAXSCOPETIME)
-
     record({
-      emit: event => {
+      emit: (event, isCheckout) => {
         const lastEvents = this.eventList[this.eventList.length - 1]
         lastEvents.eventList.push(event)
+        if (isCheckout) {
+          if (this.eventList.length > 0) {
+            this.eventList[this.eventList.length - 1].scope =
+              lastEvents.scope + getTimestamp()
+          }
+          if (this.eventList.length > MAXSCOPELENGTH) {
+            this.eventList.shift()
+          }
+          this.eventList.push({ scope: `${getTimestamp()}-`, eventList: [] })
+        }
       },
-      recordCanvas: true
-
-      // 默认每10s重新制作快照
-      // checkoutEveryNms: 1000
+      recordCanvas: true,
+      checkoutEveryNms: MAXSCOPETIME // 每5s重新制作快照
     })
   }
 }
