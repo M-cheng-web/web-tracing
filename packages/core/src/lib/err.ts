@@ -5,8 +5,7 @@ import { sendData } from './sendData'
 import { eventBus } from './eventBus'
 import { isArray, isRegExp } from '../utils/is'
 import { options } from './options'
-import { recordscreenList } from './recordscreen'
-// import { recordscreenList, zip } from './recordscreen'
+import { recordscreenList, zip } from './recordscreen'
 import { debug } from '../utils/debug'
 import { initBatchError, batchError } from './err-batch'
 import { RecordEventScope } from '../types'
@@ -207,13 +206,10 @@ function getRecordEvent(): RecordEventScope[] {
  * @param errorInfo 信息源
  */
 function emit(errorInfo: any): void {
-  const recordscreen = getRecordEvent()
-
   const info = {
     ...errorInfo,
     eventType: SEDNEVENTTYPES.ERROR,
-    recordscreen,
-    // recordscreen: zip(getRecordEvent()),
+    recordscreen: zip(getRecordEvent()),
     triggerPageUrl: getLocationHref(),
     triggerTime: getTimestamp()
   }

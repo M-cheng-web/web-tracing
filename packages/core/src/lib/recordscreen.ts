@@ -32,8 +32,10 @@ import { getTimestamp } from '../utils'
  *
  * 真实效果：
  * MAXSCOPETIME 我这边设置为 5s，所以最终录制的时长为 5s-10s
- * 但是会有这样一个特殊场景：因为录制的插件只会在用户操作网页时运作，当用户停止操作页面或者页面处于休眠状态则会停止记录
+ * 但是会有几个特殊场景导致录屏时间过短:
+ * 1. 因为录制的插件只会在用户操作网页时运作，当用户停止操作页面或者页面处于休眠状态则会停止记录
  *  直到用户重新操作页面，所以会出现用户停止操作1分钟后2s后触发了一个错误，此时sdk只会记录这个2s的操作
+ * 2. 另外就是程序刚进来的报错也会导致录屏时间小于5s
  */
 
 const MAXSCOPETIME = 5000 // 每5s记录一个区间
@@ -96,4 +98,41 @@ export function zip(data: any): string {
     s += String.fromCharCode(item)
   })
   return Base64.btoa(s)
+}
+
+/**
+ * 解压
+ * @param b64Data 解压源
+ */
+export function unzip(b64Data: string) {
+  const strData = Base64.atob(b64Data)
+  const charData = strData.split('').map(function (x) {
+    return x.charCodeAt(0)
+  })
+  const binData = new Uint8Array(charData)
+  const data: any = pako.ungzip(binData)
+  // ↓切片处理数据，防止内存溢出报错↓
+  let str = ''
+  const chunk = 8 * 1024
+  let i
+  for (i = 0; i < data.length / chunk; i++) {
+    str += String.fromCharCode.apply(
+      null,
+      data.slice(i * chunk, (i + 1) * chunk)
+    )
+  }
+  str += String.fromCharCode.apply(null, data.slice(i * chunk))
+  // ↑切片处理数据，防止内存溢出报错↑
+  const unzipStr = Base64.decode(str)
+  let result = ''
+  // 对象或数组进行JSON转换
+  try {
+    result = JSON.parse(unzipStr)
+  } catch (error: any) {
+    if (/Unexpected token o in JSON at position 0/.test(error)) {
+      // 如果没有转换成功，代表值为基本数据，直接赋值
+      result = unzipStr
+    }
+  }
+  return result
 }

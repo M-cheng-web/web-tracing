@@ -11,6 +11,14 @@ import { intersection } from './intersectionObserver'
 import { sendData } from './sendData'
 import { SDK_LOCAL_KEY } from '../common/config'
 import { LocalStorageUtil } from '../utils/localStorage'
+import { unzip } from '../lib/recordscreen'
+
+/**
+ * 解压错误录屏数据
+ */
+export function unzipRecordscreen(recordscreen: string) {
+  return unzip(recordscreen)
+}
 
 /**
  * 钩子：放入事件队列之前

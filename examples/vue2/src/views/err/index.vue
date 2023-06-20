@@ -217,7 +217,7 @@
 
 <script>
 import axios from 'axios'
-import { traceError } from '@web-tracing/core'
+import { traceError, unzipRecordscreen } from '@web-tracing/core'
 import rrwebPlayer from 'rrweb-player'
 import 'rrweb-player/dist/style.css'
 
@@ -346,8 +346,7 @@ export default {
 
     lookRecordscreen(row) {
       this.errDialogVisible = true
-      // row.recordscreen = row.recordscreen.slice(10)
-      console.log('row.recordscreen', row.recordscreen)
+      row.recordscreen = unzipRecordscreen(row.recordscreen)
       this.$nextTick(() => {
         new rrwebPlayer({
           target: document.getElementById('recordscreen'),
