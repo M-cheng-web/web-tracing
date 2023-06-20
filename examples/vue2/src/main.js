@@ -109,6 +109,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.formatDate = formatDate
 function formatDate(timestamp) {
+  if (!timestamp) return ''
   const date = new Date(timestamp)
   const year = date.getFullYear()
   const month = padZero(date.getMonth() + 1)
