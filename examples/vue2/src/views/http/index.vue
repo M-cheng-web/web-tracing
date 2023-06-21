@@ -114,16 +114,22 @@ export default {
   },
   methods: {
     onClickAxiosGet() {
+      this.sendMessage()
+
       axios.get('/getList', { params: { test: 123 } }).then(res => {
         console.log('axios-res', res)
       })
     },
     onClickAxiosPost() {
+      this.sendMessage()
+
       axios.post('/setList', { test: 123 }).then(res => {
         console.log('axios-res', res)
       })
     },
     onClickAxiosError() {
+      this.sendMessage()
+
       axios
         .get('/getList2', { params: { test: 123 } })
         .then(res => {
@@ -134,6 +140,8 @@ export default {
         })
     },
     onClickAxiosPostError() {
+      this.sendMessage()
+
       axios
         .post('/setList2', { test: 123 })
         .then(res => {
@@ -144,6 +152,8 @@ export default {
         })
     },
     onClickXhrGet() {
+      this.sendMessage()
+
       const xhr = new XMLHttpRequest()
       xhr.open('get', '/getList?test=123')
       xhr.setRequestHeader('content-type', 'application/json')
@@ -155,6 +165,8 @@ export default {
       }
     },
     onClickXhrPost() {
+      this.sendMessage()
+
       const xhr = new XMLHttpRequest()
       const body = { username: 'example', password: '123456' }
       xhr.open('post', '/setList')
@@ -167,6 +179,8 @@ export default {
       }
     },
     onClickXhrGetError() {
+      this.sendMessage()
+
       const xhr = new XMLHttpRequest()
       xhr.open('get', '/getList2?test=123')
       xhr.setRequestHeader('content-type', 'application/json')
@@ -178,6 +192,8 @@ export default {
       }
     },
     onClickXhrPostError() {
+      this.sendMessage()
+
       const body = { username: 'example', password: '123456' }
       const xhr = new XMLHttpRequest()
       xhr.open('post', '/setList2')
@@ -190,6 +206,8 @@ export default {
       }
     },
     onClickFetchGet() {
+      this.sendMessage()
+
       fetch(`/getList?test=123`, {
         method: 'GET',
         headers: {
@@ -202,6 +220,8 @@ export default {
         })
     },
     onClickFetchPost() {
+      this.sendMessage()
+
       fetch('/setList', {
         method: 'POST',
         body: JSON.stringify({ test: '测试请求体' }),
@@ -215,6 +235,8 @@ export default {
         })
     },
     onClickFetchGetError() {
+      this.sendMessage()
+
       const params = new URLSearchParams()
       params.append('page', '1')
       params.append('limit', '10')
@@ -231,6 +253,8 @@ export default {
         })
     },
     onClickFetchPostError() {
+      this.sendMessage()
+
       fetch('/setList2', {
         method: 'POST',
         body: JSON.stringify({ test: '测试请求体' }),

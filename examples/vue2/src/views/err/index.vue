@@ -281,18 +281,15 @@ export default {
     this.getAllTracingList()
   },
   methods: {
-    errMessageFun() {
-      this.$message({
-        message: '成功触发错误事件，请稍等',
-        type: 'success'
-      })
-    },
-
     codeError() {
+      this.sendMessage()
+
       const a = {}
       a.split('/')
     },
     promiseError() {
+      this.sendMessage()
+
       const promiseWrap = () =>
         new Promise((resolve, reject) => {
           reject('promise reject')
@@ -302,11 +299,15 @@ export default {
       })
     },
     consoleErr() {
+      this.sendMessage()
+
       console.error('consoleErr1', 'consoleErr1.1', 'consoleErr1.2')
       // console.error(111);
       // console.error(new Error("谢谢谢谢谢"));
     },
     sendBizErr() {
+      this.sendMessage()
+
       traceError({
         eventId: '自定义错误ID',
         errMessage: '自定义错误message',

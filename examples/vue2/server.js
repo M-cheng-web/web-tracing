@@ -87,6 +87,8 @@ app.post('/trackweb', async (req, res) => {
 
     // 添加个事情前置事件通知，要不然点击没反馈不太好
 
+    // beforePushEventList 中的data返回能不能强制为数组
+
     // 后面对vue3的兼容做一些，提炼一些hook方便实用
     // 后面再做vue3的测试框架
 

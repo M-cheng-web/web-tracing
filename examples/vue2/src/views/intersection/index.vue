@@ -138,6 +138,8 @@ export default {
   },
   methods: {
     _intersectionObserver(str) {
+      this.sendMessage('成功采集，请滑动页面测试')
+
       const target = document.querySelector(`#${str}`)
       intersectionObserver({
         target,
@@ -146,10 +148,14 @@ export default {
       })
     },
     _intersectionUnobserve(str) {
+      this.sendMessage('取消了采集，请滑动页面测试')
+
       const target = document.querySelector(`#${str}`)
       intersectionUnobserve(target)
     },
     _intersectionDisconnect() {
+      this.sendMessage('取消了采集，请滑动页面测试')
+
       intersectionDisconnect()
     },
     getAllTracingList() {
