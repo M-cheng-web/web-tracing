@@ -1,8 +1,14 @@
-import type { AnyFun, TargetGather, ElementOrList, VoidFun } from '../types'
+import type {
+  InternalOptions,
+  AnyFun,
+  TargetGather,
+  ElementOrList,
+  VoidFun
+} from '../types'
 import { options } from './options'
 import { _support } from '../utils/global'
 import { getIPs as _getIPs } from '../utils/getIps'
-import { validateMethods } from '../utils'
+import { validateMethods, deepCopy } from '../utils'
 import { handleSendError } from './err'
 import { handleSendPerformance } from './performance'
 import { handleSendEvent } from './event'
@@ -186,4 +192,12 @@ export function setLocalizationOverFlow(overFlowFun: VoidFun): void {
   if (!validateMethods('localizationOverFlow') && !options.value.localization)
     return
   options.value.localizationOverFlow = overFlowFun
+}
+
+/**
+ * 获取sdk内部的参数配置
+ * 这个参数配置并不是入参配置，sdk内部的参数是整理过后的
+ */
+export function getOptions(): InternalOptions {
+  return deepCopy(options.value)
 }
