@@ -43,11 +43,10 @@ Vue.use(WebTracing, {
   ignoreRequest: [/getAllTracingList/, /cleanTracingList/],
 
   beforePushEventList(data) {
-    // window.vm.$message({
-    //   message: '清除成功',
-    //   type: 'success',
-    //   duration: 1000
-    // })
+    window.vm.$message({
+      message: '成功触发事件，请稍等',
+      type: 'success'
+    })
     // if (Array.isArray(data)) {
     //   const _data = data.filter(item => {
     //     return !(
@@ -96,13 +95,13 @@ Vue.use(WebTracing, {
       </div>
     `
     if (window.vm) {
-      window.vm.$notify({
-        title: '发送一批数据到服务端',
-        message,
-        position: 'top-right',
-        dangerouslyUseHTMLString: true,
-        duration: 1500
-      })
+      // window.vm.$notify({
+      //   title: '发送一批数据到服务端',
+      //   message,
+      //   position: 'top-right',
+      //   dangerouslyUseHTMLString: true,
+      //   duration: 1500
+      // })
       if (window.vm.$children[0].getMyComponent().getAllTracingList) {
         window.vm.$children[0].getMyComponent().getAllTracingList()
       }
@@ -111,6 +110,14 @@ Vue.use(WebTracing, {
 })
 
 Vue.config.productionTip = false
+
+Vue.prototype.selfMessage = function (message) {
+  // window.vm.$message({
+  //   message,
+  //   type: 'success',
+  //   duration: 1000
+  // })
+}
 
 Vue.prototype.formatDate = formatDate
 function formatDate(timestamp) {

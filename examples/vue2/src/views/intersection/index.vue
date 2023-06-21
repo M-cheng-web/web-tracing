@@ -159,11 +159,7 @@ export default {
         .then(res => {
           const successList = res.data.data
           this.tracingInfo.data = successList
-          this.$message({
-            message: '成功查询最新数据 - 曝光采集事件',
-            type: 'success',
-            duration: 1000
-          })
+          this.selfMessage('成功查询最新数据 - 曝光采集事件')
         })
     }
   }

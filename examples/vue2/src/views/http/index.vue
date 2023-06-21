@@ -257,11 +257,7 @@ export default {
                 item => item.eventId === 'server'
               )
               this.tracingInfo.data = errorList.concat(successList)
-              this.$message({
-                message: '成功查询最新数据 - 请求事件',
-                type: 'success',
-                duration: 1000
-              })
+              this.selfMessage('成功查询最新数据 - 请求事件')
             })
         })
     }

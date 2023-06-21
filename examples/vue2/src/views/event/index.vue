@@ -101,11 +101,7 @@ export default {
         .get('/getAllTracingList', { params: { eventType: 'click' } })
         .then(res => {
           this.tracingInfo.data = res.data.data
-          this.$message({
-            message: '成功查询最新数据 - 点击事件',
-            type: 'success',
-            duration: 1000
-          })
+          this.selfMessage('成功查询最新数据 - 点击事件')
         })
     }
   }

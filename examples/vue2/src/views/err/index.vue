@@ -281,6 +281,13 @@ export default {
     this.getAllTracingList()
   },
   methods: {
+    errMessageFun() {
+      this.$message({
+        message: '成功触发错误事件，请稍等',
+        type: 'success'
+      })
+    },
+
     codeError() {
       const a = {}
       a.split('/')
@@ -364,11 +371,7 @@ export default {
         .get('/getAllTracingList', { params: { eventType: 'error' } })
         .then(res => {
           this.tracingInfo.data = res.data.data
-          this.$message({
-            message: '成功查询最新数据 - 错误事件',
-            type: 'success',
-            duration: 1000
-          })
+          this.selfMessage('成功查询最新数据 - 错误事件')
         })
     }
   }
