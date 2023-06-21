@@ -43,6 +43,11 @@ Vue.use(WebTracing, {
   ignoreRequest: [/getAllTracingList/, /cleanTracingList/],
 
   beforePushEventList(data) {
+    // window.vm.$message({
+    //   message: '清除成功',
+    //   type: 'success',
+    //   duration: 1000
+    // })
     // if (Array.isArray(data)) {
     //   const _data = data.filter(item => {
     //     return !(
