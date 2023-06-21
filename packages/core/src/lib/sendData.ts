@@ -16,7 +16,7 @@ import { debug, logError } from '../utils/debug'
 import { baseInfo } from './base'
 import { options } from './options'
 import { AnyObj } from '../types'
-import { isFlase } from '../utils/is'
+import { isFlase, isArray } from '../utils/is'
 import { SDK_LOCAL_KEY } from '../common/config'
 import { executeFunctions } from '../utils'
 import { computed } from '../observer'
@@ -111,9 +111,10 @@ export class SendData {
    * @param flush 是否立即发送
    */
   public emit(e: AnyObj, flush = false) {
+    if (!e) return
     if (!_support.lineStatus.onLine) return
-
     if (!flush && !randomBoolean(options.value.tracesSampleRate)) return
+    if (!isArray(e)) e = [e]
 
     const eventList = executeFunctions(
       options.value.beforePushEventList,

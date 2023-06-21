@@ -44,17 +44,11 @@ Vue.use(WebTracing, {
 
   beforePushEventList(data) {
     const arr = ['intersection', 'click']
-    if (Array.isArray(data)) {
-      data.forEach(item => {
-        if (arr.includes(item.eventType)) {
-          window.vm.sendMessage()
-        }
-      })
-    } else {
-      if (arr.includes(data.eventType)) {
+    data.forEach(item => {
+      if (arr.includes(item.eventType)) {
         window.vm.sendMessage()
       }
-    }
+    })
 
     // if (Array.isArray(data)) {
     //   const _data = data.filter(item => {
