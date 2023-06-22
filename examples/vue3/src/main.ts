@@ -1,10 +1,30 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import WebTracing from '@web-tracing/vue3'
 
-import { add } from '@web-tracing/core/index'
-import { pad } from '@web-tracing/utils'
+const app = createApp(App)
 
-console.log('add', add)
-console.log('pad', pad)
+app.use(WebTracing, {
+  dsn: '/trackweb',
+  appName: 'cxh',
+  error: true,
+  beforePushEventList(data) {
+    return data
+  },
+  beforeSendData(data) {
+    return data
+  }
+})
 
-createApp(App).mount('#app')
+window.onerror = () => {
+  console.log(11)
+}
+
+setTimeout(() => {
+  throw new Error('手动抛出错误')
+}, 1000)
+
+app.use(ElementPlus)
+app.mount('#app')

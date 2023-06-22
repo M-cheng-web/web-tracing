@@ -1,7 +1,20 @@
-import { init } from '@web-tracing/core'
+import {
+  init,
+  InitOptions,
+  traceError,
+  logError,
+  parseError,
+  SENDID
+} from '@web-tracing/core'
 
-const vue3init = (): any => {
-  return init
+function install(app: any, options: InitOptions) {
+  app.config.errorHandler = function (err: Error): void {
+    console.log('err', err)
+    logError(err)
+    const errorInfo = { eventId: SENDID.CODE, ...parseError(err) }
+    traceError(errorInfo)
+  }
+  init(options)
 }
 
-export { vue3init }
+export default { install }
