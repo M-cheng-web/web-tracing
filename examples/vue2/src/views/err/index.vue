@@ -217,7 +217,7 @@
 
 <script>
 import axios from 'axios'
-import { traceError, unzipRecordscreen } from '@web-tracing/core'
+import { traceError, unzipRecordscreen } from '@web-tracing/vue2'
 import rrwebPlayer from 'rrweb-player'
 import 'rrweb-player/dist/style.css'
 
