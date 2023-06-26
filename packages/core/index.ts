@@ -41,6 +41,6 @@ function init(options: InitOptions): void {
   _global.__webTracingInit__ = true
 }
 
-export { init, InitOptions, logError, parseError, SENDID }
+export { init, InitOptions, logError, parseError, SENDID, exportMethods }
 export * from './src/lib/exportMethods'
 export default { init, ...exportMethods }
