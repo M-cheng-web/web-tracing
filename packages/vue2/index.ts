@@ -4,8 +4,7 @@ import {
   traceError,
   logError,
   parseError,
-  SENDID,
-  exportMethods
+  SENDID
 } from '@web-tracing/core'
 
 function install(Vue: any, options: InitOptions) {
@@ -30,4 +29,5 @@ function install(Vue: any, options: InitOptions) {
   init(options)
 }
 
-export default { install, ...exportMethods }
+export default { install }
+export * from '@web-tracing/core'
