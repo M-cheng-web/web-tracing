@@ -333,13 +333,15 @@ export function sendByXML(url: string, data: any): Promise<void> {
 export function executeFunctions(
   funList: AnyFun[],
   through: boolean,
-  ...args: any[]
+  args: any
 ): any {
+  if (funList.length === 0) return args
+
   let result: any = undefined
   for (let i = 0; i < funList.length; i++) {
     const func = funList[i]
     if (i === 0 || through) {
-      result = func(...args)
+      result = func(args)
     } else {
       result = func(result)
     }
