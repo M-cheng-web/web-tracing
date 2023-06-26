@@ -18,10 +18,6 @@ app.use(WebTracing, {
   }
 })
 
-window.onerror = () => {
-  console.log(11)
-}
-
 setTimeout(() => {
   throw new Error('手动抛出错误')
 }, 1000)
