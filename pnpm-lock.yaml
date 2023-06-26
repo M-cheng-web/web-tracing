@@ -130,20 +130,26 @@ importers:
     specifiers:
       '@vitejs/plugin-vue': ^4.1.0
       '@web-tracing/vue3': workspace:*
+      axios: ^1.4.0
       element-plus: ^2.3.7
       eslint: ^8.36.0
       eslint-config-prettier: ^8.8.0
       eslint-plugin-prettier: ^4.2.1
       eslint-plugin-vue: ^9.15.0
       prettier: ^2.8.7
+      rrweb-player: 1.0.0-alpha.4
       typescript: ^4.9.3
       vite: ^4.2.0
       vue: ^3.2.47
+      vue-router: ^4.2.2
       vue-tsc: ^1.2.0
     dependencies:
       '@web-tracing/vue3': link:../../packages/vue3
+      axios: 1.4.0
       element-plus: 2.3.7_vue@3.2.47
+      rrweb-player: 1.0.0-alpha.4
       vue: 3.2.47
+      vue-router: 4.2.2_vue@3.2.47
     devDependencies:
       '@vitejs/plugin-vue': 4.1.0_vite@4.2.1+vue@3.2.47
       eslint: 8.36.0
@@ -1701,7 +1707,6 @@ packages:
 
   /@vue/devtools-api/6.5.0:
     resolution: {integrity: sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==}
-    dev: true
 
   /@vue/reactivity-transform/3.2.47:
     resolution: {integrity: sha512-m8lGXw8rdnPVVIdIFhf0LeQ/ixyHkH5plYuS83yop5n7ggVJU+z5v0zecwEnX7fa7HNLBhh2qngJJkxpwEEmYA==}
@@ -4753,6 +4758,15 @@ packages:
 
   /vue-router/3.0.6:
     resolution: {integrity: sha512-Ox0ciFLswtSGRTHYhGvx2L44sVbTPNS+uD2kRISuo8B39Y79rOo0Kw0hzupTmiVtftQYCZl87mwldhh2L9Aquw==}
+    dev: false
+
+  /vue-router/4.2.2_vue@3.2.47:
+    resolution: {integrity: sha512-cChBPPmAflgBGmy3tBsjeoe3f3VOSG6naKyY5pjtrqLGbNEXdzCigFUHgBvp9e3ysAtFtEx7OLqcSDh/1Cq2TQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@vue/devtools-api': 6.5.0
+      vue: 3.2.47
     dev: false
 
   /vue-template-babel-compiler/1.2.0_br2xmzps53c3ygo4s2v44biria:

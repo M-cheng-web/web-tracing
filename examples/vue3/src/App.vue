@@ -8,14 +8,14 @@
 </template>
 
 <script setup lang="ts">
-// function codeError() {
-//   const a = {}
-//   a.split('/')
-// }
+function codeError() {
+  const a = {}
+  a.split('/')
+}
 
-// setTimeout(() => {
-//   codeError()
-// }, 1000)
+setTimeout(() => {
+  codeError()
+}, 1000)
 </script>
 
 <style scoped>
