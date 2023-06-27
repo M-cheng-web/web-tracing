@@ -80,15 +80,14 @@
           <video
             v-if="showVideoTrue"
             src="https://str39/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4"
-            controls="controls"
           ></video>
+          <!-- controls="controls" -->
           <el-button type="success" plain @click="showVideoFalse = true">
             加载正常视频
           </el-button>
           <video
             v-if="showVideoFalse"
             src="https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4"
-            controls="controls"
           ></video>
         </div>
       </el-tab-pane>
@@ -217,10 +216,15 @@
 
 <script lang="ts" setup>
 import axios from 'axios'
-import { traceError, unzipRecordscreen } from '@web-tracing/core'
+import { traceError, unzipRecordscreen } from '@web-tracing/vue3'
 import rrwebPlayer from 'rrweb-player'
 import 'rrweb-player/dist/style.css'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, inject, nextTick } from 'vue'
+
+const formatDate = inject('formatDate', Function, true)
+const sendMessage = inject('sendMessage', Function, true)
+const emitMessage = inject('emitMessage', Function, true)
+const selfMessage = inject('selfMessage', Function, true)
 
 onMounted(() => {
   getAllTracingList()
@@ -283,6 +287,9 @@ function codeError() {
   sendMessage()
 
   const a = {}
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   a.split('/')
 }
 function promiseError() {
@@ -320,27 +327,27 @@ function sendBizErr() {
 // ------- 批量错误 -------
 function batchErrorA(num) {
   for (let x = 1; x <= num; x++) {
-    document.getElementById('codeErr').click()
+    document.getElementById('codeErr')?.click()
   }
 }
 function batchErrorAT(num) {
   for (let x = 1; x <= num; x++) {
     setTimeout(() => {
-      document.getElementById('codeErr').click()
+      document.getElementById('codeErr')?.click()
     }, x * 300)
   }
 }
 function batchErrorB(num) {
   for (let x = 1; x <= num; x++) {
-    document.getElementById('codeErr').click()
-    this.consoleErr()
-    this.promiseError()
+    document.getElementById('codeErr')?.click()
+    consoleErr()
+    promiseError()
   }
 }
 function batchErrorC(num) {
   for (let x = 1; x <= num; x++) {
     setTimeout(() => {
-      this.batchErrorB(1)
+      batchErrorB(1)
     }, x * 300)
   }
 }
@@ -351,11 +358,11 @@ function batchErrorD() {
 }
 
 function lookRecordscreen(row) {
-  this.errDialogVisible = true
+  errDialogVisible.value = true
   row.recordscreen = unzipRecordscreen(row.recordscreen)
-  this.$nextTick(() => {
+  nextTick(() => {
     new rrwebPlayer({
-      target: document.getElementById('recordscreen'),
+      target: document.getElementById('recordscreen')!,
       props: {
         events: row.recordscreen,
         UNSAFE_replayCanvas: true
@@ -369,16 +376,16 @@ function getAllTracingList() {
   axios
     .get('/getAllTracingList', { params: { eventType: 'error' } })
     .then(res => {
-      this.tracingInfo.data = res.data.data
-      this.selfMessage('成功查询最新数据 - 错误事件')
+      tracingInfo.data = res.data.data
+      selfMessage('成功查询最新数据 - 错误事件')
     })
 }
 </script>
 
 <style scoped lang="scss">
 .err {
-  ::v-deep .el-dialog__header,
-  ::v-deep .el-dialog__body {
+  :deep(.el-dialog__header),
+  :deep(.el-dialog__body) {
     padding: 0;
   }
   .el-tab-pane {

@@ -89,7 +89,7 @@ import {
   intersectionObserver,
   intersectionUnobserve,
   intersectionDisconnect
-} from '@web-tracing/core'
+} from '@web-tracing/vue3'
 
 export default {
   data() {
