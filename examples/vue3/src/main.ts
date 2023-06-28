@@ -6,15 +6,65 @@ import WebTracing from '@web-tracing/vue3'
 import router from './router'
 import './assets/global.scss'
 import initComponents from './components/index'
+import { ElNotification } from 'element-plus'
 
 const app = createApp(App)
+
+const sendEventType: any = {
+  pv: '路由',
+  error: '错误',
+  performance: '资源',
+  click: '点击',
+  dwell: '页面卸载',
+  intersection: '曝光采集'
+}
 
 app.use(WebTracing, {
   dsn: '/trackweb',
   appName: 'cxh',
   debug: true,
-  error: true
+  error: true,
+  afterSendData(data) {
+    const { sendType, success, params } = data
+    const message = `
+      <div class='event-pop'>
+        <div class='warning-text'>打开控制台可查看更多详细信息</div>
+        <div>发送是否成功: ${success}</div>
+        <div>发送方式: ${sendType}</div>
+        <div>发送内容(只概括 eventType、eventId)
+          ${params.eventInfo.reduce(
+            (pre: string, item: any, index: number) => {
+              pre += `
+              <div class='pop-line'>
+                <span>${index + 1}</span>
+                <div>${item.eventType}(${sendEventType[item.eventType]})</div>
+                <div>${item.eventId}</div>
+              </div>`
+              return pre
+            },
+            `<div class='pop-line'>
+              <div>eventType</div>
+              <div>eventId</div>
+            </div>`
+          )}
+        </div>
+      </div>
+    `
+    ElNotification({
+      title: '发送一批数据到服务端',
+      message,
+      position: 'top-right',
+      dangerouslyUseHTMLString: true
+    })
+    // if (window.vm.$children[0].getMyComponent().getAllTracingList) {
+    //   window.vm.$children[0].getMyComponent().getAllTracingList()
+    // }
+  }
 })
+
+setTimeout(() => {
+  console.log(app)
+}, 1000)
 
 app.use(router)
 app.use(initComponents)
