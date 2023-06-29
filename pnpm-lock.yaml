@@ -131,11 +131,13 @@ importers:
       '@vitejs/plugin-vue': ^4.1.0
       '@web-tracing/vue3': workspace:*
       axios: ^1.4.0
+      concurrently: ^8.2.0
       element-plus: ^2.3.7
       eslint: ^8.36.0
       eslint-config-prettier: ^8.8.0
       eslint-plugin-prettier: ^4.2.1
       eslint-plugin-vue: ^9.15.0
+      nodemon: ^2.0.22
       prettier: ^2.8.7
       rrweb-player: 1.0.0-alpha.4
       sass: ^1.63.6
@@ -148,7 +150,9 @@ importers:
     dependencies:
       '@web-tracing/vue3': link:../../packages/vue3
       axios: 1.4.0
+      concurrently: 8.2.0
       element-plus: 2.3.7_vue@3.2.47
+      nodemon: 2.0.22
       rrweb-player: 1.0.0-alpha.4
       sass: 1.63.6
       sass-loader: 13.3.2_sass@1.63.6
@@ -2151,6 +2155,22 @@ packages:
       rxjs: 7.8.1
       shell-quote: 1.8.1
       spawn-command: 0.0.2-1
+      supports-color: 8.1.1
+      tree-kill: 1.2.2
+      yargs: 17.7.2
+    dev: false
+
+  /concurrently/8.2.0:
+    resolution: {integrity: sha512-nnLMxO2LU492mTUj9qX/az/lESonSZu81UznYDoXtz1IQf996ixVqPAgHXwvHiHCAef/7S8HIK+fTFK7Ifk8YA==}
+    engines: {node: ^14.13.0 || >=16.0.0}
+    hasBin: true
+    dependencies:
+      chalk: 4.1.2
+      date-fns: 2.30.0
+      lodash: 4.17.21
+      rxjs: 7.8.1
+      shell-quote: 1.8.1
+      spawn-command: 0.0.2
       supports-color: 8.1.1
       tree-kill: 1.2.2
       yargs: 17.7.2
@@ -4310,6 +4330,10 @@ packages:
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
     deprecated: Please use @jridgewell/sourcemap-codec instead
+
+  /spawn-command/0.0.2:
+    resolution: {integrity: sha512-zC8zGoGkmc8J9ndvml8Xksr1Amk9qBujgbF0JAIWO7kXr43w0h/0GJNM/Vustixu+YE8N/MTrQ7N31FvHUACxQ==}
+    dev: false
 
   /spawn-command/0.0.2-1:
     resolution: {integrity: sha512-n98l9E2RMSJ9ON1AKisHzz7V42VDiBQGY6PB1BwRglz99wpVsSuGzQ+jOi6lFXBGVTCrRpltvjm+/XA+tpeJrg==}

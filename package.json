@@ -24,7 +24,7 @@
     "test:install": "sh scripts/test-install.sh",
     "test:js": "nr -C examples/vanilla dev",
     "test:vue2": "nr -C examples/vue2 start",
-    "test:vue3": "nr -C examples/vue3 dev"
+    "test:vue3": "nr -C examples/vue3 start"
   },
   "keywords": [
     "埋点",
