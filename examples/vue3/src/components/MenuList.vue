@@ -44,8 +44,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 interface Props {
   items: any[]
@@ -54,17 +54,8 @@ const props = withDefaults(defineProps<Props>(), {
   items: () => []
 })
 
-const defaultActive = ref('/home')
-
-const router = useRouter()
-
-watch(
-  () => router,
-  (to: any) => {
-    defaultActive.value = to.path
-  },
-  { immediate: true }
-)
+const route = useRoute()
+const defaultActive = computed(() => route.path) // 需要使用computed才可以获取，不然会是undefined
 </script>
 
 <style lang="scss" scoped>
