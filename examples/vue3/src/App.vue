@@ -4,7 +4,9 @@
       <menu-list :items="items" />
     </div>
     <div class="right-body">
-      <router-view ref="myComponent"></router-view>
+      <router-view v-slot="{ Component }">
+        <component ref="myComponent" :is="Component" />
+      </router-view>
     </div>
     <el-button class="clean-1" type="primary" @click="showBaseInfo">
       查看核心基础信息
@@ -15,14 +17,12 @@
       </el-button>
     </div>
   </div>
-
-  <!-- <el-alert title="warning alert" type="warning" /> -->
 </template>
 
 <script setup lang="ts">
 import { provide, ref, onMounted } from 'vue'
 import { dynamicRouterMap } from './router/router.dynamic'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import axios from 'axios'
 
 const items = ref<any>([])
@@ -46,14 +46,14 @@ function showBaseInfo() {
         return pre
       }, '')
       console.log('displayInfo', displayInfo)
-      // ElAlert(displayInfo, '核心基础信息', {
-      //   dangerouslyUseHTMLString: true,
-      //   showConfirmButton: false,
-      //   closeOnClickModal: true,
-      //   callback: () => {
-      //     // action
-      //   }
-      // })
+      ElMessageBox.alert(displayInfo, '核心基础信息', {
+        dangerouslyUseHTMLString: true,
+        showConfirmButton: false,
+        closeOnClickModal: true,
+        callback: () => {
+          // action
+        }
+      })
     }
   })
 }
@@ -64,9 +64,11 @@ function cleanTracingList() {
       type: 'success',
       duration: 1000
     })
-    // if (window.vm.$children[0].getMyComponent().getAllTracingList) {
-    //   window.vm.$children[0].getMyComponent().getAllTracingList()
-    // }
+    // @ts-ignore
+    if (window.getAllTracingList) {
+      // @ts-ignore
+      window.getAllTracingList()
+    }
   })
 }
 

@@ -26,6 +26,7 @@ module.exports = {
     ],
     'vue/return-in-computed-property': 'off',
     'vue/no-multiple-template-root': 'off',
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off'
   }
 }

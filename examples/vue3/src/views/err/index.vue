@@ -204,7 +204,7 @@
     </c-table>
 
     <el-dialog
-      :visible.sync="errDialogVisible"
+      v-model="errDialogVisible"
       width="1024px"
       top="10vh"
       :show-close="false"
@@ -227,6 +227,8 @@ const emitMessage = inject('emitMessage', Function, true)
 const selfMessage = inject('selfMessage', Function, true)
 
 onMounted(() => {
+  // @ts-ignore
+  window.getAllTracingList = getAllTracingList
   getAllTracingList()
 })
 
@@ -325,26 +327,26 @@ function sendBizErr() {
 }
 
 // ------- 批量错误 -------
-function batchErrorA(num) {
+function batchErrorA(num: number) {
   for (let x = 1; x <= num; x++) {
     document.getElementById('codeErr')?.click()
   }
 }
-function batchErrorAT(num) {
+function batchErrorAT(num: number) {
   for (let x = 1; x <= num; x++) {
     setTimeout(() => {
       document.getElementById('codeErr')?.click()
     }, x * 300)
   }
 }
-function batchErrorB(num) {
+function batchErrorB(num: number) {
   for (let x = 1; x <= num; x++) {
     document.getElementById('codeErr')?.click()
     consoleErr()
     promiseError()
   }
 }
-function batchErrorC(num) {
+function batchErrorC(num: number) {
   for (let x = 1; x <= num; x++) {
     setTimeout(() => {
       batchErrorB(1)
@@ -357,10 +359,11 @@ function batchErrorD() {
   }, 200)
 }
 
-function lookRecordscreen(row) {
+function lookRecordscreen(row: any) {
   errDialogVisible.value = true
   row.recordscreen = unzipRecordscreen(row.recordscreen)
   nextTick(() => {
+    console.log('xxx', document.getElementById('recordscreen'))
     new rrwebPlayer({
       target: document.getElementById('recordscreen')!,
       props: {

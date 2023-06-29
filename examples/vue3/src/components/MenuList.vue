@@ -2,8 +2,6 @@
   <div class="menu-list">
     <el-menu
       :default-active="defaultActive"
-      @open="handleOpen"
-      @close="handleClose"
       router
       background-color="#545c64"
       text-color="#fff"
@@ -67,13 +65,6 @@ watch(
   },
   { immediate: true }
 )
-
-function handleOpen(key, keyPath) {
-  // console.log(key, keyPath)
-}
-function handleClose(key, keyPath) {
-  // console.log(key, keyPath)
-}
 </script>
 
 <style lang="scss" scoped>

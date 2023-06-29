@@ -1,12 +1,10 @@
 <template>
   <div class="intersection">
     <el-alert type="warning" title="注意" :closable="false" class="mb">
-      <template slot>
-        <div>
-          监听阈值(threshold)解释：阀值默认为0.5，当为0.5时代表滚动超过图片达到一半时即为曝光结束
-        </div>
-        <div>同理当为0.5时，代表滚动视图能看到图片一半时即为曝光开始</div>
-      </template>
+      <div>
+        监听阈值(threshold)解释：阀值默认为0.5，当为0.5时代表滚动超过图片达到一半时即为曝光结束
+      </div>
+      <div>同理当为0.5时，代表滚动视图能看到图片一半时即为曝光开始</div>
     </el-alert>
 
     <div>
@@ -83,92 +81,93 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import axios from 'axios'
 import {
   intersectionObserver,
   intersectionUnobserve,
   intersectionDisconnect
 } from '@web-tracing/vue3'
+import { ref, onMounted, inject } from 'vue'
 
-export default {
-  data() {
-    return {
-      tracingInfo: {
-        data: [],
-        table: {
-          config: [
-            { label: '序号', prop: 'index', width: '50', isTemplate: true },
-            { label: '事件类型', prop: 'eventType' },
-            { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
-            // { label: '元素', prop: 'target' },
-            { label: '监听阈值', prop: 'threshold' }, // 阀值默认为0.5，当只有比例达到一半时才触发回调函数
-            {
-              label: '开始监视时间',
-              prop: 'observeTime',
-              isTemplate: true,
-              width: '140'
-            },
-            {
-              label: '开始暴露时间',
-              prop: 'showTime',
-              isTemplate: true,
-              width: '140'
-            },
-            {
-              label: '结束暴露时间',
-              prop: 'showEndTime',
-              isTemplate: true,
-              width: '140'
-            },
-            {
-              label: '事件发送时间',
-              prop: 'sendTime',
-              isTemplate: true,
-              width: '140'
-            },
-            { label: '参数', prop: 'params', width: '300' }
-          ]
-        }
-      }
-    }
-  },
-  mounted() {
-    this.getAllTracingList()
-  },
-  methods: {
-    _intersectionObserver(str) {
-      this.sendMessage('成功采集，请滑动页面测试')
+const formatDate = inject('formatDate', Function, true)
+const sendMessage = inject('sendMessage', Function, true)
+const selfMessage = inject('selfMessage', Function, true)
 
-      const target = document.querySelector(`#${str}`)
-      intersectionObserver({
-        target,
-        threshold: 0.5, // 曝光的临界点 (0.5表示移入窗口一半算做开始曝光、移出窗口一半算结束曝光)
-        params: { name: 1111, targetName: str } // 附带的额外参数
-      })
-    },
-    _intersectionUnobserve(str) {
-      this.sendMessage('取消了采集，请滑动页面测试')
+onMounted(() => {
+  // @ts-ignore
+  window.getAllTracingList = getAllTracingList
+  getAllTracingList()
+})
 
-      const target = document.querySelector(`#${str}`)
-      intersectionUnobserve(target)
-    },
-    _intersectionDisconnect() {
-      this.sendMessage('取消了采集，请滑动页面测试')
-
-      intersectionDisconnect()
-    },
-    getAllTracingList() {
-      // 资源和请求，每触发一次就要发一个事件，当错误时，应该再发个error事件，或者其他？等想法方案统一一下
-      axios
-        .get('/getAllTracingList', { params: { eventType: 'intersection' } })
-        .then(res => {
-          const successList = res.data.data
-          this.tracingInfo.data = successList
-          this.selfMessage('成功查询最新数据 - 曝光采集事件')
-        })
-    }
+const tracingInfo = ref({
+  data: [],
+  table: {
+    config: [
+      { label: '序号', prop: 'index', width: '50', isTemplate: true },
+      { label: '事件类型', prop: 'eventType' },
+      { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
+      // { label: '元素', prop: 'target' },
+      { label: '监听阈值', prop: 'threshold' }, // 阀值默认为0.5，当只有比例达到一半时才触发回调函数
+      {
+        label: '开始监视时间',
+        prop: 'observeTime',
+        isTemplate: true,
+        width: '140'
+      },
+      {
+        label: '开始暴露时间',
+        prop: 'showTime',
+        isTemplate: true,
+        width: '140'
+      },
+      {
+        label: '结束暴露时间',
+        prop: 'showEndTime',
+        isTemplate: true,
+        width: '140'
+      },
+      {
+        label: '事件发送时间',
+        prop: 'sendTime',
+        isTemplate: true,
+        width: '140'
+      },
+      { label: '参数', prop: 'params', width: '300' }
+    ]
   }
+})
+
+function _intersectionObserver(str: string) {
+  sendMessage('成功采集，请滑动页面测试')
+
+  const target = document.querySelector(`#${str}`)!
+  intersectionObserver({
+    target,
+    threshold: 0.5, // 曝光的临界点 (0.5表示移入窗口一半算做开始曝光、移出窗口一半算结束曝光)
+    params: { name: 1111, targetName: str } // 附带的额外参数
+  })
+}
+function _intersectionUnobserve(str: string) {
+  sendMessage('取消了采集，请滑动页面测试')
+
+  const target = document.querySelector(`#${str}`)!
+  intersectionUnobserve(target)
+}
+function _intersectionDisconnect() {
+  sendMessage('取消了采集，请滑动页面测试')
+
+  intersectionDisconnect()
+}
+function getAllTracingList() {
+  // 资源和请求，每触发一次就要发一个事件，当错误时，应该再发个error事件，或者其他？等想法方案统一一下
+  axios
+    .get('/getAllTracingList', { params: { eventType: 'intersection' } })
+    .then(res => {
+      const successList = res.data.data
+      tracingInfo.value.data = successList
+      selfMessage('成功查询最新数据 - 曝光采集事件')
+    })
 }
 </script>
 

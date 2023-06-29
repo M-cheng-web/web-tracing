@@ -55,56 +55,55 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import axios from 'axios'
+import { ref, onMounted, inject } from 'vue'
 
-export default {
-  name: 'app.vue',
-  data() {
-    return {
-      tracingInfo: {
-        data: [],
-        table: {
-          config: [
-            { label: '序号', prop: 'index', width: '50', isTemplate: true },
-            { label: '事件ID', prop: 'eventId' },
-            { label: '事件名', prop: 'title' },
-            { label: '事件类型', prop: 'eventType' },
-            { label: '事件参数', prop: 'params', width: '200' },
-            { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
-            {
-              label: '事件发送时间',
-              prop: 'sendTime',
-              isTemplate: true,
-              width: '140'
-            },
-            {
-              label: '事件发生时间',
-              prop: 'triggerTime',
-              isTemplate: true,
-              width: '140'
-            },
-            { label: '被点击元素的层级', prop: 'elementPath' },
-            { label: '被点击元素与屏幕左边距离', prop: 'x', width: '100' },
-            { label: '被点击元素与屏幕上边距离', prop: 'y', width: '100' }
-          ]
-        }
-      }
-    }
-  },
-  mounted() {
-    this.getAllTracingList()
-  },
-  methods: {
-    getAllTracingList() {
-      axios
-        .get('/getAllTracingList', { params: { eventType: 'click' } })
-        .then(res => {
-          this.tracingInfo.data = res.data.data
-          this.selfMessage('成功查询最新数据 - 点击事件')
-        })
-    }
+const formatDate = inject('formatDate', Function, true)
+const selfMessage = inject('selfMessage', Function, true)
+
+onMounted(() => {
+  // @ts-ignore
+  window.getAllTracingList = getAllTracingList
+  getAllTracingList()
+})
+
+const tracingInfo = ref({
+  data: [],
+  table: {
+    config: [
+      { label: '序号', prop: 'index', width: '50', isTemplate: true },
+      { label: '事件ID', prop: 'eventId' },
+      { label: '事件名', prop: 'title' },
+      { label: '事件类型', prop: 'eventType' },
+      { label: '事件参数', prop: 'params', width: '200' },
+      { label: '当前页面URL', prop: 'triggerPageUrl', width: '200' },
+      {
+        label: '事件发送时间',
+        prop: 'sendTime',
+        isTemplate: true,
+        width: '140'
+      },
+      {
+        label: '事件发生时间',
+        prop: 'triggerTime',
+        isTemplate: true,
+        width: '140'
+      },
+      { label: '被点击元素的层级', prop: 'elementPath' },
+      { label: '被点击元素与屏幕左边距离', prop: 'x', width: '100' },
+      { label: '被点击元素与屏幕上边距离', prop: 'y', width: '100' }
+    ]
   }
+})
+
+function getAllTracingList() {
+  axios
+    .get('/getAllTracingList', { params: { eventType: 'click' } })
+    .then(res => {
+      tracingInfo.value.data = res.data.data
+      selfMessage('成功查询最新数据 - 点击事件')
+    })
 }
 </script>
 

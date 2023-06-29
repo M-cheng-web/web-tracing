@@ -11,30 +11,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      sendEventType: {
-        pv: '路由',
-        error: '错误',
-        performance: '资源',
-        click: '点击',
-        dwell: '页面卸载',
-        intersection: '曝光采集'
-      },
-      sendEventId: {
-        page: '页面',
-        resource: '资源',
-        server: '请求',
-        code: '错误id - code',
-        reject: '错误id - reject',
-        'console.error': '错误id - console.error'
-      }
-    }
-  },
-  methods: {}
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const sendEventType = ref({
+  pv: '路由',
+  error: '错误',
+  performance: '资源',
+  click: '点击',
+  dwell: '页面卸载',
+  intersection: '曝光采集'
+})
+const sendEventId = ref({
+  page: '页面',
+  resource: '资源',
+  server: '请求',
+  code: '错误id - code',
+  reject: '错误id - reject',
+  'console.error': '错误id - console.error'
+})
 </script>
 
 <style lang="scss"></style>

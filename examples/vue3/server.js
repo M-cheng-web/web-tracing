@@ -76,6 +76,7 @@ app.post('/trackweb', async (req, res) => {
     if (length) {
       // 数据量大时不会用 sendbeacon，会用xhr的形式，这里是接收xhr的数据格式
       allTracingList.push(...req.body.eventInfo)
+      baseInfo = req.body.baseInfo
     } else {
       // 兼容 sendbeacon 的传输数据格式
       const data = await coBody.json(req)
@@ -122,6 +123,6 @@ app.get('/trackweb', async (req, res) => {
   }
 })
 
-app.listen(3351, () => {
-  console.log('Server is running at http://localhost:3351')
+app.listen(3352, () => {
+  console.log('Server is running at http://localhost:3352')
 })

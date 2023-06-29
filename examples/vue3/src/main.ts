@@ -23,7 +23,13 @@ app.use(WebTracing, {
   dsn: '/trackweb',
   appName: 'cxh',
   debug: true,
+  pv: true,
+  performance: true,
   error: true,
+  event: true,
+  cacheMaxLength: 10,
+  cacheWatingTime: 1000,
+  ignoreRequest: [/getAllTracingList/, /cleanTracingList/, /getBaseInfo/],
   afterSendData(data) {
     const { sendType, success, params } = data
     const message = `
@@ -56,15 +62,13 @@ app.use(WebTracing, {
       position: 'top-right',
       dangerouslyUseHTMLString: true
     })
-    // if (window.vm.$children[0].getMyComponent().getAllTracingList) {
-    //   window.vm.$children[0].getMyComponent().getAllTracingList()
-    // }
+    // @ts-ignore
+    if (window.getAllTracingList) {
+      // @ts-ignore
+      window.getAllTracingList()
+    }
   }
 })
-
-setTimeout(() => {
-  console.log(app)
-}, 1000)
 
 app.use(router)
 app.use(initComponents)
