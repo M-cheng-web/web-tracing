@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const route = useRoute()
-const defaultActive = computed(() => route.path) // 需要使用computed才可以获取，不然会是undefined
+const defaultActive = computed(() => route.path)
 </script>
 
 <style lang="scss" scoped>
