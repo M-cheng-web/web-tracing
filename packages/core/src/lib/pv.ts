@@ -6,45 +6,68 @@ import { _global } from '../utils/global'
 import { options } from './options'
 import { eventBus } from './eventBus'
 import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
-import { debug } from '../utils/debug'
 
-let oldURL = getLocationHref() // 最后一次的url
+let oldURL = getLocationHref()
 let historyLength = _global.history.length
 
 /**
  * 路由Pv采集
+ *
+ * 分为以下几种情况（sdk是兼容vue2以及vue3的，但可能有些部分是取了它们的一些特性的，可能会受到后续它们的更改的影响）
+ *
+ * 1. 针对普通 html
+ *    1. window.history.pushState 时会触发 pushState
+ *    2. window.history.replaceState 时其会触发 replaceState
+ *    3. 手动 更改地址栏地址 时其触发顺序： popstate -> hashchange (history 模式手动更改地址会当做刷新页面，什么也不会触发)
+ *
+ * 2. 针对 vue2(vue-router)
+ *    1. 手动 push 时其会触发 pushState (history、hash模式表现相同)
+ *    2. 手动 repleace 时其会触发 replaceState (history、hash模式表现相同)
+ *    3. 手动 更改地址栏地址 时其触发顺序： popstate -> hashchange (history 模式手动更改地址会当做刷新页面，什么也不会触发)
+ *
+ * 3. 针对 vue3(vue-router)
+ *    1. 手动 push 时其触发顺序： replaceState -> pushState (history、hash模式表现相同)
+ *    2. 手动 repleace 时其会触发 replaceState (history、hash模式表现相同)
+ *    3. 手动 更改地址栏地址 时其触发顺序： replaceState -> popstate -> hashchange (history 模式仅触发 replaceState)
  */
 function initPv() {
   if (!options.value.pv.core) return
 
-  const referer = document.referrer // 获取是从哪个页面跳转来的
   let lastIsPop = false // 最后一次触发路由变化是否为popState触发
+  let repetitionRoute = false // 在触发 replaceState 后 100ms 内的 pushState 会被无效记录
 
-  sendPageView({ url: oldURL, referer }) // 首次进入记录url变化
-
-  // hash路由 和 history路由是隔离开的，不会互相触发钩子
+  sendPageView({ url: oldURL, referer: document.referrer }) // 首次进入记录url变化
 
   eventBus.addEvent({
     type: EVENTTYPES.HISTORYPUSHSTATE,
-    callback: () => {
+    callback: (...args) => {
+      console.log('history-pushState', repetitionRoute, args)
+      if (repetitionRoute) return
       lastIsPop = false
-      sendPageView({ actions: 'navigation' })
+      sendPageView({ actions: 'navigation', referer: getLocationHref() })
     }
   })
 
   eventBus.addEvent({
     type: EVENTTYPES.HISTORYREPLACESTATE,
-    callback: () => {
+    callback: (...args) => {
+      console.log('history-replaceState', args)
+      repetitionRoute = true
       lastIsPop = false
-      sendPageView({ actions: 'navigation' })
+      sendPageView({ actions: 'navigation', referer: getLocationHref() })
+      setTimeout(() => {
+        repetitionRoute = false
+      }, 100)
     }
   })
 
   eventBus.addEvent({
     type: EVENTTYPES.HASHCHANGE,
-    callback: () => {
-      lastIsPop = false
+    callback: (...args) => {
+      console.log('hashchange', args)
+      if (repetitionRoute) return
       if (options.value.pv.hashtag && !lastIsPop) sendPageView()
+      lastIsPop = false
     }
   })
 
@@ -53,8 +76,9 @@ function initPv() {
   // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event
   eventBus.addEvent({
     type: EVENTTYPES.POPSTATE,
-    callback: () => {
-      debug('pv-popstate')
+    callback: (...args) => {
+      console.log('popstate', args)
+      if (repetitionRoute) return
       if (_global.location.hash !== '') {
         const oldHost =
           oldURL.indexOf('#') > 0 // 多页面情况下 history模式刷新还是在pv页面
