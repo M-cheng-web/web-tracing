@@ -38,14 +38,21 @@
 <script lang="ts" setup>
 import axios from 'axios'
 import { ref, onMounted, inject } from 'vue'
+import { useRouter } from 'vue-router'
 
 const formatDate = inject('formatDate', Function, true)
 const selfMessage = inject('selfMessage', Function, true)
+
+const router = useRouter()
 
 onMounted(() => {
   // @ts-ignore
   window.getAllTracingList = getAllTracingList
   getAllTracingList()
+
+  setTimeout(() => {
+    router.push('/home')
+  }, 2000)
 })
 
 const tracingInfo = ref({

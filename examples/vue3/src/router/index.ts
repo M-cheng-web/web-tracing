@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory
+  // createWebHistory
+} from 'vue-router'
 import { dynamicRouterMap } from './router.dynamic'
 
 const router = createRouter({

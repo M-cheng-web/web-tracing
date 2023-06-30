@@ -23,6 +23,10 @@ app.use(WebTracing, {
   dsn: '/trackweb',
   appName: 'cxh',
   debug: true,
+  // pv: {
+  //   core: true,
+  //   hashtag: true
+  // },
   pv: true,
   performance: true,
   error: true,
