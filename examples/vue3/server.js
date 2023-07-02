@@ -84,11 +84,6 @@ app.post('/trackweb', async (req, res) => {
       allTracingList.push(...data.eventInfo)
       baseInfo = data.baseInfo
     }
-    // 后面得在首页说明一下调试方法
-
-    // 后面对vue3的兼容做一些，提炼一些hook方便实用
-    // 后面再做vue3的测试框架
-
     res.send({
       code: 200,
       meaage: '上报成功！'
