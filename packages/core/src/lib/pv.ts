@@ -40,8 +40,7 @@ function initPv() {
 
   eventBus.addEvent({
     type: EVENTTYPES.HISTORYPUSHSTATE,
-    callback: (...args) => {
-      console.log('history-pushState', repetitionRoute, args)
+    callback: () => {
       if (repetitionRoute) return
       lastIsPop = false
       sendPageView({ actions: 'navigation', referer: getLocationHref() })
@@ -50,8 +49,7 @@ function initPv() {
 
   eventBus.addEvent({
     type: EVENTTYPES.HISTORYREPLACESTATE,
-    callback: (...args) => {
-      console.log('history-replaceState', args)
+    callback: () => {
       repetitionRoute = true
       lastIsPop = false
       sendPageView({ actions: 'navigation', referer: getLocationHref() })
@@ -63,8 +61,7 @@ function initPv() {
 
   eventBus.addEvent({
     type: EVENTTYPES.HASHCHANGE,
-    callback: (...args) => {
-      console.log('hashchange', args)
+    callback: () => {
       if (repetitionRoute) return
       if (options.value.pv.hashtag && !lastIsPop) sendPageView()
       lastIsPop = false
@@ -76,8 +73,7 @@ function initPv() {
   // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event
   eventBus.addEvent({
     type: EVENTTYPES.POPSTATE,
-    callback: (...args) => {
-      console.log('popstate', args)
+    callback: () => {
       if (repetitionRoute) return
       if (_global.location.hash !== '') {
         const oldHost =
