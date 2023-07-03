@@ -66,7 +66,7 @@ nr docs
 + sdk内部所有主动方法都改为只传 options 一个参数，但所有的属性优先级是低于内部定义的
 + sdk内部发送方式增加至三种，sendbeacon、xml、img，优先 sendBeacon，其次img，最后为xml（因为增加了错误录屏导致数据量较大，xml不限制请求大小）但xml可能会有跨域问题，使用者应该注意这一问题，且sdk内部会将配置的dsn地址加入请求拦截名单(sendBeacon 有64kb限制 img 有2kb限制)
 + beforePushEventList 中的data参数设置为数组
-+ 兼容 vue2、vue3（错误处理机制已兼容去重）（react以及小程序优先级靠后一些）
++ 兼容 vue2、vue3（错误处理机制已兼容去重）（react以及小程序优先级靠后一些）（vue3的demo项目的err模块会报警告，分别是：rrweb-player初始加载警告、执行 codeError 方法会报警告；均不影响正常调试）
 
 ### 二期未完成功能
 + sourcemap
