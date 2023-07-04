@@ -57,7 +57,6 @@ function initPv() {
   eventBus.addEvent({
     type: EVENTTYPES.HISTORYPUSHSTATE,
     callback: () => {
-      console.log('pushState')
       if (repetitionRoute) return
       lastIsPop = false
       sendPageView({ action: 'navigation' })
@@ -67,7 +66,6 @@ function initPv() {
   eventBus.addEvent({
     type: EVENTTYPES.HISTORYREPLACESTATE,
     callback: () => {
-      console.log('replaceState')
       repetitionRoute = true
       lastIsPop = false
       sendPageView({ action: 'navigation' })
@@ -80,7 +78,6 @@ function initPv() {
   eventBus.addEvent({
     type: EVENTTYPES.HASHCHANGE,
     callback: () => {
-      console.log('hashchange')
       if (repetitionRoute) return
       if (!lastIsPop) sendPageView()
       lastIsPop = false
@@ -90,7 +87,6 @@ function initPv() {
   eventBus.addEvent({
     type: EVENTTYPES.POPSTATE,
     callback: () => {
-      console.log('popstate')
       if (repetitionRoute) return
       if (_global.location.hash !== '') {
         const oldHost =
