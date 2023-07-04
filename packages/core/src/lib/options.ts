@@ -18,8 +18,7 @@ export class Options implements InternalOptions {
   sdkUserUuid = '' // 用户id(sdk内部生成的id)
   debug = false // 是否开启调试模式(控制台会输出sdk动作)
   pv = {
-    core: false, // 页面跳转-是否自动发送页面跳转相关数据
-    hashtag: false // 页面跳转-浏览器的动作发生时(例如浏览器的回退按钮)是否监听hash变化,如果是hash路由请开启此开关
+    core: false // 页面跳转-是否自动发送页面跳转相关数据
   }
   performance = {
     core: false, // 性能数据-是否采集静态资源、接口的相关数据
@@ -77,8 +76,7 @@ export class Options implements InternalOptions {
 
     if (typeof pv === 'boolean') {
       _options.pv = {
-        core: pv,
-        hashtag: pv
+        core: pv
       }
     }
     if (typeof performance === 'boolean') {
@@ -125,7 +123,6 @@ function _validateInitOption(options: InitOptions) {
     debug,
     pv,
     pvCore,
-    pvHashtag,
     performance,
     performanceCore,
     performanceFirstResource,
@@ -152,10 +149,7 @@ function _validateInitOption(options: InitOptions) {
   const validateFunList = []
 
   if (pv && typeof pv === 'object') {
-    validateFunList.push(
-      validateOption(pv.core, 'pv.core', 'boolean'),
-      validateOption(pv.hashtag, 'pv.hashtag', 'boolean')
-    )
+    validateFunList.push(validateOption(pv.core, 'pv.core', 'boolean'))
   } else {
     validateFunList.push(validateOption(pv, 'pv', 'boolean'))
   }
@@ -201,7 +195,6 @@ function _validateInitOption(options: InitOptions) {
     validateOption(debug, 'debug', 'boolean'),
 
     validateOption(pvCore, 'pvCore', 'boolean'),
-    validateOption(pvHashtag, 'pvHashtag', 'boolean'),
 
     validateOption(performanceCore, 'performanceCore', 'boolean'),
     validateOption(
