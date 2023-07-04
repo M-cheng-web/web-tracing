@@ -44,3 +44,13 @@ export enum SENDID {
   REJECT = 'reject', // reject
   CONSOLEERROR = 'console.error' // console.error
 }
+
+/**
+ * 网页的几种加载方式
+ */
+export const WEBPAGELOAD: Record<number, string> = {
+  0: 'navigate', // 网页通过点击链接,地址栏输入,表单提交,脚本操作等方式加载
+  1: 'reload', // 网页通过“重新加载”按钮或者location.reload()方法加载
+  2: 'back_forward', // 网页通过“前进”或“后退”按钮加载
+  255: 'reserved' // 任何其他来源的加载
+}

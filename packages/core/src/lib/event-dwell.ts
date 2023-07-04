@@ -1,4 +1,4 @@
-import { EVENTTYPES, SEDNEVENTTYPES } from '../common'
+import { EVENTTYPES, SEDNEVENTTYPES, WEBPAGELOAD } from '../common'
 import { uuid, isValidKey, getTimestamp, getLocationHref } from '../utils'
 import { eventBus } from './eventBus'
 import { sendData } from './sendData'
@@ -45,14 +45,8 @@ function dwellCollector() {
       _config.referer = document.referrer // 上级页面 url(从哪个页面跳过来的就是上级页面)
       _config.triggerTime = getTimestamp() // 卸载时间
       _config.millisecond = getTimestamp() - _config.entryTime // 停留多久
-      const mapping: Record<number, string> = {
-        0: 'navigate', // 网页通过点击链接,地址栏输入,表单提交,脚本操作等方式加载
-        1: 'reload', // 网页通过“重新加载”按钮或者location.reload()方法加载
-        2: 'back_forward', // 网页通过“前进”或“后退”按钮加载
-        255: 'reserved' // 任何其他来源的加载
-      }
       const { type } = performance.navigation // 表示加载来源, type为 0,1,2,255
-      _config.operateAction = mapping[type] || ''
+      _config.operateAction = WEBPAGELOAD[type] || ''
       sendData.emit(_config, true)
     }
   })
