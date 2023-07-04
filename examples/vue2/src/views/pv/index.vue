@@ -73,9 +73,9 @@ export default {
   },
   mounted() {
     this.getAllTracingList()
-    setTimeout(() => {
-      this.$router.replace('/home')
-    }, 2000)
+    // setTimeout(() => {
+    //   this.$router.replace('/home')
+    // }, 2000)
   },
   methods: {
     getAllTracingList() {

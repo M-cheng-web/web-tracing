@@ -8,7 +8,8 @@ export const constantRoutes = [...dynamicRouterMap]
 
 const createRouter = () =>
   new Router({
-    mode: 'history',
+    // mode: 'history',
+    mode: 'hash',
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRoutes
   })
