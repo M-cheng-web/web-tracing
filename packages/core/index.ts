@@ -1,6 +1,6 @@
 import type { InitOptions } from './src/types'
 import { initReplace } from './src/lib/replace'
-import { initOptions } from './src/lib/options'
+import { initOptions, options as _options } from './src/lib/options'
 import { initBase } from './src/lib/base'
 import { initSendData } from './src/lib/sendData'
 import { initLineStatus } from './src/lib/line-status'
@@ -41,6 +41,14 @@ function init(options: InitOptions): void {
   _global.__webTracingInit__ = true
 }
 
-export { init, InitOptions, logError, parseError, SENDID, exportMethods }
+export {
+  init,
+  InitOptions,
+  logError,
+  parseError,
+  SENDID,
+  exportMethods,
+  _options as options
+}
 export * from './src/lib/exportMethods'
-export default { init, ...exportMethods }
+export default { init, ...exportMethods, options: _options }
