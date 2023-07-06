@@ -296,11 +296,11 @@ export function sendByImage(url: string, data: any): Promise<void> {
     beacon.src = `${url}?v=${encodeURIComponent(JSON.stringify(data))}`
     sendReaconImageList.push(beacon)
     beacon.onload = () => {
-      console.log('发送成功')
+      // 发送成功
       resolve()
     }
     beacon.onerror = function () {
-      console.log('发送失败')
+      // 发送失败
       resolve()
     }
   })
