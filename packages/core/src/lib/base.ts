@@ -6,7 +6,7 @@ import { getSessionId } from '../utils/session'
 import { options } from './options'
 import { getIPs } from '../utils/getIps'
 import { AnyObj } from '../types'
-import { ref } from '../observer'
+import { computed } from '../observer'
 import type { ObserverValue } from '../observer/types'
 
 interface Device {
@@ -73,8 +73,9 @@ export class BaseInfo {
   private initBase() {
     // 与一般业务上理解的sessionId做区分,此session与业务无关,单纯就是浏览器端和后端直接的联系
     const sessionId = getSessionId()
+    let ip = ''
 
-    this.base = ref<Base>({
+    this.base = computed<Base>(() => ({
       ...this.device!,
       userUuid: options.value.userUuid,
       sdkUserUuid: this.sdkUserUuid,
@@ -84,11 +85,12 @@ export class BaseInfo {
       pageId: this.pageId,
       sessionId,
       sdkVersion: SDK_VERSION,
-      ip: ''
-    })
+      ip
+    }))
 
     getIPs().then((res: any) => {
       this.base!.value.ip = res[0]
+      ip = res[0]
     })
   }
   /**

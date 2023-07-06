@@ -22,17 +22,9 @@ import { executeFunctions } from '../utils'
 import { computed } from '../observer'
 
 export class SendData {
-  private dsn = '' // 服务请求地址
   private events: AnyObj[] = [] // 批次队列
-  private cacheMaxLength: number // 最大发送长度
-  private cacheWatingTime: number // 延迟发送时间
   private timeoutID: NodeJS.Timeout | undefined // 延迟发送ID
 
-  constructor() {
-    this.dsn = options.value.dsn
-    this.cacheMaxLength = options.value.cacheMaxLength
-    this.cacheWatingTime = options.value.cacheWatingTime
-  }
   /**
    * 发送事件列表
    */
@@ -40,8 +32,8 @@ export class SendData {
     if (!this.events.length) return
 
     // 选取首部的部分数据来发送,performance会一次性采集大量数据追加到events中
-    const sendEvents = this.events.slice(0, this.cacheMaxLength) // 需要发送的事件
-    this.events = this.events.slice(this.cacheMaxLength) // 剩下待发的事件
+    const sendEvents = this.events.slice(0, options.value.cacheMaxLength) // 需要发送的事件
+    this.events = this.events.slice(options.value.cacheMaxLength) // 剩下待发的事件
 
     const time = getTimestamp()
     const sendParams = computed(() => ({
@@ -76,7 +68,7 @@ export class SendData {
 
     debug('send events', sendParams.value)
 
-    this.executeSend(this.dsn, afterSendParams).then((res: any) => {
+    this.executeSend(options.value.dsn, afterSendParams).then((res: any) => {
       executeFunctions(options.value.afterSendData, true, {
         ...res,
         params: afterSendParams
@@ -103,7 +95,7 @@ export class SendData {
 
     debug('send events', afterSendParams)
 
-    this.executeSend(this.dsn, afterSendParams)
+    this.executeSend(options.value.dsn, afterSendParams)
   }
   /**
    * 记录需要发送的埋点数据
@@ -131,10 +123,13 @@ export class SendData {
     if (this.timeoutID) clearTimeout(this.timeoutID)
 
     // 满足最大记录数,立即发送,否则定时发送
-    if (this.events.length >= this.cacheMaxLength || flush) {
+    if (this.events.length >= options.value.cacheMaxLength || flush) {
       this.send()
     } else {
-      this.timeoutID = setTimeout(this.send.bind(this), this.cacheWatingTime)
+      this.timeoutID = setTimeout(
+        this.send.bind(this),
+        options.value.cacheWatingTime
+      )
     }
   }
   /**

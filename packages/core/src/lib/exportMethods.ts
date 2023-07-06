@@ -32,6 +32,7 @@ export function unzipRecordscreen(recordscreen: string) {
  */
 export function beforePushEventList(fun: AnyFun): void {
   if (!validateMethods('beforePushEventList')) return
+
   options.value.beforePushEventList.push(fun)
 }
 
@@ -41,6 +42,7 @@ export function beforePushEventList(fun: AnyFun): void {
  */
 export function beforeSendData(fun: AnyFun): void {
   if (!validateMethods('beforeSendData')) return
+
   options.value.beforeSendData.push(fun)
 }
 
@@ -50,6 +52,7 @@ export function beforeSendData(fun: AnyFun): void {
  */
 export function afterSendData(fun: AnyFun): void {
   if (!validateMethods('afterSendData')) return
+
   options.value.afterSendData.push(fun)
 }
 
@@ -59,6 +62,7 @@ export function afterSendData(fun: AnyFun): void {
  */
 export function setUserUuid(id: string): void {
   if (!validateMethods('setUserUuid')) return
+
   options.value.userUuid = id
 }
 
@@ -67,6 +71,7 @@ export function setUserUuid(id: string): void {
  */
 export function getUserUuid(): string | void {
   if (!validateMethods('getUserUuid')) return
+
   return options.value.userUuid
 }
 
