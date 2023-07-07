@@ -7,7 +7,8 @@
     "start": "concurrently  \"npm run dev\" \"npm run service\"",
     "dev": "vite",
     "service": "nodemon ./server.js",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
+    "build-tsc": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
