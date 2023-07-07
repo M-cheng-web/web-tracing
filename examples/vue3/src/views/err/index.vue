@@ -223,7 +223,7 @@ import { traceError, unzipRecordscreen } from '@web-tracing/vue3'
 import rrwebPlayer from 'rrweb-player'
 import 'rrweb-player/dist/style.css'
 import { ref, reactive, onMounted, inject, nextTick } from 'vue'
-import { findCodeBySourceMap } from '../../utils/sourcemap'
+// import { findCodeBySourceMap } from '../../utils/sourcemap'
 
 const formatDate = inject('formatDate', Function, true)
 const sendMessage = inject('sendMessage', Function, true)
@@ -363,22 +363,22 @@ function batchErrorD() {
   }, 200)
 }
 
-function lookSourceMap(row: any) {
-  // errDialogVisible.value = true
-  console.log('row', row)
-  const { line, col } = row
-  findCodeBySourceMap(
-    {
-      fileName:
-        'http://localhost:6657/node_modules/.vite/deps/chunk-5LLMT6L7.js?v=aadddc15',
-      line,
-      column: col
-    },
-    (res: string) => {
-      console.log('执行完毕', res)
-    }
-  )
-}
+// function lookSourceMap(row: any) {
+//   // errDialogVisible.value = true
+//   console.log('row', row)
+//   const { line, col } = row
+//   findCodeBySourceMap(
+//     {
+//       fileName:
+//         'http://localhost:6657/node_modules/.vite/deps/chunk-5LLMT6L7.js?v=aadddc15',
+//       line,
+//       column: col
+//     },
+//     (res: string) => {
+//       console.log('执行完毕', res)
+//     }
+//   )
+// }
 
 function lookRecordscreen(row: any) {
   errDialogVisible.value = true
