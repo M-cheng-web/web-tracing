@@ -19,6 +19,9 @@
       "@web-tracing/types": ["../../packages/types/index.ts"],
       // "@web-tracing/component": ["./packages/component/index.ts"],
     },
+    "types": [
+      "vite/client"
+    ]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

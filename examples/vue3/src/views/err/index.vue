@@ -200,6 +200,9 @@
         <el-button type="primary" @click="lookRecordscreen(scope.row)">
           查看错误录屏
         </el-button>
+        <!-- <el-button type="primary" @click="lookSourceMap(scope.row)">
+          查看错误源文件
+        </el-button> -->
       </template>
     </c-table>
 
@@ -220,6 +223,7 @@ import { traceError, unzipRecordscreen } from '@web-tracing/vue3'
 import rrwebPlayer from 'rrweb-player'
 import 'rrweb-player/dist/style.css'
 import { ref, reactive, onMounted, inject, nextTick } from 'vue'
+import { findCodeBySourceMap } from '../../utils/sourcemap'
 
 const formatDate = inject('formatDate', Function, true)
 const sendMessage = inject('sendMessage', Function, true)
@@ -278,7 +282,7 @@ const tracingInfo = reactive({
       {
         label: '操作',
         prop: 'actions',
-        width: '140',
+        width: '300',
         isTemplate: true
       }
     ]
@@ -357,6 +361,23 @@ function batchErrorD() {
   setInterval(() => {
     document.getElementById('codeErr')?.click()
   }, 200)
+}
+
+function lookSourceMap(row: any) {
+  // errDialogVisible.value = true
+  console.log('row', row)
+  const { line, col } = row
+  findCodeBySourceMap(
+    {
+      fileName:
+        'http://localhost:6657/node_modules/.vite/deps/chunk-5LLMT6L7.js?v=aadddc15',
+      line,
+      column: col
+    },
+    (res: string) => {
+      console.log('执行完毕', res)
+    }
+  )
 }
 
 function lookRecordscreen(row: any) {

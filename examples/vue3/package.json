@@ -23,6 +23,7 @@
     "rrweb-player": "1.0.0-alpha.4",
     "sass": "^1.63.6",
     "sass-loader": "^13.3.2",
+    "source-map-js": "^1.0.2",
     "vue": "^3.2.47",
     "vue-router": "^4.2.2"
   },

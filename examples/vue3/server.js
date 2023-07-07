@@ -1,10 +1,10 @@
 import express from 'express'
-const app = express()
-// import { join } from 'path'
-// import { readFile } from 'fs'
+import path from 'path'
+import fs from 'fs'
 import pkg from 'body-parser'
 import coBody from 'co-body'
 
+const app = express()
 const { json, urlencoded } = pkg
 
 app.use(json({ limit: '100mb' }))
@@ -22,6 +22,36 @@ app.all('*', function (res, req, next) {
   req.header('Access-Control-Allow-Methods', '*')
   req.header('Content-Type', 'application/json;charset=utf-8')
   next()
+})
+
+// 获取js.map源码文件
+app.get('/getSourceMap', (req, res) => {
+  const { fileName, env } = req.query
+  console.log('fileName', fileName)
+  console.log('env', env)
+  if (env === 'development') {
+    // const mapFile = path.join(__filename, '..', fileName)
+    // console.log('mapFile', mapFile)
+    fs.readFile(fileName, (err, data) => {
+      if (err) {
+        console.error('server-getmap', err)
+        return
+      }
+      res.send(data)
+    })
+  } else {
+    // req.query 获取接口参数
+    const mapFile = path.join(__filename, '..', 'dist/assets')
+    // 拿到dist目录下对应map文件的路径
+    const mapPath = path.join(mapFile, `${fileName}.map`)
+    fs.readFile(mapPath, (err, data) => {
+      if (err) {
+        console.error('server-getmap', err)
+        return
+      }
+      res.send(data)
+    })
+  }
 })
 
 app.get('/getList', (req, res) => {

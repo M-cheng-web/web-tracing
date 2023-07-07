@@ -31,7 +31,12 @@ app.use(WebTracing, {
   cacheWatingTime: 1000,
 
   // 查询埋点信息、清除埋点信息、获取埋点基础信息 不需要进行捕获
-  ignoreRequest: [/getAllTracingList/, /cleanTracingList/, /getBaseInfo/],
+  ignoreRequest: [
+    /getAllTracingList/,
+    /cleanTracingList/,
+    /getBaseInfo/,
+    /getSourceMap/
+  ],
 
   // 发送埋点数据后，拉起弹窗提示用户已发送
   afterSendData(data) {
