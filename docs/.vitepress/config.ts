@@ -11,7 +11,7 @@ export default defineConfig({
   cleanUrls: true,
 
   themeConfig: {
-    logo: '/logo.svg',
+    logo: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg',
     nav: nav(),
 
     // sidebar: {
@@ -47,7 +47,7 @@ export default defineConfig({
     // },
   },
   head: [
-    ['link', { rel: 'icon', href: 'logo.svg' }],
+    ['link', { rel: 'icon', href: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg' }],
   ]
 })
 

@@ -1,29 +1,25 @@
 ---
 layout: home
 
-title: FastTracing
-titleTemplate: 埋点sdk
+title: WebTracing
+titleTemplate: 埋点
 
 hero:
-  name: FastTracing
-  text: 埋点sdk
-  tagline: 行为埋点 & 性能采集 & 异常采集 & 请求采集 & 路由采集
+  name: WebTracing
+  text: 为前端项目提供完善的监控手段
   image:
-    src: /logo.svg
+    src: https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg
     alt: VitePress
   actions:
     - theme: brand
-      text: 快速开始1
+      text: 起步
       link: /guide/introduce
     - theme: alt
-      text: 搜索
-      link: /functions
+      text: Demo
+      link: /guide/introduce
     - theme: alt
       text: GitHub
-      link: https://github.com/FastUse/morehook
-    - theme: alt
-      text: VueUse官网
-      link: https://vueuse.org
+      link: https://github.com/M-cheng-web/web-tracing
 
 features:
   - title: 开发架构以及打包流程借鉴了 vueuse，并基于此扩展了对组件库的开发、预览、打包
