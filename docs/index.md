@@ -16,7 +16,7 @@ hero:
       link: /guide/starting
     - theme: alt
       text: 示例
-      link: /guide/demo
+      link: /guide/use/demo
     - theme: alt
       text: 技术点分析
       link: /analyse/index
@@ -31,10 +31,10 @@ features:
   - title: 面面俱到
     details: 目前已适配 [ js、vue2、vue3 ]
     icon: ⚡
-  - title: 灵活
-    details: 提供了拦截方法 + 配置项动态更改
+  - title: 随机应变
+    details: 提供多种拦截方法、配置项动态更改
     icon: 🛠
-  - title: 集成
+  - title: 珠联璧合
     details: demo、文档、sdk核心功能 于一体
     icon: 🎪
 ---
