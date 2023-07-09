@@ -12,11 +12,54 @@ export default defineConfig({
 
   themeConfig: {
     logo: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg',
-    nav: nav(),
 
-    // sidebar: {
-    //   '/guide/': GuideSidebar,
-    // } as DefaultTheme.Sidebar,
+    nav: [
+      { text: '指南', link: '/guide/starting' },
+      { text: '示例', link: '/guide/demo' },
+      { text: '技术点分析', link: '/analyse/index', activeMatch: '/analyse/' },
+      { text: version, link: '' }
+    ],
+
+    sidebar: {
+      '/guide/': [
+        {
+          text: '指南',
+          items: [
+            { text: '起步', link: '/guide/starting' },
+            { text: '最佳实践', link: '/guide/practice' },
+            { text: '设计理念', link: '/guide/idea' },
+          ]
+        },
+        {
+          text: '使用',
+          items: [
+            { text: '基础说明', link: '/guide/use/declare' },
+            { text: '配置项', link: '/guide/use/options' },
+            { text: '数据结构', link: '/guide/use/structure' },
+            { text: '示例', link: '/guide/use/demo' },
+          ]
+        },
+        {
+          text: '功能',
+          items: [
+            { text: '事件采集', link: '/guide/functions/event' },
+            { text: '错误采集', link: '/guide/functions/error' },
+            { text: '路由采集', link: '/guide/functions/pv' },
+            { text: '请求采集', link: '/guide/functions/http' },
+            { text: '资源采集', link: '/guide/functions/performance' },
+          ]
+        },
+      ],
+      '/analyse/': [
+        {
+          text: '技术点分析',
+          items: [
+            { text: '基础说明', link: '/analyse/index' },
+            { text: '架构', link: '/analyse/framework' },
+          ]
+        },
+      ],
+    },
 
     editLink: {
       pattern: 'https://github.com/FastUse/morehook/tree/main/packages/:path',
@@ -36,26 +79,9 @@ export default defineConfig({
 
     // lastUpdatedText: '最后更新',
 
-    // docFooter: {
-    //   prev: '上一页',
-    //   next: '下一页'
-    // },
     // outlineTitle: 'This',
-
-    // footer: {
-    //   message: 'Released under the MIT License.',
-    // },
   },
   head: [
     ['link', { rel: 'icon', href: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg' }],
   ]
 })
-
-// 顶部栏
-function nav(): DefaultTheme.NavItem[] {
-  return [
-    { text: '开始', link: '/guide/introduce', activeMatch: '/guide/' },
-    // { text: '搜索', link: '/functions', activeMatch: '/functions/' },
-    { text: version, link: '' }
-  ]
-}

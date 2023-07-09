@@ -13,13 +13,13 @@ hero:
   actions:
     - theme: brand
       text: 起步
-      link: /guide/introduce
+      link: /guide/starting
     - theme: alt
-      text: 功能块
-      link: /guide/introduce
+      text: 示例
+      link: /guide/demo
     - theme: alt
-      text: Demo
-      link: /guide/introduce
+      text: 技术点分析
+      link: /analyse/index
     - theme: alt
       text: View on GitHub
       link: https://github.com/M-cheng-web/web-tracing
@@ -34,7 +34,7 @@ features:
   - title: 灵活
     details: 提供了拦截方法 + 配置项动态更改
     icon: 🛠
-  - title: 项目一体
+  - title: 集成
     details: demo、文档、sdk核心功能 于一体
     icon: 🎪
 ---
