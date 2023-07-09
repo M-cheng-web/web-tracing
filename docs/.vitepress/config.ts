@@ -24,10 +24,10 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/FastUse/morehook' }
+      { icon: 'github', link: 'https://github.com/M-cheng-web/web-tracing' }
     ],
 
-    // 这里后续一定要去申请
+    // 这里后续要去申请
     // algolia: {
     //   appId: '8J64VVRP8K',
     //   apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
@@ -55,20 +55,7 @@ export default defineConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [
     { text: '开始', link: '/guide/introduce', activeMatch: '/guide/' },
-    { text: '搜索', link: '/functions', activeMatch: '/functions/' },
-    {
-      text: version,
-      link: ''
-      // items: [
-      //   {
-      //     text: 'Changelog',
-      //     link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
-      //   },
-      //   {
-      //     text: 'Contributing',
-      //     link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
-      //   }
-      // ]
-    }
+    // { text: '搜索', link: '/functions', activeMatch: '/functions/' },
+    { text: version, link: '' }
   ]
 }
