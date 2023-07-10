@@ -28,6 +28,7 @@ export default defineConfig({
             { text: '起步', link: '/guide/starting' },
             { text: '最佳实践', link: '/guide/practice' },
             { text: '设计理念', link: '/guide/idea' },
+            { text: '迭代计划', link: '/guide/plan' },
           ]
         },
         {
@@ -47,6 +48,8 @@ export default defineConfig({
             { text: '路由采集', link: '/guide/functions/pv' },
             { text: '请求采集', link: '/guide/functions/http' },
             { text: '资源采集', link: '/guide/functions/performance' },
+            { text: '曝光采集', link: '/guide/functions/exposure' },
+            { text: '导出项', link: '/guide/functions/exports' },
           ]
         },
       ],
