@@ -38,6 +38,7 @@ export default defineConfig({
             { text: '配置项', link: '/guide/use/options' },
             { text: '数据结构', link: '/guide/use/structure' },
             { text: '示例', link: '/guide/use/demo' },
+            { text: '本地运行项目', link: '/guide/use/run' },
           ]
         },
         {
