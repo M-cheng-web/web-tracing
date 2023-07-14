@@ -14,7 +14,6 @@ export type WebTracing = {
 
 interface Pv {
   core?: boolean
-  hashtag?: boolean
 }
 interface Performance {
   core?: boolean
@@ -73,7 +72,6 @@ export type InitOptions = {
 
   pv?: Pv | boolean
   pvCore?: boolean // 页面跳转-是否自动发送页面跳转相关数据
-  pvHashtag?: boolean // 页面跳转-浏览器的动作发生时(例如浏览器的回退按钮)是否监听hash变化,如果是hash路由请开启此开关
 
   performance?: Performance | boolean
   performanceCore?: boolean // 性能数据-是否采集静态资源、接口的相关数据
