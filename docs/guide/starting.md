@@ -5,7 +5,7 @@ WebTracing是一个基于 JavaScript 的埋点SDK
 
 下面让我们开始逐步了解它吧，相信它不会让你失望
 
-## Installation - HTML & JS
+## 安装 - HTML & JS
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +51,7 @@ WebTracing是一个基于 JavaScript 的埋点SDK
 </html>
 ```
 
-## Installation - Vue2
+## 安装 - Vue2
 ``` js
 import WebTracing from '@web-tracing/vue2'
 
@@ -92,8 +92,7 @@ Vue.use(WebTracing, {
 })
 ```
 
-## Installation - Vue3
-
+## 安装 - Vue3
 ``` js
 import WebTracing from '@web-tracing/vue3'
 
