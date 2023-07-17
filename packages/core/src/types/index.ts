@@ -40,10 +40,10 @@ export type InternalOptions = {
   userUuid: string // 用户id(外部填充进来的id)
   sdkUserUuid: string // 用户id(sdk内部生成的id)
   debug: boolean // 是否开启调试模式(控制台会输出sdk动作)
-  pv: Pv
-  performance: Performance
-  error: Error
-  event: Event
+  pv: Pv | boolean
+  performance: Performance | boolean
+  error: Error | boolean
+  event: Event | boolean
   ext: AnyObj // 自定义全局附加参数(放在baseInfo中)
   tracesSampleRate: number // 抽样发送
   cacheMaxLength: number // 上报数据最大缓存数
