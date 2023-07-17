@@ -44,7 +44,7 @@ export class Options implements InternalOptions {
   scopeError = false // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
   localization = false // 是否本地化：sdk不再主动发送事件，事件都存储在本地，由用户手动调用方法发送
 
-  whiteScreen = false // 开启白屏检测
+  // whiteScreen = false // 开启白屏检测
 
   // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforePushEventList: AnyFun[] = []
@@ -122,17 +122,9 @@ function _validateInitOption(options: InitOptions) {
     userUuid,
     debug,
     pv,
-    pvCore,
     performance,
-    performanceCore,
-    performanceFirstResource,
-    performanceServer,
     error,
-    errorCore,
-    errorServer,
     event,
-    eventCore,
-    eventUnload,
     ext,
     tracesSampleRate,
     cacheMaxLength,
@@ -141,7 +133,7 @@ function _validateInitOption(options: InitOptions) {
     ignoreRequest,
     scopeError,
     localization,
-    whiteScreen,
+    // whiteScreen,
     beforePushEventList,
     beforeSendData
   } = options
@@ -194,21 +186,6 @@ function _validateInitOption(options: InitOptions) {
     validateOption(userUuid, 'userUuid', 'string'),
     validateOption(debug, 'debug', 'boolean'),
 
-    validateOption(pvCore, 'pvCore', 'boolean'),
-
-    validateOption(performanceCore, 'performanceCore', 'boolean'),
-    validateOption(
-      performanceFirstResource,
-      'performanceFirstResource',
-      'boolean'
-    ),
-    validateOption(performanceServer, 'performanceServer', 'boolean'),
-
-    validateOption(errorCore, 'errorCore', 'boolean'),
-    validateOption(errorServer, 'errorServer', 'boolean'),
-
-    validateOption(eventCore, 'eventCore', 'boolean'),
-    validateOption(eventUnload, 'eventUnload', 'boolean'),
     validateOption(ext, 'ext', 'object'),
     validateOption(tracesSampleRate, 'tracesSampleRate', 'number'),
 
@@ -223,7 +200,7 @@ function _validateInitOption(options: InitOptions) {
 
     validateOption(scopeError, 'scopeError', 'boolean'),
     validateOption(localization, 'localization', 'boolean'),
-    validateOption(whiteScreen, 'whiteScreen', 'boolean'),
+    // validateOption(whiteScreen, 'whiteScreen', 'boolean'),
     validateOption(beforePushEventList, 'beforePushEventList', 'function'),
     validateOption(beforeSendData, 'beforeSendData', 'function')
   ]
