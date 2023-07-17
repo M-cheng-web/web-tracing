@@ -9,36 +9,40 @@ sdk初始化时的配置项
 :::
 
 
-| 名称                | 类型                 | 必填 | 默认值    | 说明                          |
-| ------------------- | -------------------- | -------- | --------- | ----------------------------- |
-| dsn                 | string               | **是**       | -         | 上报地址                      |
-| appName             | string               | **是**       | -         | 应用名称                      |
-| appCode             | string               | 否       | -         | 应用code                      |
-| appVersion          | string               | 否       | -         | 应用版本                      |
-| userUuid            | string               | 否       | -         | 用户id                        |
-| debug               | boolean              | 否       | false     | 是否开启触发事件时控制台输出  |
-| pv                  | object               | 否       | -         | ***见下方 pv 解释***          |
-| performance         | object               | 否       | -         | ***见下方 performance 解释*** |
-| error               | objcet               | 否       | false     | ***见下方 error 解释***       |
-| event               | objcet               | 否       | false     | ***见下方 event 解释***       |
-| ext                 | object               | 否       | undefined | 自定义的全局附加参数          |
-| tracesSampleRate    | number               | 否       | 1         | 抽样发送(0-1)                 |
-| cacheMaxLength      | number               | 否       | 5         | 上报数据最大缓存数            |
-| cacheWatingTime     | number               | 否       | 5000      | 上报数据最大等待时间(ms)      |
-| ignoreErrors        | Array<string/RegExp> | 否       | []        | 错误类型事件过滤              |
-| ignoreRequest       | Array<string/RegExp> | 否       | []        | 请求类型事件过滤              |
-| scopeError          | boolean              | 否       | false     | 开启范围错误                  |
-| localization        | boolean              | 否       | false     | 是否本地化                    |
-| beforePushEventList | function             | 否       | -         | 添加到行为列表前的 hook       |
-| beforeSendData      | function             | 否       | -         | 数据上报前的 hook             |
-| afterSendData       | function             | 否       | -         | 数据上报后的 hook             |
+| 名称                | 类型                 | 必填   | 默认值    | 说明                          |
+| ------------------- | -------------------- | ------ | --------- | ----------------------------- |
+| dsn                 | string               | **是** | -         | 上报地址                      |
+| appName             | string               | **是** | -         | 应用名称                      |
+| appCode             | string               | 否     | -         | 应用code                      |
+| appVersion          | string               | 否     | -         | 应用版本                      |
+| userUuid            | string               | 否     | -         | 用户id                        |
+| debug               | boolean              | 否     | false     | 是否开启触发事件时控制台输出  |
+| pv                  | object/boolean       | 否     | false     | ***见下方 pv 解释***          |
+| performance         | object/boolean       | 否     | false     | ***见下方 performance 解释*** |
+| error               | object/boolean       | 否     | false     | ***见下方 error 解释***       |
+| event               | object/boolean       | 否     | false     | ***见下方 event 解释***       |
+| ext                 | object               | 否     | undefined | 自定义的全局附加参数          |
+| tracesSampleRate    | number               | 否     | 1         | 抽样发送(0-1)                 |
+| cacheMaxLength      | number               | 否     | 5         | 上报数据最大缓存数            |
+| cacheWatingTime     | number               | 否     | 5000      | 上报数据最大等待时间(ms)      |
+| ignoreErrors        | Array<string/RegExp> | 否     | []        | 错误类型事件过滤              |
+| ignoreRequest       | Array<string/RegExp> | 否     | []        | 请求类型事件过滤              |
+| scopeError          | boolean              | 否     | false     | 开启范围错误                  |
+| localization        | boolean              | 否     | false     | 是否本地化                    |
+| beforePushEventList | function             | 否     | -         | 添加到行为列表前的 hook       |
+| beforeSendData      | function             | 否     | -         | 数据上报前的 hook             |
+| afterSendData       | function             | 否     | -         | 数据上报后的 hook             |
 
 ## pv
+当 pv 为布尔值时其内部所有属性都为此布尔值（例如：pv = true 代表 pv: {core: true}）
+
 | 属性名 | 类型    | 是否必填 | 默认值 | 说明                     |
 | ------ | ------- | -------- | ------ | ------------------------ |
 | core   | boolean | 否       | false  | 是否发送页面跳转相关数据 |
 
 ## performance
+当 performance 为布尔值时其内部所有属性都为此布尔值
+
 | 属性名        | 类型    | 是否必填 | 默认值 | 说明                             |
 | ------------- | ------- | -------- | ------ | -------------------------------- |
 | core          | boolean | 否       | false  | 是否采集静态资源、接口的相关数据 |
@@ -46,12 +50,16 @@ sdk初始化时的配置项
 | server        | boolean | 否       | false  | 是否采集接口请求                 |
 
 ## error
+当 error 为布尔值时其内部所有属性都为此布尔值
+
 | 属性名 | 类型    | 是否必填 | 默认值 | 说明                 |
 | ------ | ------- | -------- | ------ | -------------------- |
 | core   | boolean | 否       | false  | 是否采集异常数据     |
 | server | boolean | 否       | false  | 是否采集报错接口数据 |
 
 ## event
+当 event 为布尔值时其内部所有属性都为此布尔值
+
 | 属性名 | 类型    | 是否必填 | 默认值 | 说明                             |
 | ------ | ------- | -------- | ------ | -------------------------------- |
 | core   | boolean | 否       | false  | 是否采集点击事件                 |
