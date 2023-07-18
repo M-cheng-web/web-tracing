@@ -94,7 +94,6 @@ export enum SENDID {
 + deviceId (设备ID 自动生成)
 + appName (应用Name 使用者初始化设置)
 + appCode (应用Code 使用者初始化设置)
-+ customerId (类型ID 使用者调用方法设置)
 + userUuid (用户ID 使用者调用方法设置)
 
 `pageId sessionId deviceId` 的生成规则是一样的,最终会各自生成类似于这样的字符串
@@ -107,5 +106,4 @@ export enum SENDID {
 + `sessionId` 会存入cookie,存活时长为30分钟,每次触发采集事件都会刷新这个ID
 + `deviceId` 也会存入cookie,不设置存活时长
 + `appName` 以及 `appCode` 可以在 `init` 初始化时进行赋值以及后续更改 `options.value.appName`
-+ `customerId` 以及 `userUuid` 有特有的方法对它们赋值
 

@@ -1,58 +1,84 @@
 # 数据结构
-了解一下插件发送给后端的数据格式是怎样的吧!
+sdk发送给后端的数据格式（上报事件列表时的数据格式）
 
 ``` js
 {
   baseInfo: {
-    clientHeight: 977,
-    clientWidth: 549,
-    colorDepth: 24,
-    deviceId: "t_13466167-991854d1-da9f0cf52c91fac4",
-    gatherAppName: "chengxh",
-    pageId: "13488cb7-57de65e0-8fa72c8ab05eeac7",
-    pixelDepth: 24,
-    platform: "Win32",
-    screenHeight: 1080,
-    screenWidth: 1920,
-    sdkVersion: "0.0.1-alpha.8",
-    sendTime: 1641518497118,
-    sessionId: "s_13488cb7-57de65d5-4621697435f47777",
+    clientHeight: 831,
+    clientWidth: 843,
+    colorDepth: 30,
+    pixelDepth: 30,
+    deviceId: "t_134b23d7-a6beebb9-6c837db57a827b43",
+    screenWidth: 1728,
+    screenHeight: 1117,
     vendor: "Google Inc.",
+    platform: "MacIntel",
+    userUuid: "init_userUuid",
+    sdkUserUuid: "3980225e0947a5f36c57ff63d27ddf65",
+    ext: {},
+    appName: "cxh",
+    appCode: "",
+    pageId: "134b23e7-9acc9418-0fa455bf47d76e2b",
+    sessionId: "s_134b23e7-948b4e06-7da1d67c851e3138",
+    sdkVersion: "1.0.1-beta.0",
+    ip: "115.233.220.3",
+    sendTime: 1689668599911
   },
   eventInfo: [
     {
-      eventId: "13488cb7-57de65e0-8fa72c8ab05eeac7",
-      eventType: "pv",
-      operateAction: "back_forward",
-      referer: "http://localhost:8083/contents.html",
-      sendTime: 1641518497118,
-      title: "trace performance",
-      triggerTime: "1641518497107",
-      type: "pv",
-      url: "http://localhost:8083/event.html",
+      tti: 171.6,
+      ready: 373.8,
+      loadon: 442.2,
+      firstbyte: 24.2,
+      ttfb: 15.2,
+      trans: 6.2,
+      dom: 141.2,
+      res: 68.4,
+      ssllink: 4.7,
+      triggerPageUrl: 'http://localhost:6656/#/event',
+      eventType: 'performance',
+      eventId: 'page',
+      sendTime: 1689668884736
     },
     {
-      dom: 100.2,
-      eventId: "page",
-      eventType: "performance",
-      firstbyte: 7.8,
-      fmp: 130.7,
-      loadon: 145,
-      ready: 109.5,
-      res: 35.5,
-      ssllink: 4.3,
-      trans: 0.4,
-      ttfb: 2.1,
-      tti: 108.4,
-      type: "pagePerformance",
-      url: "http://localhost:8083/event.html",
+      initiatorType: 'script',
+      transferSize: 300,
+      encodedBodySize: 78636,
+      decodedBodySize: 78636,
+      duration: 35.4,
+      startTime: 57.2,
+      fetchStart: 57.2,
+      domainLookupStart: 57.2,
+      domainLookupEnd: 57.2,
+      connectStart: 57.2,
+      connectEnd: 57.2,
+      requestStart: 85.6,
+      responseStart: 88.9,
+      responseEnd: 92.6,
+      eventType: 'performance',
+      eventId: 'resource',
+      requestUrl: 'http://localhost:6656/@vite/client',
+      triggerTime: 1689668883347,
+      triggerPageUrl: 'http://localhost:6656/#/event',
+      sendTime: 1689668884736
+    },
+    {
+      eventType: 'pv',
+      eventId: '134b23e7-9b42e328-fd20b4a18a4c46b7',
+      triggerPageUrl: 'http://localhost:6656/#/event',
+      referer: 'http://localhost:6656/#/event',
+      title: 'example-vue2',
+      action: 'navigation',
+      triggerTime: 1689668883730,
+      sendTime: 1689668884736
     }
   ]
 }
 ```
 
 ## baseInfo
-全局的一些参数,每次发送采集都会附带传给后台
+全局的一些属性，每次上报事件列表都会带上 `baseInfo`
+
 | 属性名       | 说明                                                                |
 | ------------ | ------------------------------------------------------------------- |
 | clientHeight | 网页可见区高度                                                      |
@@ -64,49 +90,56 @@
 | screenHeight | 显示屏幕的高度                                                      |
 | vendor       | 浏览器名称                                                          |
 | platform     | 浏览器平台的环境,不是电脑系统的x64这样的(浏览器平台的环境可能是x32) |
-| sdkVersion   | 插件版本号                                                          |
-| sendTime     | 发送时间                                                            |
+| userUuid     | 用户ID                                                              |
+| sdkUserUuid  | sdk内部会根据硬件位置等信息生成一个用户ID                           |
+| ext          | 作为附带对象参数给到服务端                                          |
 | appName      | 应用Name                                                            |
 | appCode      | 应用Code                                                            |
 | pageId       | 应用ID                                                              |
 | sessionId    | 会话ID                                                              |
-| customerId   | 类型ID                                                              |
-| userUuid     | 用户ID                                                              |
+| sdkVersion   | 插件版本号                                                          |
+| ip           | 用户的IP(可能为空)                                                  |
+| sendTime     | 发送时间                                                            |
 
 ## eventInfo
-采集到的事件数组,这些事件有不同的类型,**不同类型下的埋点数据结构有一些差异**<br>
-:no_entry:这里主要介绍`eventType type eventId`的取值以及意义,不同事件类型的数据结构会在对应的目录中展示并说明:no_entry:
+sdk采集到的事件列表，列表内的事件对象会因为不同的事件类型而拥有不用的属性 (**不同类型下的事件对象属性有很大差异**)
 
-### eventType
-eventType用于表明事件的类型,类型为固定的以下几种(浏览器自身基础事件和自定义事件)
-+ pv ( 路由 )
-+ error ( 错误 )
-+ performance ( 资源 )
-+ click ( 点击 )
-+ dwell ( 页面卸载 )
-+ custom ( 手动触发事件的类型 )
+::: tip
+对于采集到的事件对象，内部会含有 `eventType、eventID` 字段，下面对这两个字段进行解释，不同事件类型的数据结构会在对应的目录中展示说明
+:::
 
-### type
-作为`eventType`的补充字段,把某些事件类型合并,同时也增加某些事件区分度,易于后台分类
-+ mix ( 合并这些eventType事件: click, submit, scroll, change )
-+ resourcePerformance ( eventType === performance && eventId === resource )
-+ pagePerformance ( eventType === performance && eventId === page )
-+ serverPerformance ( eventType === performance && eventId === server )
 
-> 其他 eventType 事件类型就不做特殊处理,例如 eventType === pv时 type 也会赋值为 pv
+``` ts
+/**
+ * 触发的事件是什么类型 - eventType
+ */
+export enum SEDNEVENTTYPES {
+  PV = 'pv', // 路由
+  ERROR = 'error', // 错误
+  PERFORMANCE = 'performance', // 资源
+  CLICK = 'click', // 点击
+  DWELL = 'dwell', // 页面卸载
+  CUSTOM = 'custom', // 手动触发事件
+  INTERSECTION = 'intersection' // 曝光采集
+}
 
-### eventId
-eventId用于表明事件的唯一标识,同一类型下的事件可能会有细分
+/**
+ * 触发的事件id - eventID
+ */
+export enum SENDID {
+  PAGE = 'page', // 页面
+  RESOURCE = 'resource', // 资源
+  SERVER = 'server', // 请求
+  CODE = 'code', // code
+  REJECT = 'reject', // reject
+  CONSOLEERROR = 'console.error' // console.error
 
-+ resource ( 在对资源进行采集时都会作为eventId )
-+ page ( 在发送首次页面性能数据时会作为eventId )
-+ code ( 在代码异常时会作为eventId )
-+ server ( 在请求采集时会作为eventId )
-+ [target.nodeName] ( 元素名 ps:script, 在html元素上发生异常时会作为eventId )
-+ [pageId] ( 在页面跳转时会带上应用ID作为eventId )
+  // target.nodeName ( 元素名 ps:script, 在html元素上发生异常时会作为eventId )
+  // pageId ( 在页面跳转时会带上应用ID作为eventId )
+}
+```
 
-特殊情况:
-
+### 特殊情况
 当`eventType`为`dwell`时`eventId`是一串根据时间戳计算得来的字符
 
 当`eventType`为`click`时`eventId`的采集顺序为
@@ -120,10 +153,12 @@ eventId用于表明事件的唯一标识,同一类型下的事件可能会有细
    5. 还是没有的话就用触发元素的`tagName`
 4. 用触发元素的`tagName`
 
-> 主动调用 tracePageView() 时不能指定 eventType(pv) 以及 eventId([pageId])
-> 
-> 主动调用 traceError() 时不能指定 eventType(error) ,可以指定eventId
-> 
-> 主动调用 traceCustomEvent() 时不能指定 eventType(custom) ,可以指定eventId
-> 
-> 主动调用 tracePerformance() 时不能指定 eventType(performance) ,可以指定eventId
+::: danger
+主动调用 tracePageView() 时不能指定 eventType(pv) 以及 eventId(pageId)
+
+主动调用 traceError() 时不能指定 eventType(error) ,可以指定eventId
+
+主动调用 traceCustomEvent() 时不能指定 eventType(custom) ,可以指定eventId
+
+主动调用 tracePerformance() 时不能指定 eventType(performance) ,可以指定eventId
+:::
