@@ -1,6 +1,6 @@
 <div align="center">
-  <h1>web-tracing 性能监控插件</h1>
-  <p>一个基于 JavaScript 的跨平台 ( 行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集 ) 插件</p>
+  <h1>web-tracing 监控插件</h1>
+  <p>基于 JavaScript 的跨平台插件，为你的前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段</p>
 </div>
 
 ## 官方文档 & Demo演示
