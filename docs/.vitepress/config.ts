@@ -15,6 +15,7 @@ export default defineConfig({
 
     nav: [
       { text: '指南', link: '/guide/starting' },
+      { text: '关于项目', link: '/guide/spotlight' },
       { text: '示例', link: '/guide/use/demo' },
       { text: version, link: '' }
     ],
@@ -26,6 +27,7 @@ export default defineConfig({
           items: [
             { text: '起步', link: '/guide/starting' },
             { text: '最佳实践', link: '/guide/practice' },
+            { text: '关于项目', link: '/guide/spotlight' },
             { text: '设计理念', link: '/guide/idea' },
             { text: '迭代计划', link: '/guide/plan' },
           ]

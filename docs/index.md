@@ -15,7 +15,10 @@ hero:
       text: 起步
       link: /guide/starting
     - theme: alt
-      text: 示例项目
+      text: 关于项目
+      link: /guide/spotlight
+    - theme: alt
+      text: 示例
       link: /guide/use/demo
     - theme: alt
       text: View on GitHub
