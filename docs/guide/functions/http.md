@@ -1,43 +1,52 @@
-# http
-采集所有的 ajax & axios & fetch 请求(因为是劫持了XMLHttpRequest.prototype.send方法,基于此实现的请求都会被有效采集)
+# Http
+捕获所有的 `xhr & axios & fetch` 请求,主要原理是劫持`XHR-open & XHR-send & fetch`
 
 触发事件时给后台的对象
-| 属性名称       | 值                                    | 说明                          |
-| -------------- | ------------------------------------- | ----------------------------- |
-| eventId        | server                                | 事件ID                        |
-| eventType      | 请求错误时error, 请求正确时performance | 事件类型                      |
-| src            |                                       | 请求地址                      |
-| errMessage     |                                       | 请求错误信息                  |
-| responseStatus |                                       | 请求返回代码                  |
-| duration       |                                       | 请求消耗时间                  |
-| sendTime       |                                       | 发送时间                      |
-| triggerTime    |                                       | 事件发生时间                  |
-| params         |                                       | 请求的参数 (只有POST请求会带) |
-| url            |                                       | 页面地址                      |
-| type           |                                       | 大类type,参考`数据结构`       |
+| 属性名称       | 值                                    | 说明         |
+| -------------- | ------------------------------------- | ------------ |
+| eventId        | server                                | 事件ID       |
+| eventType      | 请求错误时error,请求正确时performance | 事件类型     |
+| requestUrl     |                                       | 请求地址     |
+| requestMethod  | get、post...                          | 请求方式     |
+| requestType    | xhr、fetch...                         | 请求类型     |
+| responseStatus |                                       | 请求返回代码 |
+| duration       | 请求正确时才有此字段                  | 请求消耗时间 |
+| params         |                                       | 请求的参数   |
+| triggerTime    |                                       | 事件发生时间 |
+| triggerPageUrl |                                       | 页面地址     |
+| sendTime       |                                       | 发送时间     |
+| errMessage     | 请求错误时才有此字段                  | 请求错误信息 |
+| recordscreen   | 请求错误时才有此字段                  | 错误录屏数据 |
 
-当一个请求报错后会触发三个采集: 
-1. 插件内置http捕捉错误采集 
-2. 控制台vue的捕捉错误被错误采集给收集了 
-3. 控制台Error实例报错被错误采集了
-
-**插件对这种情况暂时不会做特殊处理**
-
-## 传给后台格式示例
 ``` js
+// 真实场景产生的事件对象 - 请求正确时
 {
-  eventInfo: [
-    {
-      duration: 38
-      eventId: "server"
-      eventType: "performance"
-      responseStatus: 200
-      sendTime: 1641974433133
-      src: "http://172.15.1231/ance/form/riskApperaisal/getRiskAppraisal"
-      triggerTime: 1641974432132
-      type: "serverPerformance"
-      url: "http://localhost:8083/http.html"
-    }
-  ]
+  eventId: 'server',
+  eventType: 'performance',
+  requestUrl: 'http://localhost:6656/getList?test=123',
+  requestMethod: 'get',
+  requestType: 'xhr',
+  responseStatus: 200,
+  duration: 13,
+  params: { test: '123' },
+  triggerTime: 1689729859862,
+  triggerPageUrl: 'http://localhost:6656/#/http',
+  sendTime: 1689729860863
+}
+
+// 真实场景产生的事件对象 - 请求错误时
+{
+  eventId: 'server',
+  eventType: 'error',
+  requestUrl: 'http://localhost:6656/getList2?test=123',
+  requestMethod: 'get',
+  requestType: 'xhr',
+  responseStatus: 404,
+  params: { test: '123' },
+  triggerTime: 1689729859862,
+  triggerPageUrl: 'http://localhost:6656/#/http',
+  sendTime: 1689729860863
+  errMessage: 'Not Found',
+  recordscreen: 'H4sIAAAAAAAAA+R9V3vqyNLuD9oXh2C8h0sbm7RA3saYoDuChyQwswATfv2p6' // 错误录屏数据
 }
 ```

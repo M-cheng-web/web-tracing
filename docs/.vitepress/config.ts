@@ -49,8 +49,9 @@ export default defineConfig({
             { text: '路由采集', link: '/guide/functions/pv' },
             { text: '请求采集', link: '/guide/functions/http' },
             { text: '资源采集', link: '/guide/functions/performance' },
-            { text: '曝光采集', link: '/guide/functions/exposure' },
+            { text: '曝光采集', link: '/guide/functions/intersection' },
             { text: '导出项', link: '/guide/functions/exports' },
+            { text: '其他', link: '/guide/functions/other' },
           ]
         },
       ],
