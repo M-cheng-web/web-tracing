@@ -56,15 +56,15 @@ export default defineConfig({
           ]
         },
       ],
-      '/analyse/': [
-        {
-          text: '技术点分析',
-          items: [
-            { text: '基础说明', link: '/analyse/index' },
-            { text: '架构', link: '/analyse/framework' },
-          ]
-        },
-      ],
+      // '/analyse/': [
+      //   {
+      //     text: '技术点分析',
+      //     items: [
+      //       { text: '基础说明', link: '/analyse/index' },
+      //       { text: '架构', link: '/analyse/framework' },
+      //     ]
+      //   },
+      // ],
     },
 
     editLink: {
