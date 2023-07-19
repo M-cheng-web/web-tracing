@@ -15,11 +15,8 @@ hero:
       text: 起步
       link: /guide/starting
     - theme: alt
-      text: 示例
+      text: 示例项目
       link: /guide/use/demo
-    - theme: alt
-      text: 技术点分析
-      link: /analyse/index
     - theme: alt
       text: View on GitHub
       link: https://github.com/M-cheng-web/web-tracing

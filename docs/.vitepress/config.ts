@@ -16,7 +16,6 @@ export default defineConfig({
     nav: [
       { text: '指南', link: '/guide/starting' },
       { text: '示例', link: '/guide/use/demo' },
-      { text: '技术点分析', link: '/analyse/index', activeMatch: '/analyse/' },
       { text: version, link: '' }
     ],
 
