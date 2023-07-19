@@ -1,164 +1,200 @@
 # 导出项
 为了使用的便捷，sdk提供了多个导出项，下面针对这些导出项进行逐个说明
 
+::: tip
+这些导出项都在demo项目中使用了，想要了解更多可以查看demo项目
+
+[vue2-demo地址](https://github.com/M-cheng-web/web-tracing/tree/main/examples/vue2)
+
+[vue3-demo地址](https://github.com/M-cheng-web/web-tracing/tree/main/examples/vue3)
+:::
+
+## options
+内部所有的配置已经全部适配下面这种使用方式，如有获取与更改的需求直接如下操作，sdk内部已经动态兼容
+``` js
+import { options } from '@web-tracing/core'
+
+// 对内部参数进行修改
+options.value.dsn = 'www.baidu.com'
+
+// 获取内部某个参数
+console.log(options.value.dsn)
+```
+
+## 曝光相关
+具体demo可查看 [曝光事件](../functions/intersection.md)
+
+### intersectionObserver
++ 作用: 对目标元素进行监听
+
+入参 `options` 对象属性说明
+| 参数名    | 类型                | 默认值 | 说明             |
+| --------- | ------------------- | ------ | ---------------- |
+| target    | Element / Element[] | -      | 需要被监听的元素 |
+| threshold | number              | -      | 监听阈值         |
+| params    | object              | {}     | 额外参数         |
+
+> 监听阈值(threshold)解释：阀值默认为0.5，当为0.5时代表滚动超过图片达到一半时即为曝光结束；同理当为0.5时，代表滚动视图能看到图片一半时即为曝光开始
+
+### intersectionUnobserve
++ 作用: 对目标元素进行取消监听
++ 入参: target - 已经被监听的元素
+
+### intersectionDisconnect
++ 作用: 取消所有监听
+
+## 钩子
+目前所有的钩子都支持全局递加。例如在a页面声明了 `beforePushEventList` 方法，在b页面再次声明 `beforePushEventList` 也可以；这样导致在事件放入队列之前会按照放入顺序依次触发这些回调
+
+### beforePushEventList
++ 作用: 放入事件队列之前的回调方法
++ 入参: data - 事件列表(数组类型)
++ 出参: 数组 / 对象 / false
++ 备注: sdk内部会将返回值作为新的事件放入事件队列，如果返回false则代表不放入事件队列
+``` js
+import { beforePushEventList } from '@web-tracing/core'
+
+beforePushEventList(data) {
+  data.forEach(item => {
+    console.log('发送了数据: ', item)
+  })
+  // return false
+  return data
+}
+```
+
+### beforeSendData
++ 作用: 事件发送之前的回调方法
++ 入参: data - {baseInfo: xxx, eventInfo: []} 类型
++ 出参: 数组 / 对象 / false
++ 备注: sdk内部会将返回值作为新的事件发送到服务端，如果返回false则代表不发送
+``` js
+import { beforeSendData } from '@web-tracing/core'
+
+beforeSendData(data) {
+  // return false
+  return data
+}
+```
+
+### afterSendData
++ 作用: 事件发送之后的回调方法
++ 入参: data - {params: {baseInfo: xxx, eventInfo: []}, sendType: xx, success: true} 类型
++ 出参: 无
+``` js
+import { afterSendData } from '@web-tracing/core'
+
+afterSendData(data) {
+  this.$notify({
+    title: '发送一批数据到服务端',
+    message: data,
+    position: 'top-right',
+    dangerouslyUseHTMLString: true,
+    duration: 1500
+  })
+}
+```
+
 ## 主动上报方法
 当遇到特殊场景需要手动触发采集时可以通过插件内置的方法来达到目的
 
-+ traceError
-+ tracePerformance
-+ traceCustomEvent
-+ tracePageView
-
-> 目前来说主动上报方法也要遵循最大缓存数和延迟时长的规则,还没有配置即刻触发
-
 ### traceError
-采集错误信息(调用此方法时发送给后台的 eventType 为 error, 这是固定的)
-| 参数名  | 类型   | 默认值 | 说明                                                             |
-| ------- | ------ | ------ | ---------------------------------------------------------------- |
-| eventId | string | -      | 作为eventId发送给后台,定义为和业务确定好的字段                   |
-| message | string | -      | 作为errMessage发送给后台                                         |
-| options | object | {}     | 对象内的值在解构一层后放在和eventId同级一起发给后台,作为额外参数 |
-
-示例:
++ 作用: 主动触发错误信息
++ 入参: options - 对象内任意属性
++ 备注: 调用此方法，有以下参数会固定附加
+  + eventType: error
+  + recordscreen: 错误录屏信息
+  + triggerPageUrl: 发生错误的页面
+  + triggerTime: 发生错误的时间
 ``` js
-trace.traceError('自定义错误ID', '自定义错误message', {
-  src: '/interface/order'
+import { traceError } from '@web-tracing/core'
+traceError({
+  message: 'xxx',
   params: {
-    id: '12121'
+    name: 'aa'
   }
 })
-
-// 传给后台的数据格式
-{
-  eventInfo: [
-    {
-      errMessage: "自定义错误message"
-      eventId: "自定义错误ID"
-      eventType: "error"
-      params: { id: "12121" }
-      sendTime: 1641971060666
-      src: "/interface/order"
-      triggerTime: 1641971059665
-      type: "error"
-      url: "http://localhost:8083/err.html"
-    }
-  ]
-}
 ```
 
 ### tracePerformance
-采集自定义性能数据(调用此方法时发送给后台的 eventType 为 performance, 这是固定的)
-| 参数名  | 类型   | 默认值 | 说明                                                             |
-| ------- | ------ | ------ | ---------------------------------------------------------------- |
-| eventId | string | -      | 作为eventId发送给后台,定义为和业务确定好的字段                   |
-| options | object | {}     | 对象内的值在解构一层后放在和eventId同级一起发给后台,作为额外参数 |
-
-示例:
++ 作用: 主动触发性能信息
++ 入参: options - 对象内任意属性
++ 备注: 调用此方法，有以下参数会固定附加
+  + eventType: performance
+  + triggerPageUrl: 发生错误的页面
+  + triggerTime: 发生错误的时间
 ``` js
-trace.tracePerformance('自定义ID', {
-  param1: 'param1',
-  param2: 'param2',
-  param3: 'param3',
+import { tracePerformance } from '@web-tracing/core'
+tracePerformance({
+  message: 'xxx',
+  params: {
+    name: 'aa'
+  }
 })
-
-// 传给后台的数据格式
-{
-  eventInfo: [
-    {
-      eventId: "自定义ID"
-      eventType: "performance"
-      param1: "param1"
-      param2: "param2"
-      param3: "param3"
-      sendTime: 1641977427175
-      triggerTime: 1641977426154
-      url: "http://localhost:8083/pv.html#/"
-    }
-  ]
-}
 ```
 
 ### traceCustomEvent
-自定义上报事件(调用此方法时发送给后台的 eventType 为 custom, 这是固定的)
-| 参数名  | 类型   | 默认值 | 说明                                           |
-| ------- | ------ | ------ | ---------------------------------------------- |
-| eventId | string | -      | 作为eventId发送给后台,定义为和业务确定好的字段 |
-| title   | string | -      | 作为title发送给后台                            |
-| params  | object | {}     | 作为params发送给后台                           |
-
-示例:
++ 作用: 自定义上报事件
++ 入参: options - 对象内任意属性
++ 备注: 调用此方法，有以下参数会固定附加
+  + eventType: custom
+  + triggerPageUrl: 发生错误的页面
+  + triggerTime: 发生错误的时间
 ``` js
-trace.traceCustomEvent('自定义ID', '自定义Message', {
-  params1: 'params1',
-  params2: 'params2',
-  params3: 'params3',
+import { traceCustomEvent } from '@web-tracing/core'
+traceCustomEvent({
+  message: 'xxx',
+  params: {
+    name: 'aa'
+  }
 })
-
-// 传给后台的数据格式
-{
-  eventInfo: [
-    {
-      eventId: "自定义ID"
-      eventType: "custom"
-      params: { params1: "params1", params2: "params2", params3: "params3" }
-      sendTime: 1641970593873
-      title: "自定义Message"
-      triggerTime: 1641970592870
-      type: "custom"
-    }
-  ]
-}
 ```
 
 ### tracePageView
-触发一次页面路由采集(调用此方法时发送给后台的 eventType 为 custom, 这是固定的)
-| 参数名 | 类型   | 默认值                                                                | 说明                        |
-| ------ | ------ | --------------------------------------------------------------------- | --------------------------- |
-| option | object | { <br>url = window.location.href,<br> referer = oldURL,<br> actions = '',<br> params <br>} | url会作为url当前页面的意思传给后台<br>referer上级页面URL的意思传给后台<br>actions会作为为action给后台<br>params会作为额外参数传给后台(不限制类型)<br>**注意:只会取option对象中这四个属性,多给也不用** |
-
-option.actions表示加载来源,可选值有这些(非必须,主要看使用者和后台的约定)
-+ navigate 网页通过点击链接,地址栏输入,表单提交,脚本操作等方式加载
-+ reload 网页通过“重新加载”按钮或者location.reload()方法加载
-+ back_forward 网页通过“前进”或“后退”按钮加载
-+ reserved 任何其他来源的加载
-
-示例:
++ 作用: 触发一次页面路由采集
++ 入参: options - 对象内任意属性
++ 备注: 调用此方法，有以下参数会固定附加
+  + referer: 上一张页面地址
+  + title: 页面标题
+  + eventId: baseInfo.pageId
+  + eventType: pv
+  + triggerPageUrl: 发生错误的页面
+  + triggerTime: 发生错误的时间
 ``` js
-trace.tracePageView({
-  url: '自定义URL',
-  referer: '自定义上级URL',
-  params: { name: '自定义name' },
-  actions: 'reserved'
+import { tracePageView } from '@web-tracing/core'
+tracePageView({
+  message: 'xxx',
+  params: {
+    name: 'aa'
+  }
 })
-
-// 传给后台的数据格式
-{
-  eventInfo: [
-    {
-      action: "reserved"
-      eventId: "13488d07-9c75a556-4af9699b30516737"
-      eventType: "pv"
-      params: { name: "自定义name" }
-      referer: "自定义上级URL"
-      sendTime: 1641976860759
-      title: "trace pv"
-      triggerTime: 1641976859757
-      type: "pv"
-      url: "自定义URL"
-    }
-  ]
-}
 ```
 
-## 其他方法
-调用以下方法会在触发任意采集并发送给后台时附带上设置的参数
-+ setCustomerId (设置类型ID)
-+ setUserUuid (设置用户ID)
-
+## 其他
+### unzipRecordscreen
++ 作用: 解压错误录屏数据
++ 解释: 错误事件对象中会含有 `recordscreen` 字段是错误录屏数据，但这个数据是压缩过的，需要用此方法解压
 ``` js
-_trace.setCustomerId('customId');
+import { unzipRecordscreen } from '@web-tracing/core'
 
-_trace.setUserUuid('uuid');
+unzipRecordscreen(recordscreen)
 ```
 
-> 后续会新增由使用者来配置想要的参数名
+### getBaseInfo
++ 作用: 获取在sdk中记录的所有基础的信息（包括硬件，地理位置等等）
+
+### getFirstScreen
++ 作用: 获取首屏数据
+
+### getIPs
++ 作用: 获取公网ip
++ 备注: 不保证获取到，用的是第三方方法
+
+### sendLocal
++ 作用: 手动发送本地数据
++ 解释: 当开启配置 `localization = true` 时，所有的事件信息都会存储在 `localstorage`，需要开发手动调用此方法触发发送事件条件
+
+### setLocalizationOverFlow
++ 作用: 本地化存储溢出后的回调
++ 解释: 当开启配置 `localization = true` 时，所有的事件信息都会存储在 `localstorage`，但考虑到本地存储空间有限，当存储失败时会触发此方法
++ 入参: data - {params: {baseInfo: xxx, eventInfo: []}, sendType: xx, success: true} 类型
