@@ -6,7 +6,7 @@
 </div>
 
 ## 官方文档 & Demo演示
-[https://m-cheng-web.github.io/web-tracing-docu/](https://m-cheng-web.github.io/web-tracing-docu/)
+[https://m-cheng-web.github.io/web-tracing/](https://m-cheng-web.github.io/web-tracing/)
 
 <br>
 
