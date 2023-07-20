@@ -1,7 +1,7 @@
 {
   "name": "@web-tracing/core",
-  "version": "1.0.1-beta.0",
-  "description": "一个基于原生 js 的 【 行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集 】 插件",
+  "version": "2.0.0-beta.0",
+  "description": "基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "jsdelivr": "./dist/index.iife.min.js",

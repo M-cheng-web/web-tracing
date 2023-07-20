@@ -50,7 +50,8 @@ export const packages: any[] = [
       '异常采集',
       '前端埋点',
       '前端性能采集'
-    ]
+    ],
+    iife: false
     // external: ['@web-tracing/core']
   },
   {
@@ -66,7 +67,8 @@ export const packages: any[] = [
       '异常采集',
       '前端埋点',
       '前端性能采集'
-    ]
+    ],
+    iife: false
     // external: ['@web-tracing/core']
   }
   // {
