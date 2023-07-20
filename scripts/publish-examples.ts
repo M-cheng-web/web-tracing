@@ -15,8 +15,21 @@ async function copyFolder(source: string, destination: string) {
   try {
     await fs.remove(destination)
     await fs.ensureDir(destination) // 确保目标文件夹存在，不存在则新建
+
+    // 过滤某些文件夹不复制
+    const filterRootFile = ['dist', 'node_modules'] // 这里只支持根目录的过滤
+    const filterList: string[] = []
+    for (const { exampleName } of packages) {
+      for (const rootFileName of filterRootFile) {
+        filterList.push(`${exampleName}/${rootFileName}`)
+      }
+    }
+
     await fs.copy(source, destination, {
-      overwrite: true // 是否覆盖已存在的文件
+      overwrite: true, // 是否覆盖已存在的文件
+      filter: (src: string) => {
+        return filterList.every(item => !src.includes(item))
+      }
     })
   } catch (error) {
     console.error('文件夹复制失败', error)
