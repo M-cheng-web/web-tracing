@@ -8,8 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@web-tracing/core": "workspace:*",
-    "@web-tracing/utils": "workspace:*"
+    "@web-tracing/core": "workspace:*"
   },
   "devDependencies": {
     "vite": "^4.2.0"

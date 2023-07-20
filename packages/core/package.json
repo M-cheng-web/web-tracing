@@ -15,8 +15,6 @@
     "./*": "./*"
   },
   "dependencies": {
-    "@web-tracing/types": "workspace:*",
-    "@web-tracing/utils": "workspace:*",
     "ua-parser-js": "2.0.0-alpha.1",
     "@types/pako": "^2.0.0",
     "pako": "^2.1.0",
