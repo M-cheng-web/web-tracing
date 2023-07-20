@@ -34,7 +34,6 @@ for (const {
 
   const iifeGlobals = {
     '@web-tracing/core': 'WebTracing',
-    '@web-tracing/utils': 'WebTracingUtils',
     ...(globals || {})
   }
   const iifeName = 'WebTracing'

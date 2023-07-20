@@ -25,7 +25,7 @@ export const packages: any[] = [
     name: 'core',
     display: 'WebTracing',
     description:
-      '一个基于原生 js 的 【 行为埋点 / 性能采集 / 异常采集 / 请求采集 / 路由采集 】 插件',
+      '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段',
     keywords: [
       '埋点',
       '性能',
@@ -34,13 +34,14 @@ export const packages: any[] = [
       '异常采集',
       '前端埋点',
       '前端性能采集'
-    ],
-    external: ['@web-tracing/utils', '@web-tracing/types']
+    ]
+    // external: ['@web-tracing/utils', '@web-tracing/types']
   },
   {
     name: 'vue2',
     display: 'Vue2',
-    description: '@web-tracing/vue2 关于 vue2',
+    description:
+      '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue2版本',
     keywords: [
       '埋点',
       '性能',
@@ -49,28 +50,14 @@ export const packages: any[] = [
       '异常采集',
       '前端埋点',
       '前端性能采集'
-    ],
-    external: ['@web-tracing/core']
+    ]
+    // external: ['@web-tracing/core']
   },
   {
     name: 'vue3',
     display: 'Vue3',
-    description: '@web-tracing/vue3 关于 vue3',
-    keywords: [
-      '埋点',
-      '性能',
-      '异常',
-      '性能采集',
-      '异常采集',
-      '前端埋点',
-      '前端性能采集'
-    ],
-    external: ['@web-tracing/core']
-  },
-  {
-    name: 'utils',
-    display: 'Utils',
-    description: '@web-tracing/utils',
+    description:
+      '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue3版本',
     keywords: [
       '埋点',
       '性能',
@@ -80,19 +67,34 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ]
-  },
-  {
-    name: 'types',
-    display: 'Types',
-    description: '@web-tracing/types',
-    keywords: [
-      '埋点',
-      '性能',
-      '异常',
-      '性能采集',
-      '异常采集',
-      '前端埋点',
-      '前端性能采集'
-    ]
+    // external: ['@web-tracing/core']
   }
+  // {
+  //   name: 'utils',
+  //   display: 'Utils',
+  //   description: '@web-tracing/utils',
+  //   keywords: [
+  //     '埋点',
+  //     '性能',
+  //     '异常',
+  //     '性能采集',
+  //     '异常采集',
+  //     '前端埋点',
+  //     '前端性能采集'
+  //   ]
+  // },
+  // {
+  //   name: 'types',
+  //   display: 'Types',
+  //   description: '@web-tracing/types',
+  //   keywords: [
+  //     '埋点',
+  //     '性能',
+  //     '异常',
+  //     '性能采集',
+  //     '异常采集',
+  //     '前端埋点',
+  //     '前端性能采集'
+  //   ]
+  // }
 ]

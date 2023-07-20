@@ -8,8 +8,6 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "docs:publish": "sh scripts/deploy.sh",
-    "lint": "eslint --cache .",
-    "lint:fix": "nr lint --fix",
     "build": "nr update && esno scripts/build.ts",
     "build:rollup": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c",
     "build:rollup-watch": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c -w",

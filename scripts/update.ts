@@ -1,21 +1,7 @@
-import { updatePackageJSON, updateImport } from './utils'
-
-const needUpdateImportPackage = [
-  {
-    name: 'types',
-    dir: 'packages/types'
-  },
-  {
-    name: 'utils',
-    dir: 'packages/utils'
-  }
-]
+import { updatePackageJSON } from './utils'
 
 async function run() {
-  await Promise.all([
-    updateImport(needUpdateImportPackage),
-    updatePackageJSON()
-  ])
+  await Promise.all([updatePackageJSON()])
 }
 
 run()
