@@ -7,7 +7,7 @@
     "docs": "vitepress dev docs --open",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
-    "docs:publish": "sh scripts/deploy.sh",
+    "docs:publish": "sh scripts/publish_docs.sh",
     "build": "nr update && esno scripts/build.ts",
     "build:rollup": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c",
     "build:rollup-watch": "cross-env NODE_OPTIONS=\"--max-old-space-size=6144\" rollup -c -w",
@@ -22,7 +22,8 @@
     "test:install": "sh scripts/test-install.sh",
     "test:js": "nr -C examples/vanilla dev",
     "test:vue2": "nr -C examples/vue2 start",
-    "test:vue3": "nr -C examples/vue3 start"
+    "test:vue3": "nr -C examples/vue3 start",
+    "test:publish": "sh scripts/publish_test.sh"
   },
   "keywords": [
     "埋点",

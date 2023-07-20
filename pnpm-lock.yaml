@@ -61,19 +61,15 @@ importers:
   examples/vanilla:
     specifiers:
       '@web-tracing/core': workspace:*
-      '@web-tracing/utils': workspace:*
       vite: ^4.2.0
     dependencies:
       '@web-tracing/core': link:../../packages/core
-      '@web-tracing/utils': link:../../packages/utils
     devDependencies:
       vite: 4.2.1
 
   examples/vue2:
     specifiers:
-      '@web-tracing/core': workspace:*
-      '@web-tracing/utils': workspace:*
-      '@web-tracing/vue2': workspace:*
+      '@web-tracing/vue2': 2.0.0-beta.0
       axios: ^1.4.0
       body-parser: ^1.20.2
       co-body: ^6.1.0
@@ -98,8 +94,6 @@ importers:
       vue-tsc: ^1.2.0
       vuex: 3.1.0
     dependencies:
-      '@web-tracing/core': link:../../packages/core
-      '@web-tracing/utils': link:../../packages/utils
       '@web-tracing/vue2': link:../../packages/vue2
       axios: 1.4.0
       body-parser: 1.20.2
@@ -129,7 +123,7 @@ importers:
   examples/vue3:
     specifiers:
       '@vitejs/plugin-vue': ^4.1.0
-      '@web-tracing/vue3': workspace:*
+      '@web-tracing/vue3': 2.0.0-beta.0
       axios: ^1.4.0
       body-parser: ^1.20.2
       co-body: ^6.1.0
@@ -181,31 +175,18 @@ importers:
     specifiers:
       '@types/pako': ^2.0.0
       '@types/ua-parser-js': ^0.7.36
-      '@web-tracing/types': workspace:*
-      '@web-tracing/utils': workspace:*
       js-base64: ^3.7.5
       pako: ^2.1.0
       rrweb: 2.0.0-alpha.4
       ua-parser-js: 2.0.0-alpha.1
     dependencies:
       '@types/pako': 2.0.0
-      '@web-tracing/types': link:../types
-      '@web-tracing/utils': link:../utils
       js-base64: 3.7.5
       pako: 2.1.0
       rrweb: 2.0.0-alpha.4
       ua-parser-js: 2.0.0-alpha.1
     devDependencies:
       '@types/ua-parser-js': 0.7.36
-
-  packages/plugins:
-    specifiers: {}
-
-  packages/types:
-    specifiers: {}
-
-  packages/utils:
-    specifiers: {}
 
   packages/vue2:
     specifiers:
