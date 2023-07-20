@@ -24,6 +24,7 @@ export const packages: any[] = [
   {
     name: 'core',
     display: 'WebTracing',
+    exampleName: 'vanilla',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段',
     keywords: [
@@ -40,6 +41,7 @@ export const packages: any[] = [
   {
     name: 'vue2',
     display: 'Vue2',
+    exampleName: 'vue2',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue2版本',
     keywords: [
@@ -56,6 +58,7 @@ export const packages: any[] = [
   {
     name: 'vue3',
     display: 'Vue3',
+    exampleName: 'vue3',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue3版本',
     keywords: [
