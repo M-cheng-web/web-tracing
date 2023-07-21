@@ -1,4 +1,6 @@
 <div align="center">
+  <img src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg" width="128" alt="logo" />
+
   <h1>web-tracing 监控插件</h1>
   <p>
     基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段
@@ -46,7 +48,7 @@
 针对首屏加载的监控做出更多精细化的东西，例如考虑sdk的绝对轻量化
 
 ## 加入我们
-<img align="left" width="180" src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.4w1ukjv858y0.webp" />
+<img align="left" width="180" src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.18h5172x1bk0.webp" />
 
 - 如果对此项目有疑虑或者有优化点，欢迎进群讨论
 - Bug 反馈请直接去 Github 上面提 Issues，我会实时收到邮件提醒前去查看
