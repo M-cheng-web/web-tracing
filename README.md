@@ -1,6 +1,5 @@
 <div align="center">
   <img src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg" width="128" alt="logo" />
-
   <h1>web-tracing 监控插件</h1>
   <p>
     基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段
@@ -41,6 +40,7 @@
 
 ## 未来方向
 会写一套服务端(nest) + 后台查看监控数据平台(vue)，有以下几点考量
++ 提供服务端能力（目前只是在采集端发力）
 + 可以在线体验此项目
 + 提供更多示例代码给开发们，再次降低这一套代码在公司的推广难度
 + 作者也想站在业务的角度多思考还能从哪些方面此项目还缺失哪些功能
