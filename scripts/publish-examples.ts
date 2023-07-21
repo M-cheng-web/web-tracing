@@ -60,23 +60,10 @@ async function changeFile() {
 }
 
 async function publish() {
-  const cmdList: string[] = []
   for (const { exampleName, exampleGitHubPath } of packages) {
-    cmdList.push(
-      `cd examples-copy/${exampleName} && git init && git add -A && git commit -m 'deploy' && git push -f ${exampleGitHubPath} main`
-    )
+    const cmd = `cd ${'examples-copy'}/${exampleName} && git init && git add -A && git commit -m 'deploy' && git push -f ${exampleGitHubPath} main`
+    exec(cmd, { stdio: 'inherit' })
   }
-
-  console.log('cmdList', cmdList)
-
-  // for (const cmd of packages) {
-  //   exec(cmd)
-  // }
-
-  exec(cmdList[0])
-
-  // const Vue3cmd = `cd examples-copy && git init && git add -A && git commit -m 'deploy' && git push -f git@github.com:M-cheng-web/web-tracing-examples-vue3.git main`
-  // exec(Vue3cmd)
 }
 
 async function start() {

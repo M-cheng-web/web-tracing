@@ -1,5 +1,12 @@
-# web-tracing-examples
-web-tracing 的示例项目（包含 js版本、vue2版本、vue3版本）
+<div align="center">
+  <h1>web-tracing 监控插件</h1>
+  <p>
+    基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段
+  </p>
+</div>
+
+## web-tracing-examples-js
+[web-tracing](https://github.com/M-cheng-web/web-tracing)的示例项目（js版本）
 
 此项目由 [web-tracing -> examples 目录](https://github.com/M-cheng-web/web-tracing/tree/main/examples) 通过脚本直接覆盖迁移过来的，目的是为了拟真测试，本地联调还是在 [web-tracing](https://github.com/M-cheng-web/web-tracing) 项目中完成的
 
@@ -9,17 +16,8 @@ git fetch --all
 git reset --hard origin/main
 ```
 
-## js
-进入 vanilla 文件夹
-1. pnpm install
-2. pnpm run dev
-
-## vue2
-进入 vue2 文件夹
-1. pnpm install
-2. pnpm run start
-
-## vue3
-进入 vue3 文件夹
-1. pnpm install
-2. pnpm run start
+## 运行
+```
+pnpm install
+pnpm run start
+```
