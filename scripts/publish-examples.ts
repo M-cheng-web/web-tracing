@@ -1,8 +1,5 @@
 /**
  * 将 examples 下的所有项目移植到
- * https://github.com/M-cheng-web/web-tracing-examples-js
- * https://github.com/M-cheng-web/web-tracing-examples-vue2
- * https://github.com/M-cheng-web/web-tracing-examples-vue3
  */
 import path from 'path'
 import fs from 'fs-extra'
@@ -66,16 +63,17 @@ async function publish() {
   const cmdList: string[] = []
   for (const { exampleName, exampleGitHubPath } of packages) {
     cmdList.push(
-      `cd examples-copy/${exampleName} &&
-      git init && git add -A &&
-      git commit -m 'deploy' &&
-      git push -f ${exampleGitHubPath} main`
+      `cd examples-copy/${exampleName} && git init && git add -A && git commit -m 'deploy' && git push -f ${exampleGitHubPath} main`
     )
   }
 
-  for (const cmd of packages) {
-    exec(cmd)
-  }
+  console.log('cmdList', cmdList)
+
+  // for (const cmd of packages) {
+  //   exec(cmd)
+  // }
+
+  exec(cmdList[0])
 
   // const Vue3cmd = `cd examples-copy && git init && git add -A && git commit -m 'deploy' && git push -f git@github.com:M-cheng-web/web-tracing-examples-vue3.git main`
   // exec(Vue3cmd)
