@@ -59,17 +59,18 @@ async function changeFile() {
   }
 }
 
-async function publish() {
-  for (const { exampleName, exampleGitHubPath } of packages) {
-    const cmd = `cd ${'examples-copy'}/${exampleName} && git init && git add -A && git commit -m 'deploy' && git push -f ${exampleGitHubPath} main`
-    exec(cmd, { stdio: 'inherit' })
-  }
-}
+// async function publish() {
+//   for (const { exampleName, exampleGitHubPath } of packages) {
+//     const cmd = `cd ${'examples-copy'}/${exampleName} && git init && git add -A && git commit -m 'deploy' && git push -f ${exampleGitHubPath} main`
+//     exec(cmd, { stdio: 'inherit' })
+//   }
+// }
 
 async function start() {
   await copyFolder(examplesDir, newExamplesDir)
   await changeFile()
-  await publish()
+  // await publish()
+  exec('pnpm run example:publish-js', { stdio: 'inherit' })
 }
 
 start()
