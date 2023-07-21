@@ -15,8 +15,6 @@
 
 [vue3版本 https://github.com/M-cheng-web/web-tracing-examples-vue3](https://github.com/M-cheng-web/web-tracing-examples-vue3)
 
-<br>
-
 ## 项目初衷
 为了帮助开发们在公司平台上搭建一套前端监控平台
 
@@ -48,8 +46,11 @@
 针对首屏加载的监控做出更多精细化的东西，例如考虑sdk的绝对轻量化
 
 ## 加入我们
-欢迎联系我 `微信号: cxh2604856589`
-![微信群](https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.4w1ukjv858y0.webp)
+<img align="left" width="180" src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.4w1ukjv858y0.webp" />
+
+<img align="right" width="180" src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.64oa489gbyw.webp" />
+
+<br>
 
 ## 本地调试(main分支)
 先 `pnpm install`
