@@ -61,23 +61,6 @@
 ## 干杯🍻
 <img width="180" src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.64oa489gbyw.webp" />
 
-
-## 本地调试(main分支)
-先 `pnpm install`
-```
-第一步：初始化所有测试项目仓库
-nr test:install
-
-第二步：打包并监听各个sdk
-nr watch
-
-第三步：运行js测试项目
-nr test:js
-
-nr test:vue2 (也可以运行vue2测试项目)
-nr test:vue3 (也可以运行vue3测试项目)
-```
-
 ## 🙏🙏🙏 点个Star
 
 **如果您觉得这个项目还不错, 可以在 [Github](https://github.com/M-cheng-web/web-tracing) 上面帮我点个`star`, 支持一下作者ヾ(◍°∇°◍)ﾉﾞ**
