@@ -36,7 +36,6 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ]
-    // external: ['@web-tracing/utils', '@web-tracing/types']
   },
   {
     name: 'vue2',
@@ -53,7 +52,6 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ]
-    // external: ['@web-tracing/core']
   },
   {
     name: 'vue3',
@@ -70,7 +68,6 @@ export const packages: any[] = [
       '前端埋点',
       '前端性能采集'
     ]
-    // external: ['@web-tracing/core']
   }
   // {
   //   name: 'utils',
