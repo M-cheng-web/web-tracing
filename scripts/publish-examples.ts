@@ -71,6 +71,8 @@ async function start() {
   await changeFile()
   // await publish()
   exec('pnpm run example:publish-js', { stdio: 'inherit' })
+  exec('pnpm run example:publish-vue2', { stdio: 'inherit' })
+  exec('pnpm run example:publish-vue3', { stdio: 'inherit' })
 }
 
 start()

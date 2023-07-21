@@ -24,7 +24,9 @@
     "test:vue2": "nr -C examples/vue2 start",
     "test:vue3": "nr -C examples/vue3 start",
     "example:publish": "esno scripts/publish-examples.ts",
-    "example:publish-js": "esno scripts/examples/js.sh"
+    "example:publish-js": "sh scripts/examples/js.sh",
+    "example:publish-vue2": "sh scripts/examples/vue2.sh",
+    "example:publish-vue3": "sh scripts/examples/vue3.sh"
   },
   "keywords": [
     "埋点",
