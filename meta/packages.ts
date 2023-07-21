@@ -24,7 +24,6 @@ export const packages: any[] = [
   {
     name: 'core',
     display: 'WebTracing',
-    exampleName: 'vanilla',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段',
     keywords: [
@@ -35,12 +34,13 @@ export const packages: any[] = [
       '异常采集',
       '前端埋点',
       '前端性能采集'
-    ]
+    ],
+    exampleName: 'vanilla',
+    exampleGitHubPath: 'https://github.com/M-cheng-web/web-tracing-examples-js'
   },
   {
     name: 'vue2',
     display: 'Vue2',
-    exampleName: 'vue2',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue2版本',
     keywords: [
@@ -51,12 +51,14 @@ export const packages: any[] = [
       '异常采集',
       '前端埋点',
       '前端性能采集'
-    ]
+    ],
+    exampleName: 'vue2',
+    exampleGitHubPath:
+      'https://github.com/M-cheng-web/web-tracing-examples-vue2'
   },
   {
     name: 'vue3',
     display: 'Vue3',
-    exampleName: 'vue3',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue3版本',
     keywords: [
@@ -67,7 +69,10 @@ export const packages: any[] = [
       '异常采集',
       '前端埋点',
       '前端性能采集'
-    ]
+    ],
+    exampleName: 'vue3',
+    exampleGitHubPath:
+      'https://github.com/M-cheng-web/web-tracing-examples-vue3'
   }
   // {
   //   name: 'utils',
