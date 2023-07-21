@@ -8,7 +8,6 @@ import {
   getFirstScreen,
   getIPs
 } from '@web-tracing/core'
-// import { pad } from '@web-tracing/utils'
 
 start()
 
