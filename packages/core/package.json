@@ -1,11 +1,12 @@
 {
   "name": "@web-tracing/core",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "description": "基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "jsdelivr": "./dist/index.iife.min.js",
   "types": "./dist/index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -14,6 +15,22 @@
     },
     "./*": "./*"
   },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FastUse/morehook.git",
+    "directory": "packages/core"
+  },
+  "author": "M-cheng-web <https://github.com/M-cheng-web>",
+  "keywords": [
+    "埋点",
+    "性能",
+    "异常",
+    "性能采集",
+    "异常采集",
+    "前端埋点",
+    "前端性能采集"
+  ],
   "dependencies": {
     "ua-parser-js": "2.0.0-alpha.1",
     "@types/pako": "^2.0.0",
@@ -24,28 +41,9 @@
   "devDependencies": {
     "@types/ua-parser-js": "^0.7.36"
   },
-  "keywords": [
-    "埋点",
-    "性能",
-    "异常",
-    "性能采集",
-    "异常采集",
-    "前端埋点",
-    "前端性能采集"
-  ],
-  "author": "M-cheng-web <https://github.com/M-cheng-web>",
-  "license": "ISC",
-  "files": [
-    "dist"
-  ],
-  "homepage": "https://github.com/FastUse/morehook#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/FastUse/morehook.git",
-    "directory": "packages/core"
-  },
   "bugs": {
     "url": "https://github.com/FastUse/morehook/issues"
   },
+  "homepage": "https://github.com/FastUse/morehook#readme",
   "unpkg": "./dist/index.iife.min.js"
 }
