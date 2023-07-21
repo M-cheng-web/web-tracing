@@ -4,9 +4,9 @@
 ::: tip
 这些导出项都在demo项目中使用了，想要了解更多可以查看demo项目
 
-[vue2-demo地址](https://github.com/M-cheng-web/web-tracing/tree/main/examples/vue2)
+[vue2-demo地址](https://github.com/M-cheng-web/web-tracing-examples-vue2)
 
-[vue3-demo地址](https://github.com/M-cheng-web/web-tracing/tree/main/examples/vue3)
+[vue3-demo地址](https://github.com/M-cheng-web/web-tracing-examples-vue3)
 :::
 
 ## options

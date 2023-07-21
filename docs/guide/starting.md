@@ -9,6 +9,18 @@ WebTracing是一个基于 JavaScript 的埋点SDK
 以下只展示了【 js、vue2、vue3 】的安装方式，因为目前作者只创建了这些demo项目；因为此sdk是纯js编写，如果您的项目支持浏览器对象那么理论上都会支持
 :::
 
+## 包总览
+```
+// 核心实现包 - js
+pnpm install @web-tracing/core
+
+// vue2版本
+pnpm install @web-tracing/vue2
+
+// vue3版本
+pnpm install @web-tracing/vue3
+```
+
 ## 安装 - HTML & JS
 ``` html
 <!DOCTYPE html>

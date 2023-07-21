@@ -2,10 +2,10 @@
 
 针对不用平台，这边粗略讲解如何快速上手，具体各个配置的含义请翻阅 [使用](../guide/use/declare.md) 文档
 
-也可以直接运行配套的 [示例项目](https://github.com/M-cheng-web/web-tracing/tree/main/examples)
+也可以直接运行配套的 `示例项目`
 
 ## html & js
-[项目演示](https://github.com/M-cheng-web/web-tracing/tree/main/examples/vanilla)
+[完整示例项目 https://github.com/M-cheng-web/web-tracing-examples-js](https://github.com/M-cheng-web/web-tracing-examples-js)
 
 index.html
 ``` html
@@ -211,7 +211,7 @@ function start() {
 ```
 
 ## vue2
-[项目演示](https://github.com/M-cheng-web/web-tracing/tree/main/examples/vue2)
+[完整示例项目 https://github.com/M-cheng-web/web-tracing-examples-vue2](https://github.com/M-cheng-web/web-tracing-examples-vue2)
 
 main.js
 ``` js
@@ -429,7 +429,7 @@ export default {
 ```
 
 ## vue3
-[项目演示](https://github.com/M-cheng-web/web-tracing/tree/main/examples/vue3)
+[完整示例项目 https://github.com/M-cheng-web/web-tracing-examples-vue3](https://github.com/M-cheng-web/web-tracing-examples-vue3)
 
 main.ts
 ``` ts
