@@ -1,0 +1,27 @@
+{
+  "name": "@web-tracing/docs",
+  "version": "2.0.0-beta.5",
+  "description": "基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段",
+  "private": true,
+  "scripts": {
+    "docs": "vitepress dev --open",
+    "docs:build": "vitepress build",
+    "docs:serve": "vitepress serve",
+    "docs:publish": "sh scripts/publish-docs.sh"
+  },
+  "keywords": [
+    "埋点",
+    "性能",
+    "异常",
+    "性能采集",
+    "异常采集",
+    "前端埋点",
+    "前端性能采集"
+  ],
+  "author": "M-cheng-web <2604856589@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "1.0.0-beta.5"
+  },
+  "dependencies": {}
+}
