@@ -21,16 +21,16 @@
 先 `pnpm install`
 ```
 第一步：初始化所有测试项目仓库
-nr test:install
+pnpm run test:install
 
 第二步：打包并监听各个sdk
-nr watch
+pnpm run watch
 
 第三步：运行js测试项目
-nr test:js
+pnpm run test:js
 
-nr test:vue2 (也可以运行vue2测试项目)
-nr test:vue3 (也可以运行vue3测试项目)
+pnpm run test:vue2 (也可以运行vue2测试项目)
+pnpm run test:vue3 (也可以运行vue3测试项目)
 ```
 
 > web-tracing > package.json 下的其他命令可以自行研究，大部分都是些构建作用
