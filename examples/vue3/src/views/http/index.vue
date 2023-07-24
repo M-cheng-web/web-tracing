@@ -215,7 +215,7 @@ function onClickFetchGet() {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res)
+    .then(res => res.json())
     .then(res => {
       console.log('featch-res', res)
     })
@@ -230,7 +230,7 @@ function onClickFetchPost() {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res)
+    .then(res => res.json())
     .then(res => {
       console.log('featch-res', res)
     })
