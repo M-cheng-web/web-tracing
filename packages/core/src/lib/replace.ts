@@ -192,6 +192,7 @@ function replaceFetch(type: EVENTTYPES): void {
       const fetchStart = getTimestamp()
       return originalFetch.apply(_global, args).then((res: any) => {
         eventBus.runEvent(type, ...args, res, fetchStart)
+        return res
       })
     }
   })
