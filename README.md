@@ -16,6 +16,17 @@
 
 [vue3版本 https://github.com/M-cheng-web/web-tracing-examples-vue3](https://github.com/M-cheng-web/web-tracing-examples-vue3)
 
+## 演示
+### 事件监听
+<img src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.78d02ro0pyo0.webp" width="1200" alt="logo" />
+
+### 错误监听
+<img src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/Jul-31-2023-20-41-51.4dr4i0vaypw0.gif" width="1200" alt="logo" />
+
+### 资源监听
+<img src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.6he8u6xbh000.webp" width="1200" alt="logo" />
+
+
 ## 项目初衷
 为了帮助开发们在公司平台上搭建一套前端监控平台
 
