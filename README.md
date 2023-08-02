@@ -70,11 +70,6 @@
 <br/>
 <br/>
 
-## 干杯🍻
-<img width="180" src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.64oa489gbyw.webp" />
-
-<br/>
-
 ## 🙏🙏🙏 点个Star
 
 **如果您觉得这个项目还不错, 可以在 [Github](https://github.com/M-cheng-web/web-tracing) 上面帮我点个`star`, 支持一下作者ヾ(◍°∇°◍)ﾉﾞ**
