@@ -43,6 +43,22 @@ Vue.use(WebTracing, {
   ignoreRequest: [/getAllTracingList/, /cleanTracingList/],
 
   beforePushEventList(data) {
+    // data 是一个数组，格式：[{}]
+    const newData = data.map(item => {
+      if (item.eventType === 'click' && item.params) {
+        console.log('item', item)
+        item.newParams = {
+          dbname: item.params.dbname,
+          fieldname: item.params.fieldname,
+          tblname: item.params.tblname
+        }
+        delete item.params.dbname
+        delete item.params.fieldname
+        delete item.params.tblname
+      }
+      return item
+    })
+
     const arr = ['intersection', 'click']
     data.forEach(item => {
       if (arr.includes(item.eventType)) {
@@ -50,20 +66,7 @@ Vue.use(WebTracing, {
       }
     })
 
-    // if (Array.isArray(data)) {
-    //   const _data = data.filter(item => {
-    //     return !(
-    //       item.eventId === 'server' && item.requestUrl.includes('trackweb')
-    //     )
-    //   })
-    //   return _data
-    // } else {
-    //   if (data.eventId === 'server' && data.requestUrl.includes('trackweb')) {
-    //     return false
-    //   }
-    //   return data
-    // }
-    return data
+    return newData
   },
   beforeSendData(data) {
     // 返回false代表sdk不再发送

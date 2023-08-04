@@ -11,6 +11,9 @@
         data-warden-test="test-1"
         data-warden-title="titletitle-1"
         data-warden-bing="bing-1"
+        data-warden-dbname="hdfs"
+        data-warden-fieldname="channel"
+        data-warden-tblname="ads_activity2_2022_33_diss_11"
         data-warden-event-id="ddd-1"
       >
         <div class="box-c">我是最里面的内容 - 1</div>
