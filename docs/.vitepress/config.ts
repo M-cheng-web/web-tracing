@@ -68,7 +68,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/FastUse/morehook/tree/main/packages/:path',
+      pattern: 'https://github.com/M-cheng-web/web-tracing/blob/main/docs/:path',
       text: 'Suggest changes to this page'
     },
 
