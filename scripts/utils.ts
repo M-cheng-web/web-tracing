@@ -4,8 +4,6 @@ import fg from 'fast-glob'
 import { $fetch } from 'ohmyfetch'
 import { packages } from '../meta/packages'
 
-export const DOCS_URL = 'https://fastuse.github.io/morehook'
-
 export const DIR_ROOT = resolve(__dirname, '..')
 export const DIR_SRC = resolve(__dirname, '../packages')
 export const GUID_CATE_SRC = resolve(__dirname, '../packages/guide')
@@ -125,12 +123,12 @@ export async function updatePackageJSON() {
     packageJSON.author =
       author || 'M-cheng-web <https://github.com/M-cheng-web>'
     packageJSON.bugs = {
-      url: 'https://github.com/FastUse/morehook/issues'
+      url: 'https://github.com/M-cheng-web/web-tracing/issues'
     }
-    packageJSON.homepage = 'https://github.com/FastUse/morehook#readme'
+    packageJSON.homepage = 'https://github.com/M-cheng-web/web-tracing#readme'
     packageJSON.repository = {
       type: 'git',
-      url: 'git+https://github.com/FastUse/morehook.git',
+      url: 'git+https://github.com/M-cheng-web/web-tracing.git',
       directory: `packages/${name}`
     }
     packageJSON.types = './dist/index.d.ts'

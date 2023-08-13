@@ -18,7 +18,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FastUse/morehook.git",
+    "url": "git+https://github.com/M-cheng-web/web-tracing.git",
     "directory": "packages/vue2"
   },
   "author": "M-cheng-web <https://github.com/M-cheng-web>",
@@ -36,8 +36,8 @@
     "@web-tracing/core": "workspace:*"
   },
   "bugs": {
-    "url": "https://github.com/FastUse/morehook/issues"
+    "url": "https://github.com/M-cheng-web/web-tracing/issues"
   },
-  "homepage": "https://github.com/FastUse/morehook#readme",
+  "homepage": "https://github.com/M-cheng-web/web-tracing#readme",
   "unpkg": "./dist/index.iife.min.js"
 }
