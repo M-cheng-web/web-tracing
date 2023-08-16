@@ -31,7 +31,7 @@ pnpm install @web-tracing/vue3
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
   </head>
-  <script src="https://cdn.jsdelivr.net/npm/web-tracing"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@web-tracing/core"></script>
   <script>
     webtracing.init({
       appName: 'cxh',
