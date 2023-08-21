@@ -42,6 +42,7 @@ export class Options implements InternalOptions {
   ignoreRequest: Array<string | RegExp> = [] // 请求类型事件过滤
   scopeError = false // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
   localization = false // 是否本地化：sdk不再主动发送事件，事件都存储在本地，由用户手动调用方法发送
+  sendTypeByXmlBody = false // 是否强制指定发送形式为xml，body请求方式
 
   // whiteScreen = false // 开启白屏检测
 
@@ -131,6 +132,7 @@ function _validateInitOption(options: InitOptions) {
     ignoreRequest,
     scopeError,
     localization,
+    sendTypeByXmlBody,
     // whiteScreen,
     beforePushEventList,
     beforeSendData
@@ -195,6 +197,7 @@ function _validateInitOption(options: InitOptions) {
 
     validateOption(scopeError, 'scopeError', 'boolean'),
     validateOption(localization, 'localization', 'boolean'),
+    validateOption(sendTypeByXmlBody, 'sendTypeByXmlBody', 'boolean'),
     // validateOption(whiteScreen, 'whiteScreen', 'boolean'),
     validateOption(beforePushEventList, 'beforePushEventList', 'function'),
     validateOption(beforeSendData, 'beforeSendData', 'function')

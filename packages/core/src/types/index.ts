@@ -51,6 +51,7 @@ export type InternalOptions = {
   ignoreRequest: Array<string | RegExp> // 请求类型事件过滤
   scopeError: boolean // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
   localization: boolean // 是否本地化：sdk不再主动发送事件，事件都存储在本地，由用户手动调用方法发送
+  sendTypeByXmlBody?: boolean // 是否强制指定发送形式为xml，body请求方式
   // whiteScreen: boolean // 开启白屏检测
   beforePushEventList: AnyFun[] // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforeSendData: AnyFun[] // 数据上报前的 hook
@@ -80,6 +81,7 @@ export type InitOptions = {
   ignoreRequest?: Array<string | RegExp> // 请求类型事件过滤
   scopeError?: boolean // 当某个时间段报错时，会将此类错误转为特殊错误类型，会新增错误持续时间范围
   localization?: boolean // 是否本地化：sdk不再主动发送事件，事件都存储在本地，由用户手动调用方法发送
+  sendTypeByXmlBody?: boolean // 是否强制指定发送形式为xml，body请求方式
   // whiteScreen?: boolean // 开启白屏检测
   beforePushEventList?: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforeSendData?: (data: any) => any // 数据上报前的 hook

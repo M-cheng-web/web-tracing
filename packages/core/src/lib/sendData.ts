@@ -139,13 +139,17 @@ export class SendData {
    */
   private executeSend(url: string, data: any) {
     let sendType = 1
-    if (_global.navigator) {
+    if (options.value.sendTypeByXmlBody) {
+      // 强制指定 xml body 形式
+      sendType = 3
+    } else if (_global.navigator) {
       // sendBeacon 最大64kb
       sendType = isObjectOverSizeLimit(data, 60) ? 3 : 1
     } else {
       // img 限制在 2kb
       sendType = isObjectOverSizeLimit(data, 2) ? 3 : 2
     }
+
     return new Promise(resolve => {
       switch (sendType) {
         case 1:
