@@ -1,6 +1,6 @@
 {
   "name": "@web-tracing/vue3",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue3版本",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
