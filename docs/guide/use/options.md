@@ -141,6 +141,11 @@ options.value.dsn = 'www.baidu.com' // 从此刻开始所有的事件都会发�
 + 解释: 开启本地化后，数据会存储在 localStorage 中，需要开发手动去发送与清除；具体查看 [导出项](../functions/exports.md)
 + 默认值: false
 
+### sendTypeByXmlBody
++ 作用: 是否强制指定发送形式为xml，body请求方式
++ 解释: sdk内部有三种发送方式（sendbeacon、img、xml），此参数可以强行指定发送数据方式为xml
++ 默认值: false
+
 ### beforePushEventList
 + 作用: 事件添加到事件列表前的hook
 + 解释: 为了让用户对采集到的数据进行自定义增删改查，提供此函数；例如捕获到了错误事件，在将此事件对象放入事件列表时会触发此函数，当此函数返回false时则不会将此错误事件放入事件列表，当函数返回其他对象时，sdk内部会将此对象放入事件列表；具体查看 [导出项](../functions/exports.md)

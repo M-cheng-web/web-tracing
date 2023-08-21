@@ -66,6 +66,7 @@ sdk内部导出了大量的钩子方便开发自定义，同时也导出了sdk�
  */
 export enum SEDNEVENTTYPES {
   PV = 'pv', // 路由
+  PVDURATION = 'pv-duration', // 页面停留事件
   ERROR = 'error', // 错误
   PERFORMANCE = 'performance', // 资源
   CLICK = 'click', // 点击

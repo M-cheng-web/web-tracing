@@ -52,7 +52,7 @@ export default defineConfig({
             { text: '资源采集', link: '/guide/functions/performance' },
             { text: '曝光采集', link: '/guide/functions/intersection' },
             { text: '导出项', link: '/guide/functions/exports' },
-            { text: '其他', link: '/guide/functions/other' },
+            // { text: '其他', link: '/guide/functions/other' },
           ]
         },
       ],
