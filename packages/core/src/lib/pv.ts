@@ -103,10 +103,25 @@ function initPv() {
       sendPageView()
     }
   })
+
+  // 在页面卸载时发送页面停留事件
+  eventBus.addEvent({
+    type: EVENTTYPES.BEFOREUNLOAD,
+    callback: () => {
+      const durationTime = getTimestamp() - durationStartTime
+      if (Object.values(lastSendObj).length > 0 && durationTime > 100) {
+        sendData.emit({ ...lastSendObj, durationTime }, true)
+      }
+    }
+  })
 }
+
+let durationStartTime = getTimestamp()
+let lastSendObj: any = {}
 
 /**
  * 发送数据
+ * 这里会发送路由跳转时间事件 以及 上一个页面停留时间事件
  */
 function sendPageView(option: AnyObj = {}) {
   const { referer = oldURL, action, params, title } = option
@@ -115,13 +130,13 @@ function sendPageView(option: AnyObj = {}) {
     _action = WEBPAGELOAD[performance.navigation.type] || ''
   }
 
+  // ------------- 发送路由跳转时间事件 -------------
   // 如果option.title为空,则等待框架处理document.title,延迟17ms
   // 为什么是17ms?  一秒60Hz是基准,平均1Hz是17毫秒,只要出来了页面那就有 document.title
   setTimeout(
     () => {
       oldURL = getLocationHref()
-
-      sendData.emit({
+      const sendObj = {
         eventType: SEDNEVENTTYPES.PV,
         eventId: baseInfo.pageId,
         triggerPageUrl: getLocationHref(),
@@ -130,7 +145,19 @@ function sendPageView(option: AnyObj = {}) {
         title: title || document.title,
         action: _action,
         triggerTime: getTimestamp()
-      })
+      }
+      sendData.emit(sendObj)
+
+      // ------------- 发送上一个页面停留时间事件 -------------
+      const durationTime = getTimestamp() - durationStartTime
+      durationStartTime = getTimestamp()
+      if (Object.values(lastSendObj).length > 0 && durationTime > 100) {
+        sendData.emit({ ...lastSendObj, durationTime })
+      }
+      lastSendObj = {
+        ...sendObj,
+        eventType: SEDNEVENTTYPES.PVDURATION
+      }
     },
     title ? 0 : 17
   )

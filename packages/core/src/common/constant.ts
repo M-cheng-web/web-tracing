@@ -24,7 +24,8 @@ export enum EVENTTYPES {
  * 触发的事件是什么类型 - eventType
  */
 export enum SEDNEVENTTYPES {
-  PV = 'pv', // 路由
+  PV = 'pv', // 路由跳转
+  PVDURATION = 'pv-duration', // 页面停留事件
   ERROR = 'error', // 错误
   PERFORMANCE = 'performance', // 资源
   CLICK = 'click', // 点击

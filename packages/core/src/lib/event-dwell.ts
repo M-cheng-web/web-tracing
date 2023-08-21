@@ -1,3 +1,6 @@
+/**
+ * 这部分功能移植到 pv 中，并且默认开启
+ */
 import { EVENTTYPES, SEDNEVENTTYPES, WEBPAGELOAD } from '../common'
 import { uuid, isValidKey, getTimestamp, getLocationHref } from '../utils'
 import { eventBus } from './eventBus'
@@ -53,7 +56,7 @@ function dwellCollector() {
 }
 
 function initEventDwell() {
-  options.value.event.unload && dwellCollector()
+  // options.value.event.unload && dwellCollector() // 放弃此方法
 }
 
 export { initEventDwell }

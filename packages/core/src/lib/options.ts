@@ -30,8 +30,7 @@ export class Options implements InternalOptions {
     server: false // 接口请求-是否采集报错接口数据
   }
   event = {
-    core: false, // 页面点击-是否采集点击事件
-    unload: false // 页面卸载-是否在页面卸载时采集页面状态信息
+    core: false // 页面点击-是否采集点击事件
   }
 
   ext = {} // 自定义全局附加参数(放在baseInfo中)
@@ -94,8 +93,7 @@ export class Options implements InternalOptions {
     }
     if (typeof event === 'boolean') {
       _options.event = {
-        core: event,
-        unload: event
+        core: event
       }
     }
 
@@ -170,10 +168,7 @@ function _validateInitOption(options: InitOptions) {
   }
 
   if (event && typeof event === 'object') {
-    validateFunList.push(
-      validateOption(event.core, 'event.core', 'boolean'),
-      validateOption(event.unload, 'event.unload', 'boolean')
-    )
+    validateFunList.push(validateOption(event.core, 'event.core', 'boolean'))
   } else {
     validateFunList.push(validateOption(event, 'event', 'boolean'))
   }

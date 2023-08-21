@@ -26,7 +26,6 @@ interface Error {
 }
 interface Event {
   core?: boolean // 是否采集点击事件
-  unload?: boolean // 是否在页面卸载时采集页面状态信息
 }
 
 /**
