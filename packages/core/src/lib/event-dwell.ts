@@ -5,7 +5,7 @@ import { EVENTTYPES, SEDNEVENTTYPES, WEBPAGELOAD } from '../common'
 import { uuid, isValidKey, getTimestamp, getLocationHref } from '../utils'
 import { eventBus } from './eventBus'
 import { sendData } from './sendData'
-import { options } from './options'
+// import { options } from './options'
 
 class DwellRequestTemplate {
   eventId = '' // 事件ID
@@ -57,6 +57,7 @@ function dwellCollector() {
 
 function initEventDwell() {
   // options.value.event.unload && dwellCollector() // 放弃此方法
+  dwellCollector()
 }
 
 export { initEventDwell }
