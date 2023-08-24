@@ -32,6 +32,7 @@ export class Options implements InternalOptions {
   event = {
     core: false // 页面点击-是否采集点击事件
   }
+  recordScreen = true // 是否启动录屏
 
   ext = {} // 自定义全局附加参数(放在baseInfo中)
   tracesSampleRate = 1 // 抽样发送

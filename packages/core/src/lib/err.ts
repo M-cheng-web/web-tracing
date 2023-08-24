@@ -209,7 +209,7 @@ function emit(errorInfo: any): void {
   const info = {
     ...errorInfo,
     eventType: SEDNEVENTTYPES.ERROR,
-    recordscreen: zip(getRecordEvent()),
+    recordscreen: options.value.recordScreen ? zip(getRecordEvent()) : null,
     triggerPageUrl: getLocationHref(),
     triggerTime: getTimestamp()
   }

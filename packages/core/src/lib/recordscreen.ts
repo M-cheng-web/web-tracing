@@ -3,6 +3,7 @@ import pako from 'pako'
 import { Base64 } from 'js-base64'
 import { RecordEventScope } from '../types'
 import { getTimestamp } from '../utils'
+import { options } from './options'
 
 /**
  * 只存储最近30s的所有录屏 (分为3段)
@@ -73,7 +74,9 @@ export class RecordScreen {
 export let recordscreenList: RecordEventScope[]
 
 export function initRecordScreen() {
-  recordscreenList = new RecordScreen().eventList
+  recordscreenList = options.value.recordScreen
+    ? new RecordScreen().eventList
+    : []
 }
 
 /**

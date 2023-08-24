@@ -57,6 +57,7 @@ export type InternalOptions = {
   beforeSendData: AnyFun[] // 数据上报前的 hook
   afterSendData: AnyFun[] // 数据上报后的 hook
   localizationOverFlow: VoidFun // 本地化存储溢出后的回调
+  recordScreen: boolean // 是否启动录屏
 }
 
 /**
@@ -86,6 +87,7 @@ export type InitOptions = {
   beforePushEventList?: (data: any) => any // 添加到行为列表前的 hook (在这里面可以给出错误类型，然后就能达到用户想拿到是何种事件类型的触发)
   beforeSendData?: (data: any) => any // 数据上报前的 hook
   afterSendData?: (data: any) => void // 数据上报后的 hook
+  recordScreen?: boolean // 是否启动录屏
 }
 
 export type ElementOrList = Element | Element[]
