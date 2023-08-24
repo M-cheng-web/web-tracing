@@ -58,10 +58,10 @@
 
 针对首屏加载的监控做出更多精细化的东西，例如考虑sdk的绝对轻量化
 
-## 加入我们
-<img align="left" width="180" src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.18h5172x1bk0.webp" />
+## 联系我
+<img align="left" width="180" src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/image.284iphstv97o.webp" />
 
-- 如果对此项目有疑虑或者有优化点，欢迎进群讨论
+- 如果对此项目有疑虑或者有优化点，欢迎与我讨论
 - Bug 反馈请直接去 Github 上面提 Issues，我会实时收到邮件提醒前去查看
 
 <br/>
