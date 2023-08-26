@@ -121,6 +121,7 @@ function _validateInitOption(options: InitOptions) {
     appVersion,
     userUuid,
     debug,
+    recordScreen,
     pv,
     performance,
     error,
@@ -183,6 +184,7 @@ function _validateInitOption(options: InitOptions) {
     validateOption(appVersion, 'appVersion', 'string'),
     validateOption(userUuid, 'userUuid', 'string'),
     validateOption(debug, 'debug', 'boolean'),
+    validateOption(recordScreen, 'recordScreen', 'boolean'),
 
     validateOption(ext, 'ext', 'object'),
     validateOption(tracesSampleRate, 'tracesSampleRate', 'number'),
