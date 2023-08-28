@@ -5,7 +5,7 @@ import { sendData } from './sendData'
 import { eventBus } from './eventBus'
 import { isArray, isRegExp } from '../utils/is'
 import { options } from './options'
-import { recordscreenList, zip } from './recordscreen'
+import { zip, getEventList } from './recordscreen'
 import { debug } from '../utils/debug'
 import { initBatchError, batchError } from './err-batch'
 import { RecordEventScope } from '../types'
@@ -193,7 +193,7 @@ function isIgnoreErrors(error: any): boolean {
  */
 function getRecordEvent(): RecordEventScope[] {
   const _recordscreenList: RecordEventScope[] = JSON.parse(
-    JSON.stringify(recordscreenList)
+    JSON.stringify(getEventList())
   )
   return _recordscreenList
     .slice(-2)
@@ -209,7 +209,7 @@ function emit(errorInfo: any): void {
   const info = {
     ...errorInfo,
     eventType: SEDNEVENTTYPES.ERROR,
-    recordscreen: zip(getRecordEvent()),
+    recordscreen: options.value.recordScreen ? zip(getRecordEvent()) : null,
     triggerPageUrl: getLocationHref(),
     triggerTime: getTimestamp()
   }

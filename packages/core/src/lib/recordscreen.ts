@@ -3,6 +3,8 @@ import pako from 'pako'
 import { Base64 } from 'js-base64'
 import { RecordEventScope } from '../types'
 import { getTimestamp } from '../utils'
+import { options } from './options'
+import { watch } from '../observer'
 
 /**
  * 只存储最近30s的所有录屏 (分为3段)
@@ -41,15 +43,19 @@ import { getTimestamp } from '../utils'
 const MAXSCOPETIME = 5000 // 每5s记录一个区间
 const MAXSCOPELENGTH = 3 // 录屏数组最长长度 - 不要小于3
 
+let recordScreen: RecordScreen | undefined
+
 export class RecordScreen {
   public eventList: RecordEventScope[] = [
     { scope: `${getTimestamp()}-`, eventList: [] }
   ]
+  private closeCallback: ReturnType<typeof record>
+
   constructor() {
     this.init()
   }
   private init() {
-    record({
+    this.closeCallback = record({
       emit: (event, isCheckout) => {
         const lastEvents = this.eventList[this.eventList.length - 1]
         lastEvents.eventList.push(event)
@@ -68,12 +74,29 @@ export class RecordScreen {
       checkoutEveryNms: MAXSCOPETIME // 每5s重新制作快照
     })
   }
+  public close() {
+    this.closeCallback?.()
+    this.closeCallback = undefined
+  }
 }
 
-export let recordscreenList: RecordEventScope[]
-
 export function initRecordScreen() {
-  recordscreenList = new RecordScreen().eventList
+  watch(options, (newValue, oldValue) => {
+    if (newValue.recordScreen === oldValue.recordScreen) return
+
+    if (newValue.recordScreen) recordScreen = new RecordScreen()
+    else {
+      recordScreen!.close()
+      recordScreen = undefined
+    }
+  })
+
+  recordScreen = options.value.recordScreen ? new RecordScreen() : undefined
+}
+
+// 获取录屏数据
+export function getEventList() {
+  return recordScreen?.eventList ?? []
 }
 
 /**

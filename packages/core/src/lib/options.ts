@@ -32,6 +32,7 @@ export class Options implements InternalOptions {
   event = {
     core: false // 页面点击-是否采集点击事件
   }
+  recordScreen = true // 是否启动录屏
 
   ext = {} // 自定义全局附加参数(放在baseInfo中)
   tracesSampleRate = 1 // 抽样发送
@@ -120,6 +121,7 @@ function _validateInitOption(options: InitOptions) {
     appVersion,
     userUuid,
     debug,
+    recordScreen,
     pv,
     performance,
     error,
@@ -182,6 +184,7 @@ function _validateInitOption(options: InitOptions) {
     validateOption(appVersion, 'appVersion', 'string'),
     validateOption(userUuid, 'userUuid', 'string'),
     validateOption(debug, 'debug', 'boolean'),
+    validateOption(recordScreen, 'recordScreen', 'boolean'),
 
     validateOption(ext, 'ext', 'object'),
     validateOption(tracesSampleRate, 'tracesSampleRate', 'number'),
