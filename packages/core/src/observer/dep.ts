@@ -11,11 +11,11 @@ export class Dep {
   addSub() {
     if (Dep.target) this.subs.add(Dep.target)
   }
-  notify() {
+  notify(...params: any[]) {
     // 在某个属性发生变化时会执行其 dep.notify(),用来通知依赖这个属性的所有 watcher
     this.subs.forEach(function (watcher: any) {
       watcher.proxy.dirty = true // 标明数据脏了,当再次使用到这个值会重新计算
-      watcher.update()
+      watcher.update(...params)
     })
   }
 }

@@ -39,14 +39,13 @@ export class Watcher {
       this.get()
     }
   }
-  update() {
+  update(oldValue: any) {
     if (this.computed) {
       // 更新计算属性(不涉及渲染)
       this.dep!.notify()
     } else if (this.watch) {
       // 触发watch
-      const oldValue = this.proxy.value
-      this.watchGet()
+      // this.watchGet()
       if (oldValue !== this.proxy.value) {
         this.callback && this.callback(this.proxy.value, oldValue)
       }

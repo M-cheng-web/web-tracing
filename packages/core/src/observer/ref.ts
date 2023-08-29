@@ -17,8 +17,8 @@ class Observer<T> {
       () => {
         dep.addSub()
       },
-      () => {
-        dep.notify()
+      (oldValue: any) => {
+        dep.notify(oldValue)
       }
     )
     return new Proxy<ObserverValue<T>>(this.target, handlers)
@@ -49,8 +49,9 @@ function getHandlers(
       const oldValue = Reflect.get(target, key, receiver)
       if (oldValue === value) return oldValue
       // console.log(`设置属性：${key}=${value}, oldValue:${oldValue}`)
+      const beforeTarget = JSON.parse(JSON.stringify(target))
       const result = Reflect.set(target, key, value, receiver)
-      setCallBack && setCallBack()
+      setCallBack && setCallBack(beforeTarget)
       return result
     }
   }
