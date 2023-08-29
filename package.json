@@ -13,7 +13,7 @@
     "build:types": "tsc --emitDeclarationOnly && esno scripts/fix-types.ts",
     "update": "esno scripts/update.ts",
     "update:full": "pnpm run update && pnpm run build:types",
-    "clean": "rimraf dist types packages/*/dist",
+    "clean": "rimraf --glob dist types \"packages/*/dist\"",
     "release": "bumpp --execute=\"npm run release:prepare\" --no-push --no-commit --no-tag",
     "release:prepare": "npm run build:types && npm run update",
     "publish": "esno scripts/publish.ts",
@@ -56,6 +56,7 @@
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "esno": "^0.17.0",
     "fs-extra": "^11.1.1",
     "ohmyfetch": "^0.4.21",
     "prettier": "^2.8.7",
@@ -65,6 +66,5 @@
     "rollup-plugin-esbuild": "^5.0.0",
     "typescript": "^5.0.2",
     "vitepress": "1.0.0-beta.5"
-  },
-  "dependencies": {}
+  }
 }
