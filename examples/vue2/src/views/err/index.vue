@@ -23,6 +23,12 @@
           <el-button type="danger" plain @click="sendBizErr">
             手动上报自定义错误
           </el-button>
+          <el-button type="danger" plain @click="openX">
+            开启错误录屏功能
+          </el-button>
+          <el-button type="danger" plain @click="closeX">
+            关闭错误录屏功能
+          </el-button>
         </div>
       </el-tab-pane>
       <el-tab-pane label="资源错误事件" name="second">
@@ -217,7 +223,7 @@
 
 <script>
 import axios from 'axios'
-import { traceError, unzipRecordscreen } from '@web-tracing/vue2'
+import { traceError, unzipRecordscreen, options } from '@web-tracing/vue2'
 import rrwebPlayer from 'rrweb-player'
 import 'rrweb-player/dist/style.css'
 
@@ -364,6 +370,23 @@ export default {
           }
         })
       })
+    },
+
+    openX() {
+      if (options.value.recordScreen) {
+        this.sendMessage('已经打开错误录屏了，不用重复打开')
+      } else {
+        options.value.recordScreen = true
+        this.sendMessage('成功打开错误录屏')
+      }
+    },
+    closeX() {
+      if (options.value.recordScreen) {
+        options.value.recordScreen = false
+        this.sendMessage('关闭成功')
+      } else {
+        this.sendMessage('已经关闭错误录屏了，不用重复关闭')
+      }
     },
 
     // ------- 查看错误 -------
