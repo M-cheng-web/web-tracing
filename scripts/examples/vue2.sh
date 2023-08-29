@@ -9,6 +9,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f https://github.com/M-cheng-web/web-tracing-examples-vue2 main
+git push -f git@github.com:M-cheng-web/web-tracing-examples-vue2.git main
 
 cd -
