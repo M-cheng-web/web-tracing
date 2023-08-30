@@ -2,7 +2,7 @@
   <img src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg" width="128" alt="logo" />
   <h1>web-tracing 监控插件 - vue3版本</h1>
   <p>
-    基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段
+    基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段
   </p>
 </div>
 
