@@ -4,6 +4,7 @@
 + package.json 中 clean 命令优化
 + package.json 中 esno 本地化
 + 添加 CHANGELOG.md 并对之前版本补充
++ README.md 更改介绍语
 
 ## 2.0.2
 + 改进 mvvm-watch(原先有bug)
