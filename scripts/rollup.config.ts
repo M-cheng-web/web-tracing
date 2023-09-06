@@ -12,7 +12,7 @@ const configs: RollupOptions[] = []
 const esbuildPlugin = esbuild({ target: 'esnext' })
 const dtsPlugin = [dts()]
 
-const externals = []
+const externals = ['react']
 // const externals = ['@web-tracing/core']
 
 const esbuildMinifer = (options: ESBuildOptions) => {
