@@ -167,20 +167,18 @@ function sendPageView(option: AnyObj = {}) {
  * 手动发送数据
  * @param options 自定义配置信息
  */
-function handleSendPageView(options: AnyObj = {}) {
-  setTimeout(
-    () => {
-      sendData.emit({
-        referer: oldURL,
-        title: document.title,
-        ...options,
-        eventType: SEDNEVENTTYPES.PV,
-        eventId: baseInfo.pageId,
-        triggerPageUrl: getLocationHref(),
-        triggerTime: getTimestamp()
-      })
+function handleSendPageView(options: AnyObj = {}, flush = false) {
+  sendData.emit(
+    {
+      referer: oldURL,
+      title: document.title,
+      ...options,
+      eventType: SEDNEVENTTYPES.PV,
+      eventId: baseInfo.pageId,
+      triggerPageUrl: getLocationHref(),
+      triggerTime: getTimestamp()
     },
-    options.title ? 0 : 17
+    flush
   )
 }
 

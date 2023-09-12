@@ -205,7 +205,7 @@ function getRecordEvent(): RecordEventScope[] {
  * 发送错误事件信息
  * @param errorInfo 信息源
  */
-function emit(errorInfo: any): void {
+function emit(errorInfo: any, flush = false): void {
   const info = {
     ...errorInfo,
     eventType: SEDNEVENTTYPES.ERROR,
@@ -216,7 +216,7 @@ function emit(errorInfo: any): void {
 
   options.value.scopeError
     ? batchError.pushCacheErrorA(info)
-    : sendData.emit(info)
+    : sendData.emit(info, flush)
 }
 
 /**
@@ -274,8 +274,8 @@ function initError(): void {
  * @param message 错误信息
  * @param options 自定义配置信息
  */
-function handleSendError(options = {}): void {
-  emit(options)
+function handleSendError(options = {}, flush = false): void {
+  emit(options, flush)
 }
 
 export { initError, handleSendError, parseError }

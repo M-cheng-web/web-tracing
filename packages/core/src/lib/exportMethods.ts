@@ -109,40 +109,40 @@ export function getFirstScreen(): object | void {
  * 主动触发error事件上报
  * @param options 自定义配置信息
  */
-export function traceError(options = {}) {
+export function traceError(options = {}, flush = false) {
   if (!validateMethods('traceError')) return
 
-  return handleSendError(options)
+  return handleSendError(options, flush)
 }
 
 /**
  * 主动触发性能事件上报
  * @param options 自定义配置信息
  */
-export function tracePerformance(options = {}) {
+export function tracePerformance(options = {}, flush = false) {
   if (!validateMethods('tracePerformance')) return
 
-  return handleSendPerformance(options)
+  return handleSendPerformance(options, flush)
 }
 
 /**
  * 主动触发事件上报
  * @param options 自定义配置信息
  */
-export function traceCustomEvent(options = {}) {
+export function traceCustomEvent(options = {}, flush = false) {
   if (!validateMethods('traceCustomEvent')) return
 
-  return handleSendEvent(options)
+  return handleSendEvent(options, flush)
 }
 
 /**
  * 主动触发pv事件上报
  * @param options 自定义配置信息
  */
-export function tracePageView(option = {}) {
+export function tracePageView(option = {}, flush = false) {
   if (!validateMethods('tracePageView')) return
 
-  return handleSendPageView(option)
+  return handleSendPageView(option, flush)
 }
 
 /**

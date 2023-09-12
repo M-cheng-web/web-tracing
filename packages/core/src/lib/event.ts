@@ -229,13 +229,16 @@ function initEvent() {
  * 主动触发事件上报
  * @param options 自定义配置信息
  */
-function handleSendEvent(options = {}) {
-  sendData.emit({
-    ...options,
-    eventType: SEDNEVENTTYPES.CUSTOM,
-    triggerTime: getTimestamp(),
-    triggerPageUrl: getLocationHref()
-  })
+function handleSendEvent(options = {}, flush = false) {
+  sendData.emit(
+    {
+      ...options,
+      eventType: SEDNEVENTTYPES.CUSTOM,
+      triggerTime: getTimestamp(),
+      triggerPageUrl: getLocationHref()
+    },
+    flush
+  )
 }
 
 export { initEvent, handleSendEvent }

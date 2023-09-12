@@ -272,14 +272,14 @@ function initPerformance() {
  * 主动触发性能事件上报
  * @param options 自定义配置信息
  */
-function handleSendPerformance(options = {}) {
+function handleSendPerformance(options = {}, flush = false) {
   const record = {
     ...options,
     triggerTime: getTimestamp(),
     triggerPageUrl: getLocationHref(),
     eventType: SEDNEVENTTYPES.PERFORMANCE
   }
-  sendData.emit(normalizeObj(record))
+  sendData.emit(normalizeObj(record), flush)
 }
 
 export { initPerformance, handleSendPerformance }
