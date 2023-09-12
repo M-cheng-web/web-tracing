@@ -1,10 +1,13 @@
 # 版本变更记录
 
 ## 已完成/提交 & 未发包
+
+## 2.0.3
 + package.json 中 clean 命令优化
 + package.json 中 esno 本地化
 + 添加 CHANGELOG.md 并对之前版本补充
 + README.md 更改介绍语
++ 暴露出的主动事件方法添加flush参数代表是否立即发送事件
 
 ## 2.0.2
 + 改进 mvvm-watch(原先有bug)
