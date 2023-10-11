@@ -11,7 +11,7 @@ export default defineConfig({
   cleanUrls: true,
 
   themeConfig: {
-    logo: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg',
+    logo: 'https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/logo.7k1jidnhjr40.svg',
 
     nav: [
       { text: '指南', link: '/guide/starting' },
@@ -88,6 +88,6 @@ export default defineConfig({
     // outlineTitle: 'This',
   },
   head: [
-    ['link', { rel: 'icon', href: 'https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg' }],
+    ['link', { rel: 'icon', href: 'https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/logo.7k1jidnhjr40.svg' }],
   ]
 })

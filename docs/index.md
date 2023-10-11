@@ -8,7 +8,7 @@ hero:
   name: WebTracing
   text: 为前端项目提供完善的监控手段
   image:
-    src: https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/icon_5e9950ae4507f.33lqpfzrwzc0.svg
+    src: https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/logo.7k1jidnhjr40.svg
     alt: VitePress
   actions:
     - theme: brand
