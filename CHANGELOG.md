@@ -1,7 +1,10 @@
 # 版本变更记录
 
 ## 已完成/提交 & 未发包
+
+## 2.0.4
 + README.md 中微信名片地址更改
++ 兼容electron环境下获取window变量
 
 ## 2.0.3
 + package.json 中 clean 命令优化
