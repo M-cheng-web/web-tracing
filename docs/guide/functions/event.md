@@ -68,7 +68,7 @@
 4. 用触发元素的`tagName`
 
 ## title 采集规则
-![埋点事件采集获取title字段流程图](https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/埋点事件采集获取title字段流程图.35dg4pej3d40.png)
+![埋点事件采集获取title字段流程图](https://cdn.jsdelivr.net/gh/M-cheng-web/image-provider@main/web-tracing/title-flow.36u4k13nrue0.png)
 
 ## params 采集规则
 1. 遍历被点击元素是否带有名称为`data-warden-`开头的属性
