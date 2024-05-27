@@ -74,7 +74,7 @@
 
 <img align="left" width="180" src="https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/image.1lutqh5h75ds.jpg" />
 
-- **如果你此项目能帮助到你、亦或者是你需要向我咨询一些事项，可否请我吃一块糖果，感受到你的善意！**
+- **如果你此项目能帮助到你、亦或者是你需要向我咨询一些事项，可否请我吃一块糖果，谢谢你的支持！**
 
 > **`注好你的微信号!`** **`微信看不到赞赏人信息`** **`所以你必须在备注里写上`**
 
