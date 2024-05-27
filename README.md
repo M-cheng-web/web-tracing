@@ -72,7 +72,7 @@
 <br/>
 <br/>
 
-<img align="left" width="180" src="https://cdn.jsdelivr.net/gh/M-cheng-web/image-provider@main/web-tracing/image.2zvxgp2mh3u0.webp" />
+<img align="left" width="180" src="https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/image.1lutqh5h75ds.jpg" />
 
 - **如果你此项目能帮助到你、亦或者是你需要向我咨询一些事项，可否请我吃一块糖果，感受到你的善意！**
 
