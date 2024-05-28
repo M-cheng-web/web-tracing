@@ -63,7 +63,7 @@
 ## 联系我
 <img align="left" width="180" src="https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/image.19hrnxwgkdpc.jpg" />
 
-- 如果对此项目有疑虑或者有优化点，欢迎与我讨论
+- 如果对此项目有疑虑或者有优化点，欢迎与我讨论（有沟通群）
 - Bug 反馈请直接去 Github 上面提 Issues，我会实时收到邮件提醒前去查看
 
 <br/>
