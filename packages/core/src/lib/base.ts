@@ -44,13 +44,15 @@ export class BaseInfo {
   constructor() {
     this.pageId = uuid() // 当前应用ID，在整个页面生命周期内不变，单页应用路由变化也不会改变；加载SDK时创建且只创建一次
 
-    this.initSdkUserUuid().then(() => {
-      this.initDevice()
-      this.initBase()
-    }).finally(() => {
-      this._initSuccess = true
-      sendData.emit([])
-    })
+    this.initSdkUserUuid()
+      .then(() => {
+        this.initDevice()
+        this.initBase()
+      })
+      .finally(() => {
+        this._initSuccess = true
+        sendData.emit([])
+      })
   }
   private initDevice() {
     const { screen } = getGlobal()
