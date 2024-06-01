@@ -47,9 +47,7 @@ export class BaseInfo {
     this.initSdkUserUuid().then(() => {
       this.initDevice()
       this.initBase()
-      this._initSuccess = true
-      sendData.emit([])
-    }).catch(() => {
+    }).finally(() => {
       this._initSuccess = true
       sendData.emit([])
     })
