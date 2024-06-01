@@ -2,7 +2,10 @@
 
 ## 已完成/提交 & 未发包
 
-## 2.0.6(未发包)
+## 2.0.7(未发包)
+
+## 2.0.6
++ fix: 修复baseInfo未初始化完成就上报的问题 https://github.com/M-cheng-web/web-tracing/pull/46
 
 ## 2.0.5
 + event.md 事件流图片缺失
