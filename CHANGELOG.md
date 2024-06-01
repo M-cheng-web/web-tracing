@@ -2,9 +2,12 @@
 
 ## 已完成/提交 & 未发包
 
-## 2.0.5(未发包)
+## 2.0.6(未发包)
+
+## 2.0.5
 + event.md 事件流图片缺失
 + readme.md 添加赞赏码
++ fix issues https://github.com/M-cheng-web/web-tracing/issues/43
 
 ## 2.0.4
 + README.md 中微信名片地址更改
