@@ -8,6 +8,7 @@ import { getIPs } from '../utils/getIps'
 import { AnyObj } from '../types'
 import { computed } from '../observer'
 import type { ObserverValue } from '../observer/types'
+import { sendData } from './sendData'
 
 interface Device {
   clientHeight: number
@@ -37,6 +38,8 @@ export class BaseInfo {
   public pageId: string
   private sdkUserUuid = ''
   private device: Device | undefined
+  // 基础信息是否初始化成功
+  public _initSuccess = false
 
   constructor() {
     this.pageId = uuid() // 当前应用ID，在整个页面生命周期内不变，单页应用路由变化也不会改变；加载SDK时创建且只创建一次
@@ -44,6 +47,11 @@ export class BaseInfo {
     this.initSdkUserUuid().then(() => {
       this.initDevice()
       this.initBase()
+      this._initSuccess = true
+      sendData.emit([])
+    }).catch(() => {
+      this._initSuccess = true
+      sendData.emit([])
     })
   }
   private initDevice() {

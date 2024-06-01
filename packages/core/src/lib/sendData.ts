@@ -122,6 +122,11 @@ export class SendData {
     // debug('receive event, waiting to send', e)
     if (this.timeoutID) clearTimeout(this.timeoutID)
 
+    // 如果基础信息还未初始化完成，则等待完成后上报
+    if (!baseInfo._initSuccess) {
+      return
+    }
+
     // 满足最大记录数,立即发送,否则定时发送
     if (this.events.length >= options.value.cacheMaxLength || flush) {
       this.send()
