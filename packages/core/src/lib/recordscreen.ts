@@ -86,7 +86,7 @@ export function initRecordScreen() {
 
     if (newValue.recordScreen) recordScreen = new RecordScreen()
     else {
-      recordScreen!.close()
+      recordScreen?.close()
       recordScreen = undefined
     }
   })
