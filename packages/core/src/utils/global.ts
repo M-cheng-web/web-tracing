@@ -12,10 +12,18 @@ export const isBrowserEnv = isWindow(typeof window !== 'undefined' ? window : 0)
 export const isElectronEnv = !!window?.process?.versions?.electron
 
 /**
+ * 是否为测试环境
+ */
+export const isTestEnv =
+  (typeof navigator !== 'undefined' && navigator.userAgent.includes('jsdom')) ||
+  // @ts-expect-error: jsdom
+  (typeof window !== 'undefined' && window.jsdom)
+
+/**
  * 获取全局变量
  */
 export function getGlobal(): Window {
-  if (isBrowserEnv || isElectronEnv) return window
+  if (isBrowserEnv || isElectronEnv || isTestEnv) return window
   return {} as Window
 }
 
