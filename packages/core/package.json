@@ -36,7 +36,7 @@
     "@types/pako": "^2.0.0",
     "pako": "^2.1.0",
     "js-base64": "^3.7.5",
-    "rrweb": "2.0.0-alpha.4"
+    "rrweb": "2.0.0-alpha.5"
   },
   "devDependencies": {
     "@types/ua-parser-js": "^0.7.36"

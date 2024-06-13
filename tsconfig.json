@@ -22,11 +22,12 @@
       // "@web-tracing/core/*": ["./packages/core/*"],
       // "@web-tracing/component": ["./packages/component/index.ts"],
     },
-    // "types": [
-    //   "vitest",
-    //   "vitest/globals",
-    //   "@types/web-bluetooth"
-    // ]
+    "types": [
+      // "vitest",
+      "vitest/globals",
+      "vitest/jsdom"
+      // "@types/web-bluetooth"
+    ]
   },
   "include": [
     "global.d.ts",
@@ -34,7 +35,7 @@
     "packages/.vitepress/components/*.vue",
     "packages/.vitepress/*.ts",
     "meta",
-    "vitest.config.ts"
+    "vitest.config.mts"
   ],
   "exclude": [
     "node_modules",

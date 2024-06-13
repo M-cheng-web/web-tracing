@@ -3,6 +3,7 @@
   "version": "2.0.6",
   "description": "基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段",
   "private": true,
+  "packageManager": "pnpm@9.0.6",
   "scripts": {
     "docs": "pnpm run -C docs docs",
     "docs:build": "pnpm run -C docs docs:build",
@@ -25,7 +26,9 @@
     "example:publish": "esno scripts/publish-examples.ts",
     "example:publish-js": "sh scripts/examples/js.sh",
     "example:publish-vue2": "sh scripts/examples/vue2.sh",
-    "example:publish-vue3": "sh scripts/examples/vue3.sh"
+    "example:publish-vue3": "sh scripts/examples/vue3.sh",
+    "test": "vitest",
+    "test-coverage": "vitest --coverage"
   },
   "keywords": [
     "埋点",
@@ -48,6 +51,8 @@
     "@types/prettier": "^2.7.2",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
     "bumpp": "^9.0.0",
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
@@ -58,6 +63,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "esno": "^0.17.0",
     "fs-extra": "^11.1.1",
+    "jsdom": "^24.1.0",
     "ohmyfetch": "^0.4.21",
     "prettier": "^2.8.7",
     "rimraf": "^4.4.1",
@@ -65,6 +71,7 @@
     "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-esbuild": "^5.0.0",
     "typescript": "^5.0.2",
-    "vitepress": "1.0.0-beta.5"
+    "vitepress": "1.0.0-beta.5",
+    "vitest": "^1.6.0"
   }
 }
