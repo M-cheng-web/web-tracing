@@ -50,22 +50,30 @@ describe('err', () => {
     return testResult
   }
 
-  function sendRequest(url: string) {
-    return new Promise(resolve => {
-      const body = { username: 'example', password: '123456' }
-      const xhr = new XMLHttpRequest()
-      xhr.open('post', url)
-      xhr.setRequestHeader('content-type', 'application/json')
-      xhr.send(JSON.stringify(body))
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          resolve(xhr.responseText)
-        }
-      }
-    })
+  function sendRequest(url: string, type: 'xhr' | 'fetch' = 'xhr') {
+    const body = { username: 'example', password: '123456' }
+    return type === 'xhr'
+      ? new Promise(resolve => {
+          const xhr = new XMLHttpRequest()
+          xhr.open('post', url)
+          xhr.setRequestHeader('content-type', 'application/json')
+          xhr.send(JSON.stringify(body))
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              resolve(xhr.responseText)
+            }
+          }
+        })
+      : fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
   }
 
-  it('http error should be captured correctly', async () => {
+  it('xhr error should be captured correctly', async () => {
     const testResult = proxyEmit()
     await sendRequest(`http://localhost:${port}/invalid-url`)
     expect(testResult.spy).toHaveBeenCalledTimes(1)
@@ -83,7 +91,7 @@ describe('err', () => {
     ])
   })
 
-  it('http performance should be captured correctly', async () => {
+  it('xhr performance should be captured correctly', async () => {
     const testResult = proxyEmit()
     await sendRequest(`http://localhost:${port}/setList`)
     expect(testResult.spy).toHaveBeenCalledTimes(1)
@@ -94,6 +102,40 @@ describe('err', () => {
         params: '{"username":"example","password":"123456"}',
         requestMethod: 'post',
         requestType: 'xhr',
+        responseStatus: 200
+      }
+    ])
+  })
+
+  it('fetch error should be captured correctly', async () => {
+    const testResult = proxyEmit()
+    await sendRequest(`http://localhost:${port}/invalid-url`, 'fetch')
+    expect(testResult.spy).toHaveBeenCalledTimes(1)
+    expect(testResult.info).toMatchObject([
+      {
+        errMessage: 'Not Found',
+        eventId: 'server',
+        eventType: 'error',
+        params: '{"username":"example","password":"123456"}',
+        recordscreen: null,
+        requestMethod: 'post',
+        requestType: 'fetch',
+        responseStatus: 404
+      }
+    ])
+  })
+
+  it('fetch performance should be captured correctly', async () => {
+    const testResult = proxyEmit()
+    await sendRequest(`http://localhost:${port}/setList`, 'fetch')
+    expect(testResult.spy).toHaveBeenCalledTimes(1)
+    expect(testResult.info).toMatchObject([
+      {
+        eventId: 'server',
+        eventType: 'performance',
+        params: '{"username":"example","password":"123456"}',
+        requestMethod: 'post',
+        requestType: 'fetch',
         responseStatus: 200
       }
     ])
