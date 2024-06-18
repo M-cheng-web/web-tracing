@@ -22,7 +22,7 @@ export const startServer = (defaultPort = 3030) =>
       const sanitizePath = path
         .normalize(parsedUrl.pathname!)
         .replace(/^(\.\.[/\\])+/, '')
-      const pathname = path.join(__dirname, sanitizePath)
+      const pathname = path.join(__dirname, '../', sanitizePath)
 
       try {
         const data = fs.readFileSync(pathname)
