@@ -68,6 +68,7 @@
     "jsdom": "^24.1.0",
     "ohmyfetch": "^0.4.21",
     "prettier": "^2.8.7",
+    "puppeteer": "^22.11.1",
     "rimraf": "^4.4.1",
     "rollup": "^3.26.0",
     "rollup-plugin-dts": "^5.3.0",

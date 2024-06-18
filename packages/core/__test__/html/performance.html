@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>performance test</title>
+  </head>
+
+  <body>
+    <div>
+      <div>Performance 异步加载资源</div>
+      <button class="script-button" onclick="performanceAddScript()">插入正确Script</button>
+      <button class="link-button" id="web-tracing-test-id" onclick="performanceAddLink()" >插入Link</button>
+      <button class="img-button" onclick="performanceAddImg()">插入Img</button>
+      <div id="performance-img-div"></div>
+    </div>
+  </body>
+
+  <script>
+    WebTracing.init({
+      dsn: 'http://1.15.224.10:22/trackweb/tra',
+      appName: 'cxh',
+      performance: true,
+      userUuid: 'init_userUuid',
+      cacheMaxLength: 1,
+      cacheWatingTime: 0,
+      beforeSendData(data) {
+        window.__WebTracingData__ = data
+        return false
+      }
+    })
+
+    function performanceAddScript() {
+      const script = document.createElement("script");
+      script.src = "http://localhost:3030/js/performance.js";
+      document.head.appendChild(script);
+    }
+    
+    function performanceAddLink() {
+      const link = document.createElement("link");
+      link.type = "text/css";
+      link.rel = "stylesheet";
+      link.href = "http://localhost:3030/css/performance.css";
+      document.head.appendChild(link);
+    }
+    function performanceAddImg() {
+      const img = new Image();
+      img.addEventListener('load', function() {
+        const div = document.getElementById("performance-img-div");
+        div.style = "width: 400px; height: 400px; overflow: hidden;";
+        div.appendChild(img);
+      }, false);
+      img.src = `http://localhost:3030/img/performance.png`;
+    }
+  </script>
+</html>
