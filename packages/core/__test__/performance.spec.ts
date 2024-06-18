@@ -2,12 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import http from 'http'
 
-import {
-  getServerURL,
-  replaceLast,
-  startServer,
-  launchPuppeteer
-} from './utils'
+import { getServerURL, startServer, launchPuppeteer, getHtml } from './utils'
 import { Browser, Page } from 'puppeteer'
 
 describe('err', () => {
@@ -40,26 +35,11 @@ describe('err', () => {
     vendor: 'Google Inc.'
   }
 
-  function getHtml(fileName: string) {
-    const filePath = path.resolve(__dirname, `./html/${fileName}`)
-    const html = fs.readFileSync(filePath, 'utf8')
-    return replaceLast(
-      html,
-      '</body>',
-      `
-    <script>
-      ${code}
-    </script>
-    </body>
-    `
-    )
-  }
-
   async function loadTestPage() {
     const page: Page = await browser.newPage()
     const htmlName = 'performance.html'
     await page.goto(`${serverURL}/${htmlName}`)
-    const html = getHtml(`${htmlName}`)
+    const html = getHtml(`${htmlName}`, code)
     await page.setContent(html)
     await page.waitForFunction(() => {
       return document.readyState === 'complete'

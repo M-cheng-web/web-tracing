@@ -2,14 +2,14 @@ import path from 'path'
 import http from 'http'
 import url from 'url'
 import fs from 'fs'
-import puppeteer, { Frame, Page } from 'puppeteer'
+import puppeteer from 'puppeteer'
 
 interface IMimeType {
   [key: string]: string
 }
 
-export const startServer = (defaultPort = 3030) =>
-  new Promise<http.Server>((resolve, reject) => {
+export function startServer(defaultPort = 3030) {
+  return new Promise<http.Server>((resolve, reject) => {
     const mimeType: IMimeType = {
       '.html': 'text/html',
       '.js': 'text/javascript',
@@ -46,6 +46,7 @@ export const startServer = (defaultPort = 3030) =>
         reject(e)
       })
   })
+}
 
 export function getServerURL(server: http.Server): string {
   const address = server.address()
@@ -78,12 +79,17 @@ export async function launchPuppeteer(
   })
 }
 
-export async function waitForRAF(pageOrFrame: Page | Frame) {
-  return await pageOrFrame.evaluate(() => {
-    return new Promise(resolve => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(resolve)
-      })
-    })
-  })
+export function getHtml(fileName: string, code: string) {
+  const filePath = path.resolve(__dirname, `../html/${fileName}`)
+  const html = fs.readFileSync(filePath, 'utf8')
+  return replaceLast(
+    html,
+    '</body>',
+    `
+  <script>
+    ${code}
+  </script>
+  </body>
+  `
+  )
 }
