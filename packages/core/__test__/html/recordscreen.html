@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>recordscreen test</title>
+  </head>
+
+  <body>
+    <div>
+      <div>recordscreen</div>
+      <button class="code-error-button" onclick="codeError()">
+        代码错误
+      </button>
+    </div>
+  </body>
+
+  <script>
+    WebTracing.init({
+      dsn: 'http://1.15.224.10:22/trackweb/tra',
+      appName: 'cxh',
+      userUuid: 'init_userUuid',
+      cacheMaxLength: 1,
+      cacheWatingTime: 0,
+      error: true,
+      recordscreen: true,
+      beforeSendData(data) {
+        window.__WebTracingData__ = data
+        return false
+      }
+    })
+
+    function codeError() {
+      const a = {}
+      a.split('/')
+    }
+  </script>
+</html>

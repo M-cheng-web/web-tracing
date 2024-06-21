@@ -1,6 +1,6 @@
 import { init } from '../index'
 import { _support } from '../src/utils/global'
-import { PromiseRejectionEvent } from './pollify'
+import { PromiseRejectionEvent } from './utils/pollify'
 
 describe('err', () => {
   beforeAll(() => {

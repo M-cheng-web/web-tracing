@@ -18,7 +18,6 @@
     "co-body": "^6.1.0",
     "concurrently": "^8.2.0",
     "element-plus": "^2.3.7",
-    "express": "^4.18.2",
     "nodemon": "^2.0.22",
     "rrweb-player": "1.0.0-alpha.4",
     "sass": "^1.63.6",

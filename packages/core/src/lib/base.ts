@@ -1,5 +1,5 @@
 import { DEVICE_KEY, SDK_VERSION } from '../common'
-import { _support, getGlobal } from '../utils/global'
+import { _support, getGlobal, isTestEnv } from '../utils/global'
 import { load } from '../utils/fingerprintjs'
 import { getCookieByName, uuid } from '../utils'
 import { getSessionId } from '../utils/session'
@@ -96,22 +96,28 @@ export class BaseInfo {
       ip
     }))
 
-    getIPs().then((res: any) => {
-      this.base!.value.ip = res[0]
-      ip = res[0]
-    })
+    !isTestEnv &&
+      getIPs().then((res: any) => {
+        this.base!.value.ip = res[0]
+        ip = res[0]
+      })
   }
   /**
    * 初始化sdk中给用户的唯一标识
    */
   private initSdkUserUuid() {
-    return load({})
-      .then((fp: any) => fp.get())
-      .then((result: any) => {
-        const visitorId = result.visitorId
-        this.sdkUserUuid = visitorId
-        options.value.sdkUserUuid = visitorId
-      })
+    return isTestEnv
+      ? Promise.resolve().then(() => {
+          this.sdkUserUuid = 'unit-test-id'
+          options.value.sdkUserUuid = 'unit-test-id'
+        })
+      : load({})
+          .then((fp: any) => fp.get())
+          .then((result: any) => {
+            const visitorId = result.visitorId
+            this.sdkUserUuid = visitorId
+            options.value.sdkUserUuid = visitorId
+          })
   }
 }
 
