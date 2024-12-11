@@ -87,8 +87,12 @@ function interceptXHR(): void {
       // readyState发生改变时触发,也就是请求状态改变时
       // readyState 会依次变为 2,3,4 也就是会触发三次这里
       on(that, EVENTTYPES.READYSTATECHANGE, function () {
-        const { readyState, status, responseURL, responseText, statusText } =
-          that
+        const { readyState, status, responseURL, statusText } = that
+        const responseText =
+          that.responseType === '' || that.responseType === 'text'
+            ? that.responseText
+            : ''
+
         if (readyState === 4) {
           const requestUrl = responseURL || _config.requestUrl
           if (isIgnoreHttp(requestUrl)) return
