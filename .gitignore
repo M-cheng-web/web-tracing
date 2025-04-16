@@ -3,3 +3,5 @@ dist
 types
 examples-copy
 coverage
+
+.DS_Store
