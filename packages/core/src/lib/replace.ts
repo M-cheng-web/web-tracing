@@ -190,10 +190,17 @@ function replaceFetch(type: EVENTTYPES): void {
   replaceAop(_global, 'fetch', originalFetch => {
     return function (this: any, ...args: any[]): void {
       const fetchStart = getTimestamp()
+      const traceObj = {}
       return originalFetch.apply(_global, args).then((res: any) => {
-        eventBus.runEvent(type, ...args, res, fetchStart)
+        eventBus.runEvent(type, args[0], args[1], res, fetchStart, traceObj)
         return res
       })
+
+      // const fetchStart = getTimestamp()
+      // return originalFetch.apply(_global, args).then((res: any) => {
+      //   eventBus.runEvent(type, ...args, res, fetchStart)
+      //   return res
+      // })
     }
   })
 }

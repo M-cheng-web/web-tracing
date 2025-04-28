@@ -40,6 +40,8 @@
     <el-button type="primary" @click="getAllTracingList">
       获取最新采集数据
     </el-button>
+    <el-button type="primary" @click="pauseTracing">暂停采集</el-button>
+    <el-button type="primary" @click="resumeTracing">恢复采集</el-button>
     <c-table
       :data="tracingInfo.data"
       tableHeight="400"
@@ -60,6 +62,7 @@
 
 <script>
 import axios from 'axios'
+import { options } from '@web-tracing/vue2'
 
 export default {
   name: 'app.vue',
@@ -106,6 +109,12 @@ export default {
           this.tracingInfo.data = res.data.data
           this.selfMessage('成功查询最新数据 - 点击事件')
         })
+    },
+    pauseTracing() {
+      options.value.event.core = false
+    },
+    resumeTracing() {
+      options.value.event.core = true
     }
   }
 }

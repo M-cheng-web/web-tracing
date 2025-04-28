@@ -35,7 +35,7 @@ Vue.use(WebTracing, {
   cacheWatingTime: 1000,
   userUuid: 'init_userUuid',
   sendTypeByXmlBody: true,
-  recordScreen: true,
+  recordScreen: false,
 
   scopeError: true,
 

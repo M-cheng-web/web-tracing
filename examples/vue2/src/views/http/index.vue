@@ -34,6 +34,9 @@
       <el-button type="danger" plain @click="onClickXhrPostError">
         xhr异常请求-post
       </el-button>
+      <el-button type="success" plain @click="onClickXhrGetImg">
+        xhr请求图片
+      </el-button>
     </div>
     <div class="mb">
       <el-button type="success" plain @click="onClickFetchGet">
@@ -47,6 +50,9 @@
       </el-button>
       <el-button type="danger" plain @click="onClickFetchPostError">
         Fetch异常请求-post
+      </el-button>
+      <el-button type="success" plain @click="onClickFetchGetImg">
+        Fetch请求图片
       </el-button>
     </div>
 
@@ -204,6 +210,77 @@ export default {
           console.log('xhr-res', xhr.responseText)
         }
       }
+    },
+    onClickXhrGetImg() {
+      // 创建一个新的 XMLHttpRequest 对象
+      var xhr = new XMLHttpRequest()
+
+      // 初始化一个 GET 请求到指定的 URL
+      xhr.open(
+        'GET',
+        'https://tse1-mm.cn.bing.net/th/id/OIP-C.jdP04yEoxG10mcywseQj7gAAAA?w=140&h=180&c=7&r=0&o=5&dpr=2&pid=1.7',
+        true
+      )
+
+      // 设置 responseType 为 "arraybuffer" 来接收二进制数据
+      xhr.responseType = 'arraybuffer'
+
+      // 定义 onload 事件处理器
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          // 如果请求成功
+          // 获取 ArrayBuffer 对象
+          // var arrayBuffer = xhr.response
+          console.log('请求成功')
+
+          // 可以使用 Blob 和 URL.createObjectURL 来创建一个临时链接查看图片
+          // var blob = new Blob([arrayBuffer], { type: 'image/jpeg' })
+          // var imageUrl = URL.createObjectURL(blob)
+
+          // // 在页面上显示图片
+          // var imgElement = document.createElement('img')
+          // imgElement.src = imageUrl
+          // document.body.appendChild(imgElement) // 将图片添加到文档中
+        } else {
+          console.error('请求失败，状态码：', xhr.status)
+        }
+      }
+
+      // 发送请求
+      xhr.send()
+    },
+    onClickFetchGetImg() {
+      // URL of the image
+      const imageUrl =
+        'https://tse1-mm.cn.bing.net/th/id/OIP-C.jdP04yEoxG10mcywseQj7gAAAA?w=140&h=180&c=7&r=0&o=5&dpr=2&pid=1.7'
+
+      // 使用 fetch 发起 GET 请求
+      fetch(imageUrl)
+        .then(response => {
+          // 确保请求成功
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+          // 获取响应体作为 ArrayBuffer
+          return response.arrayBuffer()
+        })
+        .then(arrayBuffer => {
+          // 创建 Blob 对象
+          const blob = new Blob([arrayBuffer], { type: 'image/jpeg' })
+
+          // 创建对象 URL
+          const imageUrl = URL.createObjectURL(blob)
+
+          // 创建 img 元素并设置 src 属性
+          const imgElement = document.createElement('img')
+          imgElement.src = imageUrl
+
+          // 将图片添加到文档中
+          document.body.appendChild(imgElement)
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error)
+        })
     },
     onClickFetchGet() {
       this.sendMessage()

@@ -232,6 +232,16 @@ export function pad(num: number, len: number, placeholder = '0') {
   return str
 }
 
+export function getBaseUrl(url: string) {
+  return url.split('?')[0]
+  // // 正则表达式匹配不包含查询字符串的URL部分
+  // const regex = /^(?:https?:\/\/)?[^/?]+(?:\/[^?]*)?(?=\?.*)?/
+  // const match = url.match(regex)
+
+  // // 如果匹配成功，则返回匹配的结果，否则返回原URL
+  // return match ? match[0] : url
+}
+
 /**
  * 获取一个随机字符串
  */

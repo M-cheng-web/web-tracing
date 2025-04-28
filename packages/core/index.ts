@@ -34,7 +34,8 @@ function init(options: InitOptions): void {
   initPerformance()
   initPv()
   initIntersection()
-  initRecordScreen()
+
+  if (_options.value.recordScreen) initRecordScreen()
 
   _global.__webTracingInit__ = true
 }

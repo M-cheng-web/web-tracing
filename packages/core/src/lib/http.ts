@@ -1,4 +1,10 @@
-import { on, isValidKey, getTimestamp, parseGetParams } from '../utils'
+import {
+  on,
+  isValidKey,
+  getTimestamp,
+  parseGetParams,
+  getBaseUrl
+} from '../utils'
 import { handleSendError } from './err'
 import { eventBus } from './eventBus'
 import { EVENTTYPES, SENDID } from '../common'
@@ -13,13 +19,14 @@ import { isRegExp } from '../utils/is'
 function interceptFetch(): void {
   eventBus.addEvent({
     type: EVENTTYPES.FETCH,
-    callback: (
+    callback: async (
       reqUrl: string,
       _options: Partial<Request> = {},
       res: Response,
-      fetchStart: number
+      fetchStart: number,
+      traceObj: Partial<Request> = {}
     ) => {
-      const { method = 'GET', body } = _options
+      const { method = 'GET', body = {} } = _options
       const { url, status, statusText } = res
       const requestMethod = String(method).toLocaleLowerCase()
 
@@ -30,21 +37,26 @@ function interceptFetch(): void {
           handleSendPerformance({
             eventId: SENDID.SERVER,
             requestUrl: url,
+            triggerTime: fetchStart,
             duration: getTimestamp() - fetchStart,
             responseStatus: status,
             requestMethod,
             requestType: 'fetch',
+            ...traceObj,
             params: method.toUpperCase() === 'POST' ? body : parseGetParams(url)
           })
         }
       } else if (options.value.error.server) {
         handleSendError({
           eventId: SENDID.SERVER,
+          triggerTime: fetchStart,
+          duration: getTimestamp() - fetchStart,
           errMessage: statusText,
-          requestUrl: url,
+          requestUrl: getBaseUrl(url),
           responseStatus: status,
           requestMethod,
           requestType: 'fetch',
+          ...traceObj,
           params: method.toUpperCase() === 'POST' ? body : parseGetParams(url)
         })
       }
