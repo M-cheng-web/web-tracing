@@ -9,6 +9,9 @@
 ## 官方文档
 [官方文档 https://m-cheng-web.github.io/web-tracing/](https://m-cheng-web.github.io/web-tracing/)
 
+## DeepWiki文档
+[DeepWiki文档 https://deepwiki.com/M-cheng-web/web-tracing](https://deepwiki.com/M-cheng-web/web-tracing)
+
 ## 示例项目(本地)
 [js版本 https://github.com/M-cheng-web/web-tracing-examples-js](https://github.com/M-cheng-web/web-tracing-examples-js)
 
