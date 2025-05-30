@@ -10,6 +10,35 @@ import { debug } from '../utils/debug'
 import { initBatchError, batchError } from './err-batch'
 import { RecordEventScope } from '../types'
 
+/**
+ * 序列化console.error的参数
+ * 处理各种类型的参数，包括对象、函数、Error等
+ */
+function serializeConsoleArgs(args: any[]): string {
+  const serializedArgs = args.map((arg: any) => {
+    if (arg === null) return 'null'
+    if (arg === undefined) return 'undefined'
+    if (typeof arg === 'string') return arg
+    if (typeof arg === 'number' || typeof arg === 'boolean') return String(arg)
+    if (typeof arg === 'function')
+      return `[Function: ${arg.name || 'anonymous'}]`
+    if (arg instanceof Error) {
+      return `${arg.name}: ${arg.message}${arg.stack ? '\n' + arg.stack : ''}`
+    }
+    if (typeof arg === 'object') {
+      try {
+        // 尝试JSON序列化对象，保持缩进格式
+        return JSON.stringify(arg, null, 2)
+      } catch (error) {
+        // 如果JSON序列化失败（如循环引用），使用toString
+        return arg.toString()
+      }
+    }
+    return String(arg)
+  })
+  return serializedArgs.join(' | ')
+}
+
 interface ErrorStack {
   errMessage: string
   errStack: string
@@ -94,8 +123,9 @@ function parseError(e: any) {
   if (typeof e === 'string') return { eventId: SENDID.REJECT, errMessage: e }
 
   // console.error 暴露的错误
-  if (isArray(e))
-    return { eventId: SENDID.CONSOLEERROR, errMessage: e.join(';') }
+  if (isArray(e)) {
+    return { eventId: SENDID.CONSOLEERROR, errMessage: serializeConsoleArgs(e) }
+  }
 
   return {}
 }
