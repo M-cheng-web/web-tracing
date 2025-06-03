@@ -2,6 +2,9 @@
 
 ## 已完成/提交 & 未发包
 
+## 2.0.9
++ fix(console.error): 上报error 对象errMessage输出为[Object] #88
+
 ## 2.0.8
 + fix: 错误录屏功能在初始化的时候就判断是否加载 https://github.com/M-cheng-web/web-tracing/issues/78 https://github.com/M-cheng-web/web-tracing/issues/67
 + fix: vue 使用axios，发送fetch时，有报错 https://github.com/M-cheng-web/web-tracing/issues/73 https://github.com/M-cheng-web/web-tracing/issues/74 https://github.com/M-cheng-web/web-tracing/issues/72
