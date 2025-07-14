@@ -24,12 +24,15 @@ import { computed } from '../observer'
 export class SendData {
   private events: AnyObj[] = [] // 批次队列
   private timeoutID: NodeJS.Timeout | undefined // 延迟发送ID
+  private isServerAvailable = true // 接口是否可用
+  private retryTimer: NodeJS.Timeout | undefined // 重试定时器
 
   /**
    * 发送事件列表
    */
   private send() {
     if (!this.events.length) return
+    if (!this.isServerAvailable) return // 接口异常时暂停上报
 
     // 选取首部的部分数据来发送,performance会一次性采集大量数据追加到events中
     const sendEvents = this.events.slice(0, options.value.cacheMaxLength) // 需要发送的事件
@@ -69,10 +72,15 @@ export class SendData {
     debug('send events', sendParams.value)
 
     this.executeSend(options.value.dsn, afterSendParams).then((res: any) => {
-      executeFunctions(options.value.afterSendData, true, {
-        ...res,
-        params: afterSendParams
-      })
+      if (res.success === false) {
+        this.handleServerError()
+      } else {
+        this.isServerAvailable = true
+        executeFunctions(options.value.afterSendData, true, {
+          ...res,
+          params: afterSendParams
+        })
+      }
     })
 
     // 如果一次性发生的事件超过了阈值(cacheMaxLength)，那么这些经过裁剪的事件列表剩下的会直接发，并不会延迟等到下一个队列
@@ -80,6 +88,29 @@ export class SendData {
       nextTime(this.send.bind(this)) // 继续传输剩余内容,在下一个时间择机传输
     }
   }
+
+  private handleServerError() {
+    this.isServerAvailable = false
+    // 定时重试，直到接口恢复
+    if (this.retryTimer) clearTimeout(this.retryTimer)
+    const interval = (options.value.checkRecoverInterval ?? 1) * 60 * 1000;
+    this.retryTimer = setTimeout(() => {
+      this.testServerAvailable()
+    }, interval)
+  }
+
+  private testServerAvailable() {
+    // 尝试发送一个空包检测接口是否恢复
+    sendByXML(options.value.dsn, { ping: 1 }, options.value.timeout).then(() => {
+      this.isServerAvailable = true
+      if (this.retryTimer) clearTimeout(this.retryTimer)
+      // 恢复上报
+      if (this.events.length) this.send()
+    }).catch(() => {
+      this.handleServerError()
+    })
+  }
+
   /**
    * 发送本地事件列表
    * @param e 需要发送的事件信息
@@ -107,6 +138,14 @@ export class SendData {
     if (!_support.lineStatus.onLine) return
     if (!flush && !randomBoolean(options.value.tracesSampleRate)) return
     if (!isArray(e)) e = [e]
+
+    // 如果接口异常，且队列已达最大缓存数，则丢弃旧日志，保留最新日志
+    const maxQueueLength = options.value.maxQueueLength ?? 200;
+    if (!this.isServerAvailable && this.events.length >= maxQueueLength) {
+      // 丢弃最旧的日志，保留最新日志
+      this.events = this.events.slice(this.events.length - maxQueueLength + e.length).concat(e)
+      return
+    }
 
     const eventList = executeFunctions(
       options.value.beforePushEventList,
@@ -163,11 +202,15 @@ export class SendData {
         case 2:
           sendByImage(url, data).then(() => {
             resolve({ sendType: 'image', success: true })
+          }).catch(() => {
+            resolve({ sendType: 'image', success: false })
           })
           break
         case 3:
-          sendByXML(url, data).then(() => {
+          sendByXML(url, data, options.value.timeout).then(() => {
             resolve({ sendType: 'xml', success: true })
+          }).catch(() => {
+            resolve({ sendType: 'xml', success: false })
           })
           break
       }
@@ -191,6 +234,16 @@ export class SendData {
       )}类型`
     )
     return false
+  }
+
+  /**
+   * 销毁定时器和队列
+   */
+  public destroy() {
+    if (this.timeoutID) clearTimeout(this.timeoutID)
+    if (this.retryTimer) clearTimeout(this.retryTimer)
+    this.events = []
+    this.isServerAvailable = true
   }
 }
 

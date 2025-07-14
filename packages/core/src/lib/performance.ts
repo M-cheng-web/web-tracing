@@ -101,6 +101,9 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
   return records
 }
 
+let mutationObserver: MutationObserver | null = null
+let performanceObserver: PerformanceObserver | null = null
+
 /**
  * 监听 - 异步插入的script、link、img, DOM更新操作记录
  */
@@ -108,7 +111,7 @@ function observeSourceInsert() {
   const tags = ['img', 'script', 'link']
   // 检测异步插入的script、link、img,会有一些延迟,一些连接建立、包体大小的数据会丢失,精度下降
   // MutationObserver DOM3 Events规范,是个异步监听,只有在全部DOM操作完成之后才会调用callback
-  const observer = new MutationObserver(mutationsList => {
+  mutationObserver = new MutationObserver(mutationsList => {
     for (let i = 0; i < mutationsList.length; i += 1) {
       const startTime = getTimestamp()
       const { addedNodes = [] } = mutationsList[i]
@@ -144,7 +147,7 @@ function observeSourceInsert() {
       })
     }
   })
-  observer.observe(_global.document, {
+  mutationObserver.observe(_global.document, {
     subtree: true, // 目标以及目标的后代改变都会观察
     childList: true // 表示观察目标子节点的变化，比如添加或者删除目标子节点，不包括修改子节点以及子节点后代的变化
     // attributes: true, // 观察属性变动
@@ -238,8 +241,8 @@ function observeResource() {
 
     if (supported.PerformanceObserver) {
       // 监听异步资源加载性能数据 chrome≥52
-      const observer = new PerformanceObserver(traceResourcePerformance)
-      observer.observe({ entryTypes: ['resource'] })
+      performanceObserver = new PerformanceObserver(traceResourcePerformance)
+      performanceObserver.observe({ entryTypes: ['resource'] })
     } else if (supported.MutationObserver) {
       // 监听资源、DOM更新操作记录 chrome≥26 ie≥11
       observeSourceInsert()
@@ -280,6 +283,20 @@ function handleSendPerformance(options = {}, flush = false) {
     eventType: SEDNEVENTTYPES.PERFORMANCE
   }
   sendData.emit(normalizeObj(record), flush)
+}
+
+/**
+ * 销毁性能监听
+ */
+export function destroyPerformance() {
+  if (mutationObserver) {
+    mutationObserver.disconnect()
+    mutationObserver = null
+  }
+  if (performanceObserver) {
+    performanceObserver.disconnect()
+    performanceObserver = null
+  }
 }
 
 export { initPerformance, handleSendPerformance }

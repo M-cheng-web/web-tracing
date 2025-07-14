@@ -308,4 +308,11 @@ function handleSendError(options = {}, flush = false): void {
   emit(options, flush)
 }
 
+/**
+ * 卸载所有错误监听
+ */
+export function destroyError() {
+  eventBus.removeAllEvents()
+}
+
 export { initError, handleSendError, parseError }

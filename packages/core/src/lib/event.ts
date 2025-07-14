@@ -241,4 +241,11 @@ function handleSendEvent(options = {}, flush = false) {
   )
 }
 
+/**
+ * 卸载所有事件监听
+ */
+export function destroyEvent() {
+  eventBus.removeAllEvents()
+}
+
 export { initEvent, handleSendEvent }

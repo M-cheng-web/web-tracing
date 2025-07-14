@@ -58,6 +58,9 @@ export type InternalOptions = {
   afterSendData: AnyFun[] // 数据上报后的 hook
   localizationOverFlow: VoidFun // 本地化存储溢出后的回调
   recordScreen: boolean // 是否启动录屏
+  timeout?: number // 日志上报超时时间（毫秒）
+  maxQueueLength?: number // 上报接口异常，日志队列最大缓存数
+  checkRecoverInterval?: number // 多长时间检测一次上报接口是否恢复（分钟）
 }
 
 /**
@@ -88,6 +91,9 @@ export type InitOptions = {
   beforeSendData?: (data: any) => any // 数据上报前的 hook
   afterSendData?: (data: any) => void // 数据上报后的 hook
   recordScreen?: boolean // 是否启动录屏
+  timeout?: number // 日志上报超时时间（毫秒）
+  maxQueueLength?: number // 上报接口异常，日志队列最大缓存数
+  checkRecoverInterval?: number // 多长时间检测一次上报接口是否恢复（分钟）
 }
 
 export type ElementOrList = Element | Element[]

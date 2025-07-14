@@ -182,4 +182,11 @@ function handleSendPageView(options: AnyObj = {}, flush = false) {
   )
 }
 
+/**
+ * 卸载所有页面访问/路由监听
+ */
+export function destroyPv() {
+  eventBus.removeAllEvents()
+}
+
 export { initPv, handleSendPageView }

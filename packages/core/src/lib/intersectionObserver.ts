@@ -155,3 +155,10 @@ export function initIntersection() {
   _support.intersection = new Intersection()
   intersection = _support.intersection
 }
+
+/**
+ * 卸载所有曝光监听
+ */
+export function destroyIntersection() {
+  intersection?.disconnect()
+}

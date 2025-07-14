@@ -81,6 +81,12 @@ export class EventBus {
       return -1
     }
   }
+  /**
+   * 移除所有事件监听
+   */
+  removeAllEvents() {
+    this.handlers = {}
+  }
 }
 
 const eventBus = _support.eventBus || (_support.eventBus = new EventBus())
