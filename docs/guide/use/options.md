@@ -37,6 +37,7 @@ sdk初始化时的配置项
 | beforePushEventList | function             | 否     | -         | 添加到行为列表前的 hook           |
 | beforeSendData      | function             | 否     | -         | 数据上报前的 hook              |
 | afterSendData       | function             | 否     | -         | 数据上报后的 hook              |
+| destroyMonitoring       | function             | 否     | -         | 卸载日志插件的函数              |
 
 ## pv
 当 pv 为布尔值时其内部所有属性都为此布尔值（例如：pv = true 代表 pv: {core: true}）
