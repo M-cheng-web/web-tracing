@@ -16,7 +16,6 @@ import { logError } from './src/utils/debug'
 import { initRecordScreen, destroyRecordScreen } from './src/lib/recordscreen'
 import * as exportMethods from './src/lib/exportMethods'
 import './src/observer/index'
-import { destroyTracing } from './src/lib/exportMethods'
 
 function init(options: InitOptions): void {
   if (_global.__webTracingInit__) return
@@ -41,7 +40,10 @@ function init(options: InitOptions): void {
   _global.__webTracingInit__ = true
 }
 
-function destroy(): void {
+/**
+ * 销毁SDK添加的事件监听器，不会影响用户手动添加的监听器
+ */
+function destroyTracing(): void {
   destroyEvent()
   destroyError()
   destroyHttp()
@@ -58,7 +60,6 @@ function destroy(): void {
 
 export {
   init,
-  destroy,
   destroyTracing,
   InitOptions,
   logError,
@@ -68,4 +69,4 @@ export {
   _options as options
 }
 export * from './src/lib/exportMethods'
-export default { init, destroy, ...exportMethods, options: _options }
+export default { init, destroyTracing, ...exportMethods, options: _options }

@@ -312,7 +312,12 @@ function handleSendError(options = {}, flush = false): void {
  * 卸载所有错误监听
  */
 export function destroyError() {
-  eventBus.removeAllEvents()
+  // 清除错误相关的事件类型
+  eventBus.removeEvents([
+    EVENTTYPES.ERROR,
+    EVENTTYPES.UNHANDLEDREJECTION,
+    EVENTTYPES.CONSOLEERROR
+  ])
 }
 
 export { initError, handleSendError, parseError }

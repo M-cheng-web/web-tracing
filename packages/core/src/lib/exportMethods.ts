@@ -18,7 +18,6 @@ import { sendData } from './sendData'
 import { SDK_LOCAL_KEY } from '../common/config'
 import { LocalStorageUtil } from '../utils/localStorage'
 import { unzip } from '../lib/recordscreen'
-import { destroy } from '../../index'
 
 /**
  * 解压错误录屏数据
@@ -206,11 +205,4 @@ export function setLocalizationOverFlow(overFlowFun: VoidFun): void {
  */
 export function getOptions(): InternalOptions {
   return deepCopy(options.value)
-}
-
-/**
- * 关闭并移除所有监控监听
- */
-export function destroyTracing(): void {
-  destroy()
 }
