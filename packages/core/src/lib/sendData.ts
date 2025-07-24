@@ -93,6 +93,7 @@ export class SendData {
     this.isServerAvailable = false
     // 定时重试，直到接口恢复
     if (this.retryTimer) clearTimeout(this.retryTimer)
+    if (options.value.checkRecoverInterval === -1) return
     const interval = (options.value.checkRecoverInterval ?? 1) * 60 * 1000;
     this.retryTimer = setTimeout(() => {
       this.testServerAvailable()
