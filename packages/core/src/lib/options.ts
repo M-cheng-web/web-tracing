@@ -33,6 +33,9 @@ export class Options implements InternalOptions {
     core: false // 页面点击-是否采集点击事件
   }
   recordScreen = true // 是否启动录屏
+  timeout = 5000 // 日志上报超时时间（毫秒）
+  maxQueueLength = 200 // 上报接口异常，日志队列最大缓存数
+  checkRecoverInterval = 1 // 多长时间检测一次上报接口是否恢复（分钟）
 
   ext = {} // 自定义全局附加参数(放在baseInfo中)
   tracesSampleRate = 1 // 抽样发送
@@ -109,6 +112,18 @@ export class Options implements InternalOptions {
       _options.afterSendData = [afterSendData]
     }
 
+    if (options.timeout !== undefined) {
+      _options.timeout = options.timeout
+    }
+
+    if (options.maxQueueLength !== undefined) {
+      _options.maxQueueLength = options.maxQueueLength
+    }
+
+    if (options.checkRecoverInterval !== undefined) {
+      _options.checkRecoverInterval = options.checkRecoverInterval
+    }
+
     return _options
   }
 }
@@ -137,7 +152,10 @@ function _validateInitOption(options: InitOptions) {
     sendTypeByXmlBody,
     // whiteScreen,
     beforePushEventList,
-    beforeSendData
+    beforeSendData,
+    timeout,
+    maxQueueLength,
+    checkRecoverInterval
   } = options
 
   const validateFunList = []
@@ -203,7 +221,10 @@ function _validateInitOption(options: InitOptions) {
     validateOption(sendTypeByXmlBody, 'sendTypeByXmlBody', 'boolean'),
     // validateOption(whiteScreen, 'whiteScreen', 'boolean'),
     validateOption(beforePushEventList, 'beforePushEventList', 'function'),
-    validateOption(beforeSendData, 'beforeSendData', 'function')
+    validateOption(beforeSendData, 'beforeSendData', 'function'),
+    validateOption(timeout, 'timeout', 'number'),
+    validateOption(maxQueueLength, 'maxQueueLength', 'number'),
+    validateOption(checkRecoverInterval, 'checkRecoverInterval', 'number')
   ]
 
   return validateList.every(res => !!res)

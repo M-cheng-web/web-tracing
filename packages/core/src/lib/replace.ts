@@ -1,8 +1,31 @@
 import type { VoidFun } from '../types'
 import { _global } from '../utils/global'
-import { on, replaceAop, throttle, isValidKey, getTimestamp } from '../utils'
+import { on, replaceAop, throttle, isValidKey, getTimestamp, off } from '../utils'
 import { EVENTTYPES } from '../common'
 import { eventBus } from './eventBus'
+
+// 存储原始方法，用于恢复
+const originalMethods = {
+  consoleError: null as any,
+  xhrOpen: null as any,
+  xhrSend: null as any,
+  fetch: null as any,
+  historyPushState: null as any,
+  historyReplaceState: null as any
+}
+
+// 存储事件监听器引用，用于移除
+const eventListeners = {
+  error: null as any,
+  unhandledrejection: null as any,
+  click: null as any,
+  load: null as any,
+  beforeunload: null as any,
+  hashchange: null as any,
+  popstate: null as any,
+  offline: null as any,
+  online: null as any
+}
 
 /**
  * 根据入参初始化 重写、监听
@@ -84,28 +107,27 @@ function replace(type: EVENTTYPES): void {
  * 监听 - error
  */
 function listenError(type: EVENTTYPES): void {
-  on(
-    _global,
-    'error',
-    function (e: ErrorEvent) {
-      eventBus.runEvent(type, e)
-    },
-    true
-  )
+  const errorHandler = function (e: ErrorEvent) {
+    eventBus.runEvent(type, e)
+  }
+  eventListeners.error = errorHandler
+  on(_global, 'error', errorHandler, true)
 }
 /**
  * 监听 - unhandledrejection（promise异常）
  */
 function listenUnhandledrejection(type: EVENTTYPES): void {
-  on(_global, 'unhandledrejection', function (ev: PromiseRejectionEvent) {
-    // ev.preventDefault() 阻止默认行为后，控制台就不会再报红色错误
+  const rejectionHandler = function (ev: PromiseRejectionEvent) {
     eventBus.runEvent(type, ev)
-  })
+  }
+  eventListeners.unhandledrejection = rejectionHandler
+  on(_global, 'unhandledrejection', rejectionHandler)
 }
 /**
  * 重写 - console.error
  */
 function replaceConsoleError(type: EVENTTYPES): void {
+  originalMethods.consoleError = console.error
   replaceAop(console, 'error', (originalError: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       if (
@@ -123,46 +145,38 @@ function replaceConsoleError(type: EVENTTYPES): void {
 function listenClick(type: EVENTTYPES): void {
   if (!('document' in _global)) return
   const clickThrottle = throttle(eventBus.runEvent, 100, true)
-  on(
-    _global.document,
-    'click',
-    function (this: any, e: MouseEvent) {
-      clickThrottle.call(eventBus, type, e)
-    },
-    true
-  )
+  const clickHandler = function (this: any, e: MouseEvent) {
+    clickThrottle.call(eventBus, type, e)
+  }
+  eventListeners.click = clickHandler
+  on(_global.document, 'click', clickHandler, true)
 }
 /**
  * 监听 - load
  */
 function listenLoad(type: EVENTTYPES): void {
-  on(
-    _global,
-    'load',
-    function (e: Event) {
-      eventBus.runEvent(type, e)
-    },
-    true
-  )
+  const loadHandler = function (e: Event) {
+    eventBus.runEvent(type, e)
+  }
+  eventListeners.load = loadHandler
+  on(_global, 'load', loadHandler, true)
 }
 /**
  * 监听 - beforeunload
  */
 function listenBeforeunload(type: EVENTTYPES): void {
-  on(
-    _global,
-    'beforeunload',
-    function (e: BeforeUnloadEvent) {
-      eventBus.runEvent(type, e)
-    },
-    false
-  )
+  const beforeunloadHandler = function (e: BeforeUnloadEvent) {
+    eventBus.runEvent(type, e)
+  }
+  eventListeners.beforeunload = beforeunloadHandler
+  on(_global, 'beforeunload', beforeunloadHandler, false)
 }
 /**
  * 重写 - XHR-open
  */
 function replaceXHROpen(type: EVENTTYPES): void {
   if (!('XMLHttpRequest' in _global)) return
+  originalMethods.xhrOpen = XMLHttpRequest.prototype.open
   replaceAop(XMLHttpRequest.prototype, 'open', (originalOpen: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       eventBus.runEvent(type, ...args)
@@ -175,6 +189,7 @@ function replaceXHROpen(type: EVENTTYPES): void {
  */
 function replaceXHRSend(type: EVENTTYPES): void {
   if (!('XMLHttpRequest' in _global)) return
+  originalMethods.xhrSend = XMLHttpRequest.prototype.send
   replaceAop(XMLHttpRequest.prototype, 'send', (originalSend: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       eventBus.runEvent(type, this, ...args)
@@ -187,6 +202,7 @@ function replaceXHRSend(type: EVENTTYPES): void {
  */
 function replaceFetch(type: EVENTTYPES): void {
   if (!('fetch' in _global)) return
+  originalMethods.fetch = _global.fetch
   replaceAop(_global, 'fetch', originalFetch => {
     return function (this: any, ...args: any[]): void {
       const fetchStart = getTimestamp()
@@ -195,12 +211,6 @@ function replaceFetch(type: EVENTTYPES): void {
         eventBus.runEvent(type, args[0], args[1], res, fetchStart, traceObj)
         return res
       })
-
-      // const fetchStart = getTimestamp()
-      // return originalFetch.apply(_global, args).then((res: any) => {
-      //   eventBus.runEvent(type, ...args, res, fetchStart)
-      //   return res
-      // })
     }
   })
 }
@@ -208,21 +218,21 @@ function replaceFetch(type: EVENTTYPES): void {
  * 监听 - hashchange
  */
 function listenHashchange(type: EVENTTYPES): void {
-  // 通过onpopstate事件，来监听hash模式下路由的变化
-  on(_global, 'hashchange', function (e: HashChangeEvent) {
+  const hashchangeHandler = function (e: HashChangeEvent) {
     eventBus.runEvent(type, e)
-  })
+  }
+  eventListeners.hashchange = hashchangeHandler
+  on(_global, 'hashchange', hashchangeHandler)
 }
 /**
  * 重写 - history-replaceState
  */
 function replaceHistoryReplaceState(type: EVENTTYPES): void {
-  if (!('history' in _global)) return
-  if (!('pushState' in _global.history)) return
-  replaceAop(_global.history, 'replaceState', (originalSend: VoidFun) => {
+  originalMethods.historyReplaceState = history.replaceState
+  replaceAop(history, 'replaceState', (originalReplaceState: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       eventBus.runEvent(type, ...args)
-      originalSend.apply(this, args)
+      originalReplaceState.apply(this, args)
     }
   })
 }
@@ -230,12 +240,11 @@ function replaceHistoryReplaceState(type: EVENTTYPES): void {
  * 重写 - history-pushState
  */
 function replaceHistoryPushState(type: EVENTTYPES): void {
-  if (!('history' in _global)) return
-  if (!('pushState' in _global.history)) return
-  replaceAop(_global.history, 'pushState', (originalSend: VoidFun) => {
+  originalMethods.historyPushState = history.pushState
+  replaceAop(history, 'pushState', (originalPushState: VoidFun) => {
     return function (this: any, ...args: any[]): void {
       eventBus.runEvent(type, ...args)
-      originalSend.apply(this, args)
+      originalPushState.apply(this, args)
     }
   })
 }
@@ -243,34 +252,98 @@ function replaceHistoryPushState(type: EVENTTYPES): void {
  * 监听 - popstate
  */
 function listenPopState(type: EVENTTYPES): void {
-  on(_global, 'popstate', function (e: HashChangeEvent) {
+  const popstateHandler = function (e: PopStateEvent) {
     eventBus.runEvent(type, e)
-  })
+  }
+  eventListeners.popstate = popstateHandler
+  on(_global, 'popstate', popstateHandler)
 }
 
 /**
  * 监听 - offline 网络是否关闭
  */
 function listenOffline(type: EVENTTYPES): void {
-  on(
-    _global,
-    'offline',
-    function (e: ErrorEvent) {
-      eventBus.runEvent(type, e)
-    },
-    true
-  )
+  const offlineHandler = function (e: Event) {
+    eventBus.runEvent(type, e)
+  }
+  eventListeners.offline = offlineHandler
+  on(_global, 'offline', offlineHandler)
 }
 /**
  * 监听 - online 网络是否开启
  */
 function listenOnline(type: EVENTTYPES): void {
-  on(
-    _global,
-    'online',
-    function (e: ErrorEvent) {
-      eventBus.runEvent(type, e)
-    },
-    true
-  )
+  const offlineHandler = function (e: Event) {
+    eventBus.runEvent(type, e)
+  }
+  eventListeners.offline = offlineHandler
+  on(_global, 'offline', offlineHandler)
+}
+
+/**
+ * 销毁所有重写和监听
+ */
+export function destroyReplace(): void {
+  // 恢复 console.error
+  if (originalMethods.consoleError && console.error !== originalMethods.consoleError) {
+    console.error = originalMethods.consoleError
+  }
+
+  // 恢复 XMLHttpRequest
+  if (originalMethods.xhrOpen && XMLHttpRequest.prototype.open !== originalMethods.xhrOpen) {
+    XMLHttpRequest.prototype.open = originalMethods.xhrOpen
+  }
+  if (originalMethods.xhrSend && XMLHttpRequest.prototype.send !== originalMethods.xhrSend) {
+    XMLHttpRequest.prototype.send = originalMethods.xhrSend
+  }
+
+  // 恢复 fetch
+  if (originalMethods.fetch && _global.fetch !== originalMethods.fetch) {
+    _global.fetch = originalMethods.fetch
+  }
+
+  // 恢复 history
+  if (originalMethods.historyPushState && history.pushState !== originalMethods.historyPushState) {
+    history.pushState = originalMethods.historyPushState
+  }
+  if (originalMethods.historyReplaceState && history.replaceState !== originalMethods.historyReplaceState) {
+    history.replaceState = originalMethods.historyReplaceState
+  }
+
+  // 移除全局事件监听器
+  if (eventListeners.error) {
+    off(_global, 'error', eventListeners.error, true)
+  }
+  if (eventListeners.unhandledrejection) {
+    off(_global, 'unhandledrejection', eventListeners.unhandledrejection)
+  }
+  if (eventListeners.click) {
+    off(_global.document, 'click', eventListeners.click, true)
+  }
+  if (eventListeners.load) {
+    off(_global, 'load', eventListeners.load, true)
+  }
+  if (eventListeners.beforeunload) {
+    off(_global, 'beforeunload', eventListeners.beforeunload, false)
+  }
+  if (eventListeners.hashchange) {
+    off(_global, 'hashchange', eventListeners.hashchange)
+  }
+  if (eventListeners.popstate) {
+    off(_global, 'popstate', eventListeners.popstate)
+  }
+  if (eventListeners.offline) {
+    off(_global, 'offline', eventListeners.offline)
+  }
+  if (eventListeners.online) {
+    off(_global, 'online', eventListeners.online)
+  }
+
+  // 清空存储
+  Object.keys(originalMethods).forEach(key => {
+    (originalMethods as any)[key] = null
+  })
+  Object.keys(eventListeners).forEach(key => {
+    (eventListeners as any)[key] = null
+  })
 }

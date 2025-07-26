@@ -31,9 +31,13 @@ sdk初始化时的配置项
 | scopeError          | boolean              | 否     | false     | 开启范围错误                   |
 | localization        | boolean              | 否     | false     | 是否本地化                    |
 | sendTypeByXmlBody   | boolean              | 否     | false     | 是否强制指定发送形式为xml，body请求方式  |
+| timeout       | number             | 否     | 5000         | 日志上报超时时间（毫秒）              |
+| maxQueueLength       | number             | 否     | 200          | 上报接口异常，日志队列最大缓存数              |
+| checkRecoverInterval       | number             | 否     | -1         | 多长时间检测一次上报接口是否恢复（分钟），默认值为-1时不会定时检测              |
 | beforePushEventList | function             | 否     | -         | 添加到行为列表前的 hook           |
 | beforeSendData      | function             | 否     | -         | 数据上报前的 hook              |
 | afterSendData       | function             | 否     | -         | 数据上报后的 hook              |
+| destroyMonitoring       | function             | 否     | -         | 卸载日志插件的函数              |
 
 ## pv
 当 pv 为布尔值时其内部所有属性都为此布尔值（例如：pv = true 代表 pv: {core: true}）

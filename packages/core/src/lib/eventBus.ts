@@ -81,6 +81,15 @@ export class EventBus {
       return -1
     }
   }
+  /**
+   * 移除多个指定类型的事件监听
+   * @param types 事件类型数组
+   */
+  removeEvents(types: EVENTTYPES[]) {
+    types.forEach(type => {
+      delete this.handlers[type]
+    })
+  }
 }
 
 const eventBus = _support.eventBus || (_support.eventBus = new EventBus())

@@ -159,3 +159,11 @@ export function unzip(b64Data: string) {
   }
   return result
 }
+
+/**
+ * 卸载录屏监听
+ */
+export function destroyRecordScreen() {
+  recordScreen?.close()
+  recordScreen = undefined
+}

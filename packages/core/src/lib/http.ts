@@ -182,4 +182,16 @@ function initHttp(): void {
   interceptFetch()
 }
 
+/**
+ * 卸载所有请求监听
+ */
+export function destroyHttp() {
+  // 清除HTTP请求相关的事件类型
+  eventBus.removeEvents([
+    EVENTTYPES.FETCH,
+    EVENTTYPES.XHROPEN,
+    EVENTTYPES.XHRSEND
+  ])
+}
+
 export { initHttp }

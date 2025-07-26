@@ -319,16 +319,27 @@ export function sendByImage(url: string, data: any): Promise<void> {
 /**
  * 发送数据方式 - xml
  */
-export function sendByXML(url: string, data: any): Promise<void> {
-  return new Promise(resolve => {
+export function sendByXML(url: string, data: any, timeout = 5000): Promise<void> {
+  return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.open('post', url)
     xhr.setRequestHeader('content-type', 'application/json')
+    xhr.timeout = timeout
     xhr.send(JSON.stringify(data))
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
-        resolve()
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve()
+        } else {
+          reject(new Error('@web-tracing XMLHttpRequest error: ' + xhr.status))
+        }
       }
+    }
+    xhr.ontimeout = function () {
+      reject(new Error('@web-tracing XMLHttpRequest timeout'))
+    }
+    xhr.onerror = function () {
+      reject(new Error('@web-tracing XMLHttpRequest network error'))
     }
   })
 }
@@ -475,6 +486,7 @@ export function isObjectOverSizeLimit(
  * @returns 参数对象
  */
 export function parseGetParams(url: string): AnyObj<string> {
+  if (!url) return {}
   const params: AnyObj<string> = {}
   const query = url.split('?')[1]
 
@@ -516,4 +528,20 @@ export function deepCopy<T>(target: T, map = new Map()) {
     return res
   }
   return target
+}
+
+/**
+ * 移除事件监听器
+ * @param target 对象
+ * @param eventName 事件名称
+ * @param handler 回调函数
+ * @param opitons
+ */
+export function off(
+  target: Window | Document,
+  eventName: string,
+  handler: AnyFun,
+  opitons = false
+): void {
+  target.removeEventListener(eventName, handler, opitons)
 }
