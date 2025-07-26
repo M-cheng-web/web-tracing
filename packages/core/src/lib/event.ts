@@ -246,10 +246,7 @@ function handleSendEvent(options = {}, flush = false) {
  */
 export function destroyEvent() {
   // 清除事件相关的事件类型
-  eventBus.removeEvents([
-    EVENTTYPES.CLICK,
-    EVENTTYPES.LOAD
-  ])
+  eventBus.removeEvents([EVENTTYPES.CLICK, EVENTTYPES.LOAD])
 }
 
 export { initEvent, handleSendEvent }

@@ -319,7 +319,11 @@ export function sendByImage(url: string, data: any): Promise<void> {
 /**
  * 发送数据方式 - xml
  */
-export function sendByXML(url: string, data: any, timeout = 5000): Promise<void> {
+export function sendByXML(
+  url: string,
+  data: any,
+  timeout = 5000
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.open('post', url)

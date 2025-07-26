@@ -9,7 +9,10 @@ import { initEvent, destroyEvent } from './src/lib/event'
 import { initHttp, destroyHttp } from './src/lib/http'
 import { initPerformance, destroyPerformance } from './src/lib/performance'
 import { initPv, destroyPv } from './src/lib/pv'
-import { initIntersection, destroyIntersection } from './src/lib/intersectionObserver'
+import {
+  initIntersection,
+  destroyIntersection
+} from './src/lib/intersectionObserver'
 import { _global } from './src/utils/global'
 import { SENDID } from './src/common'
 import { logError } from './src/utils/debug'

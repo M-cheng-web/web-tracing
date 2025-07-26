@@ -2,6 +2,12 @@
 
 ## 已完成/提交 & 未发包
 
+## 2.1.0
++ 引入了新选项：timeout、maxTimeLength和checkRecoverInterval，以更好地控制日志记录上报行为。
++ 在各个模块中实现了destroy方法，导出destroyMonitoring方法以一键清理事件侦听器和资源。
++ 增强了sendData中的错误处理，以管理服务器可用性和重试逻辑。
++ 更新了XML发送功能，包括可自定义的超时和改进的网络问题错误处理。
+
 ## 2.0.9
 + fix(console.error): 上报error 对象errMessage输出为[Object] #88
 

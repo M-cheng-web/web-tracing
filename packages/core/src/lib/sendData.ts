@@ -94,7 +94,7 @@ export class SendData {
     // 定时重试，直到接口恢复
     if (this.retryTimer) clearTimeout(this.retryTimer)
     if (options.value.checkRecoverInterval === -1) return
-    const interval = (options.value.checkRecoverInterval ?? 1) * 60 * 1000;
+    const interval = (options.value.checkRecoverInterval ?? 1) * 60 * 1000
     this.retryTimer = setTimeout(() => {
       this.testServerAvailable()
     }, interval)
@@ -102,14 +102,16 @@ export class SendData {
 
   private testServerAvailable() {
     // 尝试发送一个空包检测接口是否恢复
-    sendByXML(options.value.dsn, { ping: 1 }, options.value.timeout).then(() => {
-      this.isServerAvailable = true
-      if (this.retryTimer) clearTimeout(this.retryTimer)
-      // 恢复上报
-      if (this.events.length) this.send()
-    }).catch(() => {
-      this.handleServerError()
-    })
+    sendByXML(options.value.dsn, { ping: 1 }, options.value.timeout)
+      .then(() => {
+        this.isServerAvailable = true
+        if (this.retryTimer) clearTimeout(this.retryTimer)
+        // 恢复上报
+        if (this.events.length) this.send()
+      })
+      .catch(() => {
+        this.handleServerError()
+      })
   }
 
   /**
@@ -141,10 +143,12 @@ export class SendData {
     if (!isArray(e)) e = [e]
 
     // 如果接口异常，且队列已达最大缓存数，则丢弃旧日志，保留最新日志
-    const maxQueueLength = options.value.maxQueueLength ?? 200;
+    const maxQueueLength = options.value.maxQueueLength ?? 200
     if (!this.isServerAvailable && this.events.length >= maxQueueLength) {
       // 丢弃最旧的日志，保留最新日志
-      this.events = this.events.slice(this.events.length - maxQueueLength + e.length).concat(e)
+      this.events = this.events
+        .slice(this.events.length - maxQueueLength + e.length)
+        .concat(e)
       return
     }
 
@@ -201,18 +205,22 @@ export class SendData {
           resolve({ sendType: 'sendBeacon', success: sendByBeacon(url, data) })
           break
         case 2:
-          sendByImage(url, data).then(() => {
-            resolve({ sendType: 'image', success: true })
-          }).catch(() => {
-            resolve({ sendType: 'image', success: false })
-          })
+          sendByImage(url, data)
+            .then(() => {
+              resolve({ sendType: 'image', success: true })
+            })
+            .catch(() => {
+              resolve({ sendType: 'image', success: false })
+            })
           break
         case 3:
-          sendByXML(url, data, options.value.timeout).then(() => {
-            resolve({ sendType: 'xml', success: true })
-          }).catch(() => {
-            resolve({ sendType: 'xml', success: false })
-          })
+          sendByXML(url, data, options.value.timeout)
+            .then(() => {
+              resolve({ sendType: 'xml', success: true })
+            })
+            .catch(() => {
+              resolve({ sendType: 'xml', success: false })
+            })
           break
       }
     })

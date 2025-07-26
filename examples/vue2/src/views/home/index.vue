@@ -8,10 +8,20 @@
       所有的事件ID(还有一些id是随机字符串的):
       <div v-for="(value, key) in sendEventId">{{ `${key}: ${value}` }}</div>
     </div>
+
+    <div>
+      <button @click="_destroyTracing">点击触发 destroyTracing</button>
+      <button @click="_reinitTracing" style="margin-left: 10px">
+        重新初始化 WebTracing
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import { destroyTracing, init } from '@web-tracing/vue2'
+import { webTracingConfig } from '../../main.js'
+
 export default {
   data() {
     return {
@@ -33,7 +43,16 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    _destroyTracing() {
+      destroyTracing()
+      this.sendMessage('destroyTracing 成功')
+    },
+    _reinitTracing() {
+      init(webTracingConfig)
+      this.sendMessage('WebTracing 重新初始化成功')
+    }
+  }
 }
 </script>
 

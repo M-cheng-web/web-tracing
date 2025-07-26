@@ -21,7 +21,8 @@ const sendEventType = {
   intersection: '曝光采集'
 }
 
-Vue.use(WebTracing, {
+// 提取WebTracing初始化配置
+export const webTracingConfig = {
   dsn: '/trackweb',
   // dsn: 'http://localhost:3351/trackweb',
   appName: 'cxh',
@@ -115,7 +116,9 @@ Vue.use(WebTracing, {
       }
     }
   }
-})
+}
+
+Vue.use(WebTracing, webTracingConfig)
 
 Vue.config.productionTip = false
 

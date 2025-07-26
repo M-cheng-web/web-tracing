@@ -1,6 +1,13 @@
 import type { VoidFun } from '../types'
 import { _global } from '../utils/global'
-import { on, replaceAop, throttle, isValidKey, getTimestamp, off } from '../utils'
+import {
+  on,
+  replaceAop,
+  throttle,
+  isValidKey,
+  getTimestamp,
+  off
+} from '../utils'
 import { EVENTTYPES } from '../common'
 import { eventBus } from './eventBus'
 
@@ -285,15 +292,24 @@ function listenOnline(type: EVENTTYPES): void {
  */
 export function destroyReplace(): void {
   // 恢复 console.error
-  if (originalMethods.consoleError && console.error !== originalMethods.consoleError) {
+  if (
+    originalMethods.consoleError &&
+    console.error !== originalMethods.consoleError
+  ) {
     console.error = originalMethods.consoleError
   }
 
   // 恢复 XMLHttpRequest
-  if (originalMethods.xhrOpen && XMLHttpRequest.prototype.open !== originalMethods.xhrOpen) {
+  if (
+    originalMethods.xhrOpen &&
+    XMLHttpRequest.prototype.open !== originalMethods.xhrOpen
+  ) {
     XMLHttpRequest.prototype.open = originalMethods.xhrOpen
   }
-  if (originalMethods.xhrSend && XMLHttpRequest.prototype.send !== originalMethods.xhrSend) {
+  if (
+    originalMethods.xhrSend &&
+    XMLHttpRequest.prototype.send !== originalMethods.xhrSend
+  ) {
     XMLHttpRequest.prototype.send = originalMethods.xhrSend
   }
 
@@ -303,10 +319,16 @@ export function destroyReplace(): void {
   }
 
   // 恢复 history
-  if (originalMethods.historyPushState && history.pushState !== originalMethods.historyPushState) {
+  if (
+    originalMethods.historyPushState &&
+    history.pushState !== originalMethods.historyPushState
+  ) {
     history.pushState = originalMethods.historyPushState
   }
-  if (originalMethods.historyReplaceState && history.replaceState !== originalMethods.historyReplaceState) {
+  if (
+    originalMethods.historyReplaceState &&
+    history.replaceState !== originalMethods.historyReplaceState
+  ) {
     history.replaceState = originalMethods.historyReplaceState
   }
 
@@ -341,9 +363,9 @@ export function destroyReplace(): void {
 
   // 清空存储
   Object.keys(originalMethods).forEach(key => {
-    (originalMethods as any)[key] = null
+    ;(originalMethods as any)[key] = null
   })
   Object.keys(eventListeners).forEach(key => {
-    (eventListeners as any)[key] = null
+    ;(eventListeners as any)[key] = null
   })
 }
