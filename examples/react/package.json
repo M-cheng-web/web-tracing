@@ -1,0 +1,35 @@
+{
+  "name": "vite-project-react",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "concurrently \"npm run dev\" \"npm run service\"",
+    "dev": "vite",
+    "service": "nodemon ./server.js",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@web-tracing/react": "workspace:*",
+    "antd": "^6.1.1",
+    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
+    "co-body": "^6.1.0",
+    "concurrently": "^8.2.0",
+    "nodemon": "^2.0.22",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.11.0",
+    "rrweb-player": "1.0.0-alpha.4",
+    "sass": "^1.63.6",
+    "sass-loader": "^13.3.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}

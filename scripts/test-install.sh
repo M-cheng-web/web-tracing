@@ -19,3 +19,8 @@ cd examples/vue3/
 pnpm install
 
 cd -
+
+cd examples/react/
+pnpm install
+
+cd -

@@ -23,10 +23,12 @@
     "test:js": "pnpm run -C examples/vanilla dev",
     "test:vue2": "pnpm run -C examples/vue2 start",
     "test:vue3": "pnpm run -C examples/vue3 start",
+    "test:react": "pnpm run -C examples/react start",
     "example:publish": "esno scripts/publish-examples.ts",
     "example:publish-js": "sh scripts/examples/js.sh",
     "example:publish-vue2": "sh scripts/examples/vue2.sh",
     "example:publish-vue3": "sh scripts/examples/vue3.sh",
+    "example:publish-react": "sh scripts/examples/react.sh",
     "test": "vitest",
     "test-coverage": "vitest --coverage"
   },
