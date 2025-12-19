@@ -74,17 +74,9 @@ const Err: React.FC = () => {
   };
 
   // ------- 批量错误 -------
-  // Better implementation for batch triggering to ensure they are captured separately
-  const triggerCodeError = () => {
-    setTimeout(() => {
-      const a = {};
-      (a as any).split("/");
-    }, 0);
-  };
-
   const batchErrorA_Safe = (num: number) => {
     for (let x = 1; x <= num; x++) {
-      triggerCodeError();
+      document.getElementById('codeErr')?.click();
     }
   };
 
@@ -214,23 +206,23 @@ const Err: React.FC = () => {
             message="错误事件的捕获会有延迟，特别是在开启了批量错误的情况下，一般会有2s延迟"
             style={{ marginBottom: 20 }}
           />
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <Button danger onClick={codeError}>
+          <div>
+            <Button id="codeErr" danger ghost onClick={codeError} style={{ marginRight: 10 }}>
               代码错误
             </Button>
-            <Button danger onClick={promiseError}>
+            <Button danger ghost onClick={promiseError} style={{ marginRight: 10 }}>
               Promise-错误
             </Button>
-            <Button danger onClick={consoleErr}>
+            <Button danger ghost onClick={consoleErr} style={{ marginRight: 10 }}>
               console-错误
             </Button>
-            <Button danger onClick={sendBizErr}>
+            <Button danger ghost onClick={sendBizErr} style={{ marginRight: 10 }}>
               手动上报自定义错误
             </Button>
-            <Button danger onClick={openX}>
+            <Button danger ghost onClick={openX} style={{ marginRight: 10 }}>
               开启错误录屏功能
             </Button>
-            <Button danger onClick={closeX}>
+            <Button danger ghost onClick={closeX}>
               关闭错误录屏功能
             </Button>
           </div>
@@ -258,12 +250,12 @@ const Err: React.FC = () => {
             }
             style={{ marginBottom: 20 }}
           />
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ marginBottom: 10 }}>
+          <div className="resource mb">
+            <div className="resource mb">
               <Button
                 danger
+                ghost
                 onClick={() => setShowImgTrue(true)}
-                style={{ marginRight: 10 }}
               >
                 加载错误图片
               </Button>
@@ -272,8 +264,8 @@ const Err: React.FC = () => {
               )}
               <Button
                 type="primary"
+                ghost
                 onClick={() => setShowImgFalse(true)}
-                style={{ marginRight: 10 }}
               >
                 加载正常图片
               </Button>
@@ -281,23 +273,22 @@ const Err: React.FC = () => {
                 <img
                   src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/Annapurna-Ranges-2560x1440.tq4fx9hd9gg.webp"
                   alt="success"
-                  width={100}
                 />
               )}
             </div>
-            <div style={{ marginBottom: 10 }}>
+            <div className="resource mb">
               <Button
                 danger
+                ghost
                 onClick={() => setShowAudioTrue(true)}
-                style={{ marginRight: 10 }}
               >
                 加载错误音频
               </Button>
               {showAudioTrue && <audio src="https://someaudio.wav" controls />}
               <Button
                 type="primary"
+                ghost
                 onClick={() => setShowAudioFalse(true)}
-                style={{ marginRight: 10 }}
               >
                 加载正常音频
               </Button>
@@ -308,11 +299,11 @@ const Err: React.FC = () => {
                 />
               )}
             </div>
-            <div style={{ marginBottom: 10 }}>
+            <div className="resource mb">
               <Button
                 danger
+                ghost
                 onClick={() => setShowVideoTrue(true)}
-                style={{ marginRight: 10 }}
               >
                 加载错误视频
               </Button>
@@ -321,15 +312,14 @@ const Err: React.FC = () => {
               )}
               <Button
                 type="primary"
+                ghost
                 onClick={() => setShowVideoFalse(true)}
-                style={{ marginRight: 10 }}
               >
                 加载正常视频
               </Button>
               {showVideoFalse && (
                 <video
                   src="https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4"
-                  width={200}
                 />
               )}
             </div>
@@ -387,54 +377,58 @@ const Err: React.FC = () => {
             style={{ marginBottom: 20 }}
           />
 
-          <div style={{ marginBottom: 20 }}>
+          <div className="mb">
             <Button
               danger
+              ghost
               onClick={() => batchErrorA_Safe(10)}
               style={{ marginRight: 10 }}
             >
               立即触发代码错误-10条
             </Button>
-            <Button danger onClick={() => batchErrorA_Safe(100)}>
+            <Button danger ghost onClick={() => batchErrorA_Safe(100)}>
               立即触发代码错误-100条
             </Button>
           </div>
 
-          <div style={{ marginBottom: 20 }}>
+          <div className="mb">
             <Button
               danger
+              ghost
               onClick={() => batchErrorAT(20)}
               style={{ marginRight: 10 }}
             >
               异步触发代码错误-20条
             </Button>
-            <Button danger onClick={() => batchErrorAT(100)}>
+            <Button danger ghost onClick={() => batchErrorAT(100)}>
               异步触发代码错误-100条
             </Button>
           </div>
 
-          <div style={{ marginBottom: 20 }}>
+          <div className="mb">
             <Button
               danger
+              ghost
               onClick={() => batchErrorB(10)}
               style={{ marginRight: 10 }}
             >
               立即触发【reject-10条 + 代码错误-10条 + console.error-10条】
             </Button>
-            <Button danger onClick={() => batchErrorB(20)}>
+            <Button danger ghost onClick={() => batchErrorB(20)}>
               立即触发【reject-20条 + 代码错误-20条 + console.error-20条】
             </Button>
           </div>
 
-          <div style={{ marginBottom: 20 }}>
+          <div className="mb">
             <Button
               danger
+              ghost
               onClick={() => batchErrorC(10)}
               style={{ marginRight: 10 }}
             >
               异步触发【reject-10条 + 代码错误-10条 + console.error-10条】
             </Button>
-            <Button danger onClick={() => batchErrorD()}>
+            <Button danger ghost onClick={() => batchErrorD()}>
               异步触发无限错误
             </Button>
           </div>
@@ -444,7 +438,7 @@ const Err: React.FC = () => {
   ];
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="err" style={{ padding: 20 }}>
       <Tabs defaultActiveKey="1" items={items} />
 
       <Button

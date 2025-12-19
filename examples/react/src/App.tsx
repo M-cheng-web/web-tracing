@@ -64,30 +64,17 @@ const Layout = () => {
   };
 
   return (
-    <div id="app" style={{ display: "flex", height: "100vh" }}>
-      <div
-        className="left-menu"
-        style={{ width: 260, height: "100%", borderRight: "1px solid #eee" }}
-      >
+    <div id="app" style={{ display: "flex" }}>
+      <div className="left-menu">
         <MenuList items={menuItems} />
       </div>
-      <div
-        className="right-body"
-        style={{ flex: 1, height: "100%", overflowY: "auto", padding: 20 }}
-      >
+      <div className="right-body">
         <Outlet />
       </div>
       <Button
         className="clean-1"
         type="primary"
         onClick={showBaseInfo}
-        style={{
-          position: "fixed",
-          bottom: 80,
-          left: 20,
-          width: 220,
-          height: 40,
-        }}
       >
         查看核心基础信息
       </Button>
@@ -96,13 +83,6 @@ const Layout = () => {
         type="primary"
         danger
         onClick={cleanTracingList}
-        style={{
-          position: "fixed",
-          bottom: 20,
-          left: 20,
-          width: 220,
-          height: 40,
-        }}
       >
         清除所有事件信息
       </Button>

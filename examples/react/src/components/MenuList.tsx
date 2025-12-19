@@ -44,16 +44,17 @@ const MenuList: React.FC<Props> = ({ items }) => {
   const menuItems = mapItemsToMenu(items);
 
   return (
-    <div
-      className="menu-list"
-      style={{ height: "100vh", backgroundColor: "#001529" }}
-    >
+    <div className="menu-list">
       <Menu
         theme="dark"
         mode="inline"
         selectedKeys={selectedKeys}
         items={menuItems}
-        style={{ height: "100%", borderRight: 0 }}
+        style={{ 
+          height: "100%", 
+          borderRight: 0,
+          backgroundColor: "#545c64"
+        }}
       />
     </div>
   );

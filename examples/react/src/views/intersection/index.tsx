@@ -108,7 +108,7 @@ const Intersection = () => {
       />
 
       <div className="mb">
-        <Button type="primary" danger onClick={handleIntersectionDisconnect}>
+        <Button type="primary" danger ghost onClick={handleIntersectionDisconnect}>
           取消所有采集曝光
         </Button>
       </div>
@@ -116,12 +116,13 @@ const Intersection = () => {
       <div className="mb">
         <Button
           type="primary"
+          ghost
           onClick={() => handleIntersectionObserver("target")}
           style={{ marginRight: 10 }}
         >
           采集此图片的曝光
         </Button>
-        <Button danger onClick={() => handleIntersectionUnobserve("target")}>
+        <Button danger ghost onClick={() => handleIntersectionUnobserve("target")}>
           取消此图片的曝光采集
         </Button>
       </div>
@@ -143,12 +144,13 @@ const Intersection = () => {
       <div className="mb">
         <Button
           type="primary"
+          ghost
           onClick={() => handleIntersectionObserver("target2")}
           style={{ marginRight: 10 }}
         >
           采集此图片的曝光
         </Button>
-        <Button danger onClick={() => handleIntersectionUnobserve("target2")}>
+        <Button danger ghost onClick={() => handleIntersectionUnobserve("target2")}>
           取消此图片的曝光采集
         </Button>
       </div>

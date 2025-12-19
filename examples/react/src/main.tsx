@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import "./assets/global.scss";
 import { WebTracingProvider } from "@web-tracing/react";
 
 const options = {

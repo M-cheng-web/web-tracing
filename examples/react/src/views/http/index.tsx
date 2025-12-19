@@ -93,54 +93,45 @@ const Http: React.FC = () => {
           description="axios的错误请求需要手动加上cache，否则错误会暴露导致错误模块会监听到此错误，从而造成错误的重复"
           style={{ marginBottom: 20 }}
         />
-        <div
-          style={{
-            display: "flex",
-            gap: 10,
-            marginBottom: 10,
-            flexWrap: "wrap",
-          }}
-        >
-          <Button onClick={onClickAxiosGet}>axios正常请求-get</Button>
-          <Button onClick={onClickAxiosPost}>axios正常请求-post</Button>
-          <Button danger onClick={onClickAxiosError}>
+        <div className="mb">
+          <Button type="primary" ghost onClick={onClickAxiosGet} style={{ marginRight: 10 }}>
+            axios正常请求-get
+          </Button>
+          <Button type="primary" ghost onClick={onClickAxiosPost} style={{ marginRight: 10 }}>
+            axios正常请求-post
+          </Button>
+          <Button danger ghost onClick={onClickAxiosError} style={{ marginRight: 10 }}>
             axios异常请求-get
           </Button>
-          <Button danger onClick={onClickAxiosPostError}>
+          <Button danger ghost onClick={onClickAxiosPostError}>
             axios异常请求-post
           </Button>
         </div>
-        <div
-          style={{
-            display: "flex",
-            gap: 10,
-            marginBottom: 10,
-            flexWrap: "wrap",
-          }}
-        >
-          <Button onClick={onClickXhrGet}>xhr正常请求-get</Button>
-          <Button onClick={onClickXhrPost}>xhr正常请求-post</Button>
-          <Button danger onClick={onClickXhrGetError}>
+        <div className="mb">
+          <Button type="primary" ghost onClick={onClickXhrGet} style={{ marginRight: 10 }}>
+            xhr正常请求-get
+          </Button>
+          <Button type="primary" ghost onClick={onClickXhrPost} style={{ marginRight: 10 }}>
+            xhr正常请求-post
+          </Button>
+          <Button danger ghost onClick={onClickXhrGetError} style={{ marginRight: 10 }}>
             xhr异常请求-get
           </Button>
-          <Button danger onClick={onClickXhrPostError}>
+          <Button danger ghost onClick={onClickXhrPostError}>
             xhr异常请求-post
           </Button>
         </div>
-        <div
-          style={{
-            display: "flex",
-            gap: 10,
-            marginBottom: 10,
-            flexWrap: "wrap",
-          }}
-        >
-          <Button onClick={onClickFetchGet}>Fetch正常请求-get</Button>
-          <Button onClick={onClickFetchPost}>Fetch正常请求-post</Button>
-          <Button danger onClick={onClickFetchGetError}>
+        <div className="mb">
+          <Button type="primary" ghost onClick={onClickFetchGet} style={{ marginRight: 10 }}>
+            Fetch正常请求-get
+          </Button>
+          <Button type="primary" ghost onClick={onClickFetchPost} style={{ marginRight: 10 }}>
+            Fetch正常请求-post
+          </Button>
+          <Button danger ghost onClick={onClickFetchGetError} style={{ marginRight: 10 }}>
             Fetch异常请求-get
           </Button>
-          <Button danger onClick={onClickFetchPostError}>
+          <Button danger ghost onClick={onClickFetchPostError}>
             Fetch异常请求-post
           </Button>
         </div>

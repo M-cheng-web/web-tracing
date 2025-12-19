@@ -75,3 +75,142 @@ a:hover {
 div:focus {
   outline: none;
 }
+
+/* App layout styles */
+#app {
+  height: 100%;
+  display: flex;
+  
+  .left-menu {
+    width: 260px;
+  }
+  
+  .right-body {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  .clean-1 {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    width: 220px;
+    height: 40px;
+  }
+  
+  .clean-2 {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 220px;
+    height: 40px;
+  }
+}
+
+/* Pop line styles for message box */
+.pop-line {
+  display: flex;
+  align-items: center;
+  
+  & > div {
+    width: 100px;
+  }
+  
+  & > span {
+    flex: 1;
+  }
+}
+
+/* Utility styles */
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+.badge-pill {
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+  border-radius: 10rem;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: #007bff;
+}
+
+/* Menu styles */
+.menu-list {
+  height: 100vh;
+  background-color: #545c64;
+}
+
+/* Table styles */
+.c-table {
+  background-color: #fff;
+  
+  :global(.custom-table .ant-table-thead > tr > th) {
+    height: 54px;
+    background-color: #fafafa;
+    color: #1f2226;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+}
+
+/* Error page styles */
+.err {
+  .resource {
+    display: flex;
+    width: 800px;
+    align-items: center;
+    
+    button {
+      height: 32px;
+      margin-right: 10px;
+    }
+    
+    img {
+      display: block;
+      width: 200px;
+      height: 200px;
+      margin-right: 20px;
+    }
+    
+    video {
+      display: block;
+      width: 200px;
+      height: 200px;
+      margin-right: 20px;
+    }
+    
+    audio {
+      display: block;
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      margin-right: 20px;
+    }
+  }
+}

@@ -154,19 +154,21 @@ const Performance = () => {
       <div className="mb">
         <Button
           type="primary"
+          ghost
           onClick={performanceAddScript}
           style={{ marginRight: 10 }}
         >
           插入正确Script
         </Button>
-        <Button type="primary" danger onClick={performanceAddScriptError}>
+        <Button type="primary" danger ghost onClick={performanceAddScriptError}>
           插入错误Script
         </Button>
       </div>
 
-      <div className="flex mb" style={{ alignItems: "center" }}>
+      <div className="flex mb">
         <Button
           type="primary"
+          ghost
           onClick={performanceAddLink}
           style={{ marginRight: 10 }}
         >
@@ -175,10 +177,11 @@ const Performance = () => {
         <div className="badge badge-pill badge-primary">我是小demo</div>
       </div>
 
-      <div className="mb flex" style={{ height: 100, display: "flex" }}>
-        <div className="flex" style={{ marginRight: 20, display: "flex" }}>
+      <div className="mb flex" style={{ height: "100px" }}>
+        <div className="flex" style={{ marginRight: "20px" }}>
           <Button
             type="primary"
+            ghost
             onClick={performanceAddImg}
             style={{ marginRight: 10 }}
           >
@@ -186,9 +189,10 @@ const Performance = () => {
           </Button>
           <div id="performance-img-div-1" />
         </div>
-        <div className="flex" style={{ display: "flex" }}>
+        <div className="flex">
           <Button
             type="primary"
+            ghost
             onClick={performanceAddLocalImg}
             style={{ marginRight: 10 }}
           >
@@ -198,11 +202,7 @@ const Performance = () => {
         </div>
       </div>
 
-      <Button
-        type="primary"
-        onClick={getAllTracingList}
-        style={{ marginBottom: 20 }}
-      >
+      <Button type="primary" onClick={getAllTracingList}>
         获取最新采集数据
       </Button>
 

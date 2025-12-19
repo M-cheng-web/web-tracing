@@ -55,6 +55,7 @@ const CTable: React.FC<Props> = ({
         rowKey={(_, index) => index?.toString() || ""}
         size="small"
         bordered
+        className="custom-table"
       />
     </div>
   );
