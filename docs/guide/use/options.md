@@ -78,6 +78,8 @@ sdk 中所有的配置都可以在项目运行中更改
 例如
 
 import { options } from '@web-tracing/vue2'
+// or
+// import { options } from '@web-tracing/react'
 
 options.value.dsn = 'www.baidu.com' // 从此刻开始所有的事件都会发送到此服务器上
 :::
