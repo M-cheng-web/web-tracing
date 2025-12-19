@@ -2,6 +2,9 @@
 
 ## 已完成/提交 & 未发包
 
+## 2.1.1
++ react 版本支持以及demo项目支持
+
 ## 2.1.0
 + 引入了新选项：timeout、maxTimeLength和checkRecoverInterval，以更好地控制日志记录上报行为。
 + 在各个模块中实现了destroy方法，导出destroyMonitoring方法以一键清理事件侦听器和资源。
