@@ -73,6 +73,7 @@ async function start() {
   exec('pnpm run example:publish-js', { stdio: 'inherit' })
   exec('pnpm run example:publish-vue2', { stdio: 'inherit' })
   exec('pnpm run example:publish-vue3', { stdio: 'inherit' })
+  exec('pnpm run example:publish-react', { stdio: 'inherit' })
 }
 
 start()

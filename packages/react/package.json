@@ -1,0 +1,46 @@
+{
+  "name": "@web-tracing/react",
+  "version": "2.1.0",
+  "description": "基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - react版本",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "jsdelivr": "./dist/index.iife.min.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boychina/web-tracing.git",
+    "directory": "packages/react"
+  },
+  "author": "Evan Zhao <https://github.com/boychina>",
+  "keywords": [
+    "埋点",
+    "性能",
+    "异常",
+    "性能采集",
+    "异常采集",
+    "前端埋点",
+    "前端性能采集",
+    "react"
+  ],
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "dependencies": {
+    "@web-tracing/core": "workspace:*"
+  },
+  "bugs": {
+    "url": "https://github.com/M-cheng-web/web-tracing/issues"
+  },
+  "homepage": "https://github.com/M-cheng-web/web-tracing#readme",
+  "unpkg": "./dist/index.iife.min.js"
+}
