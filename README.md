@@ -19,7 +19,7 @@
 
 [vue3版本 https://github.com/M-cheng-web/web-tracing-examples-vue3](https://github.com/M-cheng-web/web-tracing-examples-vue3)
 
-[react版本 https://github.com/M-cheng-web/web-tracing-examples-react](https://github.com/M-cheng-web/web-tracing-examples-react)
+[react版本 https://github.com/boychina/web-tracing-examples-react](https://github.com/boychina/web-tracing-examples-react)
 
 ## 演示
 ### 事件监听
@@ -70,6 +70,10 @@
 
 - 如果对此项目有疑虑或者有优化点，欢迎与我讨论（有沟通群）
 - Bug 反馈请直接去 Github 上面提 Issues，我会实时收到邮件提醒前去查看
+
+## 三方监控平台
+目前支持的三方监控平台有：
++ [WebTracingAnalysis](https://github.com/boychina/web-tracing-analysis) : Spring Boot + MySQL + React + Ant Design（支持容器化部署）
 
 <br/>
 <br/>
