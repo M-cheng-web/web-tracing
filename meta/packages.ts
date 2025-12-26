@@ -92,7 +92,28 @@ export const packages: any[] = [
     ],
     exampleName: "react",
     exampleGitHubPath:
-      "https://github.com/M-cheng-web/web-tracing-examples-react",
+      "https://github.com/boychina/web-tracing-examples-react",
+  },
+  {
+    name: "nuxt",
+    display: "Nuxt3",
+    description:
+      "基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - nuxt3版本",
+    external: ["@nuxt/kit"],
+    keywords: [
+      "埋点",
+      "性能",
+      "异常",
+      "性能采集",
+      "异常采集",
+      "前端埋点",
+      "前端性能采集",
+      "nuxt3",
+      "ssr"
+    ],
+    exampleName: "nuxt",
+    exampleGitHubPath:
+      "https://github.com/boychina/web-tracing-examples-nuxt",
   },
   // {
   //   name: 'utils',

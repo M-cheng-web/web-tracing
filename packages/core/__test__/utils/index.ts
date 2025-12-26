@@ -68,6 +68,34 @@ export function replaceLast(str: string, find: string, replace: string) {
 export async function launchPuppeteer(
   options?: Parameters<(typeof puppeteer)['launch']>[0]
 ) {
+  const resolveExecutablePath = () => {
+    const envPath =
+      process.env.PUPPETEER_EXECUTABLE_PATH || process.env.PUPPETEER_EXEC_PATH
+    const candidates = [
+      envPath,
+      '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary',
+      '/Applications/Chromium.app/Contents/MacOS/Chromium',
+      '/opt/homebrew/bin/chromium',
+      '/opt/homebrew/bin/google-chrome',
+      '/usr/bin/google-chrome',
+      '/usr/bin/chromium-browser',
+      '/usr/bin/chromium'
+    ].filter(Boolean) as string[]
+
+    for (const p of candidates) {
+      try {
+        if (fs.existsSync(p) && fs.statSync(p).isFile()) return p
+      } catch {
+        continue
+      }
+    }
+    return undefined
+  }
+
+  const resolvedExecutablePath =
+    options?.executablePath || resolveExecutablePath()
+
   return await puppeteer.launch({
     headless: true,
     defaultViewport: {
@@ -75,6 +103,11 @@ export async function launchPuppeteer(
       height: 1080
     },
     args: ['--no-sandbox'],
+    ...(resolvedExecutablePath
+      ? { executablePath: resolvedExecutablePath }
+      : options?.channel
+      ? {}
+      : { channel: 'chrome' }),
     ...options
   })
 }

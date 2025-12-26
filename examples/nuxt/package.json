@@ -1,0 +1,38 @@
+{
+  "name": "nuxt-web-tracing-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "concurrently \"pnpm run dev\" \"pnpm run service\"",
+    "service": "nodemon ./server.js"
+  },
+  "dependencies": {
+    "@web-tracing/core": "workspace:*",
+    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
+    "co-body": "^6.1.0",
+    "concurrently": "^8.2.0",
+    "cors": "^2.8.5",
+    "element-plus": "^2.3.7",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "nuxt": "3.8.0",
+    "rrweb-player": "1.0.0-alpha.4",
+    "sass": "^1.63.6",
+    "sass-loader": "^13.3.2",
+    "source-map-js": "^1.0.2",
+    "vue": "^3.2.47",
+    "vue-router": "^4.2.2"
+  },
+  "devDependencies": {
+    "@element-plus/nuxt": "^1.0.7",
+    "@nuxt/devtools": "latest",
+    "sass": "^1.63.6"
+  }
+}

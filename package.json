@@ -24,6 +24,7 @@
     "test:vue2": "pnpm run -C examples/vue2 start",
     "test:vue3": "pnpm run -C examples/vue3 start",
     "test:react": "pnpm run -C examples/react start",
+    "test:nuxt": "pnpm run -C examples/nuxt start",
     "example:publish": "esno scripts/publish-examples.ts",
     "example:publish-js": "sh scripts/examples/js.sh",
     "example:publish-vue2": "sh scripts/examples/vue2.sh",
