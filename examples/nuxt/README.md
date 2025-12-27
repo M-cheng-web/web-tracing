@@ -1,147 +1,184 @@
-# Web-Tracing Nuxt3 示例项目
+# Web-Tracing Nuxt3 示例
 
-这是一个使用 `@web-tracing/nuxt` 模块的示例 Nuxt3 应用，展示了如何在 Nuxt3 项目中集成和使用埋点监控功能。
-
-## 功能特性
-
-### 埋点监控
-- ✅ **页面浏览量统计 (PV)**: 自动记录页面访问
-- ✅ **性能监控**: 监控页面加载性能、资源加载等
-- ✅ **错误监控**: 捕获 JavaScript 错误和异常
-- ✅ **事件监听**: 监听用户交互事件
-- ✅ **请求拦截**: 监控 HTTP 请求
-- ✅ **路由变化**: 自动监听路由跳转
-
-### 页面功能
-- 📊 **首页**: 展示所有埋点功能的测试入口
-- 📝 **关于页**: 介绍模块功能
-- 👤 **用户详情页**: 动态路由参数测试
+这是一个基于 Nuxt3 框架的 web-tracing 埋点监控示例项目，展示了如何使用 @web-tracing/core SDK 进行前端监控。
 
 ## 快速开始
 
-### 1. 安装依赖
+### 方式一：使用启动脚本（推荐）
 
 ```bash
-npm install
+# 进入示例目录
+cd examples/nuxt
+
+# 执行启动脚本（会自动安装依赖并构建核心包）
+./scripts/start.sh
 ```
 
-### 2. 启动开发服务
+### 方式二：手动启动
 
 ```bash
-npm run start
+# 1. 进入示例目录
+cd examples/nuxt
+
+# 2. 安装示例项目依赖
+pnpm install
+
+# 3. 构建核心包
+pnpm run init
+
+# 4. 启动项目
+pnpm start
 ```
 
-这将同时启动：
-- Nuxt3 开发服务器: http://localhost:3000
-- 埋点数据接收服务: http://localhost:3001
+启动成功后，访问：
+- 前端地址：http://localhost:3000
+- 后端地址：http://localhost:3001
 
-### 3. 访问应用
+## 功能特性
 
-打开浏览器访问: http://localhost:3000
+✅ 自动页面浏览量统计 (PV)
+✅ 错误监控
+✅ 事件监控（点击事件）
+✅ 请求监控
+✅ 性能监控
+✅ 曝光采集
+✅ 录屏功能（可选）
+✅ 完全支持 Nuxt3 SSR
 
-## 接口说明
+## 页面结构
 
-### 埋点相关接口
-
-| 接口 | 方法 | 说明 |
-|------|------|------|
-| `/trackweb` | POST | 接收埋点数据 |
-| `/getAllTracingList` | GET | 查询所有埋点数据 |
-| `/cleanTracingList` | POST | 清除埋点数据 |
-| `/getBaseInfo` | GET | 获取基础信息 |
-| `/getSourceMap` | GET | 获取 Source Map |
-
-### 模拟API接口
-
-| 接口 | 说明 |
-|------|------|
-| `/api/test` | 测试API接口 |
-| `/api/user/:id` | 获取用户信息（可能随机失败） |
-
-## 测试功能
-
-### 1. 页面浏览量测试
-- 在不同页面间跳转，观察控制台PV埋点
-
-### 2. 点击事件测试
-- 点击首页的"点击埋点测试"按钮
-
-### 3. 性能监控测试
-- 点击"性能数据查看"查看当前页面性能数据
-
-### 4. 错误监控测试
-- 点击"错误触发测试"按钮，查看错误捕获
-
-### 5. 数据查询测试
-- 使用"查看埋点列表"、"清除埋点数据"、"查看基础信息"功能
-
-### 6. 动态路由测试
-- 访问用户详情页: http://localhost:3000/user/123
-- 测试不同用户ID的埋点数据
+- `/home` - 首页，展示所有事件类型和ID
+- `/err` - 错误监控页面，包含普通错误、资源错误、批量错误测试
+- `/event` - 事件监控页面，展示点击事件埋点
+- `/http` - HTTP请求监控页面，测试各种请求方式
+- `/performance` - 性能监控页面，测试资源加载
+- `/intersection` - 曝光监控页面，测试元素曝光
+- `/pv` - PV监控页面，展示页面跳转事件
 
 ## 项目结构
 
 ```
-nuxt/
-├── pages/              # 页面目录
-│   ├── index.vue       # 首页
-│   ├── about.vue       # 关于页面
-│   └── user/
-│       └── [id].vue   # 用户详情页（动态路由）
-├── assets/            # 静态资源
-│   ├── global.scss    # 全局样式
-│   └── variables.scss # SCSS变量
-├── app.vue           # 应用入口组件
-├── nuxt.config.ts    # Nuxt配置
-├── server.js         # 模拟服务端
-└── package.json       # 项目配置
+examples/nuxt/
+├── app.vue                  # 主应用布局
+├── nuxt.config.ts          # Nuxt3 配置文件
+├── package.json            # 项目依赖
+├── server.js               # Express 模拟后端服务
+├── scripts/
+│   └── start.sh            # 快速启动脚本
+├── plugins/
+│   └── web-tracing.ts      # web-tracing SDK 初始化插件
+├── components/
+│   ├── MenuList.vue        # 左侧菜单组件
+│   └── CTable.vue          # 表格组件
+├── pages/
+│   ├── home/index.vue      # 首页
+│   ├── err/index.vue       # 错误监控
+│   ├── event/index.vue     # 事件监控
+│   ├── http/index.vue      # HTTP监控
+│   ├── performance/index.vue # 性能监控
+│   ├── intersection/index.vue # 曝光监控
+│   └── pv/index.vue        # PV监控
+├── router/
+│   └── dynamic.ts          # 路由配置
+└── assets/
+    ├── global.scss         # 全局样式
+    └── variables.scss      # SCSS 变量
 ```
 
-## 配置说明
+## 使用说明
 
-在 `nuxt.config.ts` 中的 webTracing 配置：
+### 1. SDK 初始化
+
+SDK 通过 Nuxt3 插件自动初始化，配置项在 `nuxt.config.ts` 中：
 
 ```typescript
-webTracing: {
-  dsn: '/trackweb',           // 埋点数据上报地址
-  appName: 'nuxt-cxh',       // 应用名称
-  debug: true,               // 开启调试模式
-  pv: true,                 // 开启PV统计
-  performance: true,         // 开启性能监控
-  error: true,              // 开启错误监控
-  event: true,              // 开启事件监控
-  cacheMaxLength: 10,        // 数据缓存最大长度
-  cacheWatingTime: 1000,     // 数据缓存等待时间
-  ignoreRequest: [           // 忽略的请求
-    /getAllTracingList/,
-    /cleanTracingList/,
-    /getBaseInfo/,
-    /getSourceMap/
-  ],
-  afterSendData(data) {      // 数据发送回调
-    console.log('埋点数据发送:', data)
+runtimeConfig: {
+  public: {
+    webTracing: {
+      dsn: '/trackweb',
+      appName: 'nuxt-cxh',
+      debug: true,
+      pv: true,
+      performance: true,
+      error: true,
+      event: true,
+      cacheMaxLength: 10,
+      cacheWatingTime: 1000,
+      recordScreen: false,
+      ignoreRequest: [
+        /getAllTracingList/,
+        /cleanTracingList/,
+        /getBaseInfo/,
+        /getSourceMap/,
+      ],
+    }
   }
 }
 ```
 
-## SSR 支持
+### 2. 使用 SDK 功能
 
-本示例完全支持 Nuxt3 的 SSR (服务端渲染)：
+在页面中导入并使用 SDK：
 
-- **客户端**: 自动初始化埋点功能
-- **服务端**: 进行 SSR 相关处理
-- **同构**: 客户端/服务端代码统一
+```typescript
+import { traceError, options } from '@web-tracing/core'
 
-## 开发说明
+// 手动上报错误
+traceError({
+  eventId: '自定义错误ID',
+  errMessage: '自定义错误message',
+  src: '/interface/order',
+  params: {
+    id: '12121'
+  }
+})
 
-1. 修改 `pages/` 目录下的页面来测试不同场景
-2. 修改 `nuxt.config.ts` 来调整埋点配置
-3. 查看 `server.js` 了解后端数据接收逻辑
-4. 打开浏览器控制台查看埋点日志
+// 动态修改配置
+options.value.recordScreen = true
+```
+
+### 3. 查看埋点数据
+
+- 点击页面上的"获取最新采集数据"按钮
+- 查看表格展示的埋点数据
+- 点击"清除所有事件信息"按钮清除数据
+- 点击"查看核心基础信息"按钮查看服务端状态
+
+## 模拟后端 API
+
+项目使用 Express 模拟后端服务，提供以下接口：
+
+- `POST /trackweb` - 接收埋点数据
+- `GET /getAllTracingList` - 查询埋点数据
+- `POST /cleanTracingList` - 清除埋点数据
+- `GET /getBaseInfo` - 获取基础信息
+- `GET /getSourceMap` - 获取 Source Map
 
 ## 注意事项
 
-- 确保同时启动了前端服务(3000端口)和后端服务(3001端口)
-- 埋点数据会实时发送到后端服务进行存储
-- 可以通过 `/getAllTracingList` 接口查看当前收集到的埋点数据
-- 生产环境请修改 `dsn` 为实际的埋点数据收集地址
+1. 确保 `@web-tracing/core` 包已正确构建
+2. 后端服务运行在 3001 端口
+3. 前端服务运行在 3000 端口
+4. 使用 `$fetch` 进行 API 请求
+5. 在客户端环境下才能使用 SDK 功能
+
+## 开发建议
+
+- 开发时开启 `debug: true` 查看详细日志
+- 生产环境关闭 `debug` 并设置适当的抽样率
+- 合理配置 `cacheMaxLength` 和 `cacheWatingTime` 优化性能
+- 根据业务需求配置 `ignoreRequest` 过滤不必要的请求
+
+## 与 Vue3 示例对比
+
+Nuxt3 示例完全按照 Vue3 示例的页面结构和功能进行实现，包括：
+- 相同的菜单布局
+- 相同的页面功能
+- 相同的组件实现
+- 相同的 SDK 初始化方式
+
+主要区别：
+- 使用 Nuxt3 插件代替 Vue 插件
+- 使用 `$fetch` 代替 `axios`
+- 使用 `useRuntimeConfig` 管理配置
+- 页面路由使用文件系统路由

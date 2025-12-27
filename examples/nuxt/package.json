@@ -2,7 +2,7 @@
   "name": "nuxt-web-tracing-example",
   "private": true,
   "version": "0.0.0",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -10,7 +10,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "start": "concurrently \"pnpm run dev\" \"pnpm run service\"",
-    "service": "nodemon ./server.js"
+    "service": "nodemon ./server.js",
+    "init": "cd ../.. && pnpm run build"
   },
   "dependencies": {
     "@web-tracing/core": "workspace:*",
