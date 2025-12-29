@@ -284,6 +284,7 @@ export function uuid() {
  * @returns
  */
 export function getCookieByName(name: string) {
+  if (typeof document === "undefined") return undefined;
   const result = document.cookie.match(new RegExp(`${name}=([^;]+)(;|$)`))
   return result ? result[1] : undefined
 }
@@ -459,9 +460,9 @@ export function trim(str = '') {
  * 关于 requestIdleCallback 和  requestAnimationFrame 可以参考 https://www.cnblogs.com/cangqinglang/p/13877078.html
  */
 export const nextTime =
-  window.requestIdleCallback ||
-  window.requestAnimationFrame ||
-  (callback => setTimeout(callback, 17))
+  (typeof window !== "undefined" && window.requestIdleCallback) ||
+  (typeof window !== "undefined" && window.requestAnimationFrame) ||
+  ((callback: any) => setTimeout(callback, 17));
 
 /**
  * 取消异步执行

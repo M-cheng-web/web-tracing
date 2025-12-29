@@ -1,5 +1,5 @@
 export function useWebTracing() {
   return {
-    init: () => {},
+    init: () => {}
   }
 }

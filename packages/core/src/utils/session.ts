@@ -22,6 +22,8 @@ function getSessionId() {
   return getCookieByName(SESSION_KEY) || refreshSession()
 }
 
-refreshSession() // 初始化
+if (typeof document !== 'undefined') {
+  refreshSession() // 初始化
+}
 
 export { getSessionId, refreshSession }

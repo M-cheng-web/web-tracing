@@ -1,4 +1,10 @@
-import { useEffect, createContext, useContext, ReactNode, createElement } from 'react'
+import {
+  useEffect,
+  createContext,
+  useContext,
+  ReactNode,
+  createElement
+} from 'react'
 import { init, InitOptions } from '@web-tracing/core'
 
 // Re-export core functionalities
@@ -13,16 +19,15 @@ export interface WebTracingProviderProps {
   children: ReactNode
 }
 
-export const WebTracingProvider = ({ options, children }: WebTracingProviderProps) => {
+export const WebTracingProvider = ({
+  options,
+  children
+}: WebTracingProviderProps) => {
   useEffect(() => {
     init(options)
   }, [options])
 
-  return createElement(
-    WebTracingContext.Provider,
-    { value: true },
-    children
-  )
+  return createElement(WebTracingContext.Provider, { value: true }, children)
 }
 
 export const useWebTracing = () => {

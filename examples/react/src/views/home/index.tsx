@@ -22,7 +22,9 @@ const Home: React.FC = () => {
   return (
     <div className="home" style={{ padding: 20 }}>
       <div className="mb" style={{ marginBottom: 20 }}>
-        <div style={{ fontWeight: 'bold', marginBottom: 10 }}>所有的事件类型:</div>
+        <div style={{ fontWeight: 'bold', marginBottom: 10 }}>
+          所有的事件类型:
+        </div>
         {Object.entries(sendEventType).map(([key, value]) => (
           <div key={key}>{`${key}: ${value}`}</div>
         ))}

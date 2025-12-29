@@ -7,7 +7,7 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.cjs",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
@@ -34,7 +34,7 @@
   ],
   "peerDependencies": {},
   "dependencies": {
-    "@web-tracing/core": "^2.1.0"
+    "@web-tracing/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

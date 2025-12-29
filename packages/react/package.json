@@ -18,10 +18,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boychina/web-tracing.git",
+    "url": "git+https://github.com/M-cheng-web/web-tracing.git",
     "directory": "packages/react"
   },
-  "author": "Evan Zhao <https://github.com/boychina>",
+  "author": "M-cheng-web <https://github.com/M-cheng-web>",
   "keywords": [
     "埋点",
     "性能",

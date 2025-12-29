@@ -1,94 +1,94 @@
-import { useEffect, useState } from "react";
-import { Button, Alert, message } from "antd";
-import axios from "axios";
+import { useEffect, useState } from 'react'
+import { Button, Alert, message } from 'antd'
+import axios from 'axios'
 import {
   intersectionObserver,
   intersectionUnobserve,
-  intersectionDisconnect,
-} from "@web-tracing/react";
-import CTable from "../../components/CTable";
-import { formatDate } from "../../utils/tools";
+  intersectionDisconnect
+} from '@web-tracing/react'
+import CTable from '../../components/CTable'
+import { formatDate } from '../../utils/tools'
 
 const Intersection = () => {
   const [tracingInfo, setTracingInfo] = useState<any>({
     data: [],
     table: {
       config: [
-        { label: "序号", prop: "index", width: 50, isTemplate: true },
-        { label: "事件类型", prop: "eventType" },
-        { label: "当前页面URL", prop: "triggerPageUrl", width: 200 },
-        { label: "监听阈值", prop: "threshold" },
+        { label: '序号', prop: 'index', width: 50, isTemplate: true },
+        { label: '事件类型', prop: 'eventType' },
+        { label: '当前页面URL', prop: 'triggerPageUrl', width: 200 },
+        { label: '监听阈值', prop: 'threshold' },
         {
-          label: "开始监视时间",
-          prop: "observeTime",
+          label: '开始监视时间',
+          prop: 'observeTime',
           isTemplate: true,
-          width: 140,
+          width: 140
         },
         {
-          label: "开始暴露时间",
-          prop: "showTime",
+          label: '开始暴露时间',
+          prop: 'showTime',
           isTemplate: true,
-          width: 140,
+          width: 140
         },
         {
-          label: "结束暴露时间",
-          prop: "showEndTime",
+          label: '结束暴露时间',
+          prop: 'showEndTime',
           isTemplate: true,
-          width: 140,
+          width: 140
         },
         {
-          label: "事件发送时间",
-          prop: "sendTime",
+          label: '事件发送时间',
+          prop: 'sendTime',
           isTemplate: true,
-          width: 140,
+          width: 140
         },
-        { label: "参数", prop: "params", width: 300 },
-      ],
-    },
-  });
+        { label: '参数', prop: 'params', width: 300 }
+      ]
+    }
+  })
 
   useEffect(() => {
     // @ts-ignore
-    window.getAllTracingList = getAllTracingList;
-    getAllTracingList();
+    window.getAllTracingList = getAllTracingList
+    getAllTracingList()
     return () => {
       // Cleanup if needed
-    };
-  }, []);
+    }
+  }, [])
 
   const handleIntersectionObserver = (str: string) => {
-    message.success("成功采集，请滑动页面测试");
-    const target = document.querySelector(`#${str}`)!;
+    message.success('成功采集，请滑动页面测试')
+    const target = document.querySelector(`#${str}`)!
     intersectionObserver({
       target,
       threshold: 0.5,
-      params: { name: 1111, targetName: str },
-    });
-  };
+      params: { name: 1111, targetName: str }
+    })
+  }
 
   const handleIntersectionUnobserve = (str: string) => {
-    message.success("取消了采集，请滑动页面测试");
-    const target = document.querySelector(`#${str}`)!;
-    intersectionUnobserve(target);
-  };
+    message.success('取消了采集，请滑动页面测试')
+    const target = document.querySelector(`#${str}`)!
+    intersectionUnobserve(target)
+  }
 
   const handleIntersectionDisconnect = () => {
-    message.success("取消了采集，请滑动页面测试");
-    intersectionDisconnect();
-  };
+    message.success('取消了采集，请滑动页面测试')
+    intersectionDisconnect()
+  }
 
   const getAllTracingList = () => {
     axios
-      .get("/getAllTracingList", { params: { eventType: "intersection" } })
-      .then((res) => {
-        const successList = res.data.data;
+      .get('/getAllTracingList', { params: { eventType: 'intersection' } })
+      .then(res => {
+        const successList = res.data.data
         setTracingInfo((prev: any) => ({
           ...prev,
-          data: successList,
-        }));
+          data: successList
+        }))
         // message.success('成功查询最新数据 - 曝光采集事件');
-      });
-  };
+      })
+  }
 
   return (
     <div className="intersection">
@@ -108,7 +108,12 @@ const Intersection = () => {
       />
 
       <div className="mb">
-        <Button type="primary" danger ghost onClick={handleIntersectionDisconnect}>
+        <Button
+          type="primary"
+          danger
+          ghost
+          onClick={handleIntersectionDisconnect}
+        >
           取消所有采集曝光
         </Button>
       </div>
@@ -117,12 +122,16 @@ const Intersection = () => {
         <Button
           type="primary"
           ghost
-          onClick={() => handleIntersectionObserver("target")}
+          onClick={() => handleIntersectionObserver('target')}
           style={{ marginRight: 10 }}
         >
           采集此图片的曝光
         </Button>
-        <Button danger ghost onClick={() => handleIntersectionUnobserve("target")}>
+        <Button
+          danger
+          ghost
+          onClick={() => handleIntersectionUnobserve('target')}
+        >
           取消此图片的曝光采集
         </Button>
       </div>
@@ -131,7 +140,7 @@ const Intersection = () => {
         <img
           src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
           alt="target"
-          style={{ maxWidth: "100%" }}
+          style={{ maxWidth: '100%' }}
         />
       </div>
 
@@ -145,12 +154,16 @@ const Intersection = () => {
         <Button
           type="primary"
           ghost
-          onClick={() => handleIntersectionObserver("target2")}
+          onClick={() => handleIntersectionObserver('target2')}
           style={{ marginRight: 10 }}
         >
           采集此图片的曝光
         </Button>
-        <Button danger ghost onClick={() => handleIntersectionUnobserve("target2")}>
+        <Button
+          danger
+          ghost
+          onClick={() => handleIntersectionUnobserve('target2')}
+        >
           取消此图片的曝光采集
         </Button>
       </div>
@@ -159,7 +172,7 @@ const Intersection = () => {
         <img
           src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
           alt="target2"
-          style={{ maxWidth: "100%" }}
+          style={{ maxWidth: '100%' }}
         />
       </div>
 
@@ -181,11 +194,11 @@ const Intersection = () => {
           showTime: (record: any) => formatDate(record.showTime),
           showEndTime: (record: any) => formatDate(record.showEndTime),
           sendTime: (record: any) => formatDate(record.sendTime),
-          params: (record: any) => JSON.stringify(record.params),
+          params: (record: any) => JSON.stringify(record.params)
         }}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Intersection;
+export default Intersection
