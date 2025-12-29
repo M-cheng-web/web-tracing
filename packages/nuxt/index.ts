@@ -1,4 +1,5 @@
 import { addPluginTemplate, defineNuxtModule } from "@nuxt/kit";
+import * as WebTracingCore from "@web-tracing/core";
 import type { InitOptions } from "@web-tracing/core";
 
 // Polyfill requestAnimationFrame for SSR

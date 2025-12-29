@@ -80,5 +80,14 @@
     "typescript": "^5.0.2",
     "vitepress": "1.0.0-beta.5",
     "vitest": "^1.6.0"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "vue-template-compiler@2.6.10": {
+        "dependencies": {
+          "vue": "2.6.10"
+        }
+      }
+    }
   }
 }

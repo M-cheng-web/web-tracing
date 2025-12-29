@@ -8,13 +8,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
     "start": "concurrently \"pnpm run dev\" \"pnpm run service\"",
     "service": "nodemon ./server.js",
     "init": "cd ../.. && pnpm run build"
   },
   "dependencies": {
-    "@web-tracing/core": "workspace:*",
+    "@web-tracing/nuxt": "workspace:*",
     "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "co-body": "^6.1.0",

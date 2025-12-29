@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
+    "@nuxt/kit": "^3.8.0",
     "nuxt": "^3.0.0"
   },
   "bugs": {
