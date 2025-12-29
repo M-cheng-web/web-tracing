@@ -400,7 +400,7 @@ async function lookRecordscreen(row: any) {
 // ------- 查看错误 -------
 function getAllTracingList() {
   $fetch('/getAllTracingList', { params: { eventType: 'error' } })
-    .then(res => {
+    .then((res: any) => {
       tracingInfo.data = (res as any).data
       selfMessage('成功查询最新数据 - 错误事件')
     })

@@ -18,19 +18,80 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ref, provide, onMounted } from 'vue'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { dynamicRouterMap } from './router/dynamic'
+import { afterSendData } from '@web-tracing/core'
 
 const items = ref<any>([])
 const baseInfo = ref<any>({})
 
 onMounted(() => {
   items.value = dynamicRouterMap.filter(item => item.path !== '/')
+
+  if ((import.meta as any).client) {
+    const hookKey = '__webTracingAfterSendNotification__'
+    const globalAny = globalThis as any
+    if (!globalAny[hookKey]) {
+      globalAny[hookKey] = true
+
+      const sendEventType: Record<string, string> = {
+        pv: '路由',
+        error: '错误',
+        performance: '资源',
+        click: '点击',
+        dwell: '页面卸载',
+        intersection: '曝光采集'
+      }
+
+      afterSendData((data: any) => {
+        const { sendType, success, params } = data || {}
+        const eventInfo = params?.eventInfo || []
+
+        const message = `
+          <div class='event-pop'>
+            <div class='warning-text'>打开控制台可查看更多详细信息</div>
+            <div>发送是否成功: ${success}</div>
+            <div>发送方式: ${sendType}</div>
+            <div>发送内容(只概括 eventType、eventId)
+              ${eventInfo.reduce(
+                (pre: string, item: any, index: number) => {
+                  pre += `
+                  <div class='pop-line'>
+                    <span>${index + 1}</span>
+                    <div>${item.eventType}(${sendEventType[item.eventType] || item.eventType})</div>
+                    <div>${item.eventId}</div>
+                  </div>`
+                  return pre
+                },
+                `<div class='pop-line'>
+                  <div>eventType</div>
+                  <div>eventId</div>
+                </div>`
+              )}
+            </div>
+          </div>
+        `
+
+        ElNotification({
+          title: '发送一批数据到服务端',
+          message,
+          position: 'top-right',
+          dangerouslyUseHTMLString: true
+        })
+
+        // @ts-ignore
+        if (window.getAllTracingList) {
+          // @ts-ignore
+          window.getAllTracingList()
+        }
+      })
+    }
+  }
 })
 
 function getBaseInfo() {
-  return $fetch('/getBaseInfo').then(res => {
+  return $fetch('/getBaseInfo').then((res: any) => {
     baseInfo.value = (res as any).data
   })
 }
@@ -61,7 +122,7 @@ function cleanTracingList() {
       duration: 1000
     })
     // 只在客户端环境下访问 window
-    if (import.meta.client) {
+    if ((import.meta as any).client) {
       // @ts-ignore
       if (window.getAllTracingList) {
         // @ts-ignore
