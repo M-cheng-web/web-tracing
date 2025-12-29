@@ -1,12 +1,12 @@
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-12-27',
+  compatibilityDate: '2025-12-29',
 
-  devtools: { enabled: true },
+  devtools: { enabled: false },
 
   devServer: {
-    port: 3000
+    port: 3004
   },
 
   routeRules: {
@@ -55,6 +55,9 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    resolve: {
+      alias: [{ find: /^dayjs$/, replacement: 'dayjs/esm' }]
+    },
     server: {
       hmr: {
         protocol: 'ws',
@@ -82,12 +85,12 @@ export default defineNuxtConfig({
       preprocessorOptions: {
         scss: {
           api: 'modern-compiler',
-          additionalData: `@use "~/assets/variables.scss" as *;`
+          additionalData: `@use '~/assets/variables.scss' as *;`
         }
       }
     },
     optimizeDeps: {
-      include: ['element-plus/es']
+      include: ['element-plus/es', 'dayjs', 'lodash-unified']
     }
   },
 
@@ -106,6 +109,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    compatibilityDate: '2025-12-29',
     experimental: {
       wasm: true
     }

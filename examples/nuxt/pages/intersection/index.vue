@@ -82,11 +82,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  intersectionObserver,
-  intersectionUnobserve,
-  intersectionDisconnect
-} from '@web-tracing/core'
+import { intersectionObserver, intersectionUnobserve, intersectionDisconnect } from '@web-tracing/core'
 import { ref, onMounted, inject } from 'vue'
 
 const formatDate = inject('formatDate', Function, true)

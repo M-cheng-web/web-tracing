@@ -26,6 +26,7 @@ export const packages: any[] = [
     display: 'WebTracing',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段',
+    moduleJs: true,
     keywords: [
       '埋点',
       '性能',
@@ -99,6 +100,7 @@ export const packages: any[] = [
     description:
       '基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - nuxt3版本',
     external: ['@nuxt/kit'],
+    moduleJs: true,
     keywords: [
       '埋点',
       '性能',

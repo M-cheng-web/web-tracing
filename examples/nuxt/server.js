@@ -161,6 +161,18 @@ app.get('/trackweb', async (req, res) => {
   }
 })
 
-app.listen(3352, () => {
-  console.log('Server is running at http://localhost:3352')
+const port = Number(process.env.PORT || 3352)
+const server = app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`)
+})
+
+server.on('error', err => {
+  if (err && err.code === 'EADDRINUSE') {
+    console.warn(
+      `Port ${port} is already in use. If you already have the service running, you can ignore this message.`
+    )
+    setInterval(() => {}, 1 << 30)
+    return
+  }
+  throw err
 })

@@ -23,12 +23,10 @@ import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { dynamicRouterMap } from './router/dynamic'
 import { afterSendData } from '@web-tracing/core'
 
-const items = ref<any>([])
+const items = ref<any[]>(dynamicRouterMap.filter(item => item.path !== '/'))
 const baseInfo = ref<any>({})
 
 onMounted(() => {
-  items.value = dynamicRouterMap.filter(item => item.path !== '/')
-
   if ((import.meta as any).client) {
     const hookKey = '__webTracingAfterSendNotification__'
     const globalAny = globalThis as any
