@@ -61,7 +61,20 @@ app.get('/getList', (req, res) => {
     data: [1, 2, 3]
   })
 })
+app.get('/getList2', (req, res) => {
+  console.log('req.query', req.query)
+  res.send({
+    code: 200,
+    data: [1, 2, 3]
+  })
+})
 app.post('/setList', (req, res) => {
+  res.send({
+    code: 200,
+    meaage: '设置成功'
+  })
+})
+app.post('/setList2', (req, res) => {
   res.send({
     code: 200,
     meaage: '设置成功'

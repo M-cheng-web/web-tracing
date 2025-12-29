@@ -2,6 +2,7 @@ src/assets
 src/icons
 public
 dist
+types
 node_modules
 index.html
 *.sh

@@ -138,20 +138,15 @@ export async function updatePackageJSON() {
       packageJSON.unpkg = './dist/index.iife.min.js'
       packageJSON.jsdelivr = './dist/index.iife.min.js'
     }
-    console.log(
-      `Updating ${name}: import=${
-        name === "nuxt" ? "./dist/index.cjs" : "./dist/index.mjs"
-      }`
-    );
     packageJSON.exports = {
       ...packageJSON.exports,
-      ".": {
-        import: name === "nuxt" ? "./dist/index.cjs" : "./dist/index.mjs",
-        require: "./dist/index.cjs",
-        types: "./dist/index.d.ts",
+      '.': {
+        import: moduleJs ? './dist/index.mjs' : './dist/index.cjs',
+        require: './dist/index.cjs',
+        types: './dist/index.d.ts'
       },
-      "./*": "./*",
-    };
+      './*': './*'
+    }
     if (keywords) {
       packageJSON.keywords = [...keywords]
     }
