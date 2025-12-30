@@ -141,7 +141,7 @@ export async function updatePackageJSON() {
     packageJSON.exports = {
       ...packageJSON.exports,
       '.': {
-        import: './dist/index.mjs',
+        import: moduleJs ? './dist/index.mjs' : './dist/index.cjs',
         require: './dist/index.cjs',
         types: './dist/index.d.ts'
       },

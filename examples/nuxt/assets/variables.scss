@@ -1,0 +1,37 @@
+// SCSS 变量定义
+$primary-color: #409eff;
+$success-color: #67c23a;
+$warning-color: #e6a23c;
+$danger-color: #f56c6c;
+$info-color: #909399;
+
+$text-primary: #303133;
+$text-regular: #606266;
+$text-secondary: #909399;
+$text-placeholder: #c0c4cc;
+
+$border-light: #ebeef5;
+$border-lighter: #f2f6fc;
+$border-extra-light: #fafafa;
+
+$bg-white: #ffffff;
+$bg-page: #f2f3f5;
+$bg-overlay: rgba(255, 255, 255, 0.9);
+
+// 响应式断点
+$xs: 768px;
+$sm: 768px;
+$md: 992px;
+$lg: 1200px;
+$xl: 1920px;
+
+// 阴影
+$box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+$box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+$box-shadow-dark: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12);
+
+// 圆角
+$border-radius-base: 4px;
+$border-radius-small: 2px;
+$border-radius-large: 6px;
+$border-radius-round: 20px;

@@ -18,7 +18,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boychina/web-tracing.git",
+    "url": "git+https://github.com/M-cheng-web/web-tracing.git",
     "directory": "packages/react"
   },
   "author": "Evan Zhao <https://github.com/boychina>",
@@ -37,6 +37,9 @@
   },
   "dependencies": {
     "@web-tracing/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15"
   },
   "bugs": {
     "url": "https://github.com/M-cheng-web/web-tracing/issues"

@@ -9,7 +9,8 @@ export const isBrowserEnv = isWindow(typeof window !== 'undefined' ? window : 0)
 /**
  * 是否为 electron 环境
  */
-export const isElectronEnv = !!window?.process?.versions?.electron
+export const isElectronEnv =
+  typeof window !== 'undefined' && !!(window as any).process?.versions?.electron
 
 /**
  * 是否为测试环境
