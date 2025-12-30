@@ -1,11 +1,12 @@
 # 示例项目
-目前sdk支持【 js、vue2、vue3、react 】，项目内部包含有针对这些支持项目的demo版本
+目前sdk支持【 js、vue2、vue3、react、nuxt 】，项目内部包含有针对这些支持项目的demo版本
 
 + 示例项目目录：web-tracing > examples
   + js示例：web-tracing > examples > vanilla
   + vue2示例：web-tracing > examples > vue2
   + vue3示例：web-tracing > examples > vue3
   + react示例：web-tracing > examples > react
+  + nuxt示例：web-tracing > examples > nuxt
 
 [js示例 https://github.com/M-cheng-web/web-tracing-examples-js](https://github.com/M-cheng-web/web-tracing-examples-js)
 
@@ -13,7 +14,9 @@
 
 [vue3示例 https://github.com/M-cheng-web/web-tracing-examples-vue3](https://github.com/M-cheng-web/web-tracing-examples-vue3)
 
-[react示例 https://github.com/M-cheng-web/web-tracing-examples-react](https://github.com/M-cheng-web/web-tracing-examples-react)
+[react示例 https://github.com/boychina/web-tracing-examples-react](https://github.com/boychina/web-tracing-examples-react)
+
+[nuxt示例 https://github.com/boychina/web-tracing-examples-nuxt](https://github.com/boychina/web-tracing-examples-nuxt)
 
 > 上面这几个示例项目，是通过脚本直接覆盖迁移过来的，目的是为了拟真测试，本地联调还是在 web-tracing 项目中完成的
 

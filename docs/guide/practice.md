@@ -840,7 +840,7 @@ function getAllTracingList() {
 ```
 
 ## react
-[完整示例项目 https://github.com/M-cheng-web/web-tracing-examples-react](https://github.com/M-cheng-web/web-tracing-examples-react)
+[完整示例项目 https://github.com/boychina/web-tracing-examples-react](https://github.com/boychina/web-tracing-examples-react)
 
 main.tsx
 ``` tsx
@@ -1028,4 +1028,159 @@ const Intersection = () => {
 };
 
 export default Intersection;
+```
+
+## nuxt3
+[完整示例项目 https://github.com/boychina/web-tracing-examples-nuxt](https://github.com/boychina/web-tracing-examples-nuxt)
+
+nuxt.config.ts
+``` ts
+export default defineNuxtConfig({
+  modules: [
+    '@web-tracing/nuxt'
+  ],
+
+  runtimeConfig: {
+    public: {
+      webTracing: {
+        dsn: '/trackweb',
+        appName: 'nuxt-cxh',
+        debug: true,
+        pv: true,
+        performance: true,
+        error: true,
+        event: true,
+        cacheMaxLength: 10,
+        cacheWatingTime: 1000,
+        ignoreRequest: [
+          /getAllTracingList/,
+          /cleanTracingList/,
+          /getBaseInfo/,
+          /getSourceMap/
+        ],
+        afterSendData(data) {
+          console.log('数据已发送:', data)
+        }
+      }
+    }
+  }
+})
+```
+
+app.vue
+``` vue
+<script setup lang="ts">
+import { afterSendData } from '@web-tracing/core'
+
+// 覆盖配置中的 afterSendData 回调
+afterSendData((data: any) => {
+  const { sendType, success, params } = data
+  const message = `
+    <div class='event-pop'>
+      <div class='warning-text'>打开控制台可查看更多详细信息</div>
+      <div>发送是否成功: ${success}</div>
+      <div>发送方式: ${sendType}</div>
+      <div>发送内容(只概括 eventType、eventId)
+        ${params.eventInfo.map((item: any, index: number) => `
+          <div class='pop-line'>
+            <span>${index + 1}</span>
+            <div>${item.eventType}</div>
+            <div>${item.eventId}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `
+  // @ts-ignore
+  if (window.getAllTracingList) {
+    // @ts-ignore
+    window.getAllTracingList()
+  }
+})
+</script>
+```
+
+pages/intersection.vue (这里挑一个代表性的功能页面 - 元素曝光检测页面)
+``` vue
+<template>
+  <div class="intersection">
+    <div>
+      <el-button
+        class="mb"
+        type="danger"
+        plain
+        @click="_intersectionDisconnect"
+      >
+        取消所有采集曝光
+      </el-button>
+    </div>
+    <el-button type="success" plain @click="_intersectionObserver('target')">
+      采集此图片的曝光
+    </el-button>
+    <el-button type="danger" plain @click="_intersectionUnobserve('target')">
+      取消此图片的曝光采集
+    </el-button>
+    <div id="target" class="mb">
+      <img
+        src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+      />
+    </div>
+    <div class="mb">
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+    </div>
+    <el-button type="success" plain @click="_intersectionObserver('target2')">
+      采集此图片的曝光
+    </el-button>
+    <el-button type="danger" plain @click="_intersectionUnobserve('target2')">
+      取消此图片的曝光采集
+    </el-button>
+    <div id="target2" class="mb">
+      <img
+        src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+      />
+    </div>
+
+    <el-button type="primary" @click="getAllTracingList">
+      获取最新采集数据
+    </el-button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import axios from 'axios'
+import {
+  intersectionObserver,
+  intersectionUnobserve,
+  intersectionDisconnect
+} from '@web-tracing/core'
+
+const _intersectionObserver = (str: string) => {
+  const target = document.querySelector(`#${str}`)
+  intersectionObserver({
+    target,
+    threshold: 0.5, // 曝光的临界点 (0.5表示移入窗口一半算做开始曝光、移出窗口一半算结束曝光)
+    params: { name: 1111, targetName: str } // 附带的额外参数
+  })
+}
+
+const _intersectionUnobserve = (str: string) => {
+  const target = document.querySelector(`#${str}`)
+  intersectionUnobserve(target)
+}
+
+const _intersectionDisconnect = () => {
+  intersectionDisconnect()
+}
+
+const getAllTracingList = () => {
+  axios
+    .get('/getAllTracingList', { params: { eventType: 'intersection' } })
+    .then(res => {
+      const successList = res.data.data
+      console.log('成功查询最新数据 - 曝光采集事件', successList)
+    })
+}
+</script>
 ```

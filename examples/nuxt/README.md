@@ -31,7 +31,7 @@ pnpm start
 ```
 
 启动成功后，访问：
-- 前端地址：http://localhost:3000
+- 前端地址：http://localhost:3004
 - 后端地址：http://localhost:3001
 
 ## 功能特性
