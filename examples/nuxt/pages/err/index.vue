@@ -230,7 +230,7 @@ const selfMessage = inject('selfMessage', Function, true)
 
 onMounted(() => {
   // 只在客户端环境下设置 window 对象
-  if (import.meta.client) {
+  if ((import.meta as any).client) {
     // @ts-ignore
     window.getAllTracingList = getAllTracingList
   }
@@ -381,7 +381,7 @@ async function lookRecordscreen(row: any) {
   row.recordscreen = unzipRecordscreen(row.recordscreen)
 
   // 动态导入 rrweb-player，避免 SSR 错误
-  if (import.meta.client) {
+  if ((import.meta as any).client) {
     const rrwebPlayer = (await import('rrweb-player')).default
     await import('rrweb-player/dist/style.css')
 

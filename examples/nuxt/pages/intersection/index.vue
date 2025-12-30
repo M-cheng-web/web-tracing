@@ -91,7 +91,7 @@ const selfMessage = inject('selfMessage', Function, true)
 
 onMounted(() => {
   // 只在客户端环境下设置 window 对象
-  if (import.meta.client) {
+  if ((import.meta as any).client) {
     // @ts-ignore
     window.getAllTracingList = getAllTracingList
   }

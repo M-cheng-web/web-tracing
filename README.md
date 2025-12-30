@@ -21,6 +21,8 @@
 
 [react版本 https://github.com/boychina/web-tracing-examples-react](https://github.com/boychina/web-tracing-examples-react)
 
+[nuxt版本 https://github.com/boychina/web-tracing-examples-nuxt](https://github.com/boychina/web-tracing-examples-nuxt)
+
 ## 演示
 ### 事件监听
 <img src="https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/image.4388hbrc1gc0.jpg" width="1200" alt="logo" />
