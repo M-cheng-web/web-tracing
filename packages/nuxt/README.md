@@ -93,21 +93,21 @@ options.value.recordScreen = true
 
 所有配置选项与 `@web-tracing/core` 相同：
 
-|| 属性 | 类型 | 默认值 | 说明 |
-||------|------|--------|------|
-|| dsn | string | '/trackweb' | 埋点数据上报地址 |
-|| appName | string | 'web-tracing' | 应用名称 |
-|| debug | boolean | false | 是否开启调试模式 |
-|| pv | boolean | true | 是否开启页面浏览量统计 |
-|| performance | boolean | true | 是否开启性能监控 |
-|| error | boolean | true | 是否开启错误监控 |
-|| event | boolean | true | 是否开启事件监控 |
-|| recordscreen | boolean | false | 是否开启录屏功能 |
-|| skeletonProject | boolean | false | 是否是骨架屏项目 |
-|| cacheMaxLength | number | 10 | 数据缓存最大长度 |
-|| cacheWatingTime | number | 1000 | 数据缓存等待时间(ms) |
-|| ignoreRequest | RegExp[] | [] | 忽略的请求列表 |
-|| afterSendData | function | - | 数据发送后的回调函数 |
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| dsn | string | '/trackweb' | 埋点数据上报地址 |
+| appName | string | 'web-tracing' | 应用名称 |
+| debug | boolean | false | 是否开启调试模式 |
+| pv | boolean | true | 是否开启页面浏览量统计 |
+| performance | boolean | true | 是否开启性能监控 |
+| error | boolean | true | 是否开启错误监控 |
+| event | boolean | true | 是否开启事件监控 |
+| recordscreen | boolean | false | 是否开启录屏功能 |
+| skeletonProject | boolean | false | 是否是骨架屏项目 |
+| cacheMaxLength | number | 10 | 数据缓存最大长度 |
+| cacheWatingTime | number | 1000 | 数据缓存等待时间(ms) |
+| ignoreRequest | RegExp[] | [] | 忽略的请求列表 |
+| afterSendData | function | - | 数据发送后的回调函数 |
 
 ## SSR 支持
 
