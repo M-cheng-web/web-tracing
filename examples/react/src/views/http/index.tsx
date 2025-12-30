@@ -91,10 +91,11 @@ const Http: React.FC = () => {
           message="注意"
           description="axios的错误请求需要手动加上cache，否则错误会暴露导致错误模块会监听到此错误，从而造成错误的重复"
           style={{ marginBottom: 20 }}
+          showIcon={false}
         />
         <div className="mb">
           <Button
-            type="primary"
+            type="success"
             ghost
             onClick={onClickAxiosGet}
             style={{ marginRight: 10 }}
@@ -102,7 +103,7 @@ const Http: React.FC = () => {
             axios正常请求-get
           </Button>
           <Button
-            type="primary"
+            type="success"
             ghost
             onClick={onClickAxiosPost}
             style={{ marginRight: 10 }}
@@ -123,7 +124,7 @@ const Http: React.FC = () => {
         </div>
         <div className="mb">
           <Button
-            type="primary"
+            type="success"
             ghost
             onClick={onClickXhrGet}
             style={{ marginRight: 10 }}
@@ -131,7 +132,7 @@ const Http: React.FC = () => {
             xhr正常请求-get
           </Button>
           <Button
-            type="primary"
+            type="success"
             ghost
             onClick={onClickXhrPost}
             style={{ marginRight: 10 }}
@@ -152,7 +153,7 @@ const Http: React.FC = () => {
         </div>
         <div className="mb">
           <Button
-            type="primary"
+            type="success"
             ghost
             onClick={onClickFetchGet}
             style={{ marginRight: 10 }}
@@ -160,7 +161,7 @@ const Http: React.FC = () => {
             Fetch正常请求-get
           </Button>
           <Button
-            type="primary"
+            type="success"
             ghost
             onClick={onClickFetchPost}
             style={{ marginRight: 10 }}

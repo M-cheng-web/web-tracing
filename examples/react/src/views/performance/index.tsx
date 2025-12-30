@@ -153,21 +153,21 @@ const Performance = () => {
 
       <div className="mb">
         <Button
-          type="primary"
+          type="success"
           ghost
           onClick={performanceAddScript}
           style={{ marginRight: 10 }}
         >
           插入正确Script
         </Button>
-        <Button type="primary" danger ghost onClick={performanceAddScriptError}>
+        <Button type="danger" ghost onClick={performanceAddScriptError}>
           插入错误Script
         </Button>
       </div>
 
       <div className="flex mb">
         <Button
-          type="primary"
+          type="success"
           ghost
           onClick={performanceAddLink}
           style={{ marginRight: 10 }}
@@ -180,7 +180,7 @@ const Performance = () => {
       <div className="mb flex" style={{ height: '100px' }}>
         <div className="flex" style={{ marginRight: '20px' }}>
           <Button
-            type="primary"
+            type="success"
             ghost
             onClick={performanceAddImg}
             style={{ marginRight: 10 }}
@@ -191,7 +191,7 @@ const Performance = () => {
         </div>
         <div className="flex">
           <Button
-            type="primary"
+            type="success"
             ghost
             onClick={performanceAddLocalImg}
             style={{ marginRight: 10 }}

@@ -105,7 +105,6 @@ function getAllTracingList() {
   })
     .then((res: any) => {
       tracingInfo.value.data = res.data || []
-      console.log('>>>>>>>>>>>>>>>res.data', res.data)
       selfMessage('成功查询最新数据 - 点击事件')
     })
     .catch(err => {

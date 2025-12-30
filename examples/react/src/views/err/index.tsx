@@ -270,66 +270,65 @@ const Err: React.FC = () => {
               </div>
             }
             style={{ marginBottom: 20 }}
+            showIcon={false}
           />
-          <div className="resource mb">
-            <div className="resource mb">
-              <Button danger ghost onClick={() => setShowImgTrue(true)}>
-                加载错误图片
-              </Button>
-              {showImgTrue && (
-                <img src="https://www.baidu.com/as.webp" alt="error" />
-              )}
-              <Button
-                type="primary"
-                ghost
-                onClick={() => setShowImgFalse(true)}
-              >
-                加载正常图片
-              </Button>
-              {showImgFalse && (
-                <img
-                  src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/Annapurna-Ranges-2560x1440.tq4fx9hd9gg.webp"
-                  alt="success"
-                />
-              )}
-            </div>
-            <div className="resource mb">
-              <Button danger ghost onClick={() => setShowAudioTrue(true)}>
-                加载错误音频
-              </Button>
-              {showAudioTrue && <audio src="https://someaudio.wav" controls />}
-              <Button
-                type="primary"
-                ghost
-                onClick={() => setShowAudioFalse(true)}
-              >
-                加载正常音频
-              </Button>
-              {showAudioFalse && (
-                <audio
-                  src="https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3"
-                  controls
-                />
-              )}
-            </div>
-            <div className="resource mb">
-              <Button danger ghost onClick={() => setShowVideoTrue(true)}>
-                加载错误视频
-              </Button>
-              {showVideoTrue && (
-                <video src="https://str39/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4" />
-              )}
-              <Button
-                type="primary"
-                ghost
-                onClick={() => setShowVideoFalse(true)}
-              >
-                加载正常视频
-              </Button>
-              {showVideoFalse && (
-                <video src="https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4" />
-              )}
-            </div>
+          <div className="mb resource">
+            <Button danger ghost onClick={() => setShowImgTrue(true)}>
+              加载错误图片
+            </Button>
+            {showImgTrue && (
+              <img src="https://www.baidu.com/as.webp" alt="error" />
+            )}
+            <Button
+              type="success"
+              ghost
+              onClick={() => setShowImgFalse(true)}
+            >
+              加载正常图片
+            </Button>
+            {showImgFalse && (
+              <img
+                src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/Annapurna-Ranges-2560x1440.tq4fx9hd9gg.webp"
+                alt="success"
+              />
+            )}
+          </div>
+          <div className="mb resource">
+            <Button danger ghost onClick={() => setShowAudioTrue(true)}>
+              加载错误音频
+            </Button>
+            {showAudioTrue && <audio src="https://someaudio.wav" controls />}
+            <Button
+              type="success"
+              ghost
+              onClick={() => setShowAudioFalse(true)}
+            >
+              加载正常音频
+            </Button>
+            {showAudioFalse && (
+              <audio
+                src="https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3"
+                controls
+              />
+            )}
+          </div>
+          <div className="mb resource">
+            <Button danger ghost onClick={() => setShowVideoTrue(true)}>
+              加载错误视频
+            </Button>
+            {showVideoTrue && (
+              <video src="https://str39/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4" />
+            )}
+            <Button
+              type="success"
+              ghost
+              onClick={() => setShowVideoFalse(true)}
+            >
+              加载正常视频
+            </Button>
+            {showVideoFalse && (
+              <video src="https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4" />
+            )}
           </div>
         </div>
       )
@@ -444,8 +443,15 @@ const Err: React.FC = () => {
     }
   ]
 
+  // 辅助函数：触发代码错误
+  const triggerCodeError = () => {
+    const a = {}
+    // @ts-ignore
+    a.split('/')
+  }
+
   return (
-    <div className="err" style={{ padding: 20 }}>
+    <div className="err">
       <Tabs defaultActiveKey="1" items={items} />
 
       <Button

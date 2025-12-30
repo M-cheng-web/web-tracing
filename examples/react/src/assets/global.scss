@@ -181,30 +181,39 @@ div:focus {
 
 /* Error page styles */
 .err {
+  :global(.ant-modal-header),
+  :global(.ant-modal-body) {
+    padding: 0;
+  }
+  
+  :global(.ant-tabs-tabpane) {
+    min-height: 300px;
+  }
+
   .resource {
     display: flex;
     width: 800px;
     align-items: center;
-    
+
     button {
       height: 32px;
       margin-right: 10px;
     }
-    
+
     img {
       display: block;
       width: 200px;
       height: 200px;
       margin-right: 20px;
     }
-    
+
     video {
       display: block;
       width: 200px;
       height: 200px;
       margin-right: 20px;
     }
-    
+
     audio {
       display: block;
       width: 200px;
