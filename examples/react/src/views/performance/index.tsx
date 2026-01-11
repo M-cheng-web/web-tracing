@@ -153,37 +153,34 @@ const Performance = () => {
 
       <div className="mb">
         <Button
-          type="success"
-          ghost
+          className="ant-btn-success ant-btn-background-ghost"
           onClick={performanceAddScript}
-          style={{ marginRight: 10 }}
         >
           插入正确Script
         </Button>
-        <Button type="danger" ghost onClick={performanceAddScriptError}>
+        <Button
+          className="ant-btn-danger ant-btn-background-ghost"
+          onClick={performanceAddScriptError}
+        >
           插入错误Script
         </Button>
       </div>
 
       <div className="flex mb">
         <Button
-          type="success"
-          ghost
+          className="ant-btn-success ant-btn-background-ghost"
           onClick={performanceAddLink}
-          style={{ marginRight: 10 }}
         >
           插入Link(bootstrap)
         </Button>
-        <div className="badge badge-pill badge-primary">我是小demo</div>
+        <div className="mb badge badge-pill badge-primary">我是小demo</div>
       </div>
 
-      <div className="mb flex" style={{ height: '100px' }}>
-        <div className="flex" style={{ marginRight: '20px' }}>
+      <div className="mb flex" style={{ height: "100px" }}>
+        <div className="flex" style={{ marginRight: "20px" }}>
           <Button
-            type="success"
-            ghost
+            className="ant-btn-success ant-btn-background-ghost"
             onClick={performanceAddImg}
-            style={{ marginRight: 10 }}
           >
             插入Img
           </Button>
@@ -191,10 +188,8 @@ const Performance = () => {
         </div>
         <div className="flex">
           <Button
-            type="success"
-            ghost
+            className="ant-btn-success ant-btn-background-ghost"
             onClick={performanceAddLocalImg}
-            style={{ marginRight: 10 }}
           >
             插入Base64图片(不涉及请求所以不会被采集)
           </Button>
@@ -202,7 +197,7 @@ const Performance = () => {
         </div>
       </div>
 
-      <Button type="primary" onClick={getAllTracingList}>
+      <Button type="primary" onClick={getAllTracingList} className="mb">
         获取最新采集数据
       </Button>
 
@@ -211,13 +206,13 @@ const Performance = () => {
         tableHeight={400}
         config={tracingInfo.table.config}
         renderers={{
-          index: (_record: any, index: number) => index + 1,
+          index: (_: any, index: number) => index + 1,
           sendTime: (record: any) => formatDate(record.sendTime),
-          triggerTime: (record: any) => formatDate(record.triggerTime)
+          triggerTime: (record: any) => formatDate(record.triggerTime),
         }}
       />
     </div>
-  )
+  );
 }
 
 export default Performance

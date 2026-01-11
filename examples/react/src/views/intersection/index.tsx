@@ -109,9 +109,7 @@ const Intersection = () => {
 
       <div className="mb">
         <Button
-          type="primary"
-          danger
-          ghost
+          className="ant-btn-danger ant-btn-background-ghost"
           onClick={handleIntersectionDisconnect}
         >
           取消所有采集曝光
@@ -120,31 +118,27 @@ const Intersection = () => {
 
       <div className="mb">
         <Button
-          type="primary"
-          ghost
-          onClick={() => handleIntersectionObserver('target')}
-          style={{ marginRight: 10 }}
+          className="ant-btn-success ant-btn-background-ghost"
+          onClick={() => handleIntersectionObserver("target")}
         >
           采集此图片的曝光
         </Button>
         <Button
-          danger
-          ghost
-          onClick={() => handleIntersectionUnobserve('target')}
+          className="ant-btn-danger ant-btn-background-ghost"
+          onClick={() => handleIntersectionUnobserve("target")}
         >
           取消此图片的曝光采集
         </Button>
       </div>
 
-      <div id="target" className="mb" style={{ marginBottom: 20 }}>
+      <div id="target" className="mb">
         <img
           src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
           alt="target"
-          style={{ maxWidth: '100%' }}
         />
       </div>
 
-      <div className="mb" style={{ marginBottom: 20 }}>
+      <div className="mb">
         {[...Array(12)].map((_, i) => (
           <div key={i}>----------- 分割线 -----------</div>
         ))}
@@ -152,35 +146,27 @@ const Intersection = () => {
 
       <div className="mb">
         <Button
-          type="primary"
-          ghost
-          onClick={() => handleIntersectionObserver('target2')}
-          style={{ marginRight: 10 }}
+          className="ant-btn-success ant-btn-background-ghost"
+          onClick={() => handleIntersectionObserver("target2")}
         >
           采集此图片的曝光
         </Button>
         <Button
-          danger
-          ghost
-          onClick={() => handleIntersectionUnobserve('target2')}
+          className="ant-btn-danger ant-btn-background-ghost"
+          onClick={() => handleIntersectionUnobserve("target2")}
         >
           取消此图片的曝光采集
         </Button>
       </div>
 
-      <div id="target2" className="mb" style={{ marginBottom: 20 }}>
+      <div id="target2" className="mb">
         <img
           src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
           alt="target2"
-          style={{ maxWidth: '100%' }}
         />
       </div>
 
-      <Button
-        type="primary"
-        onClick={getAllTracingList}
-        style={{ marginBottom: 20 }}
-      >
+      <Button type="primary" onClick={getAllTracingList} className="mb">
         获取最新采集数据
       </Button>
 
@@ -194,11 +180,11 @@ const Intersection = () => {
           showTime: (record: any) => formatDate(record.showTime),
           showEndTime: (record: any) => formatDate(record.showEndTime),
           sendTime: (record: any) => formatDate(record.sendTime),
-          params: (record: any) => JSON.stringify(record.params)
+          params: (record: any) => JSON.stringify(record.params),
         }}
       />
     </div>
-  )
+  );
 }
 
 export default Intersection

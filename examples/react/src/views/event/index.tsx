@@ -51,12 +51,11 @@ const Event: React.FC = () => {
   }, [])
 
   return (
-    <div style={{ padding: 20 }}>
+    <div>
       <div
         className="box-a mb"
         data-warden-title="xxx"
         data-warden-bigTitle="bigTitle"
-        style={{ marginBottom: 20, border: '1px solid #ccc', padding: 10 }}
       >
         <div
           className="box-b"
@@ -64,7 +63,6 @@ const Event: React.FC = () => {
           data-warden-title="titletitle-1"
           data-warden-bing="bing-1"
           data-warden-event-id="ddd-1"
-          style={{ marginBottom: 10 }}
         >
           <div className="box-c">我是最里面的内容 - 1</div>
         </div>
@@ -72,12 +70,15 @@ const Event: React.FC = () => {
           className="box-b-btn"
           data-warden-id="我是ID"
           data-warden-test="test-btn"
-          style={{ marginBottom: 10 }}
         >
-          <Button type="primary" style={{ marginRight: 10 }}>
+          {/* @ts-ignore */}
+          <Button type="primary" value="xxxxxx">
             点我一个试试
           </Button>
-          <Button type="primary">再点我一个试试</Button>
+          {/* @ts-ignore */}
+          <Button type="primary" value="yyyyyy">
+            再点我一个试试
+          </Button>
         </div>
         <div
           className="box-b"
@@ -90,11 +91,7 @@ const Event: React.FC = () => {
         </div>
       </div>
 
-      <Button
-        type="primary"
-        onClick={getAllTracingList}
-        style={{ marginBottom: 10 }}
-      >
+      <Button type="primary" onClick={getAllTracingList} className="mb">
         获取最新采集数据
       </Button>
 
@@ -103,14 +100,13 @@ const Event: React.FC = () => {
         tableHeight={400}
         config={config}
         renderers={{
-          index: (_record: any, index: number) => index + 1,
-          sendTime: record => formatDate(record.sendTime),
-          triggerTime: record => formatDate(record.triggerTime),
-          params: record => JSON.stringify(record.params) // Ensure params are stringified if object
+          index: (_: any, index: number) => index + 1,
+          sendTime: (record: any) => formatDate(record.sendTime),
+          triggerTime: (record: any) => formatDate(record.triggerTime),
         }}
       />
     </div>
-  )
+  );
 }
 
 export default Event

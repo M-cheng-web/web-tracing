@@ -84,99 +84,90 @@ const Http: React.FC = () => {
     fetch('/fetch/post/error', { method: 'POST' })
 
   return (
-    <div style={{ padding: 20 }}>
-      <div style={{ marginBottom: 20 }}>
+    <div className="http">
+      <div className="mb">
         <Alert
           type="warning"
           message="注意"
           description="axios的错误请求需要手动加上cache，否则错误会暴露导致错误模块会监听到此错误，从而造成错误的重复"
-          style={{ marginBottom: 20 }}
+          className="mb"
           showIcon={false}
         />
         <div className="mb">
           <Button
-            type="success"
-            ghost
+            className="ant-btn-success ant-btn-background-ghost"
             onClick={onClickAxiosGet}
-            style={{ marginRight: 10 }}
           >
             axios正常请求-get
           </Button>
           <Button
-            type="success"
-            ghost
+            className="ant-btn-success ant-btn-background-ghost"
             onClick={onClickAxiosPost}
-            style={{ marginRight: 10 }}
           >
             axios正常请求-post
           </Button>
           <Button
-            danger
-            ghost
+            className="ant-btn-danger ant-btn-background-ghost"
             onClick={onClickAxiosError}
-            style={{ marginRight: 10 }}
           >
             axios异常请求-get
           </Button>
-          <Button danger ghost onClick={onClickAxiosPostError}>
+          <Button
+            className="ant-btn-danger ant-btn-background-ghost"
+            onClick={onClickAxiosPostError}
+          >
             axios异常请求-post
           </Button>
         </div>
         <div className="mb">
           <Button
-            type="success"
-            ghost
+            className="ant-btn-success ant-btn-background-ghost"
             onClick={onClickXhrGet}
-            style={{ marginRight: 10 }}
           >
             xhr正常请求-get
           </Button>
           <Button
-            type="success"
-            ghost
+            className="ant-btn-success ant-btn-background-ghost"
             onClick={onClickXhrPost}
-            style={{ marginRight: 10 }}
           >
             xhr正常请求-post
           </Button>
           <Button
-            danger
-            ghost
+            className="ant-btn-danger ant-btn-background-ghost"
             onClick={onClickXhrGetError}
-            style={{ marginRight: 10 }}
           >
             xhr异常请求-get
           </Button>
-          <Button danger ghost onClick={onClickXhrPostError}>
+          <Button
+            className="ant-btn-danger ant-btn-background-ghost"
+            onClick={onClickXhrPostError}
+          >
             xhr异常请求-post
           </Button>
         </div>
         <div className="mb">
           <Button
-            type="success"
-            ghost
+            className="ant-btn-success ant-btn-background-ghost"
             onClick={onClickFetchGet}
-            style={{ marginRight: 10 }}
           >
             Fetch正常请求-get
           </Button>
           <Button
-            type="success"
-            ghost
+            className="ant-btn-success ant-btn-background-ghost"
             onClick={onClickFetchPost}
-            style={{ marginRight: 10 }}
           >
             Fetch正常请求-post
           </Button>
           <Button
-            danger
-            ghost
+            className="ant-btn-danger ant-btn-background-ghost"
             onClick={onClickFetchGetError}
-            style={{ marginRight: 10 }}
           >
             Fetch异常请求-get
           </Button>
-          <Button danger ghost onClick={onClickFetchPostError}>
+          <Button
+            className="ant-btn-danger ant-btn-background-ghost"
+            onClick={onClickFetchPostError}
+          >
             Fetch异常请求-post
           </Button>
         </div>
@@ -185,7 +176,7 @@ const Http: React.FC = () => {
       <Button
         type="primary"
         onClick={getAllTracingList}
-        style={{ marginBottom: 10 }}
+        className="mb"
       >
         获取最新采集数据
       </Button>

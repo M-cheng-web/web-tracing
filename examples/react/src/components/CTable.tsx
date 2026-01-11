@@ -54,7 +54,6 @@ const CTable: React.FC<Props> = ({
         pagination={false}
         rowKey={(_, index) => index?.toString() || ''}
         size="small"
-        bordered
         className="custom-table"
       />
     </div>

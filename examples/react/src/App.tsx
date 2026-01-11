@@ -22,24 +22,24 @@ const Layout = () => {
   }
 
   const showBaseInfo = () => {
-    getBaseInfo().finally(() => {
-      if (baseInfo) {
-        const displayInfo = Object.keys(baseInfo).reduce((pre, key) => {
-          const value = JSON.stringify(baseInfo[key])
-          pre += `<div className='pop-line'><div>${key}: </div><span>${value}</span></div>`
-          return pre
-        }, '')
+    getBaseInfo().then((data) => {
+      if (data) {
+        const displayInfo = Object.keys(data).reduce((pre, key) => {
+          const value = JSON.stringify(data[key]);
+          pre += `<div class='pop-line'><div>${key}: </div><span>${value}</span></div>`;
+          return pre;
+        }, "");
 
         Modal.info({
-          title: '核心基础信息',
+          title: "核心基础信息",
           content: <div dangerouslySetInnerHTML={{ __html: displayInfo }} />,
           width: 600,
-          okText: '确定',
+          okText: "确定",
           closable: true,
-          maskClosable: true
-        })
+          maskClosable: true,
+        });
       }
-    })
+    });
   }
 
   const cleanTracingList = () => {
@@ -57,7 +57,7 @@ const Layout = () => {
   }
 
   return (
-    <div id="app" style={{ display: 'flex' }}>
+    <div id="app">
       <div className="left-menu">
         <MenuList items={menuItems} />
       </div>
@@ -68,12 +68,17 @@ const Layout = () => {
         查看核心基础信息
       </Button>
       <div>
-        <Button className="clean-2" type="primary" danger onClick={cleanTracingList}>
+        <Button
+          className="clean-2"
+          type="primary"
+          danger
+          onClick={cleanTracingList}
+        >
           清除所有事件信息
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 // Router component to handle route definitions

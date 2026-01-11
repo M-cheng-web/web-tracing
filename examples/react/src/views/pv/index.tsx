@@ -70,7 +70,7 @@ const Pv = () => {
       <Button
         type="primary"
         onClick={getAllTracingList}
-        style={{ marginBottom: 20, marginTop: 20 }}
+        className="mb"
       >
         获取最新采集数据
       </Button>
