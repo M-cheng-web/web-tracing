@@ -1,4 +1,3 @@
-
 export function formatDate(timestamp: number) {
   if (!timestamp) return ''
   const date = new Date(timestamp)

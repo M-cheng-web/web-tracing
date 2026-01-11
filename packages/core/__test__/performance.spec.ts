@@ -65,6 +65,9 @@ describe('err', () => {
 
   it('firstResource performance should be captured correctly', async () => {
     const page = await loadTestPage()
+    await page.waitForFunction(
+      () => (window as any).__WebTracingData__ !== undefined
+    )
     const webTracingData = (await page.evaluate(
       `window.__WebTracingData__`
     )) as any[]
