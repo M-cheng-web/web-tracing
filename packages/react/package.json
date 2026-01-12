@@ -9,7 +9,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.cjs",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
@@ -21,7 +21,7 @@
     "url": "git+https://github.com/M-cheng-web/web-tracing.git",
     "directory": "packages/react"
   },
-  "author": "M-cheng-web <https://github.com/M-cheng-web>",
+  "author": "boychina <https://github.com/boychina>",
   "keywords": [
     "埋点",
     "性能",

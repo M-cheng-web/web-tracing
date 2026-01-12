@@ -37,7 +37,7 @@ async function copyFolder(source: string, destination: string) {
 }
 
 async function changeFile() {
-  for (const { exampleName } of packages) {
+  for (const { exampleName, author } of packages) {
     const packageJSON = await fs.readJSON(
       path.join(newExamplesDir, exampleName, 'package.json')
     )
@@ -47,6 +47,11 @@ async function changeFile() {
       if (key.startsWith('@web-tracing/')) {
         packageJSON.dependencies[key] = version
       }
+    }
+
+    // 添加 author 属性
+    if (author) {
+      packageJSON.author = author
     }
 
     await fs.writeJSON(

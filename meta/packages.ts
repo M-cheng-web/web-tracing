@@ -26,6 +26,7 @@ export const packages: any[] = [
     display: 'WebTracing',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段',
+    author: 'M-cheng-web <https://github.com/M-cheng-web>',
     moduleJs: true,
     keywords: [
       '埋点',
@@ -44,6 +45,7 @@ export const packages: any[] = [
     display: 'Vue2',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue2版本',
+    author: 'M-cheng-web <https://github.com/M-cheng-web>',
     keywords: [
       '埋点',
       '性能',
@@ -62,6 +64,7 @@ export const packages: any[] = [
     display: 'Vue3',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - vue3版本',
+    author: 'M-cheng-web <https://github.com/M-cheng-web>',
     keywords: [
       '埋点',
       '性能',
@@ -80,6 +83,7 @@ export const packages: any[] = [
     display: 'React',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - react版本',
+    author: 'boychina <https://github.com/boychina>',
     external: ['react'],
     keywords: [
       '埋点',
@@ -99,6 +103,7 @@ export const packages: any[] = [
     display: 'Nuxt3',
     description:
       '基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - nuxt3版本',
+    author: 'boychina <https://github.com/boychina>',
     external: ['@nuxt/kit'],
     moduleJs: true,
     keywords: [

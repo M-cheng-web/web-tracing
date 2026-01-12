@@ -20,7 +20,7 @@
     "url": "git+https://github.com/M-cheng-web/web-tracing.git",
     "directory": "packages/nuxt"
   },
-  "author": "Evan Zhao <https://github.com/boychina>",
+  "author": "boychina <https://github.com/boychina>",
   "keywords": [
     "埋点",
     "性能",
