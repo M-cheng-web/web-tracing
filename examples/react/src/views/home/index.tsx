@@ -20,17 +20,15 @@ const sendEventId = {
 
 const Home: React.FC = () => {
   return (
-    <div className="home" style={{ padding: 20 }}>
-      <div className="mb" style={{ marginBottom: 20 }}>
-        <div style={{ fontWeight: 'bold', marginBottom: 10 }}>所有的事件类型:</div>
+    <div className="home">
+      <div className="mb">
+        所有的事件类型:
         {Object.entries(sendEventType).map(([key, value]) => (
           <div key={key}>{`${key}: ${value}`}</div>
         ))}
       </div>
       <div>
-        <div style={{ fontWeight: 'bold', marginBottom: 10 }}>
-          所有的事件ID(还有一些id是随机字符串的):
-        </div>
+        所有的事件ID(还有一些id是随机字符串的):
         {Object.entries(sendEventId).map(([key, value]) => (
           <div key={key}>{`${key}: ${value}`}</div>
         ))}

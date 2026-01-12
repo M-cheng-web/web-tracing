@@ -1,3 +1,4 @@
+import './src/utils/polyfill'
 import type { InitOptions } from './src/types'
 import { initReplace, destroyReplace } from './src/lib/replace'
 import { initOptions, options as _options } from './src/lib/options'

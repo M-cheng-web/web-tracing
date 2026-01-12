@@ -1,0 +1,50 @@
+{
+  "name": "@web-tracing/nuxt",
+  "version": "2.1.2",
+  "description": "基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - nuxt3版本",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "sideEffects": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M-cheng-web/web-tracing.git",
+    "directory": "packages/nuxt"
+  },
+  "author": "Evan Zhao <https://github.com/boychina>",
+  "keywords": [
+    "埋点",
+    "性能",
+    "异常",
+    "性能采集",
+    "异常采集",
+    "前端埋点",
+    "前端性能采集",
+    "nuxt3",
+    "ssr"
+  ],
+  "peerDependencies": {},
+  "dependencies": {
+    "@web-tracing/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@nuxt/kit": "^3.8.0",
+    "nuxt": "^3.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/M-cheng-web/web-tracing/issues"
+  },
+  "homepage": "https://github.com/M-cheng-web/web-tracing#readme",
+  "unpkg": "./dist/index.iife.min.js",
+  "jsdelivr": "./dist/index.iife.min.js"
+}

@@ -69,10 +69,15 @@ class Intersection {
    * 发送事件
    */
   private sendEvent(targetObj: TargetMap) {
+    // 只发送必要的数据，不包含 DOM 元素
     sendData.emit({
       eventType: SEDNEVENTTYPES.INTERSECTION,
       triggerPageUrl: getLocationHref(),
-      ...targetObj
+      threshold: targetObj.threshold,
+      observeTime: targetObj.observeTime,
+      showTime: targetObj.showTime,
+      showEndTime: targetObj.showEndTime,
+      params: targetObj.params
     })
   }
   /**

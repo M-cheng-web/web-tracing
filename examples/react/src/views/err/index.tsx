@@ -1,186 +1,186 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button, Tabs, Alert, message, Modal } from "antd";
-import type { TabsProps } from "antd";
-import axios from "axios";
-import rrwebPlayer from "rrweb-player";
-import "rrweb-player/dist/style.css";
-import { traceError, options, unzipRecordscreen } from "@web-tracing/react";
-import CTable from "../../components/CTable";
-import { formatDate } from "../../utils/tools";
+import React, { useState, useEffect, useRef } from 'react'
+import { Button, Tabs, Alert, message, Modal } from 'antd'
+import type { TabsProps } from 'antd'
+import axios from 'axios'
+import rrwebPlayer from 'rrweb-player'
+import 'rrweb-player/dist/style.css'
+import { traceError, options, unzipRecordscreen } from '@web-tracing/react'
+import CTable from '../../components/CTable'
+import { formatDate } from '../../utils/tools'
 
 const Err: React.FC = () => {
-  const [showImgTrue, setShowImgTrue] = useState(false);
-  const [showImgFalse, setShowImgFalse] = useState(false);
-  const [showAudioTrue, setShowAudioTrue] = useState(false);
-  const [showAudioFalse, setShowAudioFalse] = useState(false);
-  const [showVideoTrue, setShowVideoTrue] = useState(false);
-  const [showVideoFalse, setShowVideoFalse] = useState(false);
-  const [errDialogVisible, setErrDialogVisible] = useState(false);
-  const [data, setData] = useState([]);
-  const recordScreenRef = useRef<HTMLDivElement>(null);
+  const [showImgTrue, setShowImgTrue] = useState(false)
+  const [showImgFalse, setShowImgFalse] = useState(false)
+  const [showAudioTrue, setShowAudioTrue] = useState(false)
+  const [showAudioFalse, setShowAudioFalse] = useState(false)
+  const [showVideoTrue, setShowVideoTrue] = useState(false)
+  const [showVideoFalse, setShowVideoFalse] = useState(false)
+  const [errDialogVisible, setErrDialogVisible] = useState(false)
+  const [data, setData] = useState([])
+  const recordScreenRef = useRef<HTMLDivElement>(null)
 
   const codeError = () => {
-    message.success("触发代码错误");
-    const a = {};
+    message.success('触发代码错误')
+    const a = {}
     // @ts-ignore
-    a.split("/");
-  };
+    a.split('/')
+  }
 
   const promiseError = () => {
-    message.success("触发Promise错误");
+    message.success('触发Promise错误')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const promiseWrap = () =>
       new Promise((_resolve, reject) => {
-        reject("promise reject");
-      });
-    promiseWrap().then((res) => {
-      console.log("res", res);
-    });
-  };
+        reject('promise reject')
+      })
+    promiseWrap().then(res => {
+      console.log('res', res)
+    })
+  }
 
   const consoleErr = () => {
-    message.success("触发console.error");
-    console.error("consoleErr", "111", "222");
-  };
+    message.success('触发console.error')
+    console.error('consoleErr', '111', '222')
+  }
 
   const sendBizErr = () => {
-    message.success("触发自定义错误");
+    message.success('触发自定义错误')
     traceError({
-      eventId: "自定义错误ID",
-      errMessage: "自定义错误message",
-      src: "/interface/order",
+      eventId: '自定义错误ID',
+      errMessage: '自定义错误message',
+      src: '/interface/order',
       params: {
-        id: "12121",
-      },
-    });
-  };
+        id: '12121'
+      }
+    })
+  }
 
   const openX = () => {
     if (options.value.recordScreen) {
-      message.warning("已经打开错误录屏了，不用重复打开");
+      message.warning('已经打开错误录屏了，不用重复打开')
     } else {
-      options.value.recordScreen = true;
-      message.success("成功打开错误录屏");
+      options.value.recordScreen = true
+      message.success('成功打开错误录屏')
     }
-  };
+  }
 
   const closeX = () => {
     if (options.value.recordScreen) {
-      options.value.recordScreen = false;
-      message.success("关闭成功");
+      options.value.recordScreen = false
+      message.success('关闭成功')
     } else {
-      message.warning("已经关闭错误录屏了，不用重复关闭");
+      message.warning('已经关闭错误录屏了，不用重复关闭')
     }
-  };
+  }
 
   // ------- 批量错误 -------
   const batchErrorA_Safe = (num: number) => {
     for (let x = 1; x <= num; x++) {
-      document.getElementById('codeErr')?.click();
+      document.getElementById('codeErr')?.click()
     }
-  };
+  }
 
   const batchErrorAT = (num: number) => {
     for (let x = 1; x <= num; x++) {
       setTimeout(() => {
-        triggerCodeError();
-      }, x * 300);
+        triggerCodeError()
+      }, x * 300)
     }
-  };
+  }
 
   const batchErrorB = (num: number) => {
     for (let x = 1; x <= num; x++) {
-      triggerCodeError();
-      consoleErr();
-      promiseError();
+      triggerCodeError()
+      consoleErr()
+      promiseError()
     }
-  };
+  }
 
   const batchErrorC = (num: number) => {
     for (let x = 1; x <= num; x++) {
       setTimeout(() => {
-        batchErrorB(1);
-      }, x * 300);
+        batchErrorB(1)
+      }, x * 300)
     }
-  };
+  }
 
   const batchErrorD = () => {
     setInterval(() => {
-      triggerCodeError();
-    }, 200);
-  };
+      triggerCodeError()
+    }, 200)
+  }
 
   const lookRecordscreen = (row: any) => {
-    setErrDialogVisible(true);
+    setErrDialogVisible(true)
     // Wait for modal to render
     setTimeout(() => {
       if (recordScreenRef.current) {
-        recordScreenRef.current.innerHTML = ""; // Clear previous
-        const events = unzipRecordscreen(row.recordscreen) as unknown as any[];
+        recordScreenRef.current.innerHTML = '' // Clear previous
+        const events = unzipRecordscreen(row.recordscreen) as unknown as any[]
         new rrwebPlayer({
           target: recordScreenRef.current,
           props: {
             events,
-            UNSAFE_replayCanvas: true,
-          },
-        });
+            UNSAFE_replayCanvas: true
+          }
+        })
       }
-    }, 100);
-  };
+    }, 100)
+  }
 
   const getAllTracingList = () => {
     axios
-      .get("/getAllTracingList", { params: { eventType: "error" } })
-      .then((res) => {
-        setData(res.data.data);
-        message.success("成功查询最新数据 - 错误事件");
-      });
-  };
+      .get('/getAllTracingList', { params: { eventType: 'error' } })
+      .then(res => {
+        setData(res.data.data)
+        message.success('成功查询最新数据 - 错误事件')
+      })
+  }
 
   useEffect(() => {
     // @ts-ignore
-    window.getAllTracingList = getAllTracingList;
-    getAllTracingList();
-  }, []);
+    window.getAllTracingList = getAllTracingList
+    getAllTracingList()
+  }, [])
 
   const config = [
-    { label: "序号", prop: "index", width: "50", isTemplate: true },
-    { label: "事件ID", prop: "eventId" },
-    { label: "事件类型", prop: "eventType", width: "100" },
-    { label: "当前页面URL", prop: "triggerPageUrl", width: "160" },
+    { label: '序号', prop: 'index', width: '50', isTemplate: true },
+    { label: '事件ID', prop: 'eventId' },
+    { label: '事件类型', prop: 'eventType', width: '100' },
+    { label: '当前页面URL', prop: 'triggerPageUrl', width: '160' },
     {
-      label: "事件发送时间",
-      prop: "sendTime",
+      label: '事件发送时间',
+      prop: 'sendTime',
       isTemplate: true,
-      width: "140",
+      width: '140'
     },
     {
-      label: "事件发生时间",
-      prop: "triggerTime",
+      label: '事件发生时间',
+      prop: 'triggerTime',
       isTemplate: true,
-      width: "140",
+      width: '140'
     },
-    { label: "错误信息", prop: "errMessage" },
-    { label: "完整错误信息", prop: "errStack", width: "140" },
-    { label: "错误行", prop: "line" },
-    { label: "错误列", prop: "col" },
-    { label: "是否为批量错误", prop: "batchError" },
+    { label: '错误信息', prop: 'errMessage' },
+    { label: '完整错误信息', prop: 'errStack', width: '140' },
+    { label: '错误行', prop: 'line' },
+    { label: '错误列', prop: 'col' },
+    { label: '是否为批量错误', prop: 'batchError' },
     {
-      label: "批量错误最后发生时间",
-      prop: "batchErrorLastHappenTime",
-      width: "140",
-      isTemplate: true,
+      label: '批量错误最后发生时间',
+      prop: 'batchErrorLastHappenTime',
+      width: '140',
+      isTemplate: true
     },
-    { label: "批量错误-错误个数", prop: "batchErrorLength" },
-    { label: "资源请求链接", prop: "requestUrl", width: "100" },
-    { label: "参数", prop: "params" },
+    { label: '批量错误-错误个数', prop: 'batchErrorLength' },
+    { label: '资源请求链接', prop: 'requestUrl', width: '100' },
+    { label: '参数', prop: 'params' },
     {
-      label: "操作",
-      prop: "operate",
-      width: "150",
-      isTemplate: true,
-    },
-  ];
+      label: '操作',
+      prop: 'operate',
+      width: '150',
+      isTemplate: true
+    }
+  ]
 
   const renderers = {
     index: (_record: any, index: number) => index + 1,
@@ -192,46 +192,60 @@ const Err: React.FC = () => {
       <Button type="primary" onClick={() => lookRecordscreen(record)}>
         查看错误录屏
       </Button>
-    ),
-  };
+    )
+  }
 
-  const items: TabsProps["items"] = [
+  const items: TabsProps['items'] = [
     {
-      key: "1",
-      label: "普通错误事件",
+      key: '1',
+      label: '普通错误事件',
       children: (
-        <div style={{ marginBottom: 20 }}>
+        <div className="mb">
           <Alert
             type="warning"
             message="错误事件的捕获会有延迟，特别是在开启了批量错误的情况下，一般会有2s延迟"
-            style={{ marginBottom: 20 }}
+            className="mb"
+            showIcon={false}
           />
           <div>
-            <Button id="codeErr" danger ghost onClick={codeError} style={{ marginRight: 10 }}>
+            <Button
+              id="codeErr"
+              className="ant-btn-danger ant-btn-background-ghost"
+              onClick={codeError}
+            >
               代码错误
             </Button>
-            <Button danger ghost onClick={promiseError} style={{ marginRight: 10 }}>
+            <Button
+              className="ant-btn-danger ant-btn-background-ghost"
+              onClick={promiseError}
+            >
               Promise-错误
             </Button>
-            <Button danger ghost onClick={consoleErr} style={{ marginRight: 10 }}>
+            <Button
+              className="ant-btn-danger ant-btn-background-ghost"
+              onClick={consoleErr}
+            >
               console-错误
             </Button>
-            <Button danger ghost onClick={sendBizErr} style={{ marginRight: 10 }}>
+            <Button
+              className="ant-btn-danger ant-btn-background-ghost"
+              onClick={sendBizErr}
+            >
               手动上报自定义错误
             </Button>
-            <Button danger ghost onClick={openX} style={{ marginRight: 10 }}>
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={openX}>
               开启错误录屏功能
             </Button>
-            <Button danger ghost onClick={closeX}>
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={closeX}>
               关闭错误录屏功能
             </Button>
           </div>
         </div>
-      ),
+      )
     },
     {
-      key: "2",
-      label: "资源错误事件",
+      key: '2',
+      label: '资源错误事件',
       children: (
         <div>
           <Alert
@@ -248,99 +262,83 @@ const Err: React.FC = () => {
                 </div>
               </div>
             }
-            style={{ marginBottom: 20 }}
+            className="mb"
+            showIcon={false}
           />
-          <div className="resource mb">
-            <div className="resource mb">
-              <Button
-                danger
-                ghost
-                onClick={() => setShowImgTrue(true)}
-              >
-                加载错误图片
-              </Button>
-              {showImgTrue && (
-                <img src="https://www.baidu.com/as.webp" alt="error" />
-              )}
-              <Button
-                type="primary"
-                ghost
-                onClick={() => setShowImgFalse(true)}
-              >
-                加载正常图片
-              </Button>
-              {showImgFalse && (
-                <img
-                  src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/Annapurna-Ranges-2560x1440.tq4fx9hd9gg.webp"
-                  alt="success"
-                />
-              )}
-            </div>
-            <div className="resource mb">
-              <Button
-                danger
-                ghost
-                onClick={() => setShowAudioTrue(true)}
-              >
-                加载错误音频
-              </Button>
-              {showAudioTrue && <audio src="https://someaudio.wav" controls />}
-              <Button
-                type="primary"
-                ghost
-                onClick={() => setShowAudioFalse(true)}
-              >
-                加载正常音频
-              </Button>
-              {showAudioFalse && (
-                <audio
-                  src="https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3"
-                  controls
-                />
-              )}
-            </div>
-            <div className="resource mb">
-              <Button
-                danger
-                ghost
-                onClick={() => setShowVideoTrue(true)}
-              >
-                加载错误视频
-              </Button>
-              {showVideoTrue && (
-                <video src="https://str39/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4" />
-              )}
-              <Button
-                type="primary"
-                ghost
-                onClick={() => setShowVideoFalse(true)}
-              >
-                加载正常视频
-              </Button>
-              {showVideoFalse && (
-                <video
-                  src="https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4"
-                />
-              )}
-            </div>
+          <div className="mb resource">
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={() => setShowImgTrue(true)}>
+              加载错误图片
+            </Button>
+            {showImgTrue && (
+              <img src="https://www.baidu.com/as.webp" alt="error" />
+            )}
+            <Button
+              className="ant-btn-success ant-btn-background-ghost"
+              onClick={() => setShowImgFalse(true)}
+            >
+              加载正常图片
+            </Button>
+            {showImgFalse && (
+              <img
+                src="https://cdn.staticaly.com/gh/M-cheng-web/image-provider@main/web-tracing/Annapurna-Ranges-2560x1440.tq4fx9hd9gg.webp"
+                alt="success"
+              />
+            )}
+          </div>
+          <div className="mb resource">
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={() => setShowAudioTrue(true)}>
+              加载错误音频
+            </Button>
+            {showAudioTrue && <audio src="https://someaudio.wav" controls />}
+            <Button
+              className="ant-btn-success ant-btn-background-ghost"
+              onClick={() => setShowAudioFalse(true)}
+            >
+              加载正常音频
+            </Button>
+            {showAudioFalse && (
+              <audio
+                src="https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3"
+                controls
+              />
+            )}
+          </div>
+          <div className="mb resource">
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={() => setShowVideoTrue(true)}>
+              加载错误视频
+            </Button>
+            {showVideoTrue && (
+              <video src="https://str39/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4" />
+            )}
+            <Button
+              className="ant-btn-success ant-btn-background-ghost"
+              onClick={() => setShowVideoFalse(true)}
+            >
+              加载正常视频
+            </Button>
+            {showVideoFalse && (
+              <video src="https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4" />
+            )}
           </div>
         </div>
-      ),
+      )
     },
     {
-      key: "3",
-      label: "批量错误事件",
+      key: '3',
+      label: '批量错误事件',
       children: (
         <div>
           <Alert
             type="warning"
             message="开启了批量错误【scopeError：true】会导致所有错误有2s延迟，针对批量错误还会有20s的轮询"
-            style={{ marginBottom: 20 }}
+            className="mb"
+            showIcon={false}
           />
           <Alert
             type="warning"
             message="具体要查看是否发送了错误可以打开控制台的打印信息"
-            style={{ marginBottom: 20 }}
+            className="mb"
+            showIcon={false}
           />
           <Alert
             type="success"
@@ -374,71 +372,71 @@ const Err: React.FC = () => {
                 </div>
               </div>
             }
-            style={{ marginBottom: 20 }}
+            className="mb"
+            showIcon={false}
           />
 
           <div className="mb">
             <Button
-              danger
-              ghost
+              className="ant-btn-danger ant-btn-background-ghost"
               onClick={() => batchErrorA_Safe(10)}
-              style={{ marginRight: 10 }}
             >
               立即触发代码错误-10条
             </Button>
-            <Button danger ghost onClick={() => batchErrorA_Safe(100)}>
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={() => batchErrorA_Safe(100)}>
               立即触发代码错误-100条
             </Button>
           </div>
 
           <div className="mb">
             <Button
-              danger
-              ghost
+              className="ant-btn-danger ant-btn-background-ghost"
               onClick={() => batchErrorAT(20)}
-              style={{ marginRight: 10 }}
             >
               异步触发代码错误-20条
             </Button>
-            <Button danger ghost onClick={() => batchErrorAT(100)}>
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={() => batchErrorAT(100)}>
               异步触发代码错误-100条
             </Button>
           </div>
 
           <div className="mb">
             <Button
-              danger
-              ghost
+              className="ant-btn-danger ant-btn-background-ghost"
               onClick={() => batchErrorB(10)}
-              style={{ marginRight: 10 }}
             >
               立即触发【reject-10条 + 代码错误-10条 + console.error-10条】
             </Button>
-            <Button danger ghost onClick={() => batchErrorB(20)}>
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={() => batchErrorB(20)}>
               立即触发【reject-20条 + 代码错误-20条 + console.error-20条】
             </Button>
           </div>
 
           <div className="mb">
             <Button
-              danger
-              ghost
+              className="ant-btn-danger ant-btn-background-ghost"
               onClick={() => batchErrorC(10)}
-              style={{ marginRight: 10 }}
             >
               异步触发【reject-10条 + 代码错误-10条 + console.error-10条】
             </Button>
-            <Button danger ghost onClick={() => batchErrorD()}>
+            <Button className="ant-btn-danger ant-btn-background-ghost" onClick={() => batchErrorD()}>
               异步触发无限错误
             </Button>
           </div>
         </div>
-      ),
-    },
-  ];
+      )
+    }
+  ]
+
+  // 辅助函数：触发代码错误
+  const triggerCodeError = () => {
+    const a = {}
+    // @ts-ignore
+    a.split('/')
+  }
 
   return (
-    <div className="err" style={{ padding: 20 }}>
+    <div className="err">
       <Tabs defaultActiveKey="1" items={items} />
 
       <Button
@@ -466,7 +464,7 @@ const Err: React.FC = () => {
         <div id="recordscreen" ref={recordScreenRef}></div>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default Err;
+export default Err
