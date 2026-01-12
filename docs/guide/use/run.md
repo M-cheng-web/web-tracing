@@ -31,6 +31,7 @@ pnpm run test:js
 
 pnpm run test:vue2 (也可以运行vue2测试项目)
 pnpm run test:vue3 (也可以运行vue3测试项目)
+pnpm run test:react (也可以运行react测试项目)
 ```
 
 > web-tracing > package.json 下的其他命令可以自行研究，大部分都是些构建作用

@@ -1,6 +1,6 @@
 {
   "name": "@web-tracing/monorepo",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "基于 JS 跨平台插件，为前端项目提供【 行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段",
   "private": true,
   "packageManager": "pnpm@9.0.6",
@@ -24,6 +24,7 @@
     "test:vue2": "pnpm run -C examples/vue2 start",
     "test:vue3": "pnpm run -C examples/vue3 start",
     "test:react": "pnpm run -C examples/react start",
+    "test:nuxt": "pnpm run -C examples/nuxt start",
     "example:publish": "esno scripts/publish-examples.ts",
     "example:publish-js": "sh scripts/examples/js.sh",
     "example:publish-vue2": "sh scripts/examples/vue2.sh",
@@ -79,5 +80,14 @@
     "typescript": "^5.0.2",
     "vitepress": "1.0.0-beta.5",
     "vitest": "^1.6.0"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "vue-template-compiler@2.6.10": {
+        "dependencies": {
+          "vue": "2.6.10"
+        }
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@web-tracing/react",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "基于 JS 跨平台插件，为前端项目提供【 埋点、行为、性能、异常、请求、资源、路由、曝光、录屏 】监控手段 - react版本",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -37,6 +37,9 @@
   },
   "dependencies": {
     "@web-tracing/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15"
   },
   "bugs": {
     "url": "https://github.com/M-cheng-web/web-tracing/issues"

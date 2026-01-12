@@ -6,7 +6,7 @@ WebTracing是一个基于 JavaScript 的埋点SDK
 下面让我们开始逐步了解它吧，相信它不会让你失望
 
 ::: tip
-以下只展示了【 js、vue2、vue3 】的安装方式，因为目前作者只创建了这些demo项目；因为此sdk是纯js编写，如果您的项目支持浏览器对象那么理论上都会支持
+以下展示了【 js、vue2、vue3、react、nuxt 】的安装方式，因为此sdk是纯js编写，如果您的项目支持浏览器对象那么理论上都会支持
 :::
 
 ## 包总览
@@ -19,6 +19,12 @@ pnpm install @web-tracing/vue2
 
 // vue3版本
 pnpm install @web-tracing/vue3
+
+// react版本
+pnpm install @web-tracing/react
+
+// nuxt3版本
+pnpm install @web-tracing/nuxt
 ```
 
 ## 安装 - HTML & JS
@@ -65,6 +71,34 @@ pnpm install @web-tracing/vue3
   </script>
   <body></body>
 </html>
+```
+
+## 安装 - React
+``` tsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { WebTracingProvider } from "@web-tracing/react";
+
+const options = {
+  dsn: "http://localhost:3354/trackweb",
+  appName: "react-example",
+  debug: true,
+  pv: true,
+  performance: true,
+  error: true,
+  event: true,
+  cacheMaxLength: 10,
+  cacheWatingTime: 1000,
+};
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <WebTracingProvider options={options}>
+      <App />
+    </WebTracingProvider>
+  </React.StrictMode>
+);
 ```
 
 ## 安装 - Vue2
@@ -132,4 +166,58 @@ app.use(WebTracing, {
   }
 })
 ```
+
+## 安装 - Nuxt3
+``` ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: [
+    '@web-tracing/nuxt'
+  ],
+
+  webTracing: {
+    dsn: '/trackweb',
+    appName: 'my-nuxt-app',
+    debug: true,
+    pv: true,
+    performance: true,
+    error: true,
+    event: true,
+    cacheMaxLength: 10,
+    cacheWatingTime: 1000,
+    ignoreRequest: [
+      /getAllTracingList/,
+      /cleanTracingList/,
+      /getBaseInfo/,
+      /getSourceMap/
+    ],
+    afterSendData(data) {
+      console.log('数据已发送:', data)
+    }
+  }
+})
+```
+
+在组件中使用（注意：在 Vue 组件中导入功能时需要从 `@web-tracing/core` 导入）：
+
+``` vue
+<template>
+  <div>
+    <button @click="trackClick">点击埋点</button>
+  </div>
+</template>
+
+<script setup>
+import { traceError, options } from '@web-tracing/core'
+
+// 手动触发埋点
+const trackClick = () => {
+  console.log('按钮被点击')
+}
+
+// 动态修改配置
+options.value.recordScreen = true
+</script>
+```
+
 

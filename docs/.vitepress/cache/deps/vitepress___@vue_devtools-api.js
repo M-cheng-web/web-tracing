@@ -1,17 +1,17 @@
-// ../node_modules/.pnpm/@vue+devtools-api@6.5.0/node_modules/@vue/devtools-api/lib/esm/env.js
+// ../node_modules/.pnpm/@vue+devtools-api@6.6.4/node_modules/@vue/devtools-api/lib/esm/env.js
 function getDevtoolsGlobalHook() {
   return getTarget().__VUE_DEVTOOLS_GLOBAL_HOOK__;
 }
 function getTarget() {
-  return typeof navigator !== "undefined" && typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {};
+  return typeof navigator !== "undefined" && typeof window !== "undefined" ? window : typeof globalThis !== "undefined" ? globalThis : {};
 }
 var isProxyAvailable = typeof Proxy === "function";
 
-// ../node_modules/.pnpm/@vue+devtools-api@6.5.0/node_modules/@vue/devtools-api/lib/esm/const.js
+// ../node_modules/.pnpm/@vue+devtools-api@6.6.4/node_modules/@vue/devtools-api/lib/esm/const.js
 var HOOK_SETUP = "devtools-plugin:setup";
 var HOOK_PLUGIN_SETTINGS_SET = "plugin:settings:set";
 
-// ../node_modules/.pnpm/@vue+devtools-api@6.5.0/node_modules/@vue/devtools-api/lib/esm/time.js
+// ../node_modules/.pnpm/@vue+devtools-api@6.6.4/node_modules/@vue/devtools-api/lib/esm/time.js
 var supported;
 var perf;
 function isPerformanceSupported() {
@@ -22,9 +22,9 @@ function isPerformanceSupported() {
   if (typeof window !== "undefined" && window.performance) {
     supported = true;
     perf = window.performance;
-  } else if (typeof global !== "undefined" && ((_a = global.perf_hooks) === null || _a === void 0 ? void 0 : _a.performance)) {
+  } else if (typeof globalThis !== "undefined" && ((_a = globalThis.perf_hooks) === null || _a === void 0 ? void 0 : _a.performance)) {
     supported = true;
-    perf = global.perf_hooks.performance;
+    perf = globalThis.perf_hooks.performance;
   } else {
     supported = false;
   }
@@ -34,7 +34,7 @@ function now() {
   return isPerformanceSupported() ? perf.now() : Date.now();
 }
 
-// ../node_modules/.pnpm/@vue+devtools-api@6.5.0/node_modules/@vue/devtools-api/lib/esm/proxy.js
+// ../node_modules/.pnpm/@vue+devtools-api@6.6.4/node_modules/@vue/devtools-api/lib/esm/proxy.js
 var ApiProxy = class {
   constructor(plugin, hook) {
     this.target = null;
@@ -134,7 +134,7 @@ var ApiProxy = class {
   }
 };
 
-// ../node_modules/.pnpm/@vue+devtools-api@6.5.0/node_modules/@vue/devtools-api/lib/esm/index.js
+// ../node_modules/.pnpm/@vue+devtools-api@6.6.4/node_modules/@vue/devtools-api/lib/esm/index.js
 function setupDevtoolsPlugin(pluginDescriptor, setupFn) {
   const descriptor = pluginDescriptor;
   const target = getTarget();
@@ -150,8 +150,9 @@ function setupDevtoolsPlugin(pluginDescriptor, setupFn) {
       setupFn,
       proxy
     });
-    if (proxy)
+    if (proxy) {
       setupFn(proxy.proxiedTarget);
+    }
   }
 }
 export {

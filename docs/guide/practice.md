@@ -838,3 +838,349 @@ function getAllTracingList() {
 }
 </script>
 ```
+
+## react
+[完整示例项目 https://github.com/boychina/web-tracing-examples-react](https://github.com/boychina/web-tracing-examples-react)
+
+main.tsx
+``` tsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./assets/global.scss";
+import { WebTracingProvider } from "@web-tracing/react";
+
+const options = {
+  dsn: "http://localhost:3354/trackweb",
+  appName: "react-example",
+  debug: true,
+  pv: true,
+  performance: true,
+  error: true,
+  event: true,
+  cacheMaxLength: 10,
+  cacheWatingTime: 1000,
+};
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <WebTracingProvider options={options}>
+      <App />
+    </WebTracingProvider>
+  </React.StrictMode>
+);
+```
+
+intersection.tsx (这里挑一个代表性的功能页面 - 元素曝光检测页面)
+``` tsx
+import { useEffect, useState } from "react";
+import { Button, Alert, message } from "antd";
+import axios from "axios";
+import {
+  intersectionObserver,
+  intersectionUnobserve,
+  intersectionDisconnect,
+} from "@web-tracing/react";
+import CTable from "../../components/CTable";
+import { formatDate } from "../../utils/tools";
+
+const Intersection = () => {
+  const [tracingInfo, setTracingInfo] = useState<any>({
+    data: [],
+    table: {
+      config: [
+        { label: "序号", prop: "index", width: 50, isTemplate: true },
+        { label: "事件类型", prop: "eventType" },
+        { label: "当前页面URL", prop: "triggerPageUrl", width: 200 },
+        { label: "监听阈值", prop: "threshold" },
+        {
+          label: "开始监视时间",
+          prop: "observeTime",
+          isTemplate: true,
+          width: 140,
+        },
+        {
+          label: "开始暴露时间",
+          prop: "showTime",
+          isTemplate: true,
+          width: 140,
+        },
+        {
+          label: "结束暴露时间",
+          prop: "showEndTime",
+          isTemplate: true,
+          width: 140,
+        },
+        {
+          label: "事件发送时间",
+          prop: "sendTime",
+          isTemplate: true,
+          width: 140,
+        },
+        { label: "参数", prop: "params", width: 300 },
+      ],
+    },
+  });
+
+  useEffect(() => {
+    // @ts-ignore
+    window.getAllTracingList = getAllTracingList;
+    getAllTracingList();
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
+
+  const handleIntersectionObserver = (str: string) => {
+    message.success("成功采集，请滑动页面测试");
+    const target = document.querySelector(`#${str}`)!;
+    intersectionObserver({
+      target,
+      threshold: 0.5,
+      params: { name: 1111, targetName: str },
+    });
+  };
+
+  const handleIntersectionUnobserve = (str: string) => {
+    message.success("取消了采集，请滑动页面测试");
+    const target = document.querySelector(`#${str}`)!;
+    intersectionUnobserve(target);
+  };
+
+  const handleIntersectionDisconnect = () => {
+    message.success("取消了采集，请滑动页面测试");
+    intersectionDisconnect();
+  };
+
+  const getAllTracingList = () => {
+    axios
+      .get("/getAllTracingList", { params: { eventType: "intersection" } })
+      .then((res) => {
+        const successList = res.data.data;
+        setTracingInfo((prev: any) => ({
+          ...prev,
+          data: successList,
+        }));
+        // message.success('成功查询最新数据 - 曝光采集事件');
+      });
+  };
+
+  return (
+    <div className="intersection">
+      <Alert
+        message="注意"
+        description={
+          <div>
+            <div>
+              监听阈值(threshold)解释：阀值默认为0.5，当为0.5时代表滚动超过图片达到一半时即为曝光结束
+            </div>
+            <div>
+              监听阈值(threshold)解释：阀值默认为0.5，当为0.5时代表滚动超过图片达到一半时即为曝光结束
+            </div>
+          </div>
+        }
+        type="info"
+        showIcon
+        style={{ marginBottom: 20 }}
+      />
+      <div>
+        <Button
+          className="mb"
+          danger
+          onClick={handleIntersectionDisconnect}
+        >
+          取消所有采集曝光
+        </Button>
+      </div>
+      <Button type="primary" ghost onClick={() => handleIntersectionObserver("target")}>
+        采集此图片的曝光
+      </Button>
+      <Button danger ghost onClick={() => handleIntersectionUnobserve("target")}>
+        取消此图片的曝光采集
+      </Button>
+      <div id="target" className="mb">
+        <img
+          src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+        />
+      </div>
+      <div className="mb">
+        <div>----------- 分割线 -----------</div>
+        <div>----------- 分割线 -----------</div>
+        <div>----------- 分割线 -----------</div>
+      </div>
+      <Button type="primary" ghost onClick={() => handleIntersectionObserver("target2")}>
+        采集此图片的曝光
+      </Button>
+      <Button danger ghost onClick={() => handleIntersectionUnobserve("target2")}>
+        取消此图片的曝光采集
+      </Button>
+      <div id="target2" className="mb">
+        <img
+          src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+        />
+      </div>
+
+      <Button type="primary" onClick={getAllTracingList}>
+        获取最新采集数据
+      </Button>
+    </div>
+  );
+};
+
+export default Intersection;
+```
+
+## nuxt3
+[完整示例项目 https://github.com/boychina/web-tracing-examples-nuxt](https://github.com/boychina/web-tracing-examples-nuxt)
+
+nuxt.config.ts
+``` ts
+export default defineNuxtConfig({
+  modules: [
+    '@web-tracing/nuxt'
+  ],
+
+  runtimeConfig: {
+    public: {
+      webTracing: {
+        dsn: '/trackweb',
+        appName: 'nuxt-cxh',
+        debug: true,
+        pv: true,
+        performance: true,
+        error: true,
+        event: true,
+        cacheMaxLength: 10,
+        cacheWatingTime: 1000,
+        ignoreRequest: [
+          /getAllTracingList/,
+          /cleanTracingList/,
+          /getBaseInfo/,
+          /getSourceMap/
+        ],
+        afterSendData(data) {
+          console.log('数据已发送:', data)
+        }
+      }
+    }
+  }
+})
+```
+
+app.vue
+``` vue
+<script setup lang="ts">
+import { afterSendData } from '@web-tracing/core'
+
+// 覆盖配置中的 afterSendData 回调
+afterSendData((data: any) => {
+  const { sendType, success, params } = data
+  const message = `
+    <div class='event-pop'>
+      <div class='warning-text'>打开控制台可查看更多详细信息</div>
+      <div>发送是否成功: ${success}</div>
+      <div>发送方式: ${sendType}</div>
+      <div>发送内容(只概括 eventType、eventId)
+        ${params.eventInfo.map((item: any, index: number) => `
+          <div class='pop-line'>
+            <span>${index + 1}</span>
+            <div>${item.eventType}</div>
+            <div>${item.eventId}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `
+  // @ts-ignore
+  if (window.getAllTracingList) {
+    // @ts-ignore
+    window.getAllTracingList()
+  }
+})
+</script>
+```
+
+pages/intersection.vue (这里挑一个代表性的功能页面 - 元素曝光检测页面)
+``` vue
+<template>
+  <div class="intersection">
+    <div>
+      <el-button
+        class="mb"
+        type="danger"
+        plain
+        @click="_intersectionDisconnect"
+      >
+        取消所有采集曝光
+      </el-button>
+    </div>
+    <el-button type="success" plain @click="_intersectionObserver('target')">
+      采集此图片的曝光
+    </el-button>
+    <el-button type="danger" plain @click="_intersectionUnobserve('target')">
+      取消此图片的曝光采集
+    </el-button>
+    <div id="target" class="mb">
+      <img
+        src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+      />
+    </div>
+    <div class="mb">
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+      <div>----------- 分割线 -----------</div>
+    </div>
+    <el-button type="success" plain @click="_intersectionObserver('target2')">
+      采集此图片的曝光
+    </el-button>
+    <el-button type="danger" plain @click="_intersectionUnobserve('target2')">
+      取消此图片的曝光采集
+    </el-button>
+    <div id="target2" class="mb">
+      <img
+        src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"
+      />
+    </div>
+
+    <el-button type="primary" @click="getAllTracingList">
+      获取最新采集数据
+    </el-button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import axios from 'axios'
+import {
+  intersectionObserver,
+  intersectionUnobserve,
+  intersectionDisconnect
+} from '@web-tracing/core'
+
+const _intersectionObserver = (str: string) => {
+  const target = document.querySelector(`#${str}`)
+  intersectionObserver({
+    target,
+    threshold: 0.5, // 曝光的临界点 (0.5表示移入窗口一半算做开始曝光、移出窗口一半算结束曝光)
+    params: { name: 1111, targetName: str } // 附带的额外参数
+  })
+}
+
+const _intersectionUnobserve = (str: string) => {
+  const target = document.querySelector(`#${str}`)
+  intersectionUnobserve(target)
+}
+
+const _intersectionDisconnect = () => {
+  intersectionDisconnect()
+}
+
+const getAllTracingList = () => {
+  axios
+    .get('/getAllTracingList', { params: { eventType: 'intersection' } })
+    .then(res => {
+      const successList = res.data.data
+      console.log('成功查询最新数据 - 曝光采集事件', successList)
+    })
+}
+</script>
+```

@@ -19,6 +19,10 @@
 
 [vue3版本 https://github.com/M-cheng-web/web-tracing-examples-vue3](https://github.com/M-cheng-web/web-tracing-examples-vue3)
 
+[react版本 https://github.com/boychina/web-tracing-examples-react](https://github.com/boychina/web-tracing-examples-react)
+
+[nuxt版本 https://github.com/boychina/web-tracing-examples-nuxt](https://github.com/boychina/web-tracing-examples-nuxt)
+
 ## 演示
 ### 事件监听
 <img src="https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/image.4388hbrc1gc0.jpg" width="1200" alt="logo" />
@@ -62,6 +66,10 @@
 + 作者也想站在业务的角度多思考还能从哪些方面此项目还缺失哪些功能
 
 针对首屏加载的监控做出更多精细化的东西，例如考虑sdk的绝对轻量化
+
+## 三方监控平台
+目前支持的三方监控平台有：
++ [WebTracingAnalysis](https://github.com/boychina/web-tracing-analysis) : Spring Boot + MySQL + React + Ant Design（支持容器化部署）
 
 ## 联系我
 <img align="left" width="180" src="https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/image.19hrnxwgkdpc.jpg" />

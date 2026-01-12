@@ -94,6 +94,8 @@
 [vue2版本完整示例代码](https://github.com/M-cheng-web/web-tracing/blob/main/examples/vue2/src/views/event/index.vue)
 
 [vue3版本完整示例代码](https://github.com/M-cheng-web/web-tracing/blob/main/examples/vue3/src/views/event/index.vue)
+
+[react版本完整示例代码](https://github.com/M-cheng-web/web-tracing/blob/main/examples/react/src/views/event/index.tsx)
 :::
 
 ### 示例一
