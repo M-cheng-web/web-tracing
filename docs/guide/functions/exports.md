@@ -102,74 +102,88 @@ afterSendData(data) {
 
 ### traceError
 + 作用: 主动触发错误信息
-+ 入参: options - 对象内任意属性
++ 入参:
+  + options - 对象内任意属性
+  + flush - 是否立即发送，默认 `false`
 + 备注: 调用此方法，有以下参数会固定附加
   + eventType: error
   + recordscreen: 错误录屏信息
-  + triggerPageUrl: 发生错误的页面
-  + triggerTime: 发生错误的时间
+  + triggerPageUrl: 触发上报时的页面
+  + triggerTime: 触发上报的时间
 ``` js
 import { traceError } from '@web-tracing/core'
 traceError({
-  message: 'xxx',
+  eventId: 'manual-error',
+  errMessage: 'xxx',
   params: {
     name: 'aa'
   }
-})
+}, true)
 ```
 
 ### tracePerformance
 + 作用: 主动触发性能信息
-+ 入参: options - 对象内任意属性
++ 入参:
+  + options - 对象内任意属性
+  + flush - 是否立即发送，默认 `false`
 + 备注: 调用此方法，有以下参数会固定附加
   + eventType: performance
-  + triggerPageUrl: 发生错误的页面
-  + triggerTime: 发生错误的时间
+  + triggerPageUrl: 触发上报时的页面
+  + triggerTime: 触发上报的时间
 ``` js
 import { tracePerformance } from '@web-tracing/core'
 tracePerformance({
-  message: 'xxx',
+  eventId: 'manual-performance',
+  title: 'xxx',
+  initiatorType: 'manual',
+  requestUrl: window.location.href,
   params: {
     name: 'aa'
   }
-})
+}, true)
 ```
 
 ### traceCustomEvent
 + 作用: 自定义上报事件
-+ 入参: options - 对象内任意属性
++ 入参:
+  + options - 对象内任意属性
+  + flush - 是否立即发送，默认 `false`
 + 备注: 调用此方法，有以下参数会固定附加
   + eventType: custom
-  + triggerPageUrl: 发生错误的页面
-  + triggerTime: 发生错误的时间
+  + triggerPageUrl: 触发上报时的页面
+  + triggerTime: 触发上报的时间
 ``` js
 import { traceCustomEvent } from '@web-tracing/core'
 traceCustomEvent({
-  message: 'xxx',
+  eventId: 'manual-custom',
+  title: 'xxx',
   params: {
     name: 'aa'
   }
-})
+}, true)
 ```
 
 ### tracePageView
 + 作用: 触发一次页面路由采集
-+ 入参: options - 对象内任意属性
++ 入参:
+  + options - 对象内任意属性
+  + flush - 是否立即发送，默认 `false`
 + 备注: 调用此方法，有以下参数会固定附加
   + referer: 上一张页面地址
   + title: 页面标题
   + eventId: baseInfo.pageId
   + eventType: pv
-  + triggerPageUrl: 发生错误的页面
-  + triggerTime: 发生错误的时间
+  + triggerPageUrl: 触发上报时的页面
+  + triggerTime: 触发上报的时间
 ``` js
 import { tracePageView } from '@web-tracing/core'
 tracePageView({
-  message: 'xxx',
+  title: 'xxx',
+  action: 'reserved',
   params: {
     name: 'aa'
   }
-})
+}, true)
 ```
 
 ## 其他

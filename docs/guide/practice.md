@@ -92,7 +92,11 @@ import {
   afterSendData,
   getBaseInfo,
   getFirstScreen,
-  getIPs
+  getIPs,
+  traceError,
+  tracePerformance,
+  traceCustomEvent,
+  tracePageView
 } from '@web-tracing/core'
 
 start()
@@ -131,44 +135,64 @@ setTimeout(() => {
 
 // 手动发送错误
 setTimeout(() => {
-  traceError('自定义错误ID', '自定义错误message', {
-    src: '/interface/order',
+  traceError({
+    eventId: 'manual-error',
+    errMessage: '自定义错误message',
+    requestUrl: '/interface/order',
     params: {
       id: '12121'
     }
-  })
+  }, true)
 }, 3000)
 
 // 手动发送资源事件
 setTimeout(() => {
-  tracePerformance('自定义ID', {
+  tracePerformance({
+    eventId: 'manual-performance',
+    title: '自定义性能事件',
+    initiatorType: 'manual',
+    requestUrl: window.location.href,
     params: {
       param1: 'param1222',
       param2: 'param2',
       param3: 'param3'
     }
-  })
+  }, true)
 }, 3000)
 
-// 手动发送点击事件
+// 手动发送自定义事件
 setTimeout(() => {
-  traceCustomEvent('自定义ID', '自定义事件标题', {
+  traceCustomEvent({
+    eventId: 'manual-custom',
+    title: '自定义事件标题',
     params: {
       params1: 'params1',
       params2: 'params2',
       params3: 'params3'
     }
-  })
+  }, true)
 }, 3000)
 
 // 手动发送pv事件
 setTimeout(() => {
   tracePageView({
-    url: '自定义URL',
     referer: '自定义上级URL',
+    title: '自定义页面标题',
     params: { name: '自定义name' },
-    actions: 'reserved'
-  })
+    action: 'reserved'
+  }, true)
+}, 3000)
+
+// 例如在入口文件 main.js 中延迟触发一个自定义事件
+setTimeout(() => {
+  traceCustomEvent({
+    eventId: 'main-delayed-custom',
+    title: 'main.js 延迟触发自定义事件',
+    params: {
+      source: 'main-js-delayed-custom-event',
+      delay: 2000
+    }
+  }, true)
 }, 3000)
 
 function start() {

@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import WebTracing from '@web-tracing/vue2'
+import WebTracing, { traceCustomEvent } from '@web-tracing/vue2'
 import './assets/global.scss'
 import { setupComponent } from './components/index'
 // import axios from 'axios'
@@ -17,6 +17,7 @@ const sendEventType = {
   error: '错误',
   performance: '资源',
   click: '点击',
+  custom: '手动触发',
   dwell: '页面卸载',
   intersection: '曝光采集'
 }
@@ -121,6 +122,26 @@ export const webTracingConfig = {
 Vue.use(WebTracing, webTracingConfig)
 
 Vue.config.productionTip = false
+
+setTimeout(() => {
+  traceCustomEvent(
+    {
+      eventId: 'main-delayed-custom',
+      title: 'main.js 延迟触发自定义事件',
+      params: {
+        source: 'main-js-delayed-custom-event',
+        actionName: 'traceCustomEvent',
+        delay: 2000,
+        route: window.location.hash || '/'
+      }
+    },
+    true
+  )
+
+  if (window.vm) {
+    window.vm.sendMessage('main.js 已延迟触发 traceCustomEvent')
+  }
+}, 2000)
 
 Vue.prototype.selfMessage = function () {
   // window.vm.$message({

@@ -208,16 +208,21 @@ export default defineNuxtConfig({
 </template>
 
 <script setup>
-import { traceError, options } from '@web-tracing/core'
+import { traceCustomEvent, options } from '@web-tracing/core'
 
 // 手动触发埋点
 const trackClick = () => {
-  console.log('按钮被点击')
+  traceCustomEvent({
+    eventId: 'manual-custom',
+    title: '按钮点击事件',
+    params: {
+      source: 'component-demo'
+    }
+  }, true)
 }
 
 // 动态修改配置
 options.value.recordScreen = true
 </script>
 ```
-
 
