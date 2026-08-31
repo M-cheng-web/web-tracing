@@ -6,6 +6,15 @@
   </p>
 </div>
 
+> [!IMPORTANT]
+> **项目近况**
+>
+> web-tracing 是 Tracera 的开源技术起点。后续本项目将以低频、必要维护为主，不再进行高频的新功能迭代，也不承诺固定的版本与 Issue 响应周期。
+>
+> Tracera 不是 web-tracing 的简单改名，而是沿着这套前端监控技术积累重新构建的独立项目，继续完善服务端可靠处理、数据分析、错误现场回放、Source Map 定位、PageSpy 用户直连、私有部署，以及基于真实系统证据的 Agent Runtime。
+>
+> Tracera 当前处于 Beta 内测阶段，功能、界面与开放方式仍会持续调整。项目介绍、在线体验入口、体验账号和相关说明请查看 [Tracera Site](http://8.152.161.95:7200)。
+
 ## 官方文档
 [官方文档 https://m-cheng-web.github.io/web-tracing/](https://m-cheng-web.github.io/web-tracing/)
 
@@ -58,14 +67,13 @@
 ## 功能列表
 具体参见[CHANGELOG.md](https://github.com/M-cheng-web/web-tracing/blob/main/CHANGELOG.md)
 
-## 未来方向
-会写一套服务端(nest) + 后台查看监控数据平台(vue)，有以下几点考量
-+ 提供服务端能力（目前只是在采集端发力）
-+ 可以在线体验此项目
-+ 提供更多示例代码给开发们，再次降低这一套代码在公司的推广难度
-+ 作者也想站在业务的角度多思考还能从哪些方面此项目还缺失哪些功能
+## 从 web-tracing 到 Tracera
 
-针对首屏加载的监控做出更多精细化的东西，例如考虑sdk的绝对轻量化
+web-tracing 最初聚焦浏览器侧的埋点、行为、性能、异常、请求、资源、路由、曝光和录屏等采集能力，并在早期规划过服务端和管理后台方向。
+
+这条技术路线现在已经继续演进为独立项目 Tracera。Tracera 不只是为 web-tracing 增加一个后台，而是围绕多运行时 SDK、服务端可靠处理、数据分析、错误现场还原、Source Map、PageSpy、私有部署，以及基于真实系统证据的 Agent Runtime，重新构建完整产品链路。
+
+Tracera 当前仍处于 Beta 内测阶段，预计会保持较长时间的验证与打磨。项目介绍、在线体验入口、体验账号和相关说明统一放在 [Tracera Site](http://8.152.161.95:7200)。
 
 ## 三方监控平台
 目前支持的三方监控平台有：
@@ -74,8 +82,8 @@
 ## 联系我
 <img align="left" width="180" src="https://github.com/M-cheng-web/image-provider/raw/main/web-tracing/image.19hrnxwgkdpc.jpg" />
 
-- 如果对此项目有疑虑或者有优化点，欢迎与我讨论（有沟通群）
-- Bug 反馈请直接去 Github 上面提 Issues，我会实时收到邮件提醒前去查看
+- 如果对此项目有疑虑或者有优化点，欢迎与我讨论，也可以加入 Tracera 技术交流群
+- Bug 反馈可以提交 GitHub Issue；web-tracing 当前以低频、必要维护为主，不承诺固定的响应和版本周期
 
 <br/>
 <br/>
