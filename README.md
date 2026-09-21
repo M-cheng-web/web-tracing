@@ -13,7 +13,7 @@
 >
 > Tracera 不是 web-tracing 的简单改名，而是沿着这套前端监控技术积累重新构建的独立项目，继续完善服务端可靠处理、数据分析、错误现场回放、Source Map 定位、PageSpy 用户直连、私有部署，以及基于真实系统证据的 Agent Runtime。
 >
-> Tracera 当前处于 Beta 内测阶段，功能、界面与开放方式仍会持续调整。项目介绍、在线体验入口、体验账号和相关说明请查看 [Tracera Site](http://8.152.161.95:7200)。
+> Tracera 当前处于 Beta 内测阶段，功能、界面与开放方式仍会持续调整（当前已经确定 sdk、前端层面都会进行开源，目前还在内测，完毕后会进行开源等 sdk 发布动作）。项目介绍、在线体验入口、体验账号和相关说明请查看 [Tracera Site](https://tracera.cn)。
 
 ## 官方文档
 [官方文档 https://m-cheng-web.github.io/web-tracing/](https://m-cheng-web.github.io/web-tracing/)
